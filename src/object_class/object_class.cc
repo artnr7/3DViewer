@@ -1,74 +1,113 @@
 #include "object_class.hpp"
 
 s21::Object::Object(std::string &file_name)
-    : vertices_(), faces_(), file_name_(file_name) {}
+    : vertices_{}, faces_{}, file_name_{file_name}, obj_file_line_{},
+      ofl_it_{} {}
 
 void s21::Object::ObjectParser() {
   std::ifstream obj_file_stream(file_name_);
 
-  std::string obj_file_line = "";
-
   poly_pc_i_t vert_i = 0, face_i = 0;
+  parse_status_ = ParseStatus::Good;
 
-  while (std::getline(obj_file_stream, obj_file_line)) {
-    ParseVLine(obj_file_line, vert_i);
-    ParseFLine(obj_file_line, face_i);
+  while (std::getline(obj_file_stream, obj_file_line_)) {
+    ofl_it_ = obj_file_line_.begin();
+    str_it_t old_ofl_it = ofl_it_;
+    ParseVLine(vert_i, old_ofl_it);
+    ParseFLine(face_i, old_ofl_it);
   }
 }
 
-void s21::Object::ParseFLine(std::string &obj_file_line, poly_pc_i_t &face_i) {
-  str_it_t ofl_it = obj_file_line.begin();
+void s21::Object::ParseFLine(poly_pc_i_t &face_i, str_it_t &old_ofl_it) {
+  ofl_it_ = old_ofl_it;
 
-  if (*ofl_it++ != 'f') {
+  if (*ofl_it_ != 'f') {
     return;
   }
 
-  ParseFMap(face_i, ofl_it);
+  ParseFMap(face_i);
 }
 
-void s21::Object::ParseFMap(poly_pc_i_t &face_i, str_it_t &ofl_it) {
+void s21::Object::ParseFMap(poly_pc_i_t &face_i) {
+  faces_.push_back({});
+  faces_[face_i].i = face_i;
+  faces_[face_i].map = {};
+
+  while (*ofl_it_ != '\n') {
+    ParseFMapEls(faces_[face_i]);
+  }
+}
+
+void s21::Object::ParseFMapEls(Face &face) {
+  int map_el_i = 0;
+  while (*ofl_it_ != ' ' && *ofl_it_ != '\n') {
+    ParseFMapEl((face.map)[map_el_i]);
+    ++map_el_i;
+  }
+}
+
+void s21::Object::ParseFMapEl(Face::MapEl &map_el) {
+  int token_i = 0;
+  while (token_i++ < TOKEN_QTY) {
+    // надо как-то выше выкидывать
+    try {
+      ParseFMapElTok(map_el, token_i);
+    } catch (const s21::InvalidToken &e) {
+      std::cerr << e.what() << '\n';
+    }
+  }
+}
+
+void s21::Object::ParseFMapElTok(Face::MapEl &map_el, int &token_i) {
+  poly_pc_i_t *token = nullptr;
+  switch (token_i) {
+  case TokenID::VerticeID:
+    token = &map_el.vert_i;
+    break;
+  case TokenID::TextureID:
+    token = &map_el.txr_i;
+    break;
+  case TokenID::NormalID:
+    token = &map_el.norl_i;
+    break;
+  }
+
   std::string num{};
-  while (*ofl_it != ' ' && *ofl_it != '\n') {
-    num += *ofl_it++;
+  while (*ofl_it_ != '/' && *ofl_it_ != ' ' && *ofl_it_ != '\n') {
+    num += *ofl_it_++;
   }
   char **endptr{};
-  faces_[face_i].map = std::strtold(num.c_str(), endptr);
+  *token = std::strtol(num.c_str(), endptr, 10);
 
-
-
-  faces_.push_back({});
-  while (*ofl_it != '\n') {
-    faces_[face_i].i = face_i;
-    faces_[face_i].map = {};
-
-    ParseFMapEls(face_i, ofl_it);
+  if (*token == 0) {
+    std::string message = {"Invalid token "};
+    message += std::to_string(token_i);
+    throw s21::InvalidToken{message};
   }
 }
 
-void s21::Object::ParseFMapEls(poly_pc_i_t &face_i, str_it_t &ofl_it) {}
+void s21::Object::ParseVLine(poly_pc_i_t &vert_i, str_it_t &old_ofl_it) {
+  ofl_it_ = old_ofl_it;
 
-void s21::Object::ParseVLine(std::string &obj_file_line, poly_pc_i_t &vert_i) {
-  str_it_t ofl_it = obj_file_line.begin();
-
-  if (*ofl_it++ != 'v') {
+  if (*ofl_it_++ != 'v') {
     return;
   }
   vert_it_t vert_it = vertices_.begin() + vert_i;
   vert_it->i = vert_i++;
 
-  ParseVLineNums(vert_it, ofl_it);
+  ParseVLineNums(vert_it);
 }
 
-void s21::Object::ParseVLineNums(vert_it_t &vert_it, str_it_t &ofl_it) {
-  ParseNum(vert_it->x, ofl_it);
-  ParseNum(vert_it->y, ofl_it);
-  ParseNum(vert_it->z, ofl_it);
+void s21::Object::ParseVLineNums(vert_it_t &vert_it) {
+  ParseNum(vert_it->x);
+  ParseNum(vert_it->y);
+  ParseNum(vert_it->z);
 }
 
-void s21::Object::ParseNum(coord_t &coord, str_it_t &ofl_it) {
+void s21::Object::ParseNum(coord_t &coord) {
   std::string num{};
-  while (*ofl_it != ' ' && *ofl_it != '\n') {
-    num += *ofl_it++;
+  while (*ofl_it_ != ' ' && *ofl_it_ != '\n') {
+    num += *ofl_it_++;
   }
   char **endptr{};
   coord = std::strtold(num.c_str(), endptr);
