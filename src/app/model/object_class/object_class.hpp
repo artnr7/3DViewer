@@ -1,7 +1,7 @@
 #ifndef OBJECT_HPP_
 #define OBJECT_HPP_
-#include "../exception.hpp"
 #include "../model.hpp"
+#include "../utils/exception.hpp"
 #include <array>
 #include <cctype>
 #include <fstream>
@@ -44,6 +44,7 @@ enum ParseStatus {
 
   NoFaces,
   InvalidFace,
+  
   NotEnoughVertices,
 };
 
