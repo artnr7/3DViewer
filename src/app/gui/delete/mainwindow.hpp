@@ -3,12 +3,16 @@
 
 #include <QOpenGLWindow>
 
+#include "mainwidget.hpp"
+
 namespace s21 {
 class MainWindow : public QOpenGLWindow {
   Q_OBJECT
 
 public:
-private:
+  MainWindow(QWindow *parent = nullptr) : QOpenGLWindow(parent) {}
+
+protected:
 };
 } // namespace s21
 
