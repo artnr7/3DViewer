@@ -9,11 +9,12 @@ namespace s21 {
 class App : public QApplication {
   Q_OBJECT
 
-public:
+ public:
   App(int argc, char *argv[]);
+  virtual ~App();
 
-private:
+ private:
 };
-} // namespace s21
+}  // namespace s21
 
 #endif

@@ -1,5 +1,9 @@
 all: 
 	@cmake -B build -DCMAKE_BUILD_TYPE=Debug   
+
+rv:
+	chmod 755 /run/user/0/
+	cmake --build build --target run_3dviewer
 	
 install:
 	@cmake -B build -DCMAKE_BUILD_TYPE=Debug

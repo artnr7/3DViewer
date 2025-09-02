@@ -6,12 +6,13 @@
 namespace s21 {
 
 class View {
-public:
-  View();
+ public:
+  View(int argc, char *argv[]);
+  int AppExec();
 
-private:
+ private:
   App *app_;
 };
-} // namespace s21
+}  // namespace s21
 
 #endif

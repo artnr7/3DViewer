@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.28.3)
 
 project(
   3DViewer
@@ -10,12 +10,14 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 # glob_vars
 include(cmake/utils/glob_vars.cmake)
 
-
 # find_packages
 include(cmake/find_packages/qt.cmake)
 
+# 3DViewer
+include(cmake/targets/main/AppExe.cmake)
+
 # ############################# COVERAGE
-include(cmake/targets/utils/gcov/Coverage.cmake)
+# include(cmake/targets/utils/gcov/Coverage.cmake)
 
 # ############################# FORMAT
 include(cmake/targets/utils/formatting/CMakeFormat.cmake)

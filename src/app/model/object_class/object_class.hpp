@@ -1,13 +1,14 @@
 #ifndef OBJECT_HPP_
 #define OBJECT_HPP_
-#include "../model.hpp"
-#include "../utils/exception.hpp"
 #include <array>
 #include <cctype>
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
+
+#include "../model.hpp"
+#include "../utils/exception.hpp"
 
 namespace s21 {
 #define TOKEN_QTY 3
@@ -44,7 +45,7 @@ enum ParseStatus {
 
   NoFaces,
   InvalidFace,
-  
+
   NotEnoughVertices,
 };
 
@@ -66,7 +67,7 @@ using vert_it_t = std::vector<s21::Vertice>::iterator;
 using face_it_t = std::vector<s21::Face>::iterator;
 
 class Object {
-private:
+ private:
   std::vector<s21::Vertice> vertices_;
   std::vector<s21::Face> faces_;
 
@@ -89,10 +90,10 @@ private:
   void ParseFMapEl(Face::MapEl &map_el);
   void ParseFMapElTok(Face::MapEl &map_el, int &token_i);
 
-public:
+ public:
   Object() = default;
   Object(std::string &file_name);
 };
-} // namespace s21
+}  // namespace s21
 
 #endif

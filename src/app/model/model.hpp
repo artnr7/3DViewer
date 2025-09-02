@@ -1,17 +1,14 @@
 #ifndef MODEL_HPP_
 #define MODEL_HPP_
 
-
 namespace s21 {
 class Model {
-private:
+ private:
   long double obj_;
   void Parser();
 
-public:
+ public:
 };
-} // namespace s21
-
-
+}  // namespace s21
 
 #endif
