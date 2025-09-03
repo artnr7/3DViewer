@@ -12,10 +12,16 @@ set_target_properties(
   ${3DVIEWER_APP} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
                              "${CMAKE_SOURCE_DIR}/${INSTALL_DIR}")
 
-target_compile_options(${3DVIEWER_APP} PRIVATE -Wall -Werror -Wextra)
+target_compile_options(
+  ${3DVIEWER_APP} PRIVATE -Wall -Werror -Wextra
+                          # -O0 -I/usr/include/x86_64-linux-gnu/qt6
+)
 
-target_link_libraries(${3DVIEWER_APP} PRIVATE Qt6::Core Qt6::Widgets
-                                              Qt6::OpenGLWidgets Qt6::OpenGL)
+target_link_libraries(
+  ${3DVIEWER_APP}
+  PRIVATE Qt6::Core Qt6::Widgets Qt6::OpenGLWidgets Qt6::OpenGL Qt6::Gui
+          # GL GLU m /usr/lib/x86_64-linux-gnu/
+)
 
 add_custom_target(
   ${RUN_3DVIEWER}

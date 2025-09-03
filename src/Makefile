@@ -1,9 +1,10 @@
-all: 
+all: fcl fcl
 	@cmake -B build -DCMAKE_BUILD_TYPE=Debug   
 	@cmake --build build --parallel $(nproc)
-
+	@cmake --build build --target run_3dviewer --parallel $(nproc)
+	
 rv:
-	chmod 755 /run/user/0/
+# 	chmod 755 /run/user/0/
 	cmake --build build --target run_3dviewer --parallel $(nproc)
 	
 install:
@@ -77,5 +78,5 @@ clean:
 ###--------→ FORMAT ←--------------------------------------------------------------------###
 f: clang_f cmake_f 
 
-fcl: clean f
+fcl: f clean 
 	@echo "Clean and Format done"
