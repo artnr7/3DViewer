@@ -19,7 +19,7 @@ target_compile_options(
 
 target_link_libraries(
   ${3DVIEWER_APP}
-  PRIVATE Qt6::Core Qt6::Widgets Qt6::OpenGLWidgets Qt6::OpenGL Qt6::Gui
+  PRIVATE Qt6::Core Qt6::Widgets Qt6::OpenGLWidgets Qt6::OpenGL Qt6::Gui GLU
           # GL GLU m /usr/lib/x86_64-linux-gnu/
 )
 
