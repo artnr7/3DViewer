@@ -3,7 +3,7 @@
 
 #include <QApplication>
 
-#include "mainwidget.hpp"
+
 
 namespace s21 {
 class App : public QApplication {
