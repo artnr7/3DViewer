@@ -52,12 +52,11 @@ enum ParseStatus {
 enum TokenID { VerticeID, TextureID, NormalID };
 
 typedef struct {
-  typedef struct {
-    poly_pc_i_t vert_i;
-    poly_pc_i_t txr_i;
-    poly_pc_i_t norl_i;
-  } MapEl;
-
+  poly_pc_i_t vert_i;
+  poly_pc_i_t txr_i;
+  poly_pc_i_t norl_i;
+} MapEl;
+typedef struct {
   poly_pc_i_t i;
   std::vector<MapEl> map;
 } Face;
@@ -77,8 +76,6 @@ private:
 
   ParseStatus parse_status_;
 
-  void ObjectParser();
-
   size_t GetVerticesSize();
 
   void SetFileName();
@@ -90,15 +87,16 @@ private:
   void ParseFLine(poly_pc_i_t &face_i, str_it_t &old_ofl_it);
   void ParseFMap(poly_pc_i_t &face_i);
   void ParseFMapEls(Face &face);
-  void ParseFMapEl(Face::MapEl &map_el);
-  void ParseFMapElTok(Face::MapEl &map_el, int &token_i);
-
-  // utils
-  void PrintArray();
+  void ParseFMapEl(MapEl &map_el);
+  void ParseFMapElTok(MapEl &map_el, int &token_i);
 
 public:
   Object() = default;
   Object(std::string &file_name);
+
+  void ObjectParser();
+  // utils
+  void PrintArray();
 };
 } // namespace s21
 
