@@ -54,11 +54,13 @@ void s21::Object::ParseFMapEls(Face &face) {
 
     (face.map).push_back({});
     ParseFMapEl((face.map)[map_el_i]);
-    if (*ofl_it_ == ' ') {
-      ++ofl_it_;
+    if (*ofl_it_ == '\n') {
     }
     std::cout << "\n\t\t\tmapel----" << map_el_i << "  |" << *ofl_it_
               << "|\n\n";
+    if (*ofl_it_ == ' ') {
+      ++ofl_it_;
+    }
     ++map_el_i;
   }
 }
@@ -104,8 +106,8 @@ void s21::Object::ParseFMapElTok(MapEl &map_el, int &token_i) {
   }
   char **endptr{};
   *token = std::strtol(num.c_str(), endptr, 10);
-  std::cout << "---  " << *token << "   |" << *ofl_it_ << "|           "
-            << token_i << std::endl;
+  // std::cout << "---  " << *token << "   |" << *ofl_it_ << "|           "
+  //           << token_i << std::endl;
 
   if (*token == 0) {
     std::string message = {"Invalid token "};
