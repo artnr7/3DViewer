@@ -3,8 +3,6 @@
 
 #include <QApplication>
 
-
-
 namespace s21 {
 class App : public QApplication {
   Q_OBJECT

@@ -1,10 +1,7 @@
 #include "object_class.hpp"
 
 s21::Object::Object(std::string &file_name)
-    : vertices_{},
-      faces_{},
-      file_name_{file_name},
-      obj_file_line_{},
+    : vertices_{}, faces_{}, file_name_{file_name}, obj_file_line_{},
       ofl_it_{} {}
 
 void s21::Object::ObjectParser() {
@@ -53,26 +50,26 @@ void s21::Object::ParseFMapEl(Face::MapEl &map_el) {
   int token_i = 0;
   while (token_i++ < TOKEN_QTY) {
     // надо как-то выше выкидывать
-    try {
-      ParseFMapElTok(map_el, token_i);
-    } catch (const s21::InvalidToken &e) {
-      std::cerr << e.what() << '\n';
-    }
+    // try {
+    ParseFMapElTok(map_el, token_i);
+    // } catch (const s21::InvalidToken &e) {
+    //   std::cerr << e.what() << '\n';
+    // }
   }
 }
 
 void s21::Object::ParseFMapElTok(Face::MapEl &map_el, int &token_i) {
   poly_pc_i_t *token = nullptr;
   switch (token_i) {
-    case TokenID::VerticeID:
-      token = &map_el.vert_i;
-      break;
-    case TokenID::TextureID:
-      token = &map_el.txr_i;
-      break;
-    case TokenID::NormalID:
-      token = &map_el.norl_i;
-      break;
+  case TokenID::VerticeID:
+    token = &map_el.vert_i;
+    break;
+  case TokenID::TextureID:
+    token = &map_el.txr_i;
+    break;
+  case TokenID::NormalID:
+    token = &map_el.norl_i;
+    break;
   }
 
   std::string num{};
@@ -85,7 +82,7 @@ void s21::Object::ParseFMapElTok(Face::MapEl &map_el, int &token_i) {
   if (*token == 0) {
     std::string message = {"Invalid token "};
     message += std::to_string(token_i);
-    throw s21::InvalidToken{message};
+    // throw s21::InvalidToken{message};
   }
 }
 
@@ -114,4 +111,10 @@ void s21::Object::ParseNum(coord_t &coord) {
   }
   char **endptr{};
   coord = std::strtold(num.c_str(), endptr);
+}
+
+void s21::Object::PrintArray() {
+  for (auto it = vertices_.begin(); it < vertices_.end(); ++it) {
+    std::cout << (*it).x << (*it).y << (*it).z << std::endl;
+  }
 }

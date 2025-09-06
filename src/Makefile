@@ -5,11 +5,18 @@ all:
 	
 rv:
 # 	chmod 755 /run/user/0/
-	cmake --build build --target run_3dviewer --parallel $(nproc)
+	@cmake -B build -DCMAKE_BUILD_TYPE=Debug   
+	@cmake --build build --parallel $(nproc)
+	@cmake --build build --target run_3dviewer --parallel $(nproc)
 	
 install:
 	@cmake -B build -DCMAKE_BUILD_TYPE=Debug
 	@echo "Install is completed"
+
+tp:
+	@cmake -B build -DCMAKE_BUILD_TYPE=Debug   
+	@cmake --build build --parallel $(nproc)
+	@cmake --build build --target run_test_parser --parallel $(nproc)
 
 
 ###--------→ DVI ←--------------------------------------------------------------------###

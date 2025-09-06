@@ -7,8 +7,8 @@
 #include <string>
 #include <vector>
 
-#include "../model.hpp"
-#include "../utils/exception.hpp"
+// #include "../model.hpp"
+// #include "../utils/exception.hpp"
 
 namespace s21 {
 #define TOKEN_QTY 3
@@ -67,7 +67,7 @@ using vert_it_t = std::vector<s21::Vertice>::iterator;
 using face_it_t = std::vector<s21::Face>::iterator;
 
 class Object {
- private:
+private:
   std::vector<s21::Vertice> vertices_;
   std::vector<s21::Face> faces_;
 
@@ -79,6 +79,9 @@ class Object {
 
   void ObjectParser();
 
+  size_t GetVerticesSize();
+
+  void SetFileName();
   // VLine
   void ParseVLine(poly_pc_i_t &peaks_i, str_it_t &old_ofl_it);
   void ParseVLineNums(vert_it_t &vert_it);
@@ -90,10 +93,13 @@ class Object {
   void ParseFMapEl(Face::MapEl &map_el);
   void ParseFMapElTok(Face::MapEl &map_el, int &token_i);
 
- public:
+  // utils
+  void PrintArray();
+
+public:
   Object() = default;
   Object(std::string &file_name);
 };
-}  // namespace s21
+} // namespace s21
 
 #endif

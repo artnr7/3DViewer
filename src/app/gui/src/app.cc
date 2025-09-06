@@ -1,4 +1,5 @@
 #include "../include/app.hpp"
+
 #include "../object_viewer_widget/object_viewer_widget.hpp"
 
 s21::App::App(int argc, char *argv[]) : QApplication(argc, argv) {

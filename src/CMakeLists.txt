@@ -16,6 +16,9 @@ include(cmake/find_packages/qt.cmake)
 # 3DViewer
 include(cmake/targets/main/AppExe.cmake)
 
+# test parser
+include(cmake/targets/test_parser/Parser.cmake)
+
 # ############################# COVERAGE
 # include(cmake/targets/utils/gcov/Coverage.cmake)
 
