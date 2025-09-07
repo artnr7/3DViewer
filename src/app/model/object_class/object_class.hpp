@@ -73,6 +73,7 @@ private:
   std::string file_name_;
   std::string obj_file_line_;
   str_it_t ofl_it_;
+  str_it_t eofl_it_;
 
   ParseStatus parse_status_;
 

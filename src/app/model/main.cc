@@ -6,5 +6,5 @@ int main() {
 
   obj->ObjectParser();
 
-  // obj->PrintArray();
+  obj->PrintArray();
 }

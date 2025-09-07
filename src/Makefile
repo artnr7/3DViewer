@@ -14,8 +14,8 @@ install:
 	@echo "Install is completed"
 
 tp:
-	@cmake -B build -DCMAKE_BUILD_TYPE=Debug   
-	@cmake --build build --parallel $(nproc)
+# 	@cmake -B build -DCMAKE_BUILD_TYPE=Debug   
+# 	@cmake --build build --parallel $(nproc)
 	@cmake --build build --target run_test_parser --parallel $(nproc)
 
 
