@@ -1,9 +1,14 @@
 #include "object_class.hpp"
-#include <limits>
 
 s21::Object::Object(std::string &file_name)
-    : vertices_{}, faces_{}, file_name_{file_name}, obj_file_line_{},
-      ofl_it_{} {}
+    : vertices_{},
+      faces_{},
+      glvertices_{},
+      file_name_{file_name},
+      obj_file_line_{},
+      ofl_it_{} {
+  ObjectParser();
+}
 
 void s21::Object::ObjectParser() {
   std::ifstream obj_file_stream(file_name_);
@@ -25,6 +30,19 @@ void s21::Object::ObjectParser() {
 
     str_it_t old_ofl_it = ofl_it_;
     ParseVLine(vert_i, old_ofl_it);
+  }
+
+  obj_file_stream.clear();
+  obj_file_stream.seekg(0);
+
+  while (std::getline(obj_file_stream, obj_file_line_)) {
+    ofl_it_ = obj_file_line_.begin();
+    eofl_it_ = obj_file_line_.end();
+
+    // std::cout << obj_file_line_ << std::endl;
+
+    str_it_t old_ofl_it = ofl_it_;
+
     ParseFLine(face_i, old_ofl_it);
   }
 }
@@ -35,14 +53,17 @@ void s21::Object::ParseFLine(poly_pc_i_t &face_i, str_it_t &old_ofl_it) {
   if (*ofl_it_ != 'f') {
     return;
   }
+  ++ofl_it_;
+  while (*ofl_it_ == ' ') {
+    ++ofl_it_;
+  }
 
-  ofl_it_ += 2;
   ParseFMap(face_i);
 }
 
 void s21::Object::ParseFMap(poly_pc_i_t &face_i) {
   faces_.push_back({});
-  faces_[face_i].i = face_i;
+  faces_[face_i].i = (face_i + 1);
   faces_[face_i].map = {};
 
   while (ofl_it_ != eofl_it_) {
@@ -90,15 +111,15 @@ void s21::Object::ParseFMapElTok(MapEl &map_el, int &token_i) {
 
   poly_pc_i_t *token = nullptr;
   switch (token_i) {
-  case TokenID::VerticeID:
-    token = &map_el.vert_i;
-    break;
-  case TokenID::TextureID:
-    token = &map_el.txr_i;
-    break;
-  case TokenID::NormalID:
-    token = &map_el.norl_i;
-    break;
+    case TokenID::VerticeID:
+      token = &map_el.vert_i;
+      break;
+    case TokenID::TextureID:
+      token = &map_el.txr_i;
+      break;
+    case TokenID::NormalID:
+      token = &map_el.norl_i;
+      break;
   }
 
   std::string num{};
@@ -126,12 +147,15 @@ void s21::Object::ParseVLine(poly_pc_i_t &vert_i, str_it_t &old_ofl_it) {
   if (!(*ofl_it_ == 'v' && *(ofl_it_ + 1) == ' ')) {
     return;
   }
-  ofl_it_ += 3;
+  ++ofl_it_;
+  while (*ofl_it_ == ' ') {
+    ++ofl_it_;
+  }
 
   vertices_.push_back({0, 0, 0, 0});
 
   vert_it_t vert_it = vertices_.begin() + vert_i;
-  vert_it->i = vert_i++;
+  vert_it->i = ++vert_i;
 
   ParseVLineNums(vert_it);
 }
@@ -144,7 +168,6 @@ void s21::Object::ParseVLineNums(vert_it_t &vert_it) {
 
 void s21::Object::ParseNum(coord_t &coord) {
   std::string num{};
-  // std::cout << *ofl_it_ << std::endl;
   while (*ofl_it_ != ' ' && ofl_it_ != eofl_it_) {
     num += *ofl_it_++;
   }
@@ -153,29 +176,4 @@ void s21::Object::ParseNum(coord_t &coord) {
   while (*ofl_it_ == ' ') {
     ++ofl_it_;
   }
-}
-
-void s21::Object::PrintArray() {
-
-  std::cout << "\n   " << file_name_ << "   "
-            << "---------------------------------------- " << "\n\nv-strings\n";
-
-  for (auto it = vertices_.begin(); it != vertices_.end(); ++it) {
-    std::cout << (*it).x << " / " << (*it).y << " / " << (*it).z << std::endl;
-  }
-
-  std::cout << "\n----------------------------------------\n" << "\nf-strings";
-
-  for (auto it = faces_.begin(); it != faces_.end(); ++it) {
-    for (auto m_it = (*it).map.begin(); m_it != (*it).map.end(); ++m_it) {
-      std::cout << (*m_it).vert_i << "/" << (*m_it).txr_i << "/"
-                << (*m_it).norl_i;
-      if (m_it + 1 != (*it).map.end()) {
-        std::cout << " ";
-      }
-    }
-
-    std::cout << "\n";
-  }
-  std::cout << "\n----------------------------------------\n\n";
 }

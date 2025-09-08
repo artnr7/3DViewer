@@ -1,5 +1,7 @@
 #include "../object_viewer_widget.hpp"
 
+#include <iostream>
+
 s21::ObjectViewerWidget::ObjectViewerWidget(QWidget *parent)
     : QOpenGLWidget(parent) {
   setWindowTitle("3DViewer");
@@ -14,8 +16,18 @@ void s21::ObjectViewerWidget::initializeGL() {
 
   LoadShaders();
 
-  GLfloat vertices[] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f,
-                        0.0f,  0.0f,  0.5f, 0.0f};
+  // std::vector<GLdouble> glvertices = s21::Controller::GetVertices();
+  // GLdouble vertices[glvertices.size()];
+
+  // std::move(glvertices.begin(), glvertices.end(), vertices);
+  // std::cout << "\n\n\n" << glvertices.size() << "\n\n\n\n";
+
+  GLdouble vertices[] = {
+      0.5,  1, 0.5,  0.5,  1, -0.5, 0.5,  0, 0.5,  0.5,  0, -0.5, -0.5, 1, -0.5,
+      -0.5, 1, 0.5,  -0.5, 0, -0.5, -0.5, 0, 0.5,  -0.5, 1, -0.5, 0.5,  1, -0.5,
+      -0.5, 1, 0.5,  0.5,  1, 0.5,  -0.5, 0, 0.5,  0.5,  0, 0.5,  -0.5, 0, -0.5,
+      0.5,  0, -0.5, -0.5, 1, 0.5,  0.5,  1, 0.5,  -0.5, 0, 0.5,  0.5,  0, 0.5,
+      0.5,  1, -0.5, -0.5, 1, -0.5, 0.5,  0, -0.5, -0.5, 0, -0.5};
 
   m_vao_.create();
   m_vao_.bind();

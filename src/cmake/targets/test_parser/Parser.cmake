@@ -14,7 +14,7 @@ set_target_properties(
 
 target_compile_options(${TEST_PARSER} PRIVATE -Wall -Werror -Wextra)
 
-# target_link_libraries(${TEST_PARSER} PRIVATE)
+target_link_libraries(${TEST_PARSER} PRIVATE Qt6::OpenGL)
 
 add_custom_target(
   ${RUN_TEST_PARSER}

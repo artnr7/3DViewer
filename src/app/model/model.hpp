@@ -1,13 +1,30 @@
 #ifndef MODEL_HPP_
 #define MODEL_HPP_
 
+#include "object_class/object_class.hpp"
+
 namespace s21 {
 class Model {
+ protected:
+  Model();
+  static Model *instance;
+
  private:
-  long double obj_;
-  void Parser();
+  Object *obj_;
 
  public:
+  static Model *GetModel() {
+    if (instance == nullptr) {
+      instance = new Model();
+    }
+    return instance;
+  }
+  std::vector<GLdouble> &GetGLVertices() {
+    if (!obj_) {
+      throw std::runtime_error("obj is not initialized");
+    }
+    return obj_->GetGLVertices();
+  }
 };
 }  // namespace s21
 
