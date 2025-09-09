@@ -34,25 +34,25 @@ void s21::Object::PrintArray() {
     std::cout << "\n";
   }
 
-  std::cout << "\n----------------------------------------\n"
-            << "\nglvertices\n";
+  // std::cout << "\n----------------------------------------\n"
+  //           << "\nglvertices\n";
 
-  int i = 0;
-  for (auto it = glvertices_.begin(); it != glvertices_.end(); ++it, ++i) {
-    std::cout << *it;
-    if (i % 3 == 0 || i % 3 == 1) {
-      std::cout << "/";
-    }
+  // int i = 0;
+  // for (auto it = glvertices_.begin(); it != glvertices_.end(); ++it, ++i) {
+  //   std::cout << *it;
+  //   if (i % 3 == 0 || i % 3 == 1) {
+  //     std::cout << "/";
+  //   }
 
-    if (i % 3 == 2) {
-      std::cout << "  |  ";
-    }
+  //   if (i % 3 == 2) {
+  //     std::cout << "  |  ";
+  //   }
 
-    if (i % 9 == 8) {
-      std::cout << "\n";
-    }
-  }
-  std::cout << "\n----------------------------------------\n\n";
+  //   if (i % 9 == 8) {
+  //     std::cout << "\n";
+  //   }
+  // }
+  // std::cout << "\n----------------------------------------\n\n";
 }
 
 // void s21::Object::FillFLines() {}
@@ -63,6 +63,18 @@ void s21::Object::FillGLvertices() {
       glvertices_.push_back(vertices_[m_it->vert_i - 1].x);
       glvertices_.push_back(vertices_[m_it->vert_i - 1].y);
       glvertices_.push_back(vertices_[m_it->vert_i - 1].z);
+      // glvertices_.push_back(0);
     }
   }
+  // glvertices_.push_back(-0.5f);
+  // glvertices_.push_back(-0.5f);
+  // glvertices_.push_back(0.0f);
+
+  // glvertices_.push_back(0.5f);
+  // glvertices_.push_back(-0.5f);
+  // glvertices_.push_back(0.0f);
+
+  // glvertices_.push_back(0.0f);
+  // glvertices_.push_back(0.5f);
+  // glvertices_.push_back(0.0f);
 }

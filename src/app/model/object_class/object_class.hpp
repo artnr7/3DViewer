@@ -68,11 +68,11 @@ using vert_it_t = std::vector<s21::Vertice>::iterator;
 using face_it_t = std::vector<s21::Face>::iterator;
 
 class Object {
- private:
+private:
   std::vector<s21::Vertice> vertices_;
   std::vector<s21::Face> faces_;
 
-  std::vector<GLdouble> glvertices_;
+  std::vector<float> glvertices_;
 
   std::string file_name_;
   std::string obj_file_line_;
@@ -97,17 +97,17 @@ class Object {
   void ParseFMapEl(MapEl &map_el);
   void ParseFMapElTok(MapEl &map_el, int &token_i);
 
- public:
+public:
   Object() = default;
   Object(std::string &file_name);
 
-  std::vector<GLdouble> &GetGLVertices() { return glvertices_; }
+  std::vector<float> &GetGLVertices() { return glvertices_; }
 
   // utils
   void PrintArray();
   void FillGLvertices();
   // void FillFLines();
 };
-}  // namespace s21
+} // namespace s21
 
 #endif

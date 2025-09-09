@@ -10,7 +10,7 @@ class Controller {
   Controller() = default;
 
  public:
-  static std::vector<GLdouble> &GetVertices();
+  static std::vector<float> &GetVertices();
 };
 }  // namespace s21
 

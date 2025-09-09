@@ -23,6 +23,7 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
  private:
   void LoadShaders();
 
+  size_t vert_qty_;
   QMatrix4x4 m_modelview;
   QMatrix4x4 m_projection;
   // GLint projLoc;

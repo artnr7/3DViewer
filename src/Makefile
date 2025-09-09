@@ -1,7 +1,13 @@
+NPROC := $(shell expr $$(nproc) - 2)
+ifeq ($(shell expr $(NPROC) \< 1), 1)
+  NPROC := 1
+endif
+
+
 all:
 	@cmake -B build -DCMAKE_BUILD_TYPE=Debug   
-	@cmake --build build --parallel $(nproc)
-	@cmake --build build --target run_3dviewer --parallel $(nproc)
+	@cmake --build build --parallel $(NPROC)
+	@cmake --build build --target run_3dviewer --parallel $(NPROC)
 	
 rv:
 # 	chmod 755 /run/user/0/
