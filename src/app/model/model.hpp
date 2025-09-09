@@ -6,14 +6,14 @@
 
 namespace s21 {
 class Model {
-protected:
+ protected:
   Model();
   static Model *instance;
 
-private:
+ private:
   Object *obj_;
 
-public:
+ public:
   static Model *GetModel() {
     if (instance == nullptr) {
       instance = new Model();
@@ -28,6 +28,6 @@ public:
     return obj_->GetGLVertices();
   }
 };
-} // namespace s21
+}  // namespace s21
 
 #endif

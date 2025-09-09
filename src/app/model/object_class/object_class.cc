@@ -1,8 +1,12 @@
 #include "object_class.hpp"
 
 s21::Object::Object(std::string &file_name)
-    : vertices_{}, faces_{}, glvertices_{}, file_name_{file_name},
-      obj_file_line_{}, ofl_it_{} {
+    : vertices_{},
+      faces_{},
+      glvertices_{},
+      file_name_{file_name},
+      obj_file_line_{},
+      ofl_it_{} {
   ObjectParser();
   FillGLvertices();
 }
@@ -108,15 +112,15 @@ void s21::Object::ParseFMapElTok(MapEl &map_el, int &token_i) {
 
   poly_pc_i_t *token = nullptr;
   switch (token_i) {
-  case TokenID::VerticeID:
-    token = &map_el.vert_i;
-    break;
-  case TokenID::TextureID:
-    token = &map_el.txr_i;
-    break;
-  case TokenID::NormalID:
-    token = &map_el.norl_i;
-    break;
+    case TokenID::VerticeID:
+      token = &map_el.vert_i;
+      break;
+    case TokenID::TextureID:
+      token = &map_el.txr_i;
+      break;
+    case TokenID::NormalID:
+      token = &map_el.norl_i;
+      break;
   }
 
   std::string num{};

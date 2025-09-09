@@ -7,7 +7,7 @@ s21::App::App(int argc, char *argv[]) : QApplication(argc, argv) {
   format.setDepthBufferSize(24);
   format.setStencilBufferSize(8);
 
-  format.setVersion(4, 6);
+  format.setVersion(4, 5);
   format.setProfile(QSurfaceFormat::CoreProfile);
   QSurfaceFormat::setDefaultFormat(format);
 

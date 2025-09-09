@@ -7,7 +7,7 @@
 #include <QtGui>
 #include <QtOpenGL>
 
-#include "../../controller/controller.hpp"
+// #include "../../controller/controller.hpp"
 
 namespace s21 {
 class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {

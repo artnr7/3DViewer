@@ -1,7 +1,9 @@
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(INSTALL_DIR ${CMAKE_SOURCE_DIR}/install_dir)
+set(QT6_MINIMUM_VERSION "6.2.0")
+
+set(INSTALL_DIR ${CMAKE_BINARY_DIR}/install_dir)
 set(CMAKE_AUTOMOC ON)
 
 enable_testing()
