@@ -16,31 +16,31 @@ void s21::ObjectViewerWidget::initializeGL() {
 
   LoadShaders();
 
-  // std::vector<float> glvertices(s21::Controller::GetVertices());
+  std::vector<float> glvertices(s21::Controller::GetVertices());
 
-  // auto glv_size = glvertices.size();
+  auto glv_size = glvertices.size();
 
-  // vert_qty_ = glv_size / 3;
+  vert_qty_ = glv_size / 3;
 
-  // std::cout << "\n----------------------------------------\n"
-  //           << "\nglvertices\n";
+  std::cout << "\n----------------------------------------\n"
+            << "\nglvertices\n";
 
-  // int i = 0;
-  // for (auto it = glvertices.begin(); it != glvertices.end(); ++it, ++i) {
-  //   std::cout << *it;
-  //   if (i % 3 == 0 || i % 3 == 1) {
-  //     std::cout << "/";
-  //   }
+  int i = 0;
+  for (auto it = glvertices.begin(); it != glvertices.end(); ++it, ++i) {
+    std::cout << *it;
+    if (i % 3 == 0 || i % 3 == 1) {
+      std::cout << "/";
+    }
 
-  //   if (i % 3 == 2) {
-  //     std::cout << "  |  ";
-  //   }
+    if (i % 3 == 2) {
+      std::cout << "  |  ";
+    }
 
-  //   if (i % 9 == 8) {
-  //     std::cout << "\n";
-  //   }
-  // }
-  // std::cout << "\n----------------------------------------\n\n";
+    if (i % 9 == 8) {
+      std::cout << "\n";
+    }
+  }
+  std::cout << "\n----------------------------------------\n\n";
 
   // GLfloat *vertices = new GLfloat[glv_size];
 

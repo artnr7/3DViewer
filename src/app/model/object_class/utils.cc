@@ -2,7 +2,9 @@
 
 #include "object_class.hpp"
 
-size_t s21::Object::GetVerticesSize() { return vertices_.size(); }
+size_t s21::Object::GetVerticesSize() {
+  return vertices_.vertices.vertice_maps.size();
+}
 
 void s21::Object::SetFileName() { file_name_ = "objs/1.obj"; }
 
@@ -12,7 +14,8 @@ void s21::Object::PrintArray() {
   std::cout << "\n   " << file_name_ << "   "
             << "---------------------------------------- " << "\n\nv-strings\n";
 
-  for (auto it = vertices_.begin(); it != vertices_.end(); ++it) {
+  for (auto it = vertices_.vertices.vertice_maps.begin();
+       it != vertices_.vertices.vertice_maps.end(); ++it) {
     std::cout << std::setw(INDEX_SETW_SIZE) << it->i << "  "
               << std::setw(VAR_SETW_SIZE) << it->x << " | "
               << std::setw(VAR_SETW_SIZE) << it->y << " | "
@@ -22,7 +25,7 @@ void s21::Object::PrintArray() {
   std::cout << "\n----------------------------------------\n"
             << "\nf-strings\n";
 
-  for (auto it = faces_.begin(); it != faces_.end(); ++it) {
+  for (auto it = faces_.face_maps.begin(); it != faces_.face_maps.end(); ++it) {
     std::cout << std::setw(INDEX_SETW_SIZE) << it->i << "  ";
     for (auto m_it = it->map.begin(); m_it != it->map.end(); ++m_it) {
       std::cout << m_it->vert_i << "|" << m_it->txr_i << "|" << m_it->norl_i;
@@ -58,11 +61,14 @@ void s21::Object::PrintArray() {
 // void s21::Object::FillFLines() {}
 
 void s21::Object::FillGLvertices() {
-  for (auto it = faces_.begin(); it != faces_.end(); ++it) {
+  for (auto it = faces_.face_maps.begin(); it != faces_.face_maps.end(); ++it) {
     for (auto m_it = it->map.begin(); m_it != it->map.end(); ++m_it) {
-      glvertices_.push_back(vertices_[m_it->vert_i - 1].x);
-      glvertices_.push_back(vertices_[m_it->vert_i - 1].y);
-      glvertices_.push_back(vertices_[m_it->vert_i - 1].z);
+      glvertices_.push_back(
+          vertices_.vertices.vertice_maps[m_it->vert_i - 1].x);
+      glvertices_.push_back(
+          vertices_.vertices.vertice_maps[m_it->vert_i - 1].y);
+      glvertices_.push_back(
+          vertices_.vertices.vertice_maps[m_it->vert_i - 1].z);
       // glvertices_.push_back(0);
     }
   }
