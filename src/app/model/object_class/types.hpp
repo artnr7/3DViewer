@@ -36,12 +36,12 @@ private:
 
   public:
     std::vector<VerticeMap> vertice_maps;
-    int min_x;
-    int max_x;
-    int min_y;
-    int max_y;
-    int min_z;
-    int max_z;
+    CoordT min_x;
+    CoordT max_x;
+    CoordT min_y;
+    CoordT max_y;
+    CoordT min_z;
+    CoordT max_z;
     friend class Object;
   } Vertices;
 
@@ -56,12 +56,12 @@ private:
 
   public:
     std::vector<TextureMap> texture_maps;
-    // int min_x;
-    // int max_x;
-    // int min_y;
-    // int max_y;
-    // int min_z;
-    // int max_z;
+    // CoordT min_x;
+    // CoordT max_x;
+    // CoordT min_y;
+    // CoordT max_y;
+    // CoordT min_z;
+    // CoordT max_z;
   } Textures;
 
   typedef struct {
@@ -75,12 +75,12 @@ private:
 
   public:
     std::vector<NormalMap> texture_maps;
-    // int min_x;
-    // int max_x;
-    // int min_y;
-    // int max_y;
-    // int min_z;
-    // int max_z;
+    // CoordT min_x;
+    // CoordT max_x;
+    // CoordT min_y;
+    // CoordT max_y;
+    // CoordT min_z;
+    // CoordT max_z;
   } Normals;
 
 public:

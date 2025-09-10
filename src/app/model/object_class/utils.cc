@@ -37,6 +37,14 @@ void s21::Object::PrintArray() {
     std::cout << "\n";
   }
 
+  std::cout << "\n";
+  std::cout << "min_x = " << vertices_.vertices.min_x << std::endl;
+  std::cout << "max_x = " << vertices_.vertices.max_x << std::endl;
+  std::cout << "min_y = " << vertices_.vertices.min_y << std::endl;
+  std::cout << "max_y = " << vertices_.vertices.max_y << std::endl;
+  std::cout << "min_z = " << vertices_.vertices.min_z << std::endl;
+  std::cout << "max_z = " << vertices_.vertices.max_z << std::endl;
+
   // std::cout << "\n----------------------------------------\n"
   //           << "\nglvertices\n";
 
@@ -72,6 +80,7 @@ void s21::Object::FillGLvertices() {
       // glvertices_.push_back(0);
     }
   }
+
   // glvertices_.push_back(-0.5f);
   // glvertices_.push_back(-0.5f);
   // glvertices_.push_back(0.0f);

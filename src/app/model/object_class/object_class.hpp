@@ -43,12 +43,15 @@ private:
   void ParseVLine(PolyPcInT &vert_i, std::string &obj_file_line);
   void ParseVLineNums(VertIter &vert_it);
   void ParseNum(CoordT &coord);
+  void FindMinMax(VertIter &vert_it);
+
   // FLine
   void ParseFLine(PolyPcInT &face_i, std::string &obj_file_line);
   void ParseFMap(PolyPcInT &face_i);
   void ParseFMapEls(std::vector<Faces::FaceMap::MapEl> &map);
   void ParseFMapEl(Faces::FaceMap::MapEl &map_el);
   void ParseFMapElTok(Faces::FaceMap::MapEl &map_el, int &token_i);
+
   // Parser Utils
   bool IsFLine();
   bool IsVLine();
@@ -57,6 +60,10 @@ private:
   bool IsSlash();
   bool IsNextSlash();
   bool IsSpace();
+
+  // Object methods
+  void ObjectCentering();
+  void FindCenterAxis(CoordT &center_axis, CoordT min, CoordT max);
 
 public:
   Object() = delete;
