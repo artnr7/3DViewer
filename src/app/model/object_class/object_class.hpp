@@ -67,7 +67,7 @@ private:
 
 public:
   Object() = delete;
-  Object(std::string &file_name);
+  Object(const std::string &file_name);
 
   std::vector<float> &GetGLVertices() { return glvertices_; }
 

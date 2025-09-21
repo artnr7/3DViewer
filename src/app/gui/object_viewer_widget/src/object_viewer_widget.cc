@@ -2,12 +2,6 @@
 
 #include <iostream>
 
-s21::ObjectViewerWidget::ObjectViewerWidget(QWidget *parent)
-    : QOpenGLWidget(parent) {
-  setWindowTitle("3DViewer");
-  setGeometry(400, 200, 800, 600);
-  // m_shader_program_ = new QOpenGLShaderProgram(this);
-}
 #define TR_QTY 1
 void s21::ObjectViewerWidget::initializeGL() {
   initializeOpenGLFunctions();

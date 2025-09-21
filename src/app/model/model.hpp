@@ -6,28 +6,25 @@
 
 namespace s21 {
 class Model {
- protected:
-  Model();
+protected:
+  Model() = default;
   static Model *instance;
 
- private:
+private:
   Object *obj_;
+  std::string obj_filename_;
 
- public:
+public:
+  explicit Model(std::string &obj_filename);
   static Model *GetModel() {
     if (instance == nullptr) {
       instance = new Model();
     }
     return instance;
   }
-  std::vector<float> &GetGLVertices() {
-    if (!obj_) {
-      throw std::runtime_error("obj is not initialized");
-    }
-    obj_->PrintArray();
-    return obj_->GetGLVertices();
-  }
+  std::vector<float> &GetGLVertices();
+  // void SetObjFilename(std::string &obj_filename) noexcept;
 };
-}  // namespace s21
+} // namespace s21
 
 #endif
