@@ -23,9 +23,6 @@ protected:
 private:
   void LoadShaders();
 
-
-  
-
   size_t vert_qty_;
   QMatrix4x4 m_modelview;
   QMatrix4x4 m_projection;
@@ -33,6 +30,10 @@ private:
   QOpenGLBuffer m_vbo_;
   QOpenGLVertexArrayObject m_vao_;
   QOpenGLShaderProgram *m_shader_program_;
+
+public:
+  std::string obj_filename_;
+  void SetObjFilename() noexcept;
 };
 } // namespace s21
 

@@ -15,4 +15,4 @@ s21::App::App(int argc, char *argv[]) : QApplication(argc, argv) {
   obj_viewer_wid->show();
 }
 
-s21::App::~App() {}
+s21::App::~App() = default;
