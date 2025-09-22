@@ -1,8 +1,11 @@
 # 3DViewer
 #### Download packages (if it needs)
 ```
-sudo apt install -y qt6-base-dev qtcreator 
+sudo apt install -y qt6-base-dev libspdlog-dev
 ```
+
+https://fmt.dev/dev/get-started/
+https://github.com/gabime/spdlog
 
 ## Application
 ### Make wrapper for CMake

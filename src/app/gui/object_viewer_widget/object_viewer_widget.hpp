@@ -22,6 +22,7 @@ protected:
 
 private:
   void LoadShaders();
+  void Connections();
 
   size_t vert_qty_;
   QMatrix4x4 m_modelview;
@@ -33,7 +34,14 @@ private:
 
 public:
   std::string obj_filename_;
+  void EnterObjFilename() noexcept;
   void SetObjFilename() noexcept;
+
+signals:
+  void NewFilenameEnetered();
+
+private slots:
+  void CreateNewObject();
 };
 } // namespace s21
 

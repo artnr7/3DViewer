@@ -11,6 +11,8 @@ s21::App::App(int argc, char *argv[]) : QApplication(argc, argv) {
   format.setProfile(QSurfaceFormat::CoreProfile);
   QSurfaceFormat::setDefaultFormat(format);
 
+
+
   ObjectViewerWidget *obj_viewer_wid = new ObjectViewerWidget();
   obj_viewer_wid->show();
 }
