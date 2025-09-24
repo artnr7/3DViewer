@@ -20,7 +20,7 @@ target_compile_options(${3DVIEWER_APP} PRIVATE -Wall -Werror -Wextra)
 
 target_link_libraries(
   ${3DVIEWER_APP} PRIVATE Qt6::Core Qt6::Widgets Qt6::OpenGLWidgets Qt6::OpenGL
-                          Qt6::Gui GLU)
+                          Qt6::Gui)
 
 add_custom_target(
   ${RUN_3DVIEWER}
