@@ -67,15 +67,15 @@ void s21::Object::ParseFMapElTok(Faces::FaceMap::MapEl &map_el, int &token_i) {
 
   PolyPcInT *token = nullptr;
   switch (token_i) {
-  case TokenID::VerticeID:
-    token = &map_el.vert_i;
-    break;
-  case TokenID::TextureID:
-    token = &map_el.txr_i;
-    break;
-  case TokenID::NormalID:
-    token = &map_el.norl_i;
-    break;
+    case TokenID::VerticeID:
+      token = &map_el.vert_i;
+      break;
+    case TokenID::TextureID:
+      token = &map_el.txr_i;
+      break;
+    case TokenID::NormalID:
+      token = &map_el.norl_i;
+      break;
   }
 
   std::string num{};

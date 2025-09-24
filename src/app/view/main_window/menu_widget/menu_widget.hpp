@@ -5,11 +5,10 @@
 
 namespace s21 {
 class MenuWidget : public QWidget {
-
-private:
-public:
+ private:
+ public:
   MenuWidget(QWidget *parent = nullptr);
 };
-} // namespace s21
+}  // namespace s21
 
 #endif

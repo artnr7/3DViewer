@@ -1,7 +1,9 @@
 #include "model.hpp"
-#include "object_class/object_class.hpp"
+
 #include <iostream>
 #include <memory>
+
+#include "object_class/object_class.hpp"
 
 std::unique_ptr<s21::Model> s21::Model::instance = nullptr;
 // s21::Model::Model(std::string &obj_filename) {

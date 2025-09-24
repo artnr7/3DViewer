@@ -1,7 +1,6 @@
 #include "object_class.hpp"
 
 void s21::Object::ObjectCentering() {
-
   CoordT center_x = 0;
   CoordT center_y = 0;
   CoordT center_z = 0;

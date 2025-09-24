@@ -1,2 +1,1 @@
 include(CMakePrintHelpers)
-cmake_print_variables(SNAKE_GAME)

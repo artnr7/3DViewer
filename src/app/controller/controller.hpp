@@ -7,14 +7,14 @@
 
 namespace s21 {
 class Controller {
-private:
+ private:
   Controller() = default;
 
-public:
+ public:
   [[nodiscard]] static std::vector<float> &GetVertices();
   // explicit Controller(std::string &obj_filename);
   static void CreateNewObject(const std::string &obj_filename) noexcept;
 };
-} // namespace s21
+}  // namespace s21
 
 #endif

@@ -14,12 +14,11 @@
 namespace s21 {
 
 class Object {
-
   using StrIter = std::string::iterator;
   using VertIter = std::vector<Vertices::Vertices::VerticeMap>::iterator;
   using FaceIter = std::vector<Faces::FaceMap>::iterator;
 
-private:
+ private:
   Vertices vertices_;
   Faces faces_;
 
@@ -65,7 +64,7 @@ private:
   void ObjectCentering();
   void FindCenterAxis(CoordT &center_axis, CoordT min, CoordT max);
 
-public:
+ public:
   Object() = delete;
   Object(const std::string &file_name);
 
@@ -75,6 +74,6 @@ public:
   void PrintArray();
   void FillGLvertices();
 };
-} // namespace s21
+}  // namespace s21
 
 #endif

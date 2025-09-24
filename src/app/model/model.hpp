@@ -7,14 +7,14 @@
 
 namespace s21 {
 class Model {
-protected:
-private:
+ protected:
+ private:
   Model() = default;
   static std::unique_ptr<Model> instance;
   std::unique_ptr<Object> obj_;
   std::string obj_filename_;
 
-public:
+ public:
   // explicit Model(std::string &obj_filename);
 
   static Model *GetModel() {
@@ -29,6 +29,6 @@ public:
   // void SetObjFilename(std::string &obj_filename) noexcept;
 };
 
-} // namespace s21
+}  // namespace s21
 
 #endif

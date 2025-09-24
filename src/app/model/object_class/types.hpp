@@ -23,9 +23,9 @@ using PolyPcInT = long int;
 
 // Vertices
 typedef struct {
-private:
+ private:
   typedef struct {
-  private:
+   private:
     typedef struct {
       PolyPcInT i;
       CoordT x;
@@ -34,7 +34,7 @@ private:
       friend class Object;
     } VerticeMap;
 
-  public:
+   public:
     std::vector<VerticeMap> vertice_maps;
     CoordT min_x;
     CoordT max_x;
@@ -46,7 +46,7 @@ private:
   } Vertices;
 
   typedef struct {
-  private:
+   private:
     typedef struct {
       PolyPcInT i;
       CoordT u;
@@ -54,7 +54,7 @@ private:
       CoordT w = 0;
     } TextureMap;
 
-  public:
+   public:
     std::vector<TextureMap> texture_maps;
     // CoordT min_x;
     // CoordT max_x;
@@ -65,7 +65,7 @@ private:
   } Textures;
 
   typedef struct {
-  private:
+   private:
     typedef struct {
       PolyPcInT i;
       CoordT x;
@@ -73,7 +73,7 @@ private:
       CoordT z;
     } NormalMap;
 
-  public:
+   public:
     std::vector<NormalMap> texture_maps;
     // CoordT min_x;
     // CoordT max_x;
@@ -83,7 +83,7 @@ private:
     // CoordT max_z;
   } Normals;
 
-public:
+ public:
   Vertices vertices;
   Textures textures;
   Normals normals;
@@ -92,9 +92,9 @@ public:
 
 // Face
 typedef struct {
-private:
+ private:
   typedef struct {
-  private:
+   private:
     typedef struct {
       PolyPcInT vert_i;
       PolyPcInT txr_i;
@@ -102,16 +102,16 @@ private:
       friend class Object;
     } MapEl;
 
-  public:
+   public:
     PolyPcInT i;
     std::vector<MapEl> map;
     friend class Object;
   } FaceMap;
 
-public:
+ public:
   std::vector<FaceMap> face_maps;
   size_t dimension_qty = DIMENSION_QTY;
   friend class Object;
 } Faces;
 
-}; // namespace s21
+};  // namespace s21

@@ -7,6 +7,8 @@ project(
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
+set_property(GLOBAL PROPERTY RULE_MESSAGES OFF)
+
 # glob_vars
 include(cmake/utils/glob_vars.cmake)
 
@@ -24,6 +26,4 @@ include(cmake/targets/main/AppExe.cmake)
 # ############################# FORMAT
 include(cmake/targets/utils/formatting/CMakeFormat.cmake)
 include(cmake/targets/utils/formatting/ClangFormat.cmake)
-
-# ############################# f
-include(cmake/targets/utils/formatting/f.cmake)
+include(cmake/targets/utils/formatting/Format.cmake)

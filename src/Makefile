@@ -3,26 +3,30 @@ ifeq ($(shell expr $(NPROC) \< 1), 1)
   NPROC := 1
 endif
 
+.PHONY: all config_debug app
 
-all:
+config_debug:
+	@/snap/cmake/current/bin/cmake -DCMAKE_BUILD_TYPE:STRING=Debug\
+	-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE\
+	-DCMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc\
+	-DCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++\
+	--no-warn-unused-cli -S /home/atrnr7/3DViewer/src\
+	-B /home/atrnr7/3DViewer/src/build -G "Unix Makefiles"
+
+all: 
+	@cmake --build build --parallel $(NPROC)
+
+app:
+	@cmake --build build --target run_3dviewer --parallel $(NPROC)
+	
+rv:
 	@cmake -B build -DCMAKE_BUILD_TYPE=Debug   
 	@cmake --build build --parallel $(NPROC)
 	@cmake --build build --target run_3dviewer --parallel $(NPROC)
 	
-rv:
-# 	chmod 755 /run/user/0/
-	@cmake -B build -DCMAKE_BUILD_TYPE=Debug   
-	@cmake --build build --parallel $(nproc)
-	@cmake --build build --target run_3dviewer --parallel $(nproc)
-	
-install:
-	@cmake -B build -DCMAKE_BUILD_TYPE=Debug
-	@echo "Install is completed"
 
-tp:
-# 	@cmake -B build -DCMAKE_BUILD_TYPE=Debug   
-# 	@cmake --build build --parallel $(nproc)
-	@cmake --build build --target run_test_parser --parallel $(nproc)
+# tp:
+# 	@cmake --build build --target run_test_parser --parallel $(NPROC)
 
 
 ###--------→ DVI ←--------------------------------------------------------------------###
@@ -45,51 +49,38 @@ tp:
 # 	@echo "Dist done"
 
 ###--------→ TEST ←--------------------------------------------------------------------###
-# test:
-# 	@cmake --build build --target run_snake_test --parallel $(nproc)    
 
-# testt:
-# 	@cmake --build build --target run_tetris_test --parallel $(nproc)   
-# testt: clean clang tetris_test_compile
-# 	@./$(TETRIS_TEST_EXE_FILE)
-
-# test_valgrind: clean clang tetris_test_compile
-# 	@valgrind $(VAL_FLAGS) ./$(TETRIS_TEST_EXE_FILE)
-
-# tetris_test_compile: tetris_back_lib $(TETRIS_FRONT_OBJ_FILES)
-# 	@$(GCC) $(TETRIS_TEST_FILES) $(GT_FLAGS) -o $(TETRIS_TEST_EXE_FILE)\
-# 	 $(TETRIS_FRONT_OBJ_FILES) $(TETRIS_LIB_FILE) -lncursesw
-# 	@echo "Test compiled" 
 	
 ###--------→ REBUILD ←--------------------------------------------------------------------###
 r: 
 	@cmake -B build -DCMAKE_BUILD_TYPE=Debug   
-	@cmake --build build --target clean --parallel $(nproc)    
+	@cmake --build build --target clean --parallel $(NPROC)    
 
 
 ###--------→ CLANG ←---------------------------------------------------------------###
-CLANG_FILES := $(shell find . \( -name '*.c' -o -name '*.h' -o -name '*.cc' -o -name '*.hpp' \))
-
 clang_f:
-	@cp ../materials/linters/.clang-format . 
-	@clang-format -i $(CLANG_FILES)
-	@rm .clang-format
-	@echo "Clang done"
+	cmake --build build --target clang_format_fix --parallel $(NPROC) 
 
 ###--------→ CMAKE ←---------------------------------------------------------------###
-CMAKE_FILES := $(shell find . -name '*.cmake')
 cmake_f: 
-	@cmake-format -i $(CMAKE_FILES) CMakeLists.txt
-	@echo "Cmake done"
+	@cmake --build build --target cmake_format_fix --parallel $(NPROC) 
+
+###--------→ FORMAT ←--------------------------------------------------------------------###
+f: clang_f cmake_f
 
 ###--------→ CLEAN ←------------------------------------------------------------###
-FILES_TO_DEL := build
+FILES_TO_CLEAN := build
 
 clean: 
 	@rm -rf $(FILES_TO_DEL)
 	@echo "Clean done"	 
-###--------→ FORMAT ←--------------------------------------------------------------------###
-f: clang_f cmake_f 
 
-fcl: f clean 
-	@echo "Clean and Format done"
+###--------→ DELETE ←------------------------------------------------------------###
+FILES_TO_DEL := build install_dir
+del: 
+	@rm -rf $(FILES_TO_DEL)
+	@echo "Delete done"	
+
+
+# fcl: f clean 
+# 	@echo "Clean and Format done"

@@ -1,5 +1,6 @@
-#include "../object_viewer_widget.hpp"
 #include <iostream>
+
+#include "../object_viewer_widget.hpp"
 
 // s21::ObjectViewerWidget::ObjectViewerWidget() {
 //
