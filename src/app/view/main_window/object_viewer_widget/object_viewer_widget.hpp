@@ -7,7 +7,7 @@
 #include <QtGui>
 #include <QtOpenGL>
 
-#include "../../../controller/controller.hpp"
+// #include "../../../controller/controller.hpp"
 
 namespace s21 {
 class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
@@ -41,7 +41,7 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   void NewFilenameEnetered();
 
  private slots:
-  void CreateNewObject();
+  // void CreateNewObject();
 };
 }  // namespace s21
 

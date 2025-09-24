@@ -26,4 +26,3 @@ include(cmake/targets/main/AppExe.cmake)
 # ############################# FORMAT
 include(cmake/targets/utils/formatting/CMakeFormat.cmake)
 include(cmake/targets/utils/formatting/ClangFormat.cmake)
-include(cmake/targets/utils/formatting/Format.cmake)

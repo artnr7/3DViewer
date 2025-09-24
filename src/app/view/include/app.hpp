@@ -2,6 +2,9 @@
 #define APP_HPP_
 
 #include <QApplication>
+// #include <QtOpenGL>
+
+// #include "../main_window/main_window.hpp"
 
 namespace s21 {
 class App : public QApplication {

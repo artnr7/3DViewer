@@ -69,14 +69,14 @@ cmake_f:
 f: clang_f cmake_f
 
 ###--------→ CLEAN ←------------------------------------------------------------###
-FILES_TO_CLEAN := build
+FILES_TO_CLEAN := build .cache
 
 clean: 
 	@rm -rf $(FILES_TO_DEL)
 	@echo "Clean done"	 
 
 ###--------→ DELETE ←------------------------------------------------------------###
-FILES_TO_DEL := build install_dir
+FILES_TO_DEL := build install_dir .cache
 del: 
 	@rm -rf $(FILES_TO_DEL)
 	@echo "Delete done"	
