@@ -1,4 +1,4 @@
-NPROC := $(shell expr $$(nproc) - 2)
+NPROC := $(shell expr $$(nproc) / 2)
 ifeq ($(shell expr $(NPROC) \< 1), 1)
   NPROC := 1
 endif
@@ -16,7 +16,7 @@ config_debug:
 all: 
 	@cmake --build build --parallel $(NPROC)
 
-app:
+app:	
 	@cmake --build build --target run_3dviewer --parallel $(NPROC)
 	
 rv:

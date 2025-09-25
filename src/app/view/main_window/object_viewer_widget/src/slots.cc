@@ -1,5 +1,5 @@
-#include "../object_viewer_widget.hpp"
+// #include "../object_viewer_widget.hpp"
 
-void s21::ObjectViewerWidget::CreateNewObject() {
-  s21::Controller::CreateNewObject(obj_filename_);
-}
+// void s21::ObjectViewerWidget::CreateNewObject() {
+//   s21::Controller::CreateNewObject(obj_filename_);
+// }

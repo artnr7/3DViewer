@@ -7,13 +7,12 @@
 #include <QtGui>
 #include <QtOpenGL>
 
-#include "../../../controller/controller.hpp"
-
 namespace s21 {
 class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   Q_OBJECT
  public:
-  ObjectViewerWidget(QWidget *parent = nullptr);
+  ObjectViewerWidget(QWidget *parent = nullptr,
+                     const std::string &obj_filename);
 
  protected:
   void initializeGL() override;
@@ -24,6 +23,8 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   void LoadShaders();
   void Connections();
 
+  // Variables -------------------→
+  // Graphics →
   size_t vert_qty_;
   QMatrix4x4 m_modelview;
   QMatrix4x4 m_projection;
@@ -31,17 +32,12 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   QOpenGLBuffer m_vbo_;
   QOpenGLVertexArrayObject m_vao_;
   QOpenGLShaderProgram *m_shader_program_;
+  // Model →
+  std::string obj_filename_;
 
  public:
-  std::string obj_filename_;
-  void EnterObjFilename() noexcept;
+  // void EnterObjFilename() noexcept;
   // void SetObjFilename() noexcept;
-
- signals:
-  void NewFilenameEnetered();
-
- private slots:
-  void CreateNewObject();
 };
 }  // namespace s21
 

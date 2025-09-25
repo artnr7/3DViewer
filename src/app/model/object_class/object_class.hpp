@@ -1,7 +1,6 @@
 #ifndef OBJECT_HPP_
 #define OBJECT_HPP_
 #include <QtOpenGL>
-// #include <array>
 #include <cctype>
 #include <fstream>
 #include <iostream>

@@ -8,11 +8,12 @@
 namespace s21 {
 class Controller {
  private:
-  Controller() = default;
+  Controller() = delete;
+  // explicit Controller(std::string &obj_filename);
 
  public:
-  [[nodiscard]] static std::vector<float> &GetVertices();
-  // explicit Controller(std::string &obj_filename);
+  [[nodiscard]] static std::vector<float> &GetVertices(
+      const std::string &obj_filename);
   static void CreateNewObject(const std::string &obj_filename) noexcept;
 };
 }  // namespace s21

@@ -1,6 +1,6 @@
 #include "../object_viewer_widget.hpp"
 
-#include <iostream>
+#include "../../../../controller/controller.hpp"
 
 #define TR_QTY 1
 void s21::ObjectViewerWidget::initializeGL() {
@@ -10,7 +10,7 @@ void s21::ObjectViewerWidget::initializeGL() {
 
   LoadShaders();
 
-  std::vector<float> glvertices(s21::Controller::GetVertices());
+  std::vector<float> glvertices(s21::Controller::GetVertices(obj_filename_));
 
   auto glv_size = glvertices.size();
 

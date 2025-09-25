@@ -15,6 +15,7 @@ class App : public QApplication {
   virtual ~App();
 
  private:
+
 };
 }  // namespace s21
 

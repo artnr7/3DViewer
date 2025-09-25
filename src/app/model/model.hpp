@@ -1,25 +1,27 @@
 #ifndef MODEL_HPP_
 #define MODEL_HPP_
 
-#include "iostream"
 // #include "spdlog/spdlog.h"
 #include "object_class/object_class.hpp"
 
 namespace s21 {
 class Model {
  protected:
- private:
   Model() = default;
+  explicit Model(const std::string &obj_filename);
+
+ private:
+  // Variables ----------→
   static std::unique_ptr<Model> instance;
   std::unique_ptr<Object> obj_;
   std::string obj_filename_;
 
  public:
-  // explicit Model(std::string &obj_filename);
+  // Constructors ----------→
 
-  static Model *GetModel() {
+  static Model *GetModel(const std::string &obj_filename) {
     if (instance == nullptr) {
-      instance = std::unique_ptr<Model>(new Model());
+      instance = std::unique_ptr<Model>(new Model(obj_filename));
     }
     return instance.get();
   }
