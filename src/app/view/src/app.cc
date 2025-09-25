@@ -9,7 +9,7 @@ s21::App::App(int argc, char *argv[]) : QApplication(argc, argv) {
   format.setProfile(QSurfaceFormat::CoreProfile);
   QSurfaceFormat::setDefaultFormat(format);
 
-  std::unique_ptr<MainWindow> p_main_win(new MainWindow());
+  MainWindow *p_main_win = new MainWindow();
 
   p_main_win->show();
 }
