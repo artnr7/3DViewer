@@ -10,9 +10,7 @@ file(GLOB_RECURSE CLANG_FILES "app/*.c" "app/*.h" "app/*.cc" "app/*.hpp")
 # message("CLANG_FILES: ${CLANG_FILES}") message("CLANG_FILES_WW:
 # ${CLANG_FILES_WW}")
 
-foreach(file IN LISTS CLANG_FILES)
-  message("file: ${file}")
-endforeach()
+# foreach(file IN LISTS CLANG_FILES) message("file: ${file}") endforeach()
 
 add_custom_target(
   clang_format_fix

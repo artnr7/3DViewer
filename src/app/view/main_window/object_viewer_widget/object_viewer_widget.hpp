@@ -22,7 +22,7 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
 
  private:
   void LoadShaders();
-  void Connections();
+  // void Connections();
 
   size_t vert_qty_;
   QMatrix4x4 m_modelview;
@@ -35,7 +35,7 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
  public:
   std::string obj_filename_;
   void EnterObjFilename() noexcept;
-  void SetObjFilename() noexcept;
+  // void SetObjFilename() noexcept;
 
  signals:
   void NewFilenameEnetered();
