@@ -20,10 +20,11 @@ class MainWindow : public QWidget {
   MainWindow();
 
  signals:
-  void NewFilenameEntered();
+  void NewFilenameEntered(const std::string& obj_filename);
 
  private slots:
-  void CreateNewObjectWidget();
+  void CreateNewObjectWidget(const std::string& obj_filename);
+  void CreateNewObjectImitated();
 };
 }  // namespace s21
 

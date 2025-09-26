@@ -12,8 +12,7 @@ class Controller {
   // explicit Controller(std::string &obj_filename);
 
  public:
-  [[nodiscard]] static std::vector<float> &GetVertices(
-      const std::string &obj_filename);
+  [[nodiscard]] static std::vector<float> &GetVertices();
   static void CreateNewObject(const std::string &obj_filename) noexcept;
 };
 }  // namespace s21

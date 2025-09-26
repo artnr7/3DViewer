@@ -11,8 +11,7 @@ namespace s21 {
 class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   Q_OBJECT
  public:
-  ObjectViewerWidget(QWidget *parent = nullptr,
-                     const std::string &obj_filename);
+  ObjectViewerWidget(QWidget *parent, const std::string &obj_filename);
 
  protected:
   void initializeGL() override;

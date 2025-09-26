@@ -6,10 +6,8 @@
 // SetObjFilename(obj_filename);
 // }
 
-[[nodiscard]] std::vector<float> &s21::Controller::GetVertices(const std::string& obj_filename) {
-  s21::Model *model = s21::Model::GetModel();
-
-  return model->GetGLVertices();
+[[nodiscard]] std::vector<float> &s21::Controller::GetVertices() {
+  return s21::Model::GetModel()->GetGLVertices();
 }
 
 void s21::Controller::CreateNewObject(

@@ -19,9 +19,9 @@ class Model {
  public:
   // Constructors ----------→
 
-  static Model *GetModel(const std::string &obj_filename) {
+  static Model *GetModel() {
     if (instance == nullptr) {
-      instance = std::unique_ptr<Model>(new Model(obj_filename));
+      instance = std::unique_ptr<Model>(new Model());
     }
     return instance.get();
   }

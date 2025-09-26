@@ -32,5 +32,6 @@ std::vector<float> &s21::Model::GetGLVertices() {
 void s21::Model::CreateNewObject(const std::string &obj_filename) {
   obj_filename_ = obj_filename;
 
+
   obj_ = std::make_unique<Object>(obj_filename_);
 }

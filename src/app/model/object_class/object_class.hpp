@@ -64,7 +64,7 @@ class Object {
   void FindCenterAxis(CoordT &center_axis, CoordT min, CoordT max);
 
  public:
-  Object() = delete;
+  Object() = default;
   Object(const std::string &file_name);
 
   std::vector<float> &GetGLVertices() { return glvertices_; }

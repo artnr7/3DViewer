@@ -10,7 +10,7 @@ void s21::ObjectViewerWidget::initializeGL() {
 
   LoadShaders();
 
-  std::vector<float> glvertices(s21::Controller::GetVertices(obj_filename_));
+  std::vector<float> glvertices(s21::Controller::GetVertices());
 
   auto glv_size = glvertices.size();
 
