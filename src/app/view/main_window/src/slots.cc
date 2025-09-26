@@ -8,9 +8,12 @@ void s21::MainWindow::CreateNewObjectWidget(const std::string &obj_filename) {
   }
 
   p_obj_v_wid_ = new ObjectViewerWidget(this, obj_filename);
+  p_obj_v_wid_->show();
 }
 
 void s21::MainWindow::CreateNewObjectImitated() {
+  static int i = 0;
+  if (i++) return;
   const std::string &obj_filename = "../objs/cube.obj";
   std::cout << "\n\n---------------\n\n";
   emit NewFilenameEntered(obj_filename);
