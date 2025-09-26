@@ -3,27 +3,34 @@ ifeq ($(shell expr $(NPROC) \< 1), 1)
   NPROC := 1
 endif
 
-.PHONY: all config_debug app
+.PHONY: all create_folder app run
 
-config_debug:
-	@/usr/bin/cmake -DCMAKE_BUILD_TYPE:STRING=Debug\
-	-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE\
-	-DCMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc\
-	-DCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++\
-	--no-warn-unused-cli -S /home/atrnr7/3DViewer/src\
-	-B /home/atrnr7/3DViewer/src/build -G "Unix Makefiles"
 
-all: 
+#config_debug:
+#	@/usr/bin/cmake -DCMAKE_BUILD_TYPE:STRING=Debug\
+#	-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE\
+#	-DCMAKE_C_COMPILER:FILEPATH=/usr/bin/gcc\
+#	-DCMAKE_CXX_COMPILER:FILEPATH=/usr/bin/g++\
+#	--no-warn-unused-cli -S /home/atrnr7/3DViewer/src\
+#	-B /home/atrnr7/3DViewer/src/build -G "Unix Makefiles"
+
+all: create_folder
+	@cmake -B build
 	@cmake --build build --parallel $(NPROC)
 
-app:	
+create_folder:
+	@mkdir -p build
+
+
+app: create_folder	
+	@cmake -B build
 	@cmake --build build --target run_3dviewer --parallel $(NPROC)
 	
-rv:
+rv: create_folder
 	@cmake -B build -DCMAKE_BUILD_TYPE=Debug   
 	@cmake --build build --parallel $(NPROC)
 	@cmake --build build --target run_3dviewer --parallel $(NPROC)
-	
+
 
 # tp:
 # 	@cmake --build build --target run_test_parser --parallel $(NPROC)
