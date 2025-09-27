@@ -18,6 +18,12 @@ all:
 
 app:	
 	@cmake --build build --target run_3dviewer --parallel $(NPROC)
+
+log:
+	@less -R logs/app.log
+
+gdb:
+	@cmake --build build --target run_gdb --parallel ${NPROC}
 	
 rv:
 	@cmake -B build -DCMAKE_BUILD_TYPE=Debug   

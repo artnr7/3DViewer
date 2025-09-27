@@ -6,8 +6,6 @@ size_t s21::Object::GetVerticesSize() {
   return vertices_.vertices.vertice_maps.size();
 }
 
-void s21::Object::SetFileName() { file_name_ = "objs/1.obj"; }
-
 #define INDEX_SETW_SIZE 5
 #define VAR_SETW_SIZE 5
 void s21::Object::PrintArray() {

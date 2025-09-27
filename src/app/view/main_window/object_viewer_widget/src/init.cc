@@ -2,10 +2,6 @@
 #include "../../config.hpp"
 #include "../object_viewer_widget.hpp"
 
-// s21::ObjectViewerWidget::ObjectViewerWidget() {
-//
-// }
-
 s21::ObjectViewerWidget::ObjectViewerWidget(QWidget *parent,
                                             const std::string &obj_filename)
     : QOpenGLWidget(parent), obj_filename_(obj_filename) {
