@@ -5,20 +5,14 @@
 
 // HOW TO USE
 //**
-// Include this header into your
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
+// Include this header into your code
+// Use s21::Logger::Log() to call logger getter
+// Then Use him Method
+// f.g
+// s21::Logger::Log()->Msg("Error", s21::Logger::MessageType::Warning);
+// You can find a list of error types below.
+// If you want make custom color please use this notation:
+// Font-thicknes(N,R)_Font-color(RED, etc.)_Background-color(BLACK, etc.)
 //  */
 
 // RED
@@ -27,7 +21,7 @@
 #define N_RED_RED ("\033[0;31;41m")
 #define B_RED_RED ("\033[1;31;41m")
 
-#define CYAN
+#define B_CYAN_CYAN ("\033[1;36;46m")
 #define YELLOW
 #define GREEN
 #define DEFAULT ("\033[0m")
@@ -44,19 +38,20 @@ class Logger {
   Logger() : message_color_(DEFAULT) {
     std::string filename = {"../logs/app.log"};
     of_log_file_ = std::ofstream(filename);
-    of_log_file_ << "App.log" << std::endl;
+    of_log_file_ << B_CYAN_CYAN << "App.log" << RESET << std::endl;
   }
 
   inline void DeterminateMessageColor(const int& message_type) noexcept {
     switch (message_type) {
       case MessageType::Warning:
-        message_color_ = RED;
+        message_color_ = N_RED_DEF;
         break;
       case MessageType::Error:
         message_color_ = B_RED_RED;
         break;
-      default:
+      case MessageType::Default:
         message_color_ = DEFAULT;
+      default:
         break;
     }
   }
@@ -65,14 +60,15 @@ class Logger {
     of_log_file_ << message_color_ << msg << RESET << std::endl;
   }
 
-  inline void CoutMessage(const std::string& msg) {
-    std::cout << message_color_ << msg << RESET << std::endl;
+  inline void CerrMessage(const std::string& msg) {
+    std::cerr << message_color_ << msg << RESET << std::endl;
   }
 
  public:
   enum MessageType {
     Warning,
     Error,
+    Default,
   };
   static Logger* Log() {
     if (instance_ == nullptr) {
@@ -81,7 +77,10 @@ class Logger {
     return instance_.get();
   }
 
-  void Msg(const std::string& msg) { PrintMessage(msg); }
+  void Msg(const std::string& msg) {
+    DeterminateMessageColor(MessageType::Default);
+    PrintMessage(msg);
+  }
 
   void Msg(const std::string& msg, int msg_type) {
     DeterminateMessageColor(msg_type);
@@ -89,16 +88,16 @@ class Logger {
   }
 
   void MsgCerr(const std::string& msg) {
+    DeterminateMessageColor(MessageType::Default);
     PrintMessage(msg);
-    CoutMessage(msg);
+    CerrMessage(msg);
   }
 
   void MsgCerr(const std::string& msg, int msg_type) {
     DeterminateMessageColor(msg_type);
     PrintMessage(msg);
-    CoutMessage(msg);
+    CerrMessage(msg);
   }
 };
 
-std::unique_ptr<s21::Logger> s21::Logger::instance_ = nullptr;
 }  // namespace s21
