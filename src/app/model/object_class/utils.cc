@@ -1,5 +1,7 @@
 #include <iomanip>
+#include <string>
 
+#include "../../utils/logger.hpp"
 #include "object_class.hpp"
 
 size_t s21::Object::GetVerticesSize() {
@@ -9,39 +11,33 @@ size_t s21::Object::GetVerticesSize() {
 #define INDEX_SETW_SIZE 5
 #define VAR_SETW_SIZE 5
 void s21::Object::PrintArray() {
-  std::cout << "\n   " << file_name_ << "   "
-            << "---------------------------------------- " << "\n\nv-strings\n";
+  auto &vert = vertices_.vertices;
+  s21::Logger::Log()->Msg("\n--------------------------\nv-strings");
 
-  for (auto it = vertices_.vertices.vertice_maps.begin();
-       it != vertices_.vertices.vertice_maps.end(); ++it) {
-    std::cout << std::setw(INDEX_SETW_SIZE) << it->i << "  "
-              << std::setw(VAR_SETW_SIZE) << it->x << " | "
-              << std::setw(VAR_SETW_SIZE) << it->y << " | "
-              << std::setw(VAR_SETW_SIZE) << it->z << std::endl;
+  for (auto &it : vert.vertice_maps) {
+    s21::Logger::Log()->Msg(std::to_string(it.i) + "\t" + std::to_string(it.x) +
+                            " | " + std::to_string(it.y) + " | " +
+                            std::to_string(it.z));
   }
 
-  std::cout << "\n----------------------------------------\n"
-            << "\nf-strings\n";
+  s21::Logger::Log()->Msg("\n--------------------------\nf-strings");
 
-  for (auto it = faces_.face_maps.begin(); it != faces_.face_maps.end(); ++it) {
-    std::cout << std::setw(INDEX_SETW_SIZE) << it->i << "  ";
-    for (auto m_it = it->map.begin(); m_it != it->map.end(); ++m_it) {
-      std::cout << m_it->vert_i << "|" << m_it->txr_i << "|" << m_it->norl_i;
-      if (m_it + 1 != it->map.end()) {
-        std::cout << " ";
-      }
+  for (auto &it : faces_.face_maps) {
+    s21::Logger::Log()->Msg(std::to_string(it.i) + " -------");
+    for (auto m_it = it.map.begin(); m_it != it.map.end(); ++m_it) {
+      s21::Logger::Log()->Msg(std::to_string(m_it->vert_i) + "|" +
+                              std::to_string(m_it->txr_i) + "|" +
+                              std::to_string(m_it->norl_i));
     }
-
-    std::cout << "\n";
   }
 
-  std::cout << "\n";
-  std::cout << "min_x = " << vertices_.vertices.min_x << std::endl;
-  std::cout << "max_x = " << vertices_.vertices.max_x << std::endl;
-  std::cout << "min_y = " << vertices_.vertices.min_y << std::endl;
-  std::cout << "max_y = " << vertices_.vertices.max_y << std::endl;
-  std::cout << "min_z = " << vertices_.vertices.min_z << std::endl;
-  std::cout << "max_z = " << vertices_.vertices.max_z << std::endl;
+  s21::Logger::Log()->Msg("\n-------------------\nmin max");
+  s21::Logger::Log()->Msg("min_x = " + std::to_string(vert.min_x));
+  s21::Logger::Log()->Msg("max_x = " + std::to_string(vert.max_x));
+  s21::Logger::Log()->Msg("min_y = " + std::to_string(vert.min_y));
+  s21::Logger::Log()->Msg("max_y = " + std::to_string(vert.max_y));
+  s21::Logger::Log()->Msg("min_z = " + std::to_string(vert.min_z));
+  s21::Logger::Log()->Msg("max_z = " + std::to_string(vert.max_z));
 
   // std::cout << "\n----------------------------------------\n"
   //           << "\nglvertices\n";
@@ -64,30 +60,14 @@ void s21::Object::PrintArray() {
   // std::cout << "\n----------------------------------------\n\n";
 }
 
-// void s21::Object::FillFLines() {}
-
 void s21::Object::FillGLvertices() {
-  for (auto it = faces_.face_maps.begin(); it != faces_.face_maps.end(); ++it) {
-    for (auto m_it = it->map.begin(); m_it != it->map.end(); ++m_it) {
-      glvertices_.push_back(
-          vertices_.vertices.vertice_maps[m_it->vert_i - 1].x);
-      glvertices_.push_back(
-          vertices_.vertices.vertice_maps[m_it->vert_i - 1].y);
-      glvertices_.push_back(
-          vertices_.vertices.vertice_maps[m_it->vert_i - 1].z);
-      // glvertices_.push_back(0);
+  auto &vert = vertices_.vertices;
+
+  for (auto &it : faces_.face_maps) {
+    for (auto &m_it : it.map) {
+      glvertices_.push_back(vert.vertice_maps[m_it.vert_i - 1].x);
+      glvertices_.push_back(vert.vertice_maps[m_it.vert_i - 1].y);
+      glvertices_.push_back(vert.vertice_maps[m_it.vert_i - 1].z);
     }
   }
-
-  // glvertices_.push_back(-0.5f);
-  // glvertices_.push_back(-0.5f);
-  // glvertices_.push_back(0.0f);
-
-  // glvertices_.push_back(0.5f);
-  // glvertices_.push_back(-0.5f);
-  // glvertices_.push_back(0.0f);
-
-  // glvertices_.push_back(0.0f);
-  // glvertices_.push_back(0.5f);
-  // glvertices_.push_back(0.0f);
 }

@@ -1,14 +1,12 @@
 #ifndef MODEL_HPP_
 #define MODEL_HPP_
 
-// #include "spdlog/spdlog.h"
 #include "object_class/object_class.hpp"
 
 namespace s21 {
 class Model {
  protected:
   Model() = default;
-  // explicit Model(const std::string &obj_filename);
 
  private:
   // Variables ----------→
@@ -28,7 +26,6 @@ class Model {
 
   std::vector<float> &GetGLVertices();
   void CreateNewObject(const std::string &obj_filename);
-  // void SetObjFilename(std::string &obj_filename) noexcept;
 };
 
 }  // namespace s21

@@ -1,4 +1,4 @@
-NPROC := $(shell expr $$(nproc) / 2)
+NPROC := $(shell expr $$(nproc) / 2 / 2)
 ifeq ($(shell expr $(NPROC) \< 1), 1)
   NPROC := 1
 endif

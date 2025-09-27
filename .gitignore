@@ -52,8 +52,7 @@ dkms.conf
 
 # custom 
 .vscode
-src/logs
-src/build 
+logs
+build 
 *.o
-src/.idea
-src/cmake-build-debug
+.idea

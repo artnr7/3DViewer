@@ -1,6 +1,8 @@
 #include <algorithm>
 #include <iostream>
+#include <string>
 
+#include "../../utils/logger.hpp"
 #include "object_class.hpp"
 
 void s21::Object::ObjectCentering() {
@@ -14,15 +16,16 @@ void s21::Object::ObjectCentering() {
   FindCenterAxis(center_y, vert.min_y, vert.max_y);
   FindCenterAxis(center_z, vert.min_z, vert.max_z);
 
-  
+  s21::Logger::Log()->Msg("center_x = " + std::to_string(center_x));
+  s21::Logger::Log()->Msg("center_y = " + std::to_string(center_y));
+  s21::Logger::Log()->Msg("center_y = " + std::to_string(center_z));
+
   for (auto &it : vert.vertice_maps) {
     it.x -= center_x;
     it.y -= center_y;
     it.z -= center_z;
   }
-  std::cout << "center_ = x" << center_x << std::endl;
-  std::cout << "center_ = y" << center_x << std::endl;
-  std::cout << "center_ = z" << center_x << std::endl;
+
 }
 
 void s21::Object::FindCenterAxis(CoordT &center_axis, CoordT min, CoordT max) {
@@ -40,7 +43,7 @@ void s21::Object::Normalization() {
   std::cout << "dim = " << dim_max_diff << std::endl;
 
   scale_ = (SCALE_MULT - (SCALE_MULT * (-1))) / dim_max_diff;
-  std::cout << "scale = " << scale_ << std::endl;
+  s21::Logger::Log()->Msg("scale = " + std::to_string(scale_));
 
   for (auto &it : vert.vertice_maps) {
     it.x *= scale_;
