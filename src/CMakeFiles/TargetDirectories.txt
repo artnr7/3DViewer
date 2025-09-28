@@ -1,0 +1,10 @@
+/home/atrnr7/3DViewer/src/CMakeFiles/3dviewer.dir
+/home/atrnr7/3DViewer/src/CMakeFiles/run_3dviewer.dir
+/home/atrnr7/3DViewer/src/CMakeFiles/run_gdb.dir
+/home/atrnr7/3DViewer/src/CMakeFiles/cmake_format_fix.dir
+/home/atrnr7/3DViewer/src/CMakeFiles/clang_format_fix.dir
+/home/atrnr7/3DViewer/src/CMakeFiles/test.dir
+/home/atrnr7/3DViewer/src/CMakeFiles/edit_cache.dir
+/home/atrnr7/3DViewer/src/CMakeFiles/rebuild_cache.dir
+/home/atrnr7/3DViewer/src/CMakeFiles/3dviewer_autogen_timestamp_deps.dir
+/home/atrnr7/3DViewer/src/CMakeFiles/3dviewer_autogen.dir

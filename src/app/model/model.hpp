@@ -26,6 +26,8 @@ class Model {
 
   std::vector<float> &GetGLVertices();
   void CreateNewObject(const std::string &obj_filename);
+
+  void ScaleObject();
 };
 
 }  // namespace s21

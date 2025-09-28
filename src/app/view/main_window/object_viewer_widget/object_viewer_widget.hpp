@@ -3,6 +3,8 @@
 
 // #include <QOpenGLExtraFunctions>
 // #include <QOpenGLVertexArrayObject>
+#include <qevent.h>
+
 #include <QOpenGLWidget>
 #include <QtGui>
 #include <QtOpenGL>
@@ -21,6 +23,12 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
  private:
   void LoadShaders();
   void Connections();
+
+  // Mouse --------→
+  void mousePressEvent(QMouseEvent *) override;
+  void mouseMoveEvent(QMouseEvent *) override;
+  QPoint mPos_;
+  double xRot_, yRot_, zRot_;
 
   // Variables -------------------→
   // Graphics →

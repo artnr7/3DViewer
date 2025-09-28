@@ -1,5 +1,6 @@
-#include <iostream>
+#include <string>
 
+#include "../../utils/logger.hpp"
 #include "object_class.hpp"
 
 s21::Object::Object(const std::string &obj_filename)
@@ -10,7 +11,8 @@ s21::Object::Object(const std::string &obj_filename)
       ofl_it_{},
       eofl_it_(),
       scale_() {
-  std::cout << "Loading Model " << std::endl;
+  s21::Logger::Log()->Msg(std::string(__func__) + " – Loading Model...",
+                          s21::Logger::MessageType::Process);
   ObjectParser();
   ObjectCentering();
   Normalization();

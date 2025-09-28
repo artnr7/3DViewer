@@ -11,8 +11,12 @@ size_t s21::Object::GetVerticesSize() {
 #define INDEX_SETW_SIZE 5
 #define VAR_SETW_SIZE 5
 void s21::Object::PrintArray() {
+  s21::Logger::Log()->Msg(
+      std::string(__func__) + " – Logging V- and F- strings...",
+      s21::Logger::MessageType::Process);
   auto &vert = vertices_.vertices;
-  s21::Logger::Log()->Msg("\n--------------------------\nv-strings");
+  s21::Logger::Log()->Msg("\n--------------------------\n");
+  s21::Logger::Log()->Msg("v-strings", s21::Logger::MessageType::Variable);
 
   for (auto &it : vert.vertice_maps) {
     s21::Logger::Log()->Msg(std::to_string(it.i) + "\t" + std::to_string(it.x) +
@@ -20,7 +24,8 @@ void s21::Object::PrintArray() {
                             std::to_string(it.z));
   }
 
-  s21::Logger::Log()->Msg("\n--------------------------\nf-strings");
+  s21::Logger::Log()->Msg("\n--------------------------\n");
+  s21::Logger::Log()->Msg("f-strings", s21::Logger::MessageType::Variable);
 
   for (auto &it : faces_.face_maps) {
     s21::Logger::Log()->Msg(std::to_string(it.i) + " -------");
@@ -61,6 +66,9 @@ void s21::Object::PrintArray() {
 }
 
 void s21::Object::FillGLvertices() {
+  s21::Logger::Log()->Msg(std::string(__func__) + " – FillGLVertices...",
+                          s21::Logger::MessageType::Process);
+
   auto &vert = vertices_.vertices;
 
   for (auto &it : faces_.face_maps) {

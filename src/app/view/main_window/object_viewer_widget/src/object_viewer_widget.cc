@@ -88,7 +88,7 @@ void s21::ObjectViewerWidget::initializeGL() {
 }
 
 void s21::ObjectViewerWidget::resizeGL(int w, int h) {
-  glViewport(0, 0, w, h);
+  // glViewport(0, 0, w, h);
   m_projection.setToIdentity();
   m_projection.perspective(45.0f, w / float(h), 0.01f, 100.0f);
 }

@@ -18,14 +18,23 @@
 // RED
 #define N_RED_DEF ("\033[0;31m")
 #define B_RED_DEF ("\033[1;31m")
-#define N_RED_RED ("\033[0;31;41m")
-#define B_RED_RED ("\033[1;31;41m")
+
+#define N_DEF_RED ("\033[0;39;41m")
+#define B_DEF_RED ("\033[1;39;41m")
+
+#define B_DEF_GREEN ("\033[1;39;42m")
+#define B_DEF_YELLOW ("\033[1;39;43m")
 
 #define B_CYAN_CYAN ("\033[1;36;46m")
 #define YELLOW
 #define GREEN
 #define DEFAULT ("\033[0m")
 #define RESET DEFAULT
+// Message Types Colors ---------→
+#define PROCESS B_DEF_GREEN
+#define WARNING N_RED_DEF
+#define ERROR B_DEF_RED
+#define VARIABLES B_DEF_YELLOW
 
 namespace s21 {
 
@@ -44,14 +53,23 @@ class Logger {
   inline void DeterminateMessageColor(const int& message_type) noexcept {
     switch (message_type) {
       case MessageType::Warning:
-        message_color_ = N_RED_DEF;
+        message_color_ = WARNING;
         break;
       case MessageType::Error:
-        message_color_ = B_RED_RED;
+        message_color_ = ERROR;
+        break;
+      case MessageType::Process:
+        message_color_ = PROCESS;
+        break;
+      case MessageType::Variable:
+        message_color_ = VARIABLES;
         break;
       case MessageType::Default:
         message_color_ = DEFAULT;
+        break;
       default:
+        of_log_file_ << B_CYAN_CYAN << "App.log" << RESET << std::endl;
+
         break;
     }
   }
@@ -69,6 +87,8 @@ class Logger {
     Warning,
     Error,
     Default,
+    Process,
+    Variable,
   };
   static Logger* Log() {
     if (instance_ == nullptr) {
