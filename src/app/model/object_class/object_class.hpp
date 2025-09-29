@@ -8,6 +8,10 @@
 // #include "../model.hpp"
 // #include "../utils/exception.hpp"
 
+#include <qmatrix4x4.h>
+
+#include <QtOpenGL>
+
 #include "types.hpp"
 
 namespace s21 {
@@ -31,6 +35,13 @@ class Object {
   ParseStatus parse_status_;
 
   long double scale_;
+
+  // Matrices
+  QMatrix4x4 m_modelview_;
+  // QMatrix4x4 m_modelview;
+  QMatrix4x4 m_projection;
+  QMatrix4x4 m_combd_;
+  QMatrix4x4 mvp_;
 
   // Methods ------------→
   void ObjectParser();
@@ -63,6 +74,12 @@ class Object {
   void FindCenterAxis(CoordT &center_axis, CoordT min, CoordT max);
   // Normalization
   void Normalization();
+
+  // Matrix methods
+  void MVP();
+  void ModelView(QVector3D &vec);
+
+  void Combination();
 
  public:
   // Constructors --------------------→

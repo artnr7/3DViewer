@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "object_class.hpp"
+#include "../object_class.hpp"
 
 void s21::Object::ParseVLine(PolyPcInT &vert_i, std::string &obj_file_line) {
   ofl_it_ = obj_file_line.begin();

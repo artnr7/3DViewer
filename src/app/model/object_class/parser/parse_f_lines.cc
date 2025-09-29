@@ -1,4 +1,4 @@
-#include "object_class.hpp"
+#include "../object_class.hpp"
 
 void s21::Object::ParseFLine(PolyPcInT &face_i, std::string &obj_file_line) {
   // std::cout << obj_file_line << std::endl;

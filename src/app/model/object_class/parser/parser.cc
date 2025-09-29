@@ -1,5 +1,5 @@
-#include "../../utils/logger.hpp"
-#include "object_class.hpp"
+#include "../../../utils/logger.hpp"
+#include "../object_class.hpp"
 
 void s21::Object::ObjectParser() {
   std::ifstream obj_file_stream(file_name_);

@@ -16,49 +16,6 @@ void s21::ObjectViewerWidget::initializeGL() {
 
   vert_qty_ = glv_size / 3;
 
-  // std::cout << "\n----------------------------------------\n"
-  //           << "\nglvertices\n";
-
-  // int i = 0;
-  // for (auto it = glvertices.begin(); it != glvertices.end(); ++it, ++i) {
-  //   std::cout << *it;
-  //   if (i % 3 == 0 || i % 3 == 1) {
-  //     std::cout << "/";
-  //   }
-
-  //   if (i % 3 == 2) {
-  //     std::cout << "  |  ";
-  //   }
-
-  //   if (i % 9 == 8) {
-  //     std::cout << "\n";
-  //   }
-  // }
-  // std::cout << "\n----------------------------------------\n\n";
-
-  // GLfloat *vertices = new GLfloat[glv_size];
-
-  // std::move(glvertices.begin(), glvertices.end(), vertices);
-
-  // std::cout << "\n----------------------------------------\n"
-  //           << "\nglvertices\n";
-
-  // for (int i = 0; i < (int)glv_size; ++i) {
-  //   std::cout << vertices[i];
-  //   if (i % 3 == 0 || i % 3 == 1) {
-  //     std::cout << "/";
-  //   }
-
-  //   if (i % 3 == 2) {
-  //     std::cout << "  |  ";
-  //   }
-
-  //   if (i % 9 == 8) {
-  //     std::cout << "\n";
-  //   }
-  // }
-  // std::cout << "\n----------------------------------------\n\n";
-
   // GLdouble vertices[] = {
   //     0.5f,  1.0f, 0.5f,  0.5f,  1.0f, -0.5f, 0.5f,  0.0f, 0.5f,
   //     0.5f,  0.0f, -0.5f, -0.5f, 1.0f, -0.5f, -0.5f, 1.0f, 0.5f,
@@ -95,6 +52,7 @@ void s21::ObjectViewerWidget::resizeGL(int w, int h) {
 
 void s21::ObjectViewerWidget::paintGL() {
   m_modelview.setToIdentity();
+  // m_modelview.ortho();
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
