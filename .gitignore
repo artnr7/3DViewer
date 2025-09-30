@@ -51,7 +51,7 @@ Mkfile.old
 dkms.conf
 
 # custom 
-src/.cache
+.cache
 .vscode
 logs
 build 
