@@ -75,11 +75,15 @@ class Object {
   // Normalization
   void Normalization();
 
-  // Matrix methods
+  // Matrix methods ----------→
   void MVP();
-  void ModelView(QVector3D &vec);
-
-  void Combination();
+  // ModelView ----------→
+  void MatrixTranslate(QVector3D &vec);
+  void MatrixRotate(float &angle, QVector3D &vec);
+  void MatrixScale(float &mult);
+  void SetToIdentityIfNot(QMatrix4x4 &mtx);
+  // Projection -------→
+  void ProjectionMatrix();
 
  public:
   // Constructors --------------------→
