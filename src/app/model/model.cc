@@ -4,7 +4,6 @@
 
 std::unique_ptr<s21::Model> s21::Model::instance = nullptr;
 
-
 std::vector<float> &s21::Model::GetGLVertices() {
   std::cout << "obj-pointer: " << obj_ << std::endl;
 
@@ -21,4 +20,4 @@ void s21::Model::CreateNewObject(const std::string &obj_filename) {
   obj_ = std::make_unique<Object>(obj_filename_);
 }
 
-void s21::Model::ScaleObject()
+void s21::Model::ScaleObject() {}

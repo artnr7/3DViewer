@@ -2,12 +2,6 @@
 #include "../main_window.hpp"
 
 void s21::MainWindow::Connections() {
-  temp_timer = new QTimer(this);
-  temp_timer->start(0);
-
-  connect(temp_timer, &QTimer::timeout, this,
-          &s21::MainWindow::CreateNewObjectImitated);
-
-  connect(this, &s21::MainWindow::NewFilenameEntered, this,
+  connect(p_menu_wid_, &s21::MenuWidget::NewFilenameEntered, this,
           &s21::MainWindow::CreateNewObjectWidget);
 }

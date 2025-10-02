@@ -13,19 +13,31 @@ class MainWindow : public QWidget {
   // Variables ---------------------------→
   ObjectViewerWidget* p_obj_v_wid_;
   MenuWidget* p_menu_wid_;
-  QTimer* temp_timer;
 
   void Connections();
 
  public:
   MainWindow();
 
- signals:
-  void NewFilenameEntered(const std::string& obj_filename);
-
  private slots:
   void CreateNewObjectWidget(const std::string& obj_filename);
-  void CreateNewObjectImitated();
+  // friend s21::MenuWidget;
+  // Color ------------>
+  void SetObjVBckgColor(const std::array<GLclampf, 4>& color);
+  void SetObjVEdgeColor();
+  void SetObjVVerticeColor();
+
+  // Edge thickness -------------→
+  void SetObjVEdgeThickness();
+
+  // Vertices ---------------------------→
+  // Mapping ---→
+  void SetObjVVerticeMapping(const VerticeMappingType& v_map_type);
+  // Size ---→
+  void SetObjVVerticeSize();
+
+  // Projections ------------>
+  void SetObjVProjection(const ProjectionType& proj_type);
 };
 }  // namespace s21
 

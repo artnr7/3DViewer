@@ -1,12 +1,14 @@
 #include "../object_viewer_widget.hpp"
 
+#include <GL/gl.h>
+
 #include "../../../../controller/controller.hpp"
 
 #define TR_QTY 1
 void s21::ObjectViewerWidget::initializeGL() {
   initializeOpenGLFunctions();
   m_shader_program_ = new QOpenGLShaderProgram(this);
-  glClearColor(1.0f, 0.5f, 0.0f, 1.0f);
+  glClearColor(bckg_color_[0], bckg_color_[1], bckg_color_[2], bckg_color_[3]);
 
   LoadShaders();
 

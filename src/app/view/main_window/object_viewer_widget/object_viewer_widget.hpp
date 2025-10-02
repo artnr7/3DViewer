@@ -8,8 +8,21 @@
 #include <QOpenGLWidget>
 #include <QtGui>
 #include <QtOpenGL>
+#include <array>
 
 namespace s21 {
+
+enum class VerticeMappingType {
+  Nothing,
+  Circle,
+  Square,
+};
+
+enum class ProjectionType {
+  Ortho,
+  Perspective,
+};
+
 class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   Q_OBJECT
  public:
@@ -32,6 +45,7 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
 
   // Variables -------------------→
   // Graphics →
+  std::array<GLclampf, 4> bckg_color_ = {1.0f, 0.5f, 0.0f, 1.0f};
   size_t vert_qty_;
   QMatrix4x4 m_modelview;
   QMatrix4x4 m_projection;
@@ -42,9 +56,22 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   // Model →
   std::string obj_filename_;
 
- public:
-  // void EnterObjFilename() noexcept;
-  // void SetObjFilename() noexcept;
+
+  public:
+  // Color ------------>
+  // Background
+  void SetBckgColor(const std::array<GLclampf, 4> &color);
+  void SetEdgeColor();
+  void SetVerticeColor();
+
+  // Edge thickness -------------→
+  void SetEdgeThickness();
+
+  // Vertices ---------------------------→
+  // Mapping ---→
+  void SetVerticeMapping(const VerticeMappingType &v_map_type);
+  // Size ---→
+  void SetVerticeSize();
 };
 }  // namespace s21
 

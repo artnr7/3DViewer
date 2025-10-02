@@ -76,14 +76,18 @@ class Object {
   void Normalization();
 
   // Matrix methods ----------→
+  void Combination();
   void MVP();
   // ModelView ----------→
   void MatrixTranslate(QVector3D &vec);
   void MatrixRotate(float &angle, QVector3D &vec);
   void MatrixScale(float &mult);
+  void LookAt(const QVector3D &eye, const QVector3D &center,
+              const QVector3D &up);
   void SetToIdentityIfNot(QMatrix4x4 &mtx);
   // Projection -------→
-  void ProjectionMatrix();
+  void PerspectiveProjectionMatrix(const int &w, const int &h);
+  void OrthoProjectionMatrix();
 
  public:
   // Constructors --------------------→

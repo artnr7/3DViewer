@@ -1,3 +1,6 @@
+#ifndef LOGGER_HPP_
+#define LOGGER_HPP_
+
 #include <fstream>
 #include <memory>
 
@@ -121,3 +124,4 @@ class Logger {
 };
 
 }  // namespace s21
+#endif
