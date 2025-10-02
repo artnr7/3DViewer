@@ -78,4 +78,7 @@ void s21::Object::FillGLvertices() {
       glvertices_.push_back(vert.vertice_maps[m_it.vert_i - 1].z);
     }
   }
+
+  s21::Logger::Log()->Msg(std::string(__func__) + " – FillGLVertices done",
+                          s21::Logger::MessageType::Process);
 }

@@ -43,6 +43,9 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   QPoint mPos_;
   double xRot_, yRot_, zRot_;
 
+  QTimer *update_timer_ = nullptr;
+  std::vector<float> *glvertices_ = nullptr;
+
   // Variables -------------------→
   // Graphics →
   std::array<GLclampf, 4> bckg_color_ = {1.0f, 0.5f, 0.0f, 1.0f};
@@ -56,8 +59,7 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   // Model →
   std::string obj_filename_;
 
-
-  public:
+ public:
   // Color ------------>
   // Background
   void SetBckgColor(const std::array<GLclampf, 4> &color);

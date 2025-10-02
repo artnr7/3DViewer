@@ -37,11 +37,7 @@ class Object {
   long double scale_;
 
   // Matrices
-  QMatrix4x4 m_modelview_;
-  // QMatrix4x4 m_modelview;
-  QMatrix4x4 m_projection;
-  QMatrix4x4 m_combd_;
-  QMatrix4x4 mvp_;
+  QMatrix4x4 m_model_;
 
   // Methods ------------→
   void ObjectParser();
@@ -75,28 +71,26 @@ class Object {
   // Normalization
   void Normalization();
 
-  // Matrix methods ----------→
-  void Combination();
-  void MVP();
-  // ModelView ----------→
+ public:
+  // Matrix methods Model ----------→
   void MatrixTranslate(QVector3D &vec);
   void MatrixRotate(float &angle, QVector3D &vec);
   void MatrixScale(float &mult);
-  void LookAt(const QVector3D &eye, const QVector3D &center,
-              const QVector3D &up);
-  void SetToIdentityIfNot(QMatrix4x4 &mtx);
-  // Projection -------→
-  void PerspectiveProjectionMatrix(const int &w, const int &h);
-  void OrthoProjectionMatrix();
 
- public:
+  void SetToIdentityIfNot(QMatrix4x4 &mtx);
+
   // Constructors --------------------→
   Object() = delete;
   Object(const std::string &file_name);
 
-  std::vector<float> &GetGLVertices() { return glvertices_; }
+  // Getters --------------→
+  std::vector<float> *GetGLVertices() { return &glvertices_; }
+  std::vector<Vertices::Vertices::VerticeMap> &GetVertices() {
+    return vertices_.vertices.vertice_maps;
+  }
+  QMatrix4x4 &GetModelMatrix() { return m_model_; }
 
-  // utils
+  // Utils ----------→
   void PrintArray();
   void FillGLvertices();
 };

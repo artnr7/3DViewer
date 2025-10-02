@@ -1,12 +1,11 @@
-// #include "../object_viewer_widget.hpp"
+#include <QTimer>
 
-// void s21::ObjectViewerWidget::Connections() {
-//   static int i = 0;
-//   ++i;
-//   if (i == 100) {
-//     EnterObjFilename();
-//   }
+#include "../object_viewer_widget.hpp"
 
-//   connect(this, &s21::ObjectViewerWidget::NewFilenameEnetered, this,
-//           &s21::ObjectViewerWidget::CreateNewObject);
-// }
+void s21::ObjectViewerWidget::Connections() {
+  update_timer_ = new QTimer(this);
+  update_timer_->start(15);
+
+  connect(update_timer_, &QTimer::timeout, this,
+          &s21::ObjectViewerWidget::update);
+}

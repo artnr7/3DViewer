@@ -53,6 +53,7 @@ dkms.conf
 # custom 
 .cache
 .vscode
+CMakeFiles
 logs
 build 
 *.o

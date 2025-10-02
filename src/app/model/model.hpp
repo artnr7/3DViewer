@@ -14,7 +14,21 @@ class Model {
   std::unique_ptr<Object> obj_;
   std::string obj_filename_;
 
+  // Matrices
+  QMatrix4x4 m_projection_;
+  QMatrix4x4 m_view_;
+  QMatrix4x4 mvp_;
+
  public:
+  // Matrix methods ----------→
+  void MatrixCombination();
+
+  // Projection -------→
+  void PerspectiveProjectionMatrix(const int &w, const int &h);
+  void OrthoProjectionMatrix();
+  void LookAt(const QVector3D &eye, const QVector3D &center,
+              const QVector3D &up);
+
   // Constructors ----------→
 
   static Model *GetModel() {
@@ -24,10 +38,8 @@ class Model {
     return instance.get();
   }
 
-  std::vector<float> &GetGLVertices();
+  std::vector<float> *GetGLVertices();
   void CreateNewObject(const std::string &obj_filename);
-
-  void ScaleObject();
 };
 
 }  // namespace s21

@@ -10,7 +10,6 @@ namespace s21 {
 class MainWindow : public QWidget {
   Q_OBJECT
  private:
-  // Variables ---------------------------→
   ObjectViewerWidget* p_obj_v_wid_;
   MenuWidget* p_menu_wid_;
 
@@ -21,7 +20,6 @@ class MainWindow : public QWidget {
 
  private slots:
   void CreateNewObjectWidget(const std::string& obj_filename);
-  // friend s21::MenuWidget;
   // Color ------------>
   void SetObjVBckgColor(const std::array<GLclampf, 4>& color);
   void SetObjVEdgeColor();

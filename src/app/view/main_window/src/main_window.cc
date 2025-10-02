@@ -6,7 +6,7 @@
 #include "../../../utils/logger.hpp"
 #include "../config.hpp"
 
-s21::MainWindow::MainWindow() {
+s21::MainWindow::MainWindow() : p_obj_v_wid_(), p_menu_wid_() {
   s21::Logger::Log()->Msg(std::string(__func__) + " Constructor...",
                           Logger::MessageType::Process);
 

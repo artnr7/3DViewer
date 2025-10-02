@@ -82,7 +82,7 @@ clean:
 	@echo "Clean done"	 
 
 ###--------→ DELETE ←------------------------------------------------------------###
-FILES_TO_DEL := build install_dir .cache
+FILES_TO_DEL := build install_dir .cache CMakeFiles
 del: 
 	@rm -rf $(FILES_TO_DEL)
 	@echo "Delete done"	

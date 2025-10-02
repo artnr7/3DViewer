@@ -12,9 +12,9 @@ void s21::ObjectViewerWidget::initializeGL() {
 
   LoadShaders();
 
-  std::vector<float> glvertices(s21::Controller::GetVertices());
+  glvertices_ = s21::Controller::GetVertices();
 
-  auto glv_size = glvertices.size();
+  auto glv_size = glvertices_->size();
 
   vert_qty_ = glv_size / 3;
 
@@ -36,7 +36,7 @@ void s21::ObjectViewerWidget::initializeGL() {
 
   m_vbo_.create();
   m_vbo_.bind();
-  m_vbo_.allocate(glvertices.data(), glv_size * sizeof(GLfloat));
+  m_vbo_.allocate(glvertices_->data(), glv_size * sizeof(GLfloat));
   // m_vbo_.allocate(vertices, sizeof(vertices));
 
   m_shader_program_->enableAttributeArray("aPos");
@@ -53,9 +53,7 @@ void s21::ObjectViewerWidget::resizeGL(int w, int h) {
 }
 
 void s21::ObjectViewerWidget::paintGL() {
-  m_modelview.setToIdentity();
-  // m_modelview.ortho();
-
+  glvertices_ = s21::Controller::GetVertices();
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // glUniformMatrix4fv(projLoc, 1, GL_FALSE, m_projection.constData());

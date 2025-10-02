@@ -2,6 +2,11 @@
 #include <vector>
 
 namespace s21 {
+enum class ProjectionType {
+  Ortho,
+  Perspective,
+};
+
 enum ParseStatus {
   Good,
   Invalid,
