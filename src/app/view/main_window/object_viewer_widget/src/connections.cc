@@ -1,4 +1,5 @@
 #include <QTimer>
+#include <QtWidgets/QWidget>
 
 #include "../object_viewer_widget.hpp"
 
@@ -7,5 +8,5 @@ void s21::ObjectViewerWidget::Connections() {
   update_timer_->start(15);
 
   connect(update_timer_, &QTimer::timeout, this,
-          &s21::ObjectViewerWidget::update);
+          &s21::ObjectViewerWidget::FrontUpdate);
 }

@@ -3,9 +3,7 @@
 // mvp_ = m_projection * m_view_ *  m_model_
 // m_model = m_translate  * m_rotate * m_scale
 
- s21::Object::GetModelMatrix(){
-  return
-}
+QMatrix4x4 &s21::Object::GetModelMatrix() { return m_model_; }
 
 void s21::Object::MatrixTranslate(QVector3D &vec) {
   SetToIdentityIfNot(m_model_);

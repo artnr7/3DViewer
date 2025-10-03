@@ -29,6 +29,8 @@ class Model {
   void LookAt(const QVector3D &eye, const QVector3D &center,
               const QVector3D &up);
 
+  void SetDefaultLookAt();
+
   // Constructors ----------→
 
   static Model *GetModel() {

@@ -1,3 +1,5 @@
+#include <qvectornd.h>
+
 #include "model.hpp"
 
 // mvp_ = m_projection * m_view_ *  m_model_
@@ -15,7 +17,6 @@ void s21::Model::MatrixCombination() {
   }
 }
 
-
 void s21::Model::PerspectiveProjectionMatrix(const int &w, const int &h) {
   obj_->SetToIdentityIfNot(m_projection_);
   float angle = 45.0f;
@@ -32,6 +33,13 @@ void s21::Model::OrthoProjectionMatrix() {
 
   m_projection_.ortho(-0.005523, 0.005523, -0.004142, 0.004142, near_plane,
                       far_plane);
+}
+
+void s21::Model::SetDefaultLookAt() {
+  const QVector3D eye{0.0f, 3.0f, 5.0f};
+  const QVector3D center{0.0f, 0.0f, 0.0f};
+  const QVector3D up{0.0f, 1.0f, 0.0f};
+  LookAt(eye, center, up);
 }
 
 void s21::Model::LookAt(const QVector3D &eye, const QVector3D &center,

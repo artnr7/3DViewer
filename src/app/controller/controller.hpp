@@ -13,7 +13,10 @@ class Controller {
 
  public:
   [[nodiscard]] static std::vector<float> *GetVertices();
-  static void CreateNewObject(const std::string &obj_filename) noexcept;
+  static void CreateNewObject(const std::string &obj_filename, const int &w,
+                              const int &h) noexcept;
+  static void SetPerspective(const int &w, const int &h);
+  static void SetOrtho();
 };
 }  // namespace s21
 

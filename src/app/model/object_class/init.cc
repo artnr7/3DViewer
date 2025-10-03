@@ -11,14 +11,9 @@ s21::Object::Object(const std::string &obj_filename)
       ofl_it_{},
       eofl_it_(),
       scale_(),
-      m_modelview_(),
-      m_projection(),
-      m_combd_(),
-      mvp_() {
+      m_model_() {
   s21::Logger::Log()->Msg(std::string(__func__) + " – Loading Model...",
                           s21::Logger::MessageType::Process);
   ObjectParser();
-  ObjectCentering();
-  Normalization();
   FillGLvertices();
 }

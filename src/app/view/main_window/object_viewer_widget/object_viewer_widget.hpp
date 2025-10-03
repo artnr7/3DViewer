@@ -26,7 +26,8 @@ enum class ProjectionType {
 class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   Q_OBJECT
  public:
-  ObjectViewerWidget(QWidget *parent, const std::string &obj_filename);
+  ObjectViewerWidget(QWidget *parent, const std::string &obj_filename,const int &w,
+                              const int &h);
 
  protected:
   void initializeGL() override;
@@ -74,6 +75,8 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   void SetVerticeMapping(const VerticeMappingType &v_map_type);
   // Size ---→
   void SetVerticeSize();
+ private slots:
+  void FrontUpdate();
 };
 }  // namespace s21
 

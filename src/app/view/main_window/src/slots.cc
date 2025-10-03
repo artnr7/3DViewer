@@ -1,4 +1,5 @@
 #include "../../../utils/logger.hpp"
+#include "../config.hpp"
 #include "../main_window.hpp"
 
 void s21::MainWindow::CreateNewObjectWidget(const std::string &obj_filename) {
@@ -11,6 +12,7 @@ void s21::MainWindow::CreateNewObjectWidget(const std::string &obj_filename) {
   }
 
   s21::Logger::Log()->Msg("Creating new object viewer pointer");
-  p_obj_v_wid_ = new ObjectViewerWidget(this, obj_filename);
+  p_obj_v_wid_ = new ObjectViewerWidget(this, obj_filename, INIT_W_MAIN_WINDOW,
+                                        INIT_H_MAIN_WINDOW);
   p_obj_v_wid_->show();
 }

@@ -88,8 +88,7 @@ class Object {
   std::vector<Vertices::Vertices::VerticeMap> &GetVertices() {
     return vertices_.vertices.vertice_maps;
   }
-  QMatrix4x4 &GetModelMatrix() { return m_model_; }
-
+  QMatrix4x4 &GetModelMatrix();
   // Utils ----------→
   void PrintArray();
   void FillGLvertices();

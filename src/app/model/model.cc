@@ -8,6 +8,12 @@
 
 std::unique_ptr<s21::Model> s21::Model::instance = nullptr;
 
+// s21::Model::Model()
+//     : obj_(), obj_filename_(), m_projection_(), m_view_(), mvp_() {
+//   OrthoProjectionMatrix();
+//   LookAt(const QVector3D &eye, const QVector3D &center, const QVector3D &up)
+// }
+
 void s21::Model::CreateNewObject(const std::string &obj_filename) {
   obj_filename_ = obj_filename;
 
