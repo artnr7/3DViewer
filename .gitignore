@@ -51,7 +51,9 @@ Mkfile.old
 dkms.conf
 
 # custom 
-build 
+.vscode
+src/logs
+src/build 
 *.o
 src/.idea
 src/cmake-build-debug

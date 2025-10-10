@@ -13,8 +13,7 @@ class MainWindow : public QWidget {
   // Variables ---------------------------→
   ObjectViewerWidget* p_obj_v_wid_;
   MenuWidget* p_menu_wid_;
-  QTimer *temp_timer;
-
+  QTimer* temp_timer;
 
   void Connections();
 

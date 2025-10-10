@@ -25,6 +25,12 @@ create_folder:
 app: create_folder	
 	@cmake -B build
 	@cmake --build build --target run_3dviewer --parallel $(NPROC)
+
+log:
+	@less -R logs/app.log
+
+gdb:
+	@cmake --build build --target run_gdb --parallel ${NPROC}
 	
 rv: create_folder
 	@cmake -B build -DCMAKE_BUILD_TYPE=Debug   

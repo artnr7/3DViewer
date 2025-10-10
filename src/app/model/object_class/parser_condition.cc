@@ -2,7 +2,7 @@
 
 bool s21::Object::IsFLine() { return *ofl_it_ == 'f'; }
 
-bool s21::Object::IsVLine() { return *ofl_it_ == 'v' && *(ofl_it_ + 1) == ' '; }
+bool s21::Object::IsVLine() { return *ofl_it_ == 'v' and *(ofl_it_ + 1) == ' '; }
 
 bool s21::Object::IsEndOfLine() { return ofl_it_ == eofl_it_; }
 

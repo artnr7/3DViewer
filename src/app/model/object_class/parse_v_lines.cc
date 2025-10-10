@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "object_class.hpp"
 
 void s21::Object::ParseVLine(PolyPcInT &vert_i, std::string &obj_file_line) {
@@ -27,7 +29,7 @@ void s21::Object::ParseVLineNums(VertIter &vert_it) {
 
   static long int i = 0;
   if (!i++) {
-    auto vert = vertices_.vertices;
+    auto &vert = vertices_.vertices;
 
     vert.min_x = vert_it->x;
     vert.max_x = vert_it->x;
@@ -35,6 +37,7 @@ void s21::Object::ParseVLineNums(VertIter &vert_it) {
     vert.max_y = vert_it->y;
     vert.min_z = vert_it->z;
     vert.max_z = vert_it->z;
+
   } else {
     FindMinMax(vert_it);
   }
@@ -54,7 +57,7 @@ void s21::Object::ParseNum(CoordT &coord) {
 }
 
 void s21::Object::FindMinMax(VertIter &vert_it) {
-  auto vert = vertices_.vertices;
+  auto &vert = vertices_.vertices;
   if (vert_it->x < vert.min_x) {
     vert.min_x = vert_it->x;
   }

@@ -3,7 +3,7 @@
 
 void s21::MainWindow::Connections() {
   temp_timer = new QTimer(this);
-  temp_timer->start(3000);
+  temp_timer->start(0);
 
   connect(temp_timer, &QTimer::timeout, this,
           &s21::MainWindow::CreateNewObjectImitated);
