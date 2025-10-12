@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-#include "menu_widget/menu_widget.hpp"
+#include "menu_widget/menu_widget.h"
 #include "object_viewer_widget/object_viewer_widget.hpp"
 
 namespace s21 {

@@ -1,7 +1,7 @@
 // Resolution 16:9
 
 #define PIXEL_BLOCK_SIZE 80  // HD
-#define OBJECTW_W_TO_MENUW_W_RATIO (16 - 3)
+#define OBJECTW_W_TO_MENUW_W_RATIO (16 - 4)
 // Main Window ---------------→
 #define INIT_AX_MAIN_WINDOW 400
 #define INIT_AY_MAIN_WINDOW 200

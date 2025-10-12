@@ -245,4 +245,17 @@ void ValueController::UpdateValueField() {
   value_field_->setText(QString::number(current_value_));
 }
 
+QSize ValueController::GetSize() const {
+  return widget_size_;
+}
+
+int ValueController::GetWidth() const {
+  return widget_size_.width();
+}
+
+int ValueController::GetHeight() const {
+  return widget_size_.height();
+}
+
+
 } // namespace s21

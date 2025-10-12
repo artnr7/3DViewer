@@ -8,6 +8,7 @@ class MenuWidget : public QWidget {
  private:
  public:
   MenuWidget(QWidget *parent = nullptr);
+  void SetupUI();
 };
 }  // namespace s21
 

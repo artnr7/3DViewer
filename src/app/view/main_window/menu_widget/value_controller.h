@@ -5,6 +5,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QWidget>
+#include <qsize.h>
 
 namespace s21 {
 
@@ -12,12 +13,15 @@ class ValueController : public QWidget {
   Q_OBJECT
 
  public:
-  explicit ValueController(int width = 160, int height = 65,
+  explicit ValueController(int width = 100, int height = 40,
                            QWidget* parent = nullptr);
 
   int GetCurrentValue() const;
   int GetMaxValue() const;
   int GetMinValue() const;
+  QSize GetSize() const;
+  int GetWidth() const;
+  int GetHeight() const;
 
  private:
   void SetupUI();
