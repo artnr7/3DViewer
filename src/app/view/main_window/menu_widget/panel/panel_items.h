@@ -11,7 +11,7 @@ namespace s21 {
 class PanelItem: public QWidget {
   Q_OBJECT
  public:
-  explicit PanelItem(const QString& name, QWidget* parent = nullptr);
+  explicit PanelItem(const QString& name, int font_size, QWidget* parent = nullptr);
  protected:
   QLabel* name_label_;
 };
@@ -19,7 +19,9 @@ class PanelItem: public QWidget {
 class PanelItemValueController: public PanelItem {
   Q_OBJECT
  public:
-  explicit PanelItemValueController(const QString& name, Qt::Orientation orientation, QWidget* parent);
+  explicit PanelItemValueController(const QString& name,
+                                    int width, int height, int font_size,
+                                    Qt::Orientation orientation, QWidget* parent);
  private:
   ValueController* valcontroll_;
 };

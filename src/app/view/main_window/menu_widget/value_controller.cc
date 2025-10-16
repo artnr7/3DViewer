@@ -24,7 +24,7 @@ void ValueController::SetupUI() {
   setStyleSheet("background-color: transparent;");
   setFocusPolicy(Qt::StrongFocus);
 
-  const int container_border_radius = 10;
+  const int container_border_radius = 5;
 
   QWidget* container = new QWidget(this);
   container->setFixedSize(widget_size_);

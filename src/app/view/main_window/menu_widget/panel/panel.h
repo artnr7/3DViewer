@@ -17,6 +17,7 @@ class SubPanel : public QWidget {
 public:
   explicit SubPanel(const QString &name, QWidget *parent = nullptr);
   void AddItem(PanelItem *item);
+  int GetWidth() const;
 private:
   QLabel* name_label_;
   QHBoxLayout* items_layout_;

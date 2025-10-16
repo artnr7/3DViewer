@@ -30,8 +30,13 @@ void SubPanel::AddItem(PanelItem* item) {
   items_layout_->addWidget(item);
 }
 
+int SubPanel::GetWidth() const {
+  return items_layout_->geometry().width();
+}
+
 Panel::Panel(const QString &name, QWidget *parent)
   : QWidget(parent) {
+//  this->setContentsMargins(0, 0, 0, 0);
 
   QWidget* container = new QWidget();
   container->setObjectName("panel_container");
@@ -49,12 +54,14 @@ Panel::Panel(const QString &name, QWidget *parent)
     QLabel {
       background-color: transparent;
       color: white;
-      fonr-weight: bold;
+      font-weight: bold;
       font-size: 14px;
     }
   )");
 
   main_layout_ = new QVBoxLayout(container);
+  main_layout_->setContentsMargins(0, 0, 0, 0);
+  main_layout_->setSpacing(0);
   main_layout_->addWidget(panel_name_label_);
 
   QVBoxLayout* outer_layout = new QVBoxLayout(this);
