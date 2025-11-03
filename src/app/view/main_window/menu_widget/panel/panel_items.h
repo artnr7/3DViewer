@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QLabel>
+#include <qpushbutton.h>
 #include "../value_controller.h"
 #include "../button/double_button_base.h"
 
@@ -35,6 +36,15 @@ class PanelItemDoubleButton: public PanelItem {
                                  QWidget* parent);
  private:
   DoubleButtonBase* dbutton_;
+};
+
+class PanelItemFileManagment: public PanelItem {
+  Q_OBJECT
+ public:
+  explicit PanelItemFileManagment(int width, int height,
+                                  QWidget* parent);
+ private:
+  QPushButton* open_button_;
 };
 
 } // namespace s21

@@ -84,6 +84,10 @@ void s21::MenuWidget::SetupUI() {
 
   // FILES PANEL //
   Panel* files_panel = new Panel("Files", this);
+  SubPanel* fi_pan = new SubPanel("", this);
+  fi_pan->AddItem(new PanelItemFileManagment(panel_width-20, item_height, this));
+
+  files_panel->AddMiniPanel(fi_pan);
 
   main_layout->addWidget(transform_panel);
   main_layout->addWidget(shading_panel);

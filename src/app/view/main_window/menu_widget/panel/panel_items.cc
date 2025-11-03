@@ -101,4 +101,77 @@ PanelItemDoubleButton::PanelItemDoubleButton(int width, int height,
   mainLayout->addWidget(container);
 }
 
+
+PanelItemFileManagment::PanelItemFileManagment(int width, int height,
+                                               QWidget* parent)
+  : PanelItem("", parent) {
+
+  QWidget* container = new QWidget(this);
+  container->setFixedSize(width, height);
+
+  QHBoxLayout* layout = new QHBoxLayout(container);
+
+  QPushButton* open_button_ = new QPushButton("Open", this);
+  open_button_->setFixedSize(width/3, height);
+  open_button_->setStyleSheet(R"(
+      QPushButton {
+        background-color: #5A5A5A;
+        color: white;
+        border: 1px solid #7A7A7A;
+        font-size: 12px;
+        border-radius: 4px;
+      }
+      QPushButton:hover {
+        background-color: #484848;
+      }
+      QPushButton:pressed {
+        background-color: #404040;
+      }
+    )");
+
+  QLabel* plainTextLabel = new QLabel("File name:", this);
+  plainTextLabel->setFixedSize(width/3, height * 0.7);
+  plainTextLabel->setStyleSheet(R"(
+      QLabel {
+        background-color: transparent;
+        color: white;
+        border: none;
+        font-size: 12px;
+        padding: 5px;
+      }
+    )");
+  plainTextLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+
+  QLabel* framedTextLabel = new QLabel("majorswe_dog", this);
+  framedTextLabel->setFixedSize(width, height);
+  framedTextLabel->setStyleSheet(R"(
+    QLabel {
+      background-color: #202020;
+      color: white;
+      border: 1px solid #606060;
+      border-radius: 2px;
+      font-size: 12px;
+      padding: 2px;
+    }
+  )");
+  framedTextLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+
+  layout->addWidget(open_button_);
+  layout->addWidget(plainTextLabel);
+  layout->addWidget(framedTextLabel);
+
+  layout->setAlignment(open_button_, Qt::AlignLeft);
+
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->setSpacing(0);
+
+  container->setStyleSheet(R"(
+    border: 1px solid white;
+  )");
+
+  QLayout* mainLayout = new QVBoxLayout(this);
+  mainLayout->setContentsMargins(0, 0, 0, 0);
+  mainLayout->addWidget(container);
+}
+
 } // namespace s21
