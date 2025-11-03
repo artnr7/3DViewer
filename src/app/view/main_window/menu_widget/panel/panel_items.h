@@ -5,13 +5,14 @@
 #include <QPushButton>
 #include <QLabel>
 #include "../value_controller.h"
+#include "../button/double_button_base.h"
 
 namespace s21 {
 
 class PanelItem: public QWidget {
   Q_OBJECT
  public:
-  explicit PanelItem(const QString& name, int font_size, QWidget* parent = nullptr);
+  explicit PanelItem(const QString& name, QWidget* parent = nullptr);
  protected:
   QLabel* name_label_;
 };
@@ -20,12 +21,21 @@ class PanelItemValueController: public PanelItem {
   Q_OBJECT
  public:
   explicit PanelItemValueController(const QString& name,
-                                    int width, int height, int font_size,
+                                    int width, int height,
                                     Qt::Orientation orientation, QWidget* parent);
  private:
   ValueController* valcontroll_;
 };
 
+class PanelItemDoubleButton: public PanelItem {
+  Q_OBJECT
+ public:
+  explicit PanelItemDoubleButton(int width, int height,
+                                 bool is_exclusive,
+                                 QWidget* parent);
+ private:
+  DoubleButtonBase* dbutton_;
+};
 
 } // namespace s21
 

@@ -11,16 +11,18 @@ SubPanel::SubPanel(const QString &name, QWidget *parent)
 
   QVBoxLayout* main_layout = new QVBoxLayout(this);
 
-  name_label_ = new QLabel(name);
-  name_label_->setStyleSheet(R"(
-    QLabel {
-      background-color: transparent;
-      color: white;
-      font-size: 14px;
-    }
-  )");
+  if (!name.isEmpty()) {
+    name_label_ = new QLabel(name);
+    name_label_->setStyleSheet(R"(
+      QLabel {
+        background-color: transparent;
+        color: white;
+        font-size: 14px;
+      }
+    )");
 
-  main_layout->addWidget(name_label_);
+    main_layout->addWidget(name_label_);
+  }
 
   items_layout_ = new QHBoxLayout();
   main_layout->addLayout(items_layout_);

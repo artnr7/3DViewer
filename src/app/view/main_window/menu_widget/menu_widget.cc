@@ -1,6 +1,7 @@
 #include "menu_widget.h"
 #include "../config.hpp"
 #include "panel/panel.h"
+#include "panel/panel_items.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -36,17 +37,16 @@ void s21::MenuWidget::SetupUI() {
   int panel_width = INIT_W_MENU_WIDGET - 20;
   int item_height = 43;
   int item_width = panel_width * 0.3;
-  int font_size = item_height * 0.3;
 
-  translation->AddItem(new PanelItemValueController("x", item_width, item_height, font_size, Qt::Vertical, this));
-  translation->AddItem(new PanelItemValueController("y", item_width, item_height, font_size, Qt::Vertical, this));
-  translation->AddItem(new PanelItemValueController("z", item_width, item_height, font_size, Qt::Vertical, this));
+  translation->AddItem(new PanelItemValueController("x", item_width, item_height, Qt::Vertical, this));
+  translation->AddItem(new PanelItemValueController("y", item_width, item_height, Qt::Vertical, this));
+  translation->AddItem(new PanelItemValueController("z", item_width, item_height, Qt::Vertical, this));
 
-  rotation->AddItem(new PanelItemValueController("x", item_width, item_height, font_size, Qt::Vertical, this));
-  rotation->AddItem(new PanelItemValueController("y", item_width, item_height, font_size, Qt::Vertical, this));
-  rotation->AddItem(new PanelItemValueController("z", item_width, item_height, font_size, Qt::Vertical, this));
+  rotation->AddItem(new PanelItemValueController("x", item_width, item_height, Qt::Vertical, this));
+  rotation->AddItem(new PanelItemValueController("y", item_width, item_height, Qt::Vertical, this));
+  rotation->AddItem(new PanelItemValueController("z", item_width, item_height, Qt::Vertical, this));
 
-  scale->AddItem(new PanelItemValueController("z", item_width, item_height, font_size, Qt::Vertical, this));
+  scale->AddItem(new PanelItemValueController("z", item_width, item_height, Qt::Vertical, this));
 
   transform_panel->AddMiniPanel(translation);
   transform_panel->AddMiniPanel(rotation);
@@ -58,8 +58,8 @@ void s21::MenuWidget::SetupUI() {
   SubPanel* edges = new SubPanel("Edges", this);
   SubPanel* background = new SubPanel("Background", this);
 
-  vertices->AddItem(new PanelItemValueController("size", item_width, item_height, font_size, Qt::Vertical, this));
-  edges->AddItem(new PanelItemValueController("size", item_width, item_height, font_size, Qt::Vertical, this));
+  vertices->AddItem(new PanelItemValueController("size", item_width, item_height, Qt::Vertical, this));
+  edges->AddItem(new PanelItemValueController("size", item_width, item_height, Qt::Vertical, this));
 
   shading_panel->AddMiniPanel(vertices);
   shading_panel->AddMiniPanel(edges);
@@ -67,9 +67,20 @@ void s21::MenuWidget::SetupUI() {
 
   // PROJECTION PANEL //
   Panel* projection_panel = new Panel("Projection", this);
+  SubPanel* pr_pan = new SubPanel("", this);
+
+  pr_pan->AddItem(new PanelItemDoubleButton(panel_width-20, item_height, true, this));
+
+  projection_panel->AddMiniPanel(pr_pan);
 
   // RENDER PANEL //
   Panel* render_panel = new Panel("Render", this);
+  SubPanel* re_pan = new SubPanel("", this);
+
+  re_pan->AddItem(new PanelItemDoubleButton(panel_width-20, item_height, false, this));
+
+  render_panel->AddMiniPanel(re_pan);
+
 
   // FILES PANEL //
   Panel* files_panel = new Panel("Files", this);
