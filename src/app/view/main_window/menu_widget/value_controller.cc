@@ -30,8 +30,8 @@ void ValueController::SetupUI() {
   container->setFixedSize(widget_size_);
   container->setStyleSheet(CreateContainerStyle(container_border_radius));
 
-  int arrwo_font_size = widget_size_.height() * 0.4;
-  int value_font_size = widget_size_.height() * 0.4;
+  int arrwo_font_size = widget_size_.height() * 0.6;
+  int value_font_size = widget_size_.height() * 0.6;
   int button_width = widget_size_.width() * 0.15;
   int button_height = widget_size_.height();
   int element_height = widget_size_.height() * 0.9;

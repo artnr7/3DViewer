@@ -1,7 +1,7 @@
 #include "panel.h"
+#include "../../config.hpp"
 #include <qboxlayout.h>
 #include <qlabel.h>
-#include <qnamespace.h>
 #include <qwidget.h>
 
 namespace s21 {
@@ -38,7 +38,7 @@ int SubPanel::GetWidth() const {
 
 Panel::Panel(const QString &name, QWidget *parent)
   : QWidget(parent) {
-//  this->setContentsMargins(0, 0, 0, 0);
+//  this->setContentsMargins(0, 10, 0, 10);
 
   QWidget* container = new QWidget();
   container->setObjectName("panel_container");
@@ -62,16 +62,58 @@ Panel::Panel(const QString &name, QWidget *parent)
   )");
 
   main_layout_ = new QVBoxLayout(container);
-  main_layout_->setContentsMargins(0, 0, 0, 0);
+  main_layout_->setContentsMargins(0, 10, 0, 0);
   main_layout_->setSpacing(0);
   main_layout_->addWidget(panel_name_label_);
 
   QVBoxLayout* outer_layout = new QVBoxLayout(this);
+  outer_layout->setContentsMargins(0, 0, 0, 0);
+  outer_layout->setSpacing(0);
   outer_layout->addWidget(container);
 }
 
 void Panel::AddMiniPanel(SubPanel* mini_panel) {
   main_layout_->addWidget(mini_panel);
+}
+
+
+ToolBar::ToolBar(int width, int height, QWidget *parent)
+  : QWidget(parent) {
+
+  setFixedSize(width, height);
+
+  QVBoxLayout* main_layout_ = new QVBoxLayout(this);
+  main_layout_->setContentsMargins(0, 0, 0, 0);
+  main_layout_->setSpacing(0);
+
+  background_ = new QWidget(this);
+  background_->setStyleSheet(R"(
+      background-color: #2C2B2B;
+    )");
+  main_layout_->addWidget(background_);
+
+  layout_ = new QVBoxLayout(background_);
+  int space = 10;
+  layout_->setContentsMargins(space, space, space, space);
+  layout_->setSpacing(8);
+}
+
+void ToolBar::AddPanel(Panel* panel) {
+  layout_->addWidget(panel);
+}
+
+StatusBar::StatusBar(int width, int height, QWidget *parent)
+  : QWidget(parent) {
+  setFixedSize(width, height);
+  setStyleSheet("background-color: #3D3D3D;");
+
+  QVBoxLayout* layout = new QVBoxLayout(this);
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->setSpacing(0);
+}
+
+void StatusBar::AddPanel(Panel* panel) {
+  layout()->addWidget(panel);
 }
 
 } // namespace s21

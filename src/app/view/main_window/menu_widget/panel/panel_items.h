@@ -23,7 +23,7 @@ class PanelItemValueController: public PanelItem {
  public:
   explicit PanelItemValueController(const QString& name,
                                     int width, int height,
-                                    Qt::Orientation orientation, QWidget* parent);
+                                    Qt::Orientation orientation, QWidget* parent = nullptr);
  private:
   ValueController* valcontroll_;
 };
@@ -33,7 +33,7 @@ class PanelItemDoubleButton: public PanelItem {
  public:
   explicit PanelItemDoubleButton(int width, int height,
                                  bool is_exclusive,
-                                 QWidget* parent);
+                                 QWidget* parent = nullptr);
  private:
   DoubleButtonBase* dbutton_;
 };
@@ -42,7 +42,7 @@ class PanelItemFileManagment: public PanelItem {
   Q_OBJECT
  public:
   explicit PanelItemFileManagment(int width, int height,
-                                  QWidget* parent);
+                                  QWidget* parent = nullptr);
  private:
   QPushButton* open_button_;
 };

@@ -32,7 +32,7 @@ PanelItemValueController::PanelItemValueController(const QString& name,
                                                    Qt::Orientation orientation, QWidget* parent)
   : PanelItem(name, parent) {
 
-  int font_size = height * 0.3;
+  int font_size = height * 0.4;
   QWidget* container = new QWidget(this);
   container->setFixedSize(width, height);
 
@@ -41,7 +41,7 @@ PanelItemValueController::PanelItemValueController(const QString& name,
       background-color: transparent;
       border: none;
       color: white;
-      font-size: 10px;
+      font-size: 15px;
     }
   )").arg(font_size));
 
@@ -65,6 +65,7 @@ PanelItemValueController::PanelItemValueController(const QString& name,
 
   container->setStyleSheet(R"(
     border: 1px solid white;
+    background-color: transparent;
   )");
 
   QLayout* mainLayout = new QVBoxLayout(this);
@@ -94,6 +95,7 @@ PanelItemDoubleButton::PanelItemDoubleButton(int width, int height,
 
   container->setStyleSheet(R"(
     border: 1px solid white;
+    background-color: transparent;
   )");
 
   QLayout* mainLayout = new QVBoxLayout(this);
@@ -136,29 +138,42 @@ PanelItemFileManagment::PanelItemFileManagment(int width, int height,
         background-color: transparent;
         color: white;
         border: none;
-        font-size: 12px;
+        font-size: 15px;
         padding: 5px;
       }
     )");
   plainTextLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
 
-  QLabel* framedTextLabel = new QLabel("majorswe_dog", this);
-  framedTextLabel->setFixedSize(width, height);
-  framedTextLabel->setStyleSheet(R"(
-    QLabel {
-      background-color: #202020;
-      color: white;
-      border: 1px solid #606060;
-      border-radius: 2px;
-      font-size: 12px;
-      padding: 2px;
-    }
+  QWidget* textContainer = new QWidget(this);
+  textContainer->setFixedSize(width, height);
+  textContainer->setStyleSheet(R"(
+      QWidget {
+          background-color: #202020;
+          border: 1px solid #606060;
+          border-radius: 2px;
+      }
   )");
+
+  QHBoxLayout* textLayout = new QHBoxLayout(textContainer);
+  textLayout->setContentsMargins(2, 2, 2, 2);
+
+  QLabel* framedTextLabel = new QLabel("majorswe_dogывппвыладлыдавларолоыаврло", textContainer);
+  framedTextLabel->setStyleSheet(R"(
+      QLabel {
+          background-color: transparent;
+          color: white;
+          border: none;
+          font-size: 12px;
+          padding: 4px;
+      }
+    )");
   framedTextLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 
   layout->addWidget(open_button_);
   layout->addWidget(plainTextLabel);
-  layout->addWidget(framedTextLabel);
+  textLayout->addWidget(framedTextLabel);
+
+  layout->addWidget(textContainer);
 
   layout->setAlignment(open_button_, Qt::AlignLeft);
 
@@ -167,6 +182,7 @@ PanelItemFileManagment::PanelItemFileManagment(int width, int height,
 
   container->setStyleSheet(R"(
     border: 1px solid white;
+    background-color: transparent;
   )");
 
   QLayout* mainLayout = new QVBoxLayout(this);

@@ -9,11 +9,14 @@
 #include <QFrame>
 #include <QPushButton>
 #include <QDebug>
+#include <qboxlayout.h>
+#include <qlabel.h>
+#include <qwidget.h>
 
 s21::MenuWidget::MenuWidget(QWidget *parent)
   : QWidget(parent) {
-  setStyleSheet("background-color: #2C2B2B; color: white;");
   setFixedSize(INIT_W_MENU_WIDGET, INIT_H_MENU_WIDGET);
+  setContentsMargins(0, 0, 0, 0);
   SetupUI();
 }
 
@@ -23,76 +26,80 @@ void s21::MenuWidget::SetupUI() {
   main_layout->setSpacing(spacing);
   main_layout->setContentsMargins(spacing, spacing, spacing, spacing);
 
-  // TRANSFORM PANEL //
-  Panel* transform_panel = new Panel("Transform", this);
-  SubPanel* translation = new SubPanel("Translation", this);
-  SubPanel* rotation = new SubPanel("Rotation", this);
-  SubPanel* scale = new SubPanel("Scale", this);
+  const int status_bar_h = 30;
+  ToolBar* tool_bar = new ToolBar(INIT_W_MENU_WIDGET, INIT_H_MENU_WIDGET - status_bar_h, this);
 
-  // int panel_width = transform_panel->width();
-  // int item_width = panel_width * 0.9;
-  // int item_height = transform_panel->height();
-  // int font_size = item_height*0.4;
+  // TRANSFORM PANEL //
+  Panel* transform_panel = new Panel("Transform", tool_bar);
+
+  SubPanel* translation = new SubPanel("Translation");
+  SubPanel* rotation = new SubPanel("Rotation");
+  SubPanel* scale = new SubPanel("Scale");
 
   int panel_width = INIT_W_MENU_WIDGET - 20;
-  int item_height = 43;
+  int item_height = 44;
   int item_width = panel_width * 0.3;
 
-  translation->AddItem(new PanelItemValueController("x", item_width, item_height, Qt::Vertical, this));
-  translation->AddItem(new PanelItemValueController("y", item_width, item_height, Qt::Vertical, this));
-  translation->AddItem(new PanelItemValueController("z", item_width, item_height, Qt::Vertical, this));
+  translation->AddItem(new PanelItemValueController("x", item_width, item_height, Qt::Vertical));
+  translation->AddItem(new PanelItemValueController("y", item_width, item_height, Qt::Vertical));
+  translation->AddItem(new PanelItemValueController("z", item_width, item_height, Qt::Vertical));
 
-  rotation->AddItem(new PanelItemValueController("x", item_width, item_height, Qt::Vertical, this));
-  rotation->AddItem(new PanelItemValueController("y", item_width, item_height, Qt::Vertical, this));
-  rotation->AddItem(new PanelItemValueController("z", item_width, item_height, Qt::Vertical, this));
+  rotation->AddItem(new PanelItemValueController("x", item_width, item_height, Qt::Vertical));
+  rotation->AddItem(new PanelItemValueController("y", item_width, item_height, Qt::Vertical));
+  rotation->AddItem(new PanelItemValueController("z", item_width, item_height, Qt::Vertical));
 
-  scale->AddItem(new PanelItemValueController("z", item_width, item_height, Qt::Vertical, this));
+  scale->AddItem(new PanelItemValueController("z", item_width, item_height, Qt::Vertical));
 
   transform_panel->AddMiniPanel(translation);
   transform_panel->AddMiniPanel(rotation);
   transform_panel->AddMiniPanel(scale);
 
   // SHADING PANEL //
-  Panel* shading_panel = new Panel("Shading", this);
-  SubPanel* vertices = new SubPanel("Vertices", this);
-  SubPanel* edges = new SubPanel("Edges", this);
-  SubPanel* background = new SubPanel("Background", this);
+  Panel* shading_panel = new Panel("Shading");
+  SubPanel* vertices = new SubPanel("Vertices");
+  SubPanel* edges = new SubPanel("Edges");
+  SubPanel* background = new SubPanel("Background");
 
-  vertices->AddItem(new PanelItemValueController("size", item_width, item_height, Qt::Vertical, this));
-  edges->AddItem(new PanelItemValueController("size", item_width, item_height, Qt::Vertical, this));
+  vertices->AddItem(new PanelItemValueController("size", item_width, item_height, Qt::Vertical));
+  edges->AddItem(new PanelItemValueController("size", item_width, item_height, Qt::Vertical));
 
   shading_panel->AddMiniPanel(vertices);
   shading_panel->AddMiniPanel(edges);
   shading_panel->AddMiniPanel(background);
 
   // PROJECTION PANEL //
-  Panel* projection_panel = new Panel("Projection", this);
-  SubPanel* pr_pan = new SubPanel("", this);
+  Panel* projection_panel = new Panel("Projection");
+  SubPanel* pr_pan = new SubPanel("");
 
-  pr_pan->AddItem(new PanelItemDoubleButton(panel_width-20, item_height, true, this));
+  pr_pan->AddItem(new PanelItemDoubleButton(panel_width-20, item_height, true));
 
   projection_panel->AddMiniPanel(pr_pan);
 
   // RENDER PANEL //
-  Panel* render_panel = new Panel("Render", this);
-  SubPanel* re_pan = new SubPanel("", this);
+  Panel* render_panel = new Panel("Render");
+  SubPanel* re_pan = new SubPanel("");
 
-  re_pan->AddItem(new PanelItemDoubleButton(panel_width-20, item_height, false, this));
+  re_pan->AddItem(new PanelItemDoubleButton(panel_width-20, item_height, false));
 
   render_panel->AddMiniPanel(re_pan);
 
-
   // FILES PANEL //
-  Panel* files_panel = new Panel("Files", this);
-  SubPanel* fi_pan = new SubPanel("", this);
-  fi_pan->AddItem(new PanelItemFileManagment(panel_width-20, item_height, this));
+  Panel* files_panel = new Panel("Files");
+  SubPanel* fi_pan = new SubPanel("");
+  fi_pan->AddItem(new PanelItemFileManagment(panel_width-20, item_height));
 
   files_panel->AddMiniPanel(fi_pan);
 
-  main_layout->addWidget(transform_panel);
-  main_layout->addWidget(shading_panel);
-  main_layout->addWidget(projection_panel);
-  main_layout->addWidget(render_panel);
-  main_layout->addWidget(files_panel);
+  StatusBar* status_bar = new StatusBar(INIT_W_MENU_WIDGET, status_bar_h, this);
+  status_bar->AddPanel(new Panel("as"));
+
+  tool_bar->AddPanel(transform_panel);
+  tool_bar->AddPanel(shading_panel);
+  tool_bar->AddPanel(projection_panel);
+  tool_bar->AddPanel(render_panel);
+  tool_bar->AddPanel(files_panel);
+
+  main_layout->addWidget(tool_bar);
+  main_layout->addWidget(status_bar);
   main_layout->addStretch();
 }

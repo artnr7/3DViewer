@@ -5,8 +5,8 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QWidget>
-#include <qboxlayout.h>
-#include <qlabel.h>
+#include <QPainter>
+#include <QPainterPath>
 
 #include "panel_items.h"
 
@@ -24,7 +24,7 @@ private:
 };
 
 class Panel : public QWidget {
-  Q_OBJECT
+ Q_OBJECT
 
 public:
   explicit Panel(const QString &name, QWidget *parent = nullptr);
@@ -33,6 +33,25 @@ public:
 private:
   QLabel *panel_name_label_;
   QVBoxLayout *main_layout_;
+};
+
+class ToolBar : public QWidget {
+ Q_OBJECT
+
+ public:
+  explicit ToolBar(int width, int height, QWidget *parent = nullptr);
+  void AddPanel(Panel *panel);
+ private:
+  QVBoxLayout* layout_;
+  QWidget* background_;
+};
+
+class StatusBar : public QWidget {
+ Q_OBJECT
+
+ public:
+  explicit StatusBar(int width, int height, QWidget *parent = nullptr);
+  void AddPanel(Panel *panel);
 };
 
 } // namespace s21
