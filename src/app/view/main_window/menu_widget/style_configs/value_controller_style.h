@@ -5,6 +5,8 @@
 #include <QMargins>
 #include <QCursor>
 
+namespace s21 {
+
 struct ValueControllerStyle {
   const QMargins zero_margins{0, 0, 0, 0};
   const int zero_spacing = 0;
@@ -37,5 +39,7 @@ struct ValueControllerStyle {
   QCursor edit_cursor = Qt::IBeamCursor;
   QCursor drag_cursor = Qt::SizeHorCursor;
 };
+
+} // namespace s21
 
 #endif  // VALUE_CONTROLLER_STYLE_H_

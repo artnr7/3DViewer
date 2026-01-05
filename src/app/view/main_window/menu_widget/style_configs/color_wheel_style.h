@@ -4,6 +4,8 @@
 #include <QColor>
 #include <cmath>
 
+namespace s21 {
+
 struct ColorWheelStyle {
   // Size configuration
   int border_margin = 20;           // Margin from wheel to widget edge
@@ -35,5 +37,7 @@ struct ColorWheelStyle {
 
   bool use_antialiasing = true;
 };
+
+} // namespace s21
 
 #endif  // COLOR_WHEEL_STYLE_H_

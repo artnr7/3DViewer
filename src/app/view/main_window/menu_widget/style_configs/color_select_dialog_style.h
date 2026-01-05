@@ -4,6 +4,8 @@
 #include <QString>
 #include <QMargins>
 
+namespace s21 {
+
 struct ColorSelectionDialogStyle {
   QString background_color = "#3D3D3D";
   QString border_color = "#555555";
@@ -43,5 +45,7 @@ struct ColorSelectionDialogStyle {
   int max_rgb_value = 255;
   int spacing_between_controllers = 10;
 };
+
+} // namespace s21
 
 #endif  // COLOR_SELECT_DIALOG_STYLE_H_

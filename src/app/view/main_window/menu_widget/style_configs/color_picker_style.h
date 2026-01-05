@@ -3,6 +3,8 @@
 
 #include <QColor>
 
+namespace s21 {
+
 struct ColorPickerStyle {
   int outer_border_radius = 8;
   int inner_border_radius = 5;
@@ -15,5 +17,7 @@ struct ColorPickerStyle {
   int color_selection_dialog_width = 320;
   int color_selection_dialog_height = 450;
 };
+
+} // namespace s21
 
 #endif  // COLOR_PICKER_STYLE_H_

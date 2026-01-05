@@ -3,6 +3,8 @@
 
 #include <QColor>
 
+namespace s21 {
+
 struct BrightnessSliderStyle {
   // Brightness range configuration
   int brightness_min = 0;
@@ -37,5 +39,7 @@ struct BrightnessSliderStyle {
   int min_line_height = 6;
   int max_line_height = 15;
 };
+
+} // namespace s21
 
 #endif  // BRIGHTNESS_SLIDER_STYLE_H_

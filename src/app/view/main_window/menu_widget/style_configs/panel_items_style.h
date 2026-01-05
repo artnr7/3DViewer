@@ -4,6 +4,8 @@
 #include <QMargins>
 #include <QString>
 
+namespace s21 {
+
 struct PanelItemStyle {
   const QMargins zero_margins{0, 0, 0, 0};
   const int zero_spacing = 0;
@@ -17,5 +19,7 @@ struct PanelItemStyle {
   double font_size_ratio = label_hight_ratio - 0.1;
   int default_font_size = 10;
 };
+
+} // namespace s21
 
 #endif // PANEL_ITEMS_STYLE_H_
