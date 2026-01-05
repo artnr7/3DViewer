@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QLabel>
-#include <qpushbutton.h>
 #include "../value_controller.h"
 #include "../button/double_button_base.h"
 
