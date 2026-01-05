@@ -1,17 +1,15 @@
 #ifndef COMBOX_H
 #define COMBOX_H
 
-#include <QColor>
 #include <QIcon>
 #include <QLabel>
 #include <QWidget>
 #include <QListWidgetItem>
 #include <QVector>
 #include <QListWidget>
-#include <QEasingCurve>
 #include <QPropertyAnimation>
 
-#include "style_configs/combo_box_style.h"
+#include "../style_configs/combo_box_style.h"
 
 namespace s21 {
 

@@ -6,6 +6,7 @@
 #include <QLabel>
 #include "../value_controller.h"
 #include "../button/double_button_base.h"
+#include "../combobox/combo_box.h"
 
 namespace s21 {
 
@@ -44,6 +45,15 @@ class PanelItemFileManagment: public PanelItem {
                                   QWidget* parent = nullptr);
  private:
   QPushButton* open_button_;
+};
+
+class PanelItemComboBox: public PanelItem {
+  Q_OBJECT
+ public:
+  explicit PanelItemComboBox(const QString& name, int width, int height,
+                                  QWidget* parent = nullptr);
+ private:
+  CustomComboBox* combo_box_;
 };
 
 } // namespace s21

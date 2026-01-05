@@ -190,4 +190,36 @@ PanelItemFileManagment::PanelItemFileManagment(int width, int height,
   mainLayout->addWidget(container);
 }
 
+PanelItemComboBox::PanelItemComboBox(const QString& name, int width, int height,
+                                               QWidget* parent)
+  : PanelItem(name, parent) {
+
+  int font_size = height * 0.2;
+  QWidget* container = new QWidget(this);
+  container->setFixedSize(width, height);
+
+  name_label_->setStyleSheet(QString(R"(
+    QLabel {
+      border: none;
+      color: white;
+      font-size: %1px;
+      font-weight: bold;
+    }
+  )").arg(font_size));
+
+  QVBoxLayout* layout = new QVBoxLayout(container);
+  combo_box_ = new CustomComboBox(width, height*0.7);
+  name_label_->setAlignment(Qt::AlignCenter);
+  name_label_->setFixedWidth(width);
+  layout->addWidget(combo_box_);
+  layout->addWidget(name_label_);
+
+  layout->setContentsMargins(0, 0, 0, 0);
+  layout->setSpacing(0);
+
+  QLayout* mainLayout = new QVBoxLayout(this);
+  mainLayout->setContentsMargins(0, 0, 0, 0);
+  mainLayout->addWidget(container);
+}
+
 } // namespace s21

@@ -5,10 +5,8 @@
 
 #include "combo_box.h"
 
-#define DEFAULT_ITEM_BORDER 1
-#define HORIZONTAL_THRESHOLD 1.0
-
 namespace s21 {
+
 class CenterIconDelegate : public QStyledItemDelegate {
   Q_OBJECT
 
@@ -35,6 +33,7 @@ class CenterIconDelegate : public QStyledItemDelegate {
   const ComboBoxStyle* style_;
   const ComboBoxStyle::Color& colors_;
 };
+
 } // namespace s21
 
 
