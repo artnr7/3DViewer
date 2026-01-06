@@ -12,9 +12,10 @@ set(MODEL_FILES
   object_class/object_class.h
   object_class/types.h
 )
+register_format_sources(${MODEL_FILES})
+
 
 add_library(model_lib STATIC ${MODEL_FILES})
-register_format_sources(${MODEL_FILES})
 
 target_include_directories(model_lib PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}
@@ -23,3 +24,5 @@ target_include_directories(model_lib PUBLIC
 target_link_libraries(model_lib PRIVATE
   utils_lib
 )
+
+add_coverage_version(model_lib)
