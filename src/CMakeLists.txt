@@ -1,10 +1,7 @@
 cmake_minimum_required(VERSION 4.1.1)
-project(3dviewer VERSION 1.0.0 LANGUAGES CXX)
+project(3DViewer VERSION 1.0.0 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# glob_vars
+# Global variables
 include(cmake/utils/GlobVars.cmake)
 
 # find_packages
@@ -13,10 +10,24 @@ include(cmake/FindPackages.cmake)
 # clang-format
 include(cmake/targets/utils/formatting/FormatHelper.cmake)
 
-# linker to qt
-include(cmake/QtInterface.cmake)
+# linker to qt and gtest
+include(cmake/TargetLinkFunctions.cmake)
 
+# coverage
+include(cmake/Coverage.cmake)
+
+# build executable file
 add_subdirectory(app)
 
-# add fix and check clang-format targets
+# build tests
+add_subdirectory(tests)
+
+# add targets for clang-format and coverage
 create_format_target()
+create_coverage_target()
+
+# # GDB
+# include(cmake/targets/GDB.cmake)
+
+# # ############################# FORMAT
+# include(cmake/targets/utils/formatting/CMakeFormat.cmake)
