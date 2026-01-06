@@ -31,4 +31,4 @@ target_link_libraries(menu_widget_lib PRIVATE
   main_window_lib
 )
 
-add_qt_interface(menu_widget_lib)
+target_link_qt(menu_widget_lib)

@@ -21,4 +21,4 @@ target_link_libraries(main_window_lib PRIVATE
   utils_lib
 )
 
-add_qt_interface(main_window_lib)
+target_link_qt(main_window_lib)

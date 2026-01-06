@@ -12,7 +12,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
   utils_lib
 )
 
-add_qt_interface(${PROJECT_NAME})
+target_link_qt(${PROJECT_NAME})
 
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Werror -Wextra)
 

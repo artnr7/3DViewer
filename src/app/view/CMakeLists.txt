@@ -8,7 +8,7 @@ set(VIEW_FILES
 add_library(view_lib STATIC ${VIEW_FILES})
 register_format_sources(${VIEW_FILES})
 
-add_qt_interface(view_lib)
+target_link_qt(view_lib)
 
 add_subdirectory(main_window)
 

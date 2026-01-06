@@ -19,4 +19,4 @@ target_link_libraries(object_viewer_widget_lib PRIVATE
   main_window_lib
 )
 
-add_qt_interface(object_viewer_widget_lib)
+target_link_qt(object_viewer_widget_lib)
