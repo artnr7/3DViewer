@@ -9,10 +9,9 @@ macro(register_format_sources)
 endmacro()
 
 function(create_format_target)
-  find_program(CLANG_FORMAT "clang-format")
-
   if(CLANG_FORMAT AND ALL_PROJECT_SOURCES)
     list(REMOVE_DUPLICATES ALL_PROJECT_SOURCES)
+
     add_custom_target(fix-clang-format
       COMMAND ${CLANG_FORMAT} -i --style=Google ${ALL_PROJECT_SOURCES}
       COMMENT "Formatting ${ALL_PROJECT_SOURCES}"
@@ -24,5 +23,7 @@ function(create_format_target)
       COMMENT "Checking formatting"
       VERBATIM
     )
+
+    message(STATUS "Targets 'fix-clang-format' and 'check-clang-format' created")
   endif()
 endfunction()
