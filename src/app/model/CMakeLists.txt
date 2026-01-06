@@ -1,4 +1,4 @@
-add_library(model_lib STATIC
+set(MODEL_FILES
   model.cc
   model.h
 
@@ -12,6 +12,9 @@ add_library(model_lib STATIC
   object_class/object_class.h
   object_class/types.h
 )
+
+add_library(model_lib STATIC ${MODEL_FILES})
+register_format_sources(${MODEL_FILES})
 
 target_include_directories(model_lib PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}

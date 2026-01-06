@@ -10,12 +10,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
   model_lib
   view_lib
   utils_lib
-  Qt6::Core
-  Qt6::Widgets
-  Qt6::OpenGLWidgets
-  Qt6::OpenGL
-  Qt6::Gui
 )
+
+add_qt_interface(${PROJECT_NAME})
 
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Werror -Wextra)
 

@@ -4,17 +4,19 @@ project(3dviewer VERSION 1.0.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_STATIC_LIBRARY_PREFIX "")
+# glob_vars
+include(cmake/utils/GlobVars.cmake)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+# find_packages
+include(cmake/FindPackages.cmake)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets OpenGLWidgets OpenGL Gui)
+# clang-format
+include(cmake/targets/utils/formatting/FormatHelper.cmake)
 
+# linker to qt
 include(cmake/QtInterface.cmake)
 
 add_subdirectory(app)
+
+# add fix and check clang-format targets
+create_format_target()

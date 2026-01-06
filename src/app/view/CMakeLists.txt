@@ -1,8 +1,12 @@
-add_library(view_lib STATIC
+set(VIEW_FILES
   src/app.cc
   src/view.cc
   include/app.h
+  include/view.h
 )
+
+add_library(view_lib STATIC ${VIEW_FILES})
+register_format_sources(${VIEW_FILES})
 
 add_qt_interface(view_lib)
 
