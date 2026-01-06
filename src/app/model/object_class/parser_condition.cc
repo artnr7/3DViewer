@@ -1,4 +1,4 @@
-#include "object_class.hpp"
+#include "object_class.h"
 
 bool s21::Object::IsFLine() { return *ofl_it_ == 'f'; }
 

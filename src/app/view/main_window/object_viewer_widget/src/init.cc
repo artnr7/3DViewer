@@ -1,6 +1,6 @@
-#include "../../../../controller/controller.hpp"
-#include "../../config.hpp"
-#include "../object_viewer_widget.hpp"
+#include "controller.h"
+#include "config.h"
+#include "../object_viewer_widget.h"
 
 s21::ObjectViewerWidget::ObjectViewerWidget(QWidget *parent,
                                             const std::string &obj_filename)

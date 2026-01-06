@@ -1,5 +1,5 @@
 
-#include "../main_window.hpp"
+#include "main_window.h"
 
 void s21::MainWindow::Connections() {
   temp_timer = new QTimer(this);

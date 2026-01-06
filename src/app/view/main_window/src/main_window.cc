@@ -1,6 +1,5 @@
-#include "../main_window.hpp"
-
-#include "../config.hpp"
+#include "main_window.h"
+#include "config.h"
 
 s21::MainWindow::MainWindow() {
   setWindowTitle("3DViewer");

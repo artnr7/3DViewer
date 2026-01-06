@@ -1,5 +1,5 @@
-#include "utils/logger.hpp"
-#include "view/include/view.hpp"
+#include "logger.h"
+#include "view.h"
 
 std::unique_ptr<s21::Logger> s21::Logger::instance_ = nullptr;
 

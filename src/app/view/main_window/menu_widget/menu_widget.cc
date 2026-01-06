@@ -1,5 +1,5 @@
 #include "menu_widget.h"
-#include "../config.hpp"
+#include "config.h"
 #include "panel/panel.h"
 #include "panel/panel_items.h"
 

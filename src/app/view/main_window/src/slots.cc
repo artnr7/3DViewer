@@ -1,5 +1,5 @@
-#include "../../../utils/logger.hpp"
-#include "../main_window.hpp"
+#include "logger.h"
+#include "main_window.h"
 
 void s21::MainWindow::CreateNewObjectWidget(const std::string &obj_filename) {
   if (p_obj_v_wid_ != nullptr) {

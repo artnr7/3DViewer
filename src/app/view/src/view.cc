@@ -1,4 +1,4 @@
-#include "../include/view.hpp"
+#include "view.h"
 
 s21::View::View(int argc, char *argv[]) {app_ = new App(argc, argv); }
 

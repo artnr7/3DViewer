@@ -1,8 +1,9 @@
 #ifndef CONTROLLER_HPP_
 #define CONTROLLER_HPP_
 
-#include <QtOpenGL>
+// #include <QtOpenGL>
 #include <vector>
+#include <string>
 // #include "spdlog/spdlog.h"
 
 namespace s21 {

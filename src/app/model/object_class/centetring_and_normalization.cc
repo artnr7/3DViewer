@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <iostream>
 
-#include "object_class.hpp"
+#include "object_class.h"
 
 void s21::Object::ObjectCentering() {
   CoordT center_x = 0;

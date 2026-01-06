@@ -2,7 +2,7 @@
 #define MODEL_HPP_
 
 // #include "spdlog/spdlog.h"
-#include "object_class/object_class.hpp"
+#include "object_class/object_class.h"
 
 namespace s21 {
 class Model {

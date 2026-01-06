@@ -1,12 +1,10 @@
 #include "panel_items.h"
 
-#include "../button/exclusive_double_button.h"
-#include "../button/independent_double_button.h"
+#include "buttons/exclusive_double_button.h"
+#include "buttons/independent_double_button.h"
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <qnamespace.h>
-#include <qwidget.h>
 
 namespace s21 {
 

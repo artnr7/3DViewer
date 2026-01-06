@@ -1,4 +1,4 @@
-#include "../object_viewer_widget.hpp"
+#include "object_viewer_widget.h"
 
 void s21::ObjectViewerWidget::LoadShaders() {
   const char *vertex_shader_source = R"(

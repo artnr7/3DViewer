@@ -1,14 +1,16 @@
 #ifndef OBJECT_HPP_
 #define OBJECT_HPP_
-#include <QtOpenGL>
+
 #include <cctype>
 #include <fstream>
 #include <iostream>
 
+#include <memory>
+
 // #include "../model.hpp"
 // #include "../utils/exception.hpp"
 
-#include "types.hpp"
+#include "types.h"
 
 namespace s21 {
 

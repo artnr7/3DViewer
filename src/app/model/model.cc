@@ -1,6 +1,5 @@
-#include "model.hpp"
-
-#include "object_class/object_class.hpp"
+#include "model.h"
+#include "object_class/object_class.h"
 
 std::unique_ptr<s21::Model> s21::Model::instance = nullptr;
 

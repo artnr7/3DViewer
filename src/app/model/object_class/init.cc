@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "object_class.hpp"
+#include "object_class.h"
 
 s21::Object::Object(const std::string &obj_filename)
     : vertices_{},

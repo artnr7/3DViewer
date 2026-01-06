@@ -1,4 +1,4 @@
-#include "../include/app.hpp"
+#include "app.h"
 
 s21::App::App(int argc, char *argv[]) : QApplication(argc, argv) {
   QSurfaceFormat format;

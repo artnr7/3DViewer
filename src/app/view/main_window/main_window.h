@@ -4,7 +4,7 @@
 #include <QWidget>
 
 #include "menu_widget/menu_widget.h"
-#include "object_viewer_widget/object_viewer_widget.hpp"
+#include "object_viewer_widget/object_viewer_widget.h"
 
 namespace s21 {
 class MainWindow : public QWidget {

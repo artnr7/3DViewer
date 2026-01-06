@@ -1,7 +1,7 @@
 #ifndef VIEW_HPP_
 #define VIEW_HPP_
 
-#include "app.hpp"
+#include "app.h"
 
 namespace s21 {
 

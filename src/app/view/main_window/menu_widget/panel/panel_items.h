@@ -4,9 +4,9 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QLabel>
-#include "../value_controller.h"
-#include "../button/double_button_base.h"
-#include "../combobox/combo_box.h"
+#include "value_controller/value_controller.h"
+#include "buttons/double_button_base.h"
+#include "combobox/combo_box.h"
 
 namespace s21 {
 

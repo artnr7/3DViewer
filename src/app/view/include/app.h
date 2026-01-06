@@ -4,7 +4,7 @@
 #include <QApplication>
 #include <QtOpenGL>
 
-#include "../main_window/main_window.hpp"
+#include "main_window.h"
 
 namespace s21 {
 class App : public QApplication {

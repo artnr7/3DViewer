@@ -1,8 +1,5 @@
 #include "panel.h"
-#include "../../config.hpp"
-#include <qboxlayout.h>
-#include <qlabel.h>
-#include <qwidget.h>
+#include "config.h"
 
 namespace s21 {
 

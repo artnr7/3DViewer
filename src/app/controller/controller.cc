@@ -1,6 +1,6 @@
-#include "controller.hpp"
+#include "controller.h"
 
-#include "../model/model.hpp"
+#include "../model/model.h"
 // s21::Controller::Controller(std::string &obj_filename) {
 // [[maybe_unused]] s21::Model *model = new Model(obj_filename);
 // SetObjFilename(obj_filename);

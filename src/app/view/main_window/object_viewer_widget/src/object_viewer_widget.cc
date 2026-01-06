@@ -1,6 +1,5 @@
-#include "../object_viewer_widget.hpp"
-
-#include "../../../../controller/controller.hpp"
+#include "object_viewer_widget.h"
+#include "controller.h"
 
 #define TR_QTY 1
 void s21::ObjectViewerWidget::initializeGL() {

@@ -1,6 +1,6 @@
 #include <iomanip>
 
-#include "object_class.hpp"
+#include "object_class.h"
 
 size_t s21::Object::GetVerticesSize() {
   return vertices_.vertices.vertice_maps.size();
