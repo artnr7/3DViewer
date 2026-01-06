@@ -52,6 +52,7 @@ dkms.conf
 
 # custom 
 .vscode
+.cache
 src/logs
 src/build 
 *.o
