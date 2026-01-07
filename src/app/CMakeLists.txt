@@ -1,3 +1,5 @@
+register_format_cmake_file()
+
 add_executable(${PROJECT_NAME} 3dviewer.cc)
 
 add_subdirectory(controller)
@@ -14,4 +16,4 @@ target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Werror -Wextra)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
-register_format_cmake_file()
+add_assets_folder(${PROJECT_NAME})

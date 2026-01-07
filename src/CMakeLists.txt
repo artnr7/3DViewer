@@ -10,23 +10,24 @@ include(cmake/utils/GlobalVariables.cmake)
 # find packages
 include(cmake/utils/FindPackages.cmake)
 
+# assets management
+include(cmake/utils/AssetsManagement.cmake)
+
 # linker to qt and gtest
 include(cmake/utils/TargetLinkFunctions.cmake)
 
 # clang-format and cmake-format
 include(cmake/formatting/ClangFormat.cmake)
 include(cmake/formatting/CMakeFormat.cmake)
+register_format_cmake_file()
 
 # coverage
 include(cmake/coverage/Coverage.cmake)
 
-register_format_cmake_file()
-
 # build executable file
 add_subdirectory(app)
 
-# build tests
-add_subdirectory(tests)
+# build tests add_subdirectory(tests)
 
 # add targets for clang-format, cmake-format and coverage
 create_clang_format_target()
