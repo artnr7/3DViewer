@@ -5,6 +5,7 @@ set(CMAKE_FORMAT_UTILS_FILES
     "${CMAKE_CURRENT_LIST_DIR}/ClangFormat.cmake"
     "${CMAKE_CURRENT_LIST_DIR}/../coverage/Coverage.cmake"
     "${CMAKE_CURRENT_LIST_DIR}/../utils/FindPackages.cmake"
+    "${CMAKE_CURRENT_LIST_DIR}/../utils/AssetsManagement.cmake"
     "${CMAKE_CURRENT_LIST_DIR}/../utils/GlobalVariables.cmake"
     "${CMAKE_CURRENT_LIST_DIR}/../utils/TargetLinkFunctions.cmake")
 
