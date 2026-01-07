@@ -1,3 +1,5 @@
+include_guard()
+
 function(add_coverage_version LIB_NAME)
   if(NOT ENABLE_COVERAGE)
     return()
@@ -39,7 +41,7 @@ endfunction()
 function(target_add_coverage TARGET_NAME)
   if(ENABLE_COVERAGE)
     target_compile_options(${TARGET_NAME} PRIVATE --coverage -g -O0)
-    target_link_options(${TARGET_NAME}  PRIVATE --coverage)
+    target_link_options(${TARGET_NAME} PRIVATE --coverage)
   endif()
 endfunction()
 
@@ -53,14 +55,18 @@ function(target_link_libraries_with_coverage TEST_TARGET)
   endforeach()
 endfunction()
 
-set(COVERAGE_TESTS "" CACHE INTERNAL "Test targets for coverage")
+set(COVERAGE_TESTS
+    ""
+    CACHE INTERNAL "Test targets for coverage")
 
 macro(register_coverage_tests)
   foreach(TEST ${ARGN})
     list(APPEND COVERAGE_TESTS ${TEST})
     target_add_coverage(${TEST})
   endforeach()
-  set(COVERAGE_TESTS ${COVERAGE_TESTS} CACHE INTERNAL "")
+  set(COVERAGE_TESTS
+      ${COVERAGE_TESTS}
+      CACHE INTERNAL "")
 endmacro()
 
 function(create_coverage_target)
@@ -71,25 +77,29 @@ function(create_coverage_target)
 
   string(REPLACE ";" " " TESTS_FOR_BASH "${COVERAGE_TESTS}")
 
-  add_custom_target(coverage
+  add_custom_target(
+    coverage
     COMMAND echo "=== Cleaning old coverage data ==="
     COMMAND find ${CMAKE_BINARY_DIR} -name "*.gcda" -delete 2>/dev/null || true
-
     COMMAND echo "=== Rebuilding tests ==="
-    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target ${COVERAGE_TESTS}
-
+    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target
+            ${COVERAGE_TESTS}
     COMMAND echo "=== Running tests ==="
-    COMMAND bash -c "for test in ${TESTS_FOR_BASH}; do echo \"--- Running \$test ---\"; ${CMAKE_BINARY_DIR}/bin/\$test > /dev/null 2>&1 || true; done"
-
+    COMMAND
+      bash -c
+      "for test in ${TESTS_FOR_BASH}; do echo \"--- Running \$test ---\"; ${CMAKE_BINARY_DIR}/bin/\$test > /dev/null 2>&1 || true; done"
     COMMAND echo "=== Collecting coverage ==="
-    COMMAND ${LCOV} --capture --directory ${CMAKE_BINARY_DIR} --output-file ${CMAKE_BINARY_DIR}/coverage.info --ignore-errors mismatch,inconsistent
-
+    COMMAND
+      ${LCOV} --capture --directory ${CMAKE_BINARY_DIR} --output-file
+      ${CMAKE_BINARY_DIR}/coverage.info --ignore-errors mismatch,inconsistent
     COMMAND echo "=== Filtering coverage ==="
-    COMMAND ${LCOV} --remove ${CMAKE_BINARY_DIR}/coverage.info /usr/* */gtest/* --output-file ${CMAKE_BINARY_DIR}/coverage_filtered.info --ignore-errors inconsistent,unused
-
+    COMMAND
+      ${LCOV} --remove ${CMAKE_BINARY_DIR}/coverage.info /usr/* */gtest/*
+      --output-file ${CMAKE_BINARY_DIR}/coverage_filtered.info --ignore-errors
+      inconsistent,unused
     COMMAND echo "=== Generating HTML report ==="
-    COMMAND ${GENHTML} --output-directory ${CMAKE_BINARY_DIR}/coverage ${CMAKE_BINARY_DIR}/coverage_filtered.info
-
+    COMMAND ${GENHTML} --output-directory ${CMAKE_BINARY_DIR}/coverage
+            ${CMAKE_BINARY_DIR}/coverage_filtered.info
     COMMAND echo ""
     COMMAND echo "========================================"
     COMMAND echo "COVERAGE REPORT GENERATED"
@@ -97,21 +107,21 @@ function(create_coverage_target)
     COMMAND echo "Open: file://${CMAKE_BINARY_DIR}/coverage/index.html"
     COMMAND echo "Tests run: ${TESTS_FOR_BASH}"
     COMMAND echo "========================================"
-    COMMAND ${LCOV} --summary ${CMAKE_BINARY_DIR}/coverage_filtered.info 2>/dev/null | grep -E "lines|functions" || echo "No coverage data"
+    COMMAND ${LCOV} --summary ${CMAKE_BINARY_DIR}/coverage_filtered.info
+            2>/dev/null | grep -E "lines|functions" || echo "No coverage data"
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Generate code coverage report"
     COMMAND echo "========================================"
-    VERBATIM
-  )
+    VERBATIM)
 
-  add_custom_target(coverage-clean
+  add_custom_target(
+    coverage-clean
     COMMAND find ${CMAKE_BINARY_DIR} -name "*.gcda" -delete
     COMMAND find ${CMAKE_BINARY_DIR} -name "*.gcno" -delete
     COMMAND rm -rf ${CMAKE_BINARY_DIR}/coverage
     COMMAND rm -f ${CMAKE_BINARY_DIR}/coverage*.info
     COMMENT "Clean coverage data"
-    VERBATIM
-  )
+    VERBATIM)
 
   message(STATUS "Target 'coverage' created")
 endfunction()
