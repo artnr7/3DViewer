@@ -60,8 +60,17 @@ void s21::MenuWidget::SetupUI() {
   SubPanel* edges = new SubPanel("Edges");
   SubPanel* background = new SubPanel("Background");
 
+  PanelItemComboBox* pcmb1 = new PanelItemComboBox("style", item_width, item_height);
+  PanelItemComboBox* pcmb2 = new PanelItemComboBox("style", item_width, item_height);
+  pcmb1->SetArrows("assets/icons/open_arrow.png", "assets/icons/close_arrow.png");
+  pcmb1->AddItems("assets/icons/square.png", "assets/icons/circle.png");
+  pcmb2->SetArrows("assets/icons/open_arrow.png", "assets/icons/close_arrow.png");
+  pcmb2->AddItems("assets/icons/line.png", "assets/icons/line_dash.png");
+
   vertices->AddItem(new PanelItemValueController("size", item_width, item_height, Qt::Vertical));
+  vertices->AddItem(pcmb1);
   edges->AddItem(new PanelItemValueController("size", item_width, item_height, Qt::Vertical));
+  edges->AddItem(pcmb2);
 
   shading_panel->AddMiniPanel(vertices);
   shading_panel->AddMiniPanel(edges);

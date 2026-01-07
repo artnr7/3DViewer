@@ -52,6 +52,16 @@ class PanelItemComboBox: public PanelItem {
  public:
   explicit PanelItemComboBox(const QString& name, int width, int height,
                                   QWidget* parent = nullptr);
+  template <typename... Args>
+  void AddItems(Args&&... args) {
+    combo_box_->AddItems(std::forward<Args>(args)...);
+  }
+
+  void SetArrows(const QString& up_icon_path,
+                 const QString& down_icon_path) {
+    combo_box_->SetArrows(up_icon_path, down_icon_path);
+  }
+
  private:
   CustomComboBox* combo_box_;
 };

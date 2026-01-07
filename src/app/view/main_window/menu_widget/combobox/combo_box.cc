@@ -11,6 +11,9 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
+#include <QDebug>
+#include <QDir>
+
 #include "custom_delegate.h"
 #include "combo_box.h"
 
@@ -45,8 +48,14 @@ CustomComboBox::CustomComboBox(int width, int height, QWidget* parent)
 /* Arrow Icon Management */
 void CustomComboBox::SetArrows(const QString& up_icon_path,
                                const QString& down_icon_path) {
-  SetUpArrow(up_icon_path);
-  SetDownArrow(down_icon_path);
+  QString absolute_path_up = QDir::cleanPath(QCoreApplication::applicationDirPath() + "/../" + up_icon_path);
+  QString absolute_path_down = QDir::cleanPath(QCoreApplication::applicationDirPath() + "/../" + down_icon_path);
+  
+  qDebug() << "Absolute path up:" << absolute_path_up;
+  qDebug() << "Absolute path down :" << absolute_path_down;
+  
+  SetUpArrow(absolute_path_up);
+  SetDownArrow(absolute_path_down);
 }
 
 void CustomComboBox::SetUpArrow(const QString& up_icon_path) {
@@ -126,7 +135,16 @@ const ComboBoxStyle::Color& CustomComboBox::GetColor() const {
 
 /* Item management */
 void CustomComboBox::AddItem(const QString& icon_path) {
-  AddItem(QIcon(icon_path));
+  QString absolute_path = QDir::cleanPath(
+      QCoreApplication::applicationDirPath() +
+      "/../" +
+      icon_path
+  );
+  
+  qDebug() << "Original path:" << icon_path;
+  qDebug() << "Absolute path:" << absolute_path;
+  
+  AddItem(QIcon(absolute_path));
 }
 
 void CustomComboBox::AddItem(const QIcon& icon) {

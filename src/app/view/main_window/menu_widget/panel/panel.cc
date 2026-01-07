@@ -84,9 +84,12 @@ ToolBar::ToolBar(int width, int height, QWidget *parent)
   main_layout_->setSpacing(0);
 
   background_ = new QWidget(this);
+  setObjectName("ToolBar");
+  background_->setObjectName("ToolBarBackground");
   background_->setStyleSheet(R"(
+    #ToolBarBackground {
       background-color: #2C2B2B;
-    )");
+  })");
   main_layout_->addWidget(background_);
 
   layout_ = new QVBoxLayout(background_);

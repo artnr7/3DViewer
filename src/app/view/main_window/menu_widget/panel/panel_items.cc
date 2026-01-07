@@ -5,6 +5,7 @@
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QDir>
 
 namespace s21 {
 
@@ -192,7 +193,7 @@ PanelItemComboBox::PanelItemComboBox(const QString& name, int width, int height,
                                                QWidget* parent)
   : PanelItem(name, parent) {
 
-  int font_size = height * 0.2;
+  int font_size = height * 0.3;
   QWidget* container = new QWidget(this);
   container->setFixedSize(width, height);
 
@@ -207,6 +208,9 @@ PanelItemComboBox::PanelItemComboBox(const QString& name, int width, int height,
 
   QVBoxLayout* layout = new QVBoxLayout(container);
   combo_box_ = new CustomComboBox(width, height*0.7);
+  // combo_box_->SetArrows("open_arrow.png", "close_arrow.png");
+  // combo_box_->AddItems("square.png", "circle.png");
+
   name_label_->setAlignment(Qt::AlignCenter);
   name_label_->setFixedWidth(width);
   layout->addWidget(combo_box_);
@@ -217,6 +221,11 @@ PanelItemComboBox::PanelItemComboBox(const QString& name, int width, int height,
 
   QLayout* mainLayout = new QVBoxLayout(this);
   mainLayout->setContentsMargins(0, 0, 0, 0);
+
+  // container->setStyleSheet(R"(
+  //   border: 1px solid white;
+  //   background-color: transparent;
+  // )");
   mainLayout->addWidget(container);
 }
 
