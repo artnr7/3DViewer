@@ -3,6 +3,9 @@ ifeq ($(shell expr $(NPROC) \< 1), 1)
   NPROC := 1
 endif
 
+X11 := QT_QPA_PLATFORM=xcb
+PROTOCOL := $(X11)
+
 EXECUTABLE := 3DViewer
 BIN_DIR := build/bin
 
@@ -17,7 +20,7 @@ build: configure
 rebuild: clean build
 
 run: build
-	./$(BIN_DIR)/$(EXECUTABLE)
+	$(PROTOCOL) ./$(BIN_DIR)/$(EXECUTABLE)
 
 test: build
 	@ctest --test-dir build --parallel $(NPROC) --output-on-failure
