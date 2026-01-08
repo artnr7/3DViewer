@@ -4,75 +4,109 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 
-namespace s21 {
+namespace  s21 {
 
 ValueController::ValueController(int width, int height, QWidget* parent)
     : QWidget(parent),
-      current_value_(0),
-      min_value_(0),
-      max_value_(100),
-      step_size_(1),
-      step_speed_(15),
-      is_dragging_(false),
-      widget_size_(width, height) {
+      widget_size_(width, height),
+      style_{},
+      current_value_(style_.default_min_value),
+      min_value_(style_.default_min_value),
+      max_value_(style_.default_max_value),
+      step_size_(style_.default_step_size),
+      step_speed_(style_.default_step_speed),
+      is_dragging_(style_.default_dragging) {
   SetupUI();
-  SetupConntctions();
+  SetupConnections();
 }
 
+/* Value & Size Management Accessors*/
+int ValueController::GetCurrentValue() const { return current_value_; }
+
+int ValueController::GetWidth() const { return widget_size_.width(); }
+
+int ValueController::GetHeight() const { return widget_size_.height(); }
+
+QSize ValueController::GetSize() const { return widget_size_; }
+// Value & Size Management Accessors
+
+/* Value Management Mutators */
+void ValueController::SetCurrentValue(int value) {
+  if (current_value_ != value) {
+    current_value_ = qBound(min_value_, value, max_value_);
+    UpdateValueField();
+    emit CurrentValueChanged(current_value_);
+  }
+}
+
+void ValueController::SetMinValue(int value) { min_value_ = value; }
+
+void ValueController::SetMaxValue(int value) { max_value_ = value; }
+// Value Management Mutators
+
+/* Setup */
 void ValueController::SetupUI() {
   setFixedSize(widget_size_);
-  setStyleSheet("background-color: transparent;");
   setFocusPolicy(Qt::StrongFocus);
-
-  const int container_border_radius = 5;
 
   QWidget* container = new QWidget(this);
   container->setFixedSize(widget_size_);
-  container->setStyleSheet(CreateContainerStyle(container_border_radius));
+  container->setStyleSheet(CreateContainerStyle());
 
-  int arrwo_font_size = widget_size_.height() * 0.6;
-  int value_font_size = widget_size_.height() * 0.6;
-  int button_width = widget_size_.width() * 0.15;
+  int arrow_font_size = widget_size_.height() * style_.button_font_size_ratio;
+  int value_font_size = widget_size_.height() * style_.value_font_size_ratio;
+  int button_width = widget_size_.width() * style_.button_width_ratio;
   int button_height = widget_size_.height();
-  int element_height = widget_size_.height() * 0.9;
+  int field_height = widget_size_.height();
   int field_width = widget_size_.width() - 2 * button_width;
 
   main_layout_ = new QHBoxLayout(container);
-  main_layout_->setSpacing(0);
-  main_layout_->setContentsMargins(0, 0, 0, 0);
+  main_layout_->setContentsMargins(style_.zero_margins);
+  main_layout_->setSpacing(style_.zero_spacing);
   main_layout_->setAlignment(Qt::AlignCenter);
 
-  left_button_ = new QPushButton("<", container);
+  left_button_ = new QPushButton(style_.left_arrow_symbol, container);
   left_button_->setFixedSize(button_width, button_height);
   left_button_->setStyleSheet(CreateButtonStyle(
-      arrwo_font_size, container_border_radius, 0, container_border_radius, 0));
+      arrow_font_size, style_.container_border_radius, 0, style_.container_border_radius, 0));
 
   value_field_ = new QLineEdit(container);
-  value_field_->setFixedSize(field_width, element_height);
+  value_field_->setFixedSize(field_width, field_height);
   value_field_->setAlignment(Qt::AlignCenter);
   value_field_->setStyleSheet(CreateValueFieldStyle(value_font_size));
-  value_field_->setCursor(Qt::ArrowCursor);
+  value_field_->setCursor(style_.default_cursor);
   value_field_->installEventFilter(this);
-  value_field_->setText("0");
+  value_field_->setText(QString::number(min_value_));
   value_field_->setReadOnly(true);
 
-  right_button_ = new QPushButton(">", container);
+  right_button_ = new QPushButton(style_.right_arrow_symbol, container);
   right_button_->setFixedSize(button_width, button_height);
   right_button_->setStyleSheet(CreateButtonStyle(
-      arrwo_font_size, 0, container_border_radius, 0, container_border_radius));
+      arrow_font_size, 0, style_.container_border_radius, 0, style_.container_border_radius));
 
   main_layout_->addWidget(left_button_);
   main_layout_->addWidget(value_field_);
   main_layout_->addWidget(right_button_);
 }
 
-QString ValueController::CreateContainerStyle(int border_radius) const {
+void ValueController::SetupConnections() {
+  connect(left_button_, &QPushButton::clicked, this,
+          [this]() { SetCurrentValue(current_value_ - step_size_); });
+
+  connect(right_button_, &QPushButton::clicked, this,
+          [this]() { SetCurrentValue(current_value_ + step_size_); });
+}
+// Setup
+
+/* Style Management */
+QString ValueController::CreateContainerStyle() const {
   return QString(R"(
-    background-color: #545454;
+    background-color: %1;
     border: none;
-    border-radius: %1px;
+    border-radius: %2px;
   )")
-      .arg(border_radius);
+      .arg(style_.container_background)
+      .arg(style_.container_border_radius);
 }
 
 QString ValueController::CreateButtonStyle(int font_size, int radius_tl,
@@ -80,52 +114,53 @@ QString ValueController::CreateButtonStyle(int font_size, int radius_tl,
                                            int radius_br) const {
   return QString(R"(
     QPushButton {
-      background-color: transparent;
-      border: none;
-      font-size: %1px;
-      font-weight: bold;
-      color: white;
-      border-top-left-radius: %2px;
-      border-bottom-left-radius: %3px;
-      border-top-right-radius: %4px;
-      border-bottom-right-radius: %5px;
+      border: %1;
+      font-size: %2px;
+      font-weight: %3;
+      color: %4;
+      border-top-left-radius: %5px;
+      border-bottom-left-radius: %6px;
+      border-top-right-radius: %7px;
+      border-bottom-right-radius: %8px;
     }
     QPushButton:hover {
-      background-color: #484848;
+      background-color: %9;
     }
     QPushButton:pressed {
-      background-color: #404040;
+      background-color: %10;
     }
   )")
+      .arg(style_.element_border)
       .arg(font_size)
+      .arg(style_.font_weight)
+      .arg(style_.text_color)
       .arg(radius_tl)
       .arg(radius_bl)
       .arg(radius_tr)
-      .arg(radius_br);
+      .arg(radius_br)
+      .arg(style_.button_hover_background)
+      .arg(style_.button_pressed_background);
 }
 
 QString ValueController::CreateValueFieldStyle(int font_size) const {
   return QString(R"(
       QLineEdit {
-        background-color: transparent;
-        border: none;
-        font-size: %1px;
-        font-weight: bold;
-        color: white;
-        selection-background-color: #b0b0b0;
+        border: %1;
+        font-size: %2px;
+        font-weight: %3;
+        color: %4;
+        selection-background-color: %5;
       }
     )")
-      .arg(font_size);
+      .arg(style_.element_border)
+      .arg(font_size)
+      .arg(style_.font_weight)
+      .arg(style_.text_color)
+      .arg(style_.selection_background);
 }
+// Style Management
 
-void ValueController::SetupConntctions() {
-  connect(left_button_, &QPushButton::clicked, this,
-          [this]() { SetCurrentValue(current_value_ - step_size_); });
-
-  connect(right_button_, &QPushButton::clicked, this,
-          [this]() { SetCurrentValue(current_value_ + step_size_); });
-}
-
+/* Event Handlers */
 bool ValueController::eventFilter(QObject* obj, QEvent* event) {
   bool result{false};
   if (obj == value_field_) {
@@ -146,14 +181,16 @@ bool ValueController::eventFilter(QObject* obj, QEvent* event) {
 
   return result ? result : QWidget::eventFilter(obj, event);
 }
+// Event Handlers
 
+/* Internal Helpers */
 bool ValueController::MouseButtonDblClickEvent(QEvent* event) {
   QMouseEvent* mouse_event = static_cast<QMouseEvent*>(event);
   bool result{false};
   if (mouse_event->button() == Qt::LeftButton) {
     value_field_->setReadOnly(false);
     value_field_->setFocus();
-    value_field_->setCursor(Qt::IBeamCursor);
+    value_field_->setCursor(style_.edit_cursor);
     value_field_->selectAll();
     result = true;
   }
@@ -167,7 +204,7 @@ bool ValueController::MouseButtonPressEvent(QEvent* event) {
     is_dragging_ = true;
     drag_start_pos_ = mouse_event->globalPosition().toPoint();
     drag_start_value_ = current_value_;
-    value_field_->setCursor(Qt::SizeHorCursor);
+    value_field_->setCursor(style_.drag_cursor);
 
     result = true;
   }
@@ -187,27 +224,18 @@ bool ValueController::MouseMoveEvent(QEvent* event) {
   return true;
 }
 
-bool ValueController::FocusOutEvent() {
-  if (!value_field_->isReadOnly()) {
-    value_field_->setReadOnly(true);
-    value_field_->setCursor(Qt::ArrowCursor);
-    EditFinished();
-  }
-  return false;
-}
-
 bool ValueController::MouseButtonReleaseEvent() {
   is_dragging_ = false;
-  value_field_->setCursor(Qt::ArrowCursor);
+  value_field_->setCursor(style_.default_cursor);
   return true;
 }
 
 bool ValueController::KeyPressEvent(QEvent* event) {
   QKeyEvent* key_event = static_cast<QKeyEvent*>(event);
-  bool result{false};
+  bool result = false;
   if (key_event->key() == Qt::Key_Escape) {
     value_field_->setReadOnly(true);
-    value_field_->setCursor(Qt::ArrowCursor);
+    value_field_->setCursor(style_.default_cursor);
     value_field_->clearFocus();
     UpdateValueField();
     result = true;
@@ -215,10 +243,19 @@ bool ValueController::KeyPressEvent(QEvent* event) {
              key_event->key() == Qt::Key_Enter) {
     EditFinished();
     value_field_->setReadOnly(true);
-    value_field_->setCursor(Qt::ArrowCursor);
+    value_field_->setCursor(style_.default_cursor);
     result = true;
   }
   return result;
+}
+
+bool ValueController::FocusOutEvent() {
+  if (!value_field_->isReadOnly()) {
+    value_field_->setReadOnly(true);
+    value_field_->setCursor(style_.default_cursor);
+    EditFinished();
+  }
+  return false;
 }
 
 void ValueController::EditFinished() {
@@ -232,30 +269,12 @@ void ValueController::EditFinished() {
   value_field_->deselect();
   this->setFocus();
 }
+// Internal Helpers
 
-void ValueController::SetCurrentValue(int value) {
-  if (current_value_ != value) {
-    current_value_ = qBound(min_value_, value, max_value_);
-    UpdateValueField();
-    emit CurrentValueChanged(current_value_);
-  }
-}
-
+/* Value Management Update */
 void ValueController::UpdateValueField() {
   value_field_->setText(QString::number(current_value_));
 }
-
-QSize ValueController::GetSize() const {
-  return widget_size_;
-}
-
-int ValueController::GetWidth() const {
-  return widget_size_.width();
-}
-
-int ValueController::GetHeight() const {
-  return widget_size_.height();
-}
-
+// Value Management Update
 
 } // namespace s21

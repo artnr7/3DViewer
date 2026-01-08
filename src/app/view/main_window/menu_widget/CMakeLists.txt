@@ -10,6 +10,10 @@ set(MENU_WIDGET_FILES
     buttons/independent_double_button.cc
     combobox/combo_box.cc
     combobox/custom_delegate.cc
+    colordialog/brightness_slider.cc
+    colordialog/color_picker.cc
+    colordialog/color_select_dialog.cc
+    colordialog/color_wheel.cc
     menu_widget.h
     panel/panel.h
     panel/panel_items.h
@@ -18,7 +22,11 @@ set(MENU_WIDGET_FILES
     buttons/exclusive_double_button.h
     buttons/independent_double_button.h
     combobox/combo_box.h
-    combobox/custom_delegate.h)
+    combobox/custom_delegate.h
+    colordialog/brightness_slider.h
+    colordialog/color_picker.h
+    colordialog/color_select_dialog.h
+    colordialog/color_wheel.h)
 
 add_library(menu_widget_lib STATIC ${MENU_WIDGET_FILES})
 register_format_sources(${MENU_WIDGET_FILES})

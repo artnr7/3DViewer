@@ -69,8 +69,11 @@ void s21::MenuWidget::SetupUI() {
 
   vertices->AddItem(new PanelItemValueController("size", item_width, item_height, Qt::Vertical));
   vertices->AddItem(pcmb1);
+  vertices->AddItem(new PanelItemColorPicker("color", item_width, item_height));
+
   edges->AddItem(new PanelItemValueController("size", item_width, item_height, Qt::Vertical));
   edges->AddItem(pcmb2);
+  edges->AddItem(new PanelItemColorPicker("color", item_width, item_height));
 
   shading_panel->AddMiniPanel(vertices);
   shading_panel->AddMiniPanel(edges);

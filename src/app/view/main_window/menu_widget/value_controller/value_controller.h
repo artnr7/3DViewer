@@ -5,9 +5,10 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QWidget>
-#include <qsize.h>
 
-namespace s21 {
+#include "style_configs/value_controller_style.h"
+
+namespace  s21 {
 
 class ValueController : public QWidget {
   Q_OBJECT
@@ -16,40 +17,54 @@ class ValueController : public QWidget {
   explicit ValueController(int width = 100, int height = 40,
                            QWidget* parent = nullptr);
 
+  /* Value & Size Management Accessors */
   int GetCurrentValue() const;
-  int GetMaxValue() const;
-  int GetMinValue() const;
-  QSize GetSize() const;
   int GetWidth() const;
   int GetHeight() const;
+  QSize GetSize() const;
 
- private:
-  void SetupUI();
-  QString CreateContainerStyle(int border_radius) const;
-  QString CreateButtonStyle(int font_size, int radius_tl, int radius_tr,
-                            int radius_bl, int radius_br) const;
-  QString CreateValueFieldStyle(int font_size) const;
-
-  void SetupConntctions();
-
-  bool MouseButtonDblClickEvent(QEvent* event);
-  bool MouseButtonPressEvent(QEvent* event);
-  bool MouseMoveEvent(QEvent* event);
-  bool MouseButtonReleaseEvent();
-  bool FocusOutEvent();
-  bool KeyPressEvent(QEvent* event);
-  void EditFinished();
-
+  /* Value Management Mutators */
   void SetCurrentValue(int value);
-  void UpdateValueField();
-
- protected:
-  bool eventFilter(QObject* obj, QEvent* event) override;
+  void SetMinValue(int value);
+  void SetMaxValue(int value);
 
  signals:
   void CurrentValueChanged(int value);
 
  private:
+  /* Setup */
+  void SetupUI();
+  void SetupConnections();
+
+  /* Style Management */
+  QString CreateContainerStyle() const;
+  QString CreateButtonStyle(int font_size, int radius_tl, int radius_tr,
+                            int radius_bl, int radius_br) const;
+  QString CreateValueFieldStyle(int font_size) const;
+
+ protected:
+  /* Event Handlers */
+  bool eventFilter(QObject* obj, QEvent* event) override;
+
+ private:
+  /* Internal Helpers */
+  bool MouseButtonDblClickEvent(QEvent* event);
+  bool MouseButtonPressEvent(QEvent* event);
+  bool MouseMoveEvent(QEvent* event);
+  bool MouseButtonReleaseEvent();
+  bool KeyPressEvent(QEvent* event);
+  bool FocusOutEvent();
+  void EditFinished();
+
+  /* Value Management Update */
+  void UpdateValueField();
+
+ private:
+  /* Fields */
+  QSize widget_size_;
+
+  ValueControllerStyle style_;
+
   int current_value_;
   int min_value_;
   int max_value_;
@@ -64,10 +79,8 @@ class ValueController : public QWidget {
   QPushButton* left_button_;
   QPushButton* right_button_;
   QLineEdit* value_field_;
-
-  QSize widget_size_;
 };
 
 } // namespace s21
 
-#endif  // VALUE_CONTROLLER_H
+#endif  // VALUE_CONTROLLER_H_
