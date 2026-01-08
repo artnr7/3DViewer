@@ -14,6 +14,8 @@ set(MENU_WIDGET_FILES
     colordialog/color_picker.cc
     colordialog/color_select_dialog.cc
     colordialog/color_wheel.cc
+    filedialog/file_dialog_button.cc
+    filedialog/file_dialog_panel.cc
     menu_widget.h
     panel/panel.h
     panel/panel_items.h
@@ -26,7 +28,9 @@ set(MENU_WIDGET_FILES
     colordialog/brightness_slider.h
     colordialog/color_picker.h
     colordialog/color_select_dialog.h
-    colordialog/color_wheel.h)
+    colordialog/color_wheel.h
+    filedialog/file_dialog_button.h
+    filedialog/file_dialog_panel.h)
 
 add_library(menu_widget_lib STATIC ${MENU_WIDGET_FILES})
 register_format_sources(${MENU_WIDGET_FILES})

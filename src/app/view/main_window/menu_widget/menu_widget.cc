@@ -74,6 +74,7 @@ void s21::MenuWidget::SetupUI() {
   edges->AddItem(new PanelItemValueController("size", item_width, item_height, Qt::Vertical));
   edges->AddItem(pcmb2);
   edges->AddItem(new PanelItemColorPicker("color", item_width, item_height));
+  background->AddItem(new PanelItemColorPicker("color", item_width, item_height));
 
   shading_panel->AddMiniPanel(vertices);
   shading_panel->AddMiniPanel(edges);
@@ -98,7 +99,7 @@ void s21::MenuWidget::SetupUI() {
   // FILES PANEL //
   Panel* files_panel = new Panel("Files");
   SubPanel* fi_pan = new SubPanel("");
-  fi_pan->AddItem(new PanelItemFileManagment(panel_width-20, item_height));
+  fi_pan->AddItem(new PanelItemFileManagment(panel_width-20, item_height, "Open", "File name:"));
 
   files_panel->AddMiniPanel(fi_pan);
 

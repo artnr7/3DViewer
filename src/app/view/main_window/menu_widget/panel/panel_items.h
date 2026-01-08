@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <qvariant.h>
 
+#include "filedialog/file_dialog_panel.h"
 #include "style_configs/panel_items_style.h"
 #include "value_controller/value_controller.h"
 #include "buttons/double_button_base.h"
@@ -72,9 +73,11 @@ class PanelItemFileManagment: public PanelItem {
   Q_OBJECT
  public:
   explicit PanelItemFileManagment(int width, int height,
+    const QString& button_text,
+                          const QString& label_text,
                                   QWidget* parent = nullptr);
  private:
-  QPushButton* open_button_;
+  FileDialogPanel* file_panel_;
 };
 
 class PanelItemComboBox: public PanelItem {

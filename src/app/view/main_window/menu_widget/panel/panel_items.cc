@@ -157,89 +157,26 @@ PanelItemDoubleButton::PanelItemDoubleButton(int width, int height,
 
 
 PanelItemFileManagment::PanelItemFileManagment(int width, int height,
+                                                const QString& button_text,
+                                                                        const QString& label_text,
                                                QWidget* parent)
   : PanelItem("", parent) {
 
-  QWidget* container = new QWidget(this);
-  container->setFixedSize(width, height);
+  QWidget* debug_container = new QWidget(this);
+  debug_container->setFixedSize(width, height);
+  // debug_container->setStyleSheet(R"(
+  //   border: 2px solid white;
+  //   background-color: transparent;
+  // )");
 
-  QHBoxLayout* layout = new QHBoxLayout(container);
+  FileDialogPanel* file_panel_ = new FileDialogPanel(width, height,
+                                                   button_text,
+                                                   label_text,
+                                                   debug_container);
 
-  QPushButton* open_button_ = new QPushButton("Open", this);
-  open_button_->setFixedSize(width/3, height);
-  open_button_->setStyleSheet(R"(
-      QPushButton {
-        background-color: #5A5A5A;
-        color: white;
-        border: 1px solid #7A7A7A;
-        font-size: 12px;
-        border-radius: 4px;
-      }
-      QPushButton:hover {
-        background-color: #484848;
-      }
-      QPushButton:pressed {
-        background-color: #404040;
-      }
-    )");
-
-  QLabel* plainTextLabel = new QLabel("File name:", this);
-  plainTextLabel->setFixedSize(width/3, height * 0.7);
-  plainTextLabel->setStyleSheet(R"(
-      QLabel {
-        background-color: transparent;
-        color: white;
-        border: none;
-        font-size: 15px;
-        padding: 5px;
-      }
-    )");
-  plainTextLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-
-  QWidget* textContainer = new QWidget(this);
-  textContainer->setFixedSize(width, height);
-  textContainer->setStyleSheet(R"(
-      QWidget {
-          background-color: #202020;
-          border: 1px solid #606060;
-          border-radius: 2px;
-      }
-  )");
-
-  QHBoxLayout* textLayout = new QHBoxLayout(textContainer);
-  textLayout->setContentsMargins(2, 2, 2, 2);
-
-  QLabel* framedTextLabel = new QLabel("majorswe_dogывппвыладлыдавларолоыаврло", textContainer);
-  framedTextLabel->setStyleSheet(R"(
-      QLabel {
-          background-color: transparent;
-          color: white;
-          border: none;
-          font-size: 12px;
-          padding: 4px;
-      }
-    )");
-  framedTextLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-
-  layout->addWidget(open_button_);
-  layout->addWidget(plainTextLabel);
-  textLayout->addWidget(framedTextLabel);
-
-  layout->addWidget(textContainer);
-
-  layout->setAlignment(open_button_, Qt::AlignLeft);
-
-  layout->setContentsMargins(0, 0, 0, 0);
-  layout->setSpacing(0);
-
-  container->setStyleSheet(R"(
-    border: 1px solid white;
-    background-color: transparent;
-  )");
-
-  QLayout* mainLayout = new QVBoxLayout(this);
-  mainLayout->setContentsMargins(0, 0, 0, 0);
-  mainLayout->addWidget(container);
+  QLayout* main_layout = new QVBoxLayout(this);
+  main_layout->setContentsMargins(0, 0, 0, 0);
+  main_layout->addWidget(debug_container);
 }
 
 PanelItemComboBox::PanelItemComboBox(const QString& name, int width, int height,
