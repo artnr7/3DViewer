@@ -49,7 +49,7 @@ void PIBase::Initialize(int width, int height, Qt::Orientation orientation) {
       inner_layout->addWidget(name_label_);
     }
   } else {
-    inner_layout = new QVBoxLayout(container);
+    inner_layout = new QHBoxLayout(container);
     if (name_label_) {
       inner_layout->addWidget(name_label_);
     }
