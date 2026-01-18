@@ -69,7 +69,7 @@ Panel::Panel(const QString &name, QWidget *parent)
   outer_layout->addWidget(container);
 }
 
-void Panel::AddMiniPanel(SubPanel* mini_panel) {
+void Panel::AddSubPanel(SubPanel* mini_panel) {
   main_layout_->addWidget(mini_panel);
 }
 

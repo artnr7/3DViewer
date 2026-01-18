@@ -28,7 +28,7 @@ class Panel : public QWidget {
 
 public:
   explicit Panel(const QString &name, QWidget *parent = nullptr);
-  void AddMiniPanel(SubPanel *mini_panel);
+  void AddSubPanel(SubPanel *mini_panel);
 
 private:
   QLabel *panel_name_label_;
