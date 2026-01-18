@@ -2,6 +2,7 @@ register_format_cmake_file()
 
 set(MENU_WIDGET_FILES
     menu_widget.cc
+    menu_builder/builder_contexts.cc
     panel/panel.cc
     panel/panel_items.cc
     value_controller/value_controller.cc
@@ -17,6 +18,8 @@ set(MENU_WIDGET_FILES
     filedialog/file_dialog_button.cc
     filedialog/file_dialog_panel.cc
     menu_widget.h
+    menu_builder/builder_contexts.h
+    menu_builder/menu_builder.h
     panel/panel.h
     panel/panel_items.h
     value_controller/value_controller.h
