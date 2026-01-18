@@ -5,14 +5,11 @@
 #include <QDialog>
 #include <QPushButton>
 #include <QMargins>
-#include <qboxlayout.h>
-#include <qcolor.h>
 
+#include "style_configs/color_select_dialog_style.h"
 #include "brightness_slider.h"
-
 #include "color_wheel.h"
 #include "panel/panel_items.h"
-#include "style_configs/color_select_dialog_style.h"
 
 namespace  s21 {
 
@@ -56,9 +53,9 @@ class ColorSelectionDialog : public QDialog {
   ColorWheel* color_wheel_;
   BrightnessSlider* brightness_slider_;
 
-  PanelItemValueController* red_controller_;
-  PanelItemValueController* green_controller_;
-  PanelItemValueController* blue_controller_;
+  PIValueController* red_controller_;
+  PIValueController* green_controller_;
+  PIValueController* blue_controller_;
 };
 
 } // namespace s21

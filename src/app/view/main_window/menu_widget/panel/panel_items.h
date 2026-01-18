@@ -4,35 +4,45 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QLabel>
-#include <qvariant.h>
 
-#include "filedialog/file_dialog_panel.h"
 #include "style_configs/panel_items_style.h"
 #include "value_controller/value_controller.h"
-#include "buttons/double_button_base.h"
 #include "combobox/combo_box.h"
 #include "colordialog/color_picker.h"
+#include "buttons/double_button_base.h"
+#include "filedialog/file_dialog_panel.h"
 
 namespace s21 {
 
-class PanelItem: public QWidget {
+/* PIBASe */
+class PIBase: public QWidget {
  Q_OBJECT
+
  public:
-  explicit PanelItem(const QString& name, QWidget* parent = nullptr);
+  explicit PIBase(const QString& name, QWidget* parent = nullptr);
+  virtual ~PIBase() = default;
 
  protected:
-  /* Setup Label */
+  /* Setup */
+  void Initialize(int width, int height, Qt::Orientation orientation = Qt::Vertical);
   QString CreateLabelStyle(int font_size) const;
 
-  /* Fields */
-  QLabel* name_label_;
-  PanelItemStyle style_;
-};
+  virtual QWidget* CreateContentWidget(int width, int height) = 0;
+  virtual void SetupContentConnections() = 0;
 
-class PanelItemValueController: public PanelItem {
-  Q_OBJECT
+ protected:
+  /* Fields */
+  PIStyle style_;
+  QLabel* name_label_ = nullptr;
+};
+//// PIBase
+
+/* PIValueController */
+class PIValueController: public PIBase {
+ Q_OBJECT
+
  public:
-  explicit PanelItemValueController(const QString& name,
+  explicit PIValueController(const QString& name,
                                     int width, int height,
                                     Qt::Orientation orientation,
                                     QWidget* parent = nullptr);
@@ -44,69 +54,148 @@ class PanelItemValueController: public PanelItem {
   void SetRange(int min_value, int max_value);
 
  signals:
+  /* Signals */
   void CurrentValueChanged(int value);
 
- private:
+ protected:
   /* Setup */
-  void SetupVerticalLayout(int width, int height);
-  void SetupHorizontalLayout();
-  void SetupConnections();
+  QWidget* CreateContentWidget(int width, int height) override;
+  void SetupContentConnections() override;
 
  private:
   /* Fields */
-  ValueController* valcontroll_;
-  Qt::Orientation orientation_;
-  QWidget* container_;
+  ValueController* valcontroll_ = nullptr;
 };
+//// PIValueController
 
-class PanelItemDoubleButton: public PanelItem {
+/* PIComboBox */
+class PIComboBox: public PIBase {
   Q_OBJECT
  public:
-  explicit PanelItemDoubleButton(int width, int height,
-                                 bool is_exclusive,
-                                 QWidget* parent = nullptr);
- private:
-  DoubleButtonBase* dbutton_;
-};
+  explicit PIComboBox(const QString& name,
+                      int width, int height,
+                      QWidget* parent = nullptr);
 
-class PanelItemFileManagment: public PanelItem {
-  Q_OBJECT
- public:
-  explicit PanelItemFileManagment(int width, int height,
-    const QString& button_text,
-                          const QString& label_text,
-                                  QWidget* parent = nullptr);
- private:
-  FileDialogPanel* file_panel_;
-};
+  /* Value Management Accessors */
 
-class PanelItemComboBox: public PanelItem {
-  Q_OBJECT
- public:
-  explicit PanelItemComboBox(const QString& name, int width, int height,
-                                  QWidget* parent = nullptr);
+  /* Value Management Mutators */
   template <typename... Args>
-  void AddItems(Args&&... args) {
-    combo_box_->AddItems(std::forward<Args>(args)...);
-  }
+  void AddItems(Args&&... args);
 
   void SetArrows(const QString& up_icon_path,
-                 const QString& down_icon_path) {
-    combo_box_->SetArrows(up_icon_path, down_icon_path);
-  }
+                 const QString& down_icon_path);
+
+  // TODO: Fix signals
+   // signals:
+    /* Signals */
+   // void CurrentValueChanged(int value);
+
+ protected:
+  /* Setup */
+  QWidget* CreateContentWidget(int width, int height) override;
+  void SetupContentConnections() override;
 
  private:
   CustomComboBox* combo_box_;
 };
 
-class PanelItemColorPicker: public PanelItem {
+/* Value Management Mutators */
+template <typename... Args>
+void PIComboBox::AddItems(Args&&... args) {
+  combo_box_->AddItems(std::forward<Args>(args)...);
+}
+// Value Management Mutators
+//// PIComboBox
+
+/* PIColorPicker */
+class PIColorPicker: public PIBase {
   Q_OBJECT
  public:
-  explicit PanelItemColorPicker(const QString& name, int width, int height,
-                                  QWidget* parent = nullptr);
+  explicit PIColorPicker(const QString& name,
+                         int width, int height,
+                         QWidget* parent = nullptr);
+  /* Value Management Accessors */
+  /* Value Management Mutators */
+
+  // TODO: Fix signals
+   // signals:
+    /* Signals */
+   // void CurrentValueChanged(int value);
+
+ protected:
+  /* Setup */
+  QWidget* CreateContentWidget(int width, int height) override;
+  void SetupContentConnections() override;
+
  private:
+ /* Fields */
   ColorPicker* color_picker_;
 };
+//// PIColorPicker
+
+/* PIDoubleButton */
+class PIDoubleButton: public PIBase {
+ Q_OBJECT
+
+ public:
+  explicit PIDoubleButton(int width, int height,
+                          const QString& left_text,
+                          const QString& right_text,
+                          bool is_exclusive,
+                          QWidget* parent = nullptr);
+
+  /* Value Management Accessors */
+  /* Value Management Mutators */
+
+ // TODO: Fix signals
+ // signals:
+  /* Signals */
+ // void CurrentValueChanged(int value);
+
+ protected:
+  /* Setup */
+  QWidget* CreateContentWidget(int width, int height) override;
+  void SetupContentConnections() override;
+
+ private:
+  /* Fields */
+  DoubleButtonBase* double_button_;
+  bool is_exclusive_;
+  QString left_text_;
+  QString right_text_;
+};
+//// PIDoubleButton
+
+/* PIFileManagement */
+class PIFileManagement: public PIBase {
+ Q_OBJECT
+
+ public:
+  explicit PIFileManagement(int width, int height,
+                            const QString& button_text,
+                            const QString& label_text,
+                            QWidget* parent = nullptr);
+
+  /* Value Management Accessors */
+  /* Value Management Mutators */
+
+ // TODO: Fix signals
+ // signals:
+  /* Signals */
+ // void CurrentValueChanged(int value);
+
+ protected:
+  /* Setup */
+  QWidget* CreateContentWidget(int width, int height) override;
+  void SetupContentConnections() override;
+
+ private:
+  /* Fields */
+  FileDialogPanel* file_panel_;
+  QString button_text_;
+  QString label_text_;
+};
+//// PIFileManagement
 
 } // namespace s21
 

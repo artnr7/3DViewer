@@ -25,7 +25,7 @@ SubPanel::SubPanel(const QString &name, QWidget *parent)
   main_layout->addLayout(items_layout_);
 }
 
-void SubPanel::AddItem(PanelItem* item) {
+void SubPanel::AddItem(PIBase* item) {
   items_layout_->addWidget(item);
 }
 

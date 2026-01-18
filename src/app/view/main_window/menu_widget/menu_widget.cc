@@ -40,15 +40,15 @@ void s21::MenuWidget::SetupUI() {
   int item_height = 44;
   int item_width = panel_width * 0.3;
 
-  translation->AddItem(new PanelItemValueController("x", item_width, item_height, Qt::Vertical));
-  translation->AddItem(new PanelItemValueController("y", item_width, item_height, Qt::Vertical));
-  translation->AddItem(new PanelItemValueController("z", item_width, item_height, Qt::Vertical));
+  translation->AddItem(new PIValueController("x", item_width, item_height, Qt::Vertical));
+  translation->AddItem(new PIValueController("y", item_width, item_height, Qt::Vertical));
+  translation->AddItem(new PIValueController("z", item_width, item_height, Qt::Vertical));
 
-  rotation->AddItem(new PanelItemValueController("x", item_width, item_height, Qt::Vertical));
-  rotation->AddItem(new PanelItemValueController("y", item_width, item_height, Qt::Vertical));
-  rotation->AddItem(new PanelItemValueController("z", item_width, item_height, Qt::Vertical));
+  rotation->AddItem(new PIValueController("x", item_width, item_height, Qt::Vertical));
+  rotation->AddItem(new PIValueController("y", item_width, item_height, Qt::Vertical));
+  rotation->AddItem(new PIValueController("z", item_width, item_height, Qt::Vertical));
 
-  scale->AddItem(new PanelItemValueController("z", item_width, item_height, Qt::Vertical));
+  scale->AddItem(new PIValueController("z", item_width, item_height, Qt::Vertical));
 
   transform_panel->AddMiniPanel(translation);
   transform_panel->AddMiniPanel(rotation);
@@ -60,21 +60,21 @@ void s21::MenuWidget::SetupUI() {
   SubPanel* edges = new SubPanel("Edges");
   SubPanel* background = new SubPanel("Background");
 
-  PanelItemComboBox* pcmb1 = new PanelItemComboBox("style", item_width, item_height);
-  PanelItemComboBox* pcmb2 = new PanelItemComboBox("style", item_width, item_height);
+  PIComboBox* pcmb1 = new PIComboBox("style", item_width, item_height);
+  PIComboBox* pcmb2 = new PIComboBox("style", item_width, item_height);
   pcmb1->SetArrows("assets/icons/open_arrow.png", "assets/icons/close_arrow.png");
   pcmb1->AddItems("assets/icons/square.png", "assets/icons/circle.png");
   pcmb2->SetArrows("assets/icons/open_arrow.png", "assets/icons/close_arrow.png");
   pcmb2->AddItems("assets/icons/line.png", "assets/icons/line_dash.png");
 
-  vertices->AddItem(new PanelItemValueController("size", item_width, item_height, Qt::Vertical));
+  vertices->AddItem(new PIValueController("size", item_width, item_height, Qt::Vertical));
   vertices->AddItem(pcmb1);
-  vertices->AddItem(new PanelItemColorPicker("color", item_width, item_height));
+  vertices->AddItem(new PIColorPicker("color", item_width, item_height));
 
-  edges->AddItem(new PanelItemValueController("size", item_width, item_height, Qt::Vertical));
+  edges->AddItem(new PIValueController("size", item_width, item_height, Qt::Vertical));
   edges->AddItem(pcmb2);
-  edges->AddItem(new PanelItemColorPicker("color", item_width, item_height));
-  background->AddItem(new PanelItemColorPicker("color", item_width, item_height));
+  edges->AddItem(new PIColorPicker("color", item_width, item_height));
+  background->AddItem(new PIColorPicker("color", item_width, item_height));
 
   shading_panel->AddMiniPanel(vertices);
   shading_panel->AddMiniPanel(edges);
@@ -84,7 +84,7 @@ void s21::MenuWidget::SetupUI() {
   Panel* projection_panel = new Panel("Projection");
   SubPanel* pr_pan = new SubPanel("");
 
-  pr_pan->AddItem(new PanelItemDoubleButton(panel_width-20, item_height, true));
+  pr_pan->AddItem(new PIDoubleButton(panel_width-20, item_height, "perspective", "ortography", true));
 
   projection_panel->AddMiniPanel(pr_pan);
 
@@ -92,14 +92,14 @@ void s21::MenuWidget::SetupUI() {
   Panel* render_panel = new Panel("Render");
   SubPanel* re_pan = new SubPanel("");
 
-  re_pan->AddItem(new PanelItemDoubleButton(panel_width-20, item_height, false));
+  re_pan->AddItem(new PIDoubleButton(panel_width-20, item_height, "GIF", "Image", false));
 
   render_panel->AddMiniPanel(re_pan);
 
   // FILES PANEL //
   Panel* files_panel = new Panel("Files");
   SubPanel* fi_pan = new SubPanel("");
-  fi_pan->AddItem(new PanelItemFileManagment(panel_width-20, item_height, "Open", "File name:"));
+  fi_pan->AddItem(new PIFileManagement(panel_width-20, item_height, "Open", "File name:"));
 
   files_panel->AddMiniPanel(fi_pan);
 
