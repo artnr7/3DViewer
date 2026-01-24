@@ -17,6 +17,7 @@ set(MENU_WIDGET_FILES
     colordialog/color_wheel.cc
     filedialog/file_dialog_button.cc
     filedialog/file_dialog_panel.cc
+    status_bar/status_bar.cc
     menu_widget.h
     menu_builder/builder_contexts.h
     menu_builder/menu_builder.h
@@ -33,7 +34,8 @@ set(MENU_WIDGET_FILES
     colordialog/color_select_dialog.h
     colordialog/color_wheel.h
     filedialog/file_dialog_button.h
-    filedialog/file_dialog_panel.h)
+    filedialog/file_dialog_panel.h
+    status_bar/status_bar.h)
 
 add_library(menu_widget_lib STATIC ${MENU_WIDGET_FILES})
 register_format_sources(${MENU_WIDGET_FILES})

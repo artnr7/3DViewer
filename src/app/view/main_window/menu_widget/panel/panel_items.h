@@ -11,6 +11,7 @@
 #include "colordialog/color_picker.h"
 #include "buttons/double_button_base.h"
 #include "filedialog/file_dialog_panel.h"
+#include "status_bar/status_bar.h"
 
 namespace s21 {
 
@@ -74,6 +75,7 @@ class PIComboBox: public PIBase {
  public:
   explicit PIComboBox(const QString& name,
                       int width, int height,
+                      Qt::Orientation orientation,
                       QWidget* parent = nullptr);
 
   /* Value Management Accessors */
@@ -113,6 +115,7 @@ class PIColorPicker: public PIBase {
  public:
   explicit PIColorPicker(const QString& name,
                          int width, int height,
+                         Qt::Orientation orientation,
                          QWidget* parent = nullptr);
   /* Value Management Accessors */
   /* Value Management Mutators */
@@ -138,7 +141,8 @@ class PIDoubleButton: public PIBase {
  Q_OBJECT
 
  public:
-  explicit PIDoubleButton(int width, int height,
+  explicit PIDoubleButton(const QString& name,
+                          int width, int height,
                           const QString& left_text,
                           const QString& right_text,
                           bool is_exclusive,
@@ -171,7 +175,8 @@ class PIFileManagement: public PIBase {
  Q_OBJECT
 
  public:
-  explicit PIFileManagement(int width, int height,
+  explicit PIFileManagement(const QString& name,
+                            int width, int height,
                             const QString& button_text,
                             const QString& label_text,
                             QWidget* parent = nullptr);

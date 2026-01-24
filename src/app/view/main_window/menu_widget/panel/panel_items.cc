@@ -122,10 +122,12 @@ void PIValueController::SetupContentConnections() {
 //// PIValueController
 
 /* PIComboBox */
- PIComboBox::PIComboBox(const QString& name, int width, int height,
-                                               QWidget* parent)
+ PIComboBox::PIComboBox(const QString& name,
+                        int width, int height,
+                        Qt::Orientation orientation,
+                        QWidget* parent)
   : PIBase(name, parent) {
-  Initialize(width, height);
+  Initialize(width, height, orientation);
 }
 
 /* Value Management Mutators */
@@ -150,9 +152,10 @@ void PIComboBox::SetupContentConnections() {
 /* PIColorPicker */
 PIColorPicker::PIColorPicker(const QString& name,
                              int width, int height,
+                             Qt::Orientation orientation,
                              QWidget* parent)
   : PIBase(name, parent) {
-  Initialize(width, height);
+  Initialize(width, height, orientation);
 }
 
 /* Setup */
@@ -168,12 +171,13 @@ void PIColorPicker::SetupContentConnections() {
 //// PIColorPicker
 
 /* PIDoubleButton */
-PIDoubleButton::PIDoubleButton(int width, int height,
+PIDoubleButton::PIDoubleButton(const QString& name,
+                               int width, int height,
                                const QString& left_text,
                                const QString& right_text,
                                bool is_exclusive,
                                QWidget* parent)
-  : PIBase("", parent)
+  : PIBase(name, parent)
   , is_exclusive_(is_exclusive)
   , left_text_(left_text)
   , right_text_(right_text) {
@@ -200,10 +204,11 @@ void PIDoubleButton::SetupContentConnections() {
 //// PIDoubleButton
 
 /* PIFileManagement */
-PIFileManagement::PIFileManagement(int width, int height,
-                                 const QString& button_text,
-                                 const QString& label_text,
-                                 QWidget* parent)
+PIFileManagement::PIFileManagement(const QString& name,
+                                   int width, int height,
+                                   const QString& button_text,
+                                   const QString& label_text,
+                                   QWidget* parent)
   : PIBase("", parent)
   , button_text_(button_text)
   , label_text_(label_text) {
