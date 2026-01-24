@@ -5,33 +5,38 @@
 
 namespace s21 {
 
-template <typename Container>
-class MenuBuilder {
+template <typename T>
+concept Container = requires (T container, Panel* panel) {
+  {container.AddPanel(panel)} -> std::same_as<void>;
+};
+
+template <Container T>
+class MenuBuilder : public IBuilder {
  public:
-  MenuBuilder(Container* container, int item_width, int item_height);
+  MenuBuilder(T* container, int item_width, int item_height);
   PanelContext AddPanel(const QString& title);
 
  private:
  /* Fields */
- Container* parent_containter_;
+ T* parent_containter_;
  int width_;
  int height_;
 };
 
-template <typename Container>
-MenuBuilder<Container>::MenuBuilder(Container* container, int item_width, int item_height)
+template <Container T>
+MenuBuilder<T>::MenuBuilder(T* container, int item_width, int item_height)
   : parent_containter_(container)
   , width_(item_width)
   , height_(item_height){
 }
 
-template <typename Container>
-PanelContext MenuBuilder<Container>::AddPanel(const QString& title) {
+template <Container T>
+PanelContext MenuBuilder<T>::AddPanel(const QString& title) {
   Panel* panel = new Panel(title);
   parent_containter_->AddPanel(panel);
-  return PanelContext(panel, width_, height_);
+  return PanelContext(panel, this, width_, height_);
 }
 
-} // namespace s21
+} // namespace s22
 
 #endif // MENU_BUILDER_H_
