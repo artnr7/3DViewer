@@ -1,26 +1,36 @@
 #ifndef BUILDER_CONTEXTS_H_
 #define BUILDER_CONTEXTS_H_
 
-#include "panel/panel.h"
 #include <functional>
 #include <utility>
+
+#include "panel/panel.h"
 
 namespace s21 {
 
 class PanelContext;
 
+class IBuilder {
+ public:
+  virtual ~IBuilder() = default;
+  virtual PanelContext AddPanel(const QString& title) = 0;
+};
+
 class SubPanelContext {
  public:
-  SubPanelContext(SubPanel* sub_panel, PanelContext* panel_context, int width, int height);
+  SubPanelContext(SubPanel* sub_panel, PanelContext* panel_context, IBuilder* root_builder, int width, int height);
 
   template <typename T, typename... Args>
   SubPanelContext& Add(const QString& label, std::function<void(T*)> config, Args&&...args);
+
+  PanelContext AddPanel(const QString& title);
   SubPanelContext AddSubPanel(const QString& title);
 
   private:
   /* Fields */
   SubPanel* sub_panel_;
   PanelContext* parent_panel_context_;
+  IBuilder* root_builder_;
   int width_;
   int height_;
 };
@@ -39,16 +49,18 @@ SubPanelContext& SubPanelContext::Add(const QString& label,
 
 class PanelContext {
  public:
-  PanelContext(Panel* panel, int width, int height);
+  PanelContext(Panel* panel, IBuilder* root, int width, int height);
+
+  PanelContext AddPanel(const QString& title);
   SubPanelContext AddSubPanel(const QString& title);
 
  private:
   /* Fields */
   Panel* panel_;
+  IBuilder* root_builder_;
   int item_width_;
   int item_height_;
 };
-
 
 } // namespace s21
 
