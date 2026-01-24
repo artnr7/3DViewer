@@ -104,10 +104,6 @@ void FileDialogPanel::SetupUI() {
   main_layout->addWidget(text_label_);
   main_layout->addWidget(text_container);
 
-  QVBoxLayout* widget_layout = new QVBoxLayout(this);
-  widget_layout->setContentsMargins(style_.zero_margins);
-  widget_layout->addWidget(this);
-
   connect(button_, &FileDialogButton::FileSelected,
           this, &FileDialogPanel::OnFileSelected);
 }
