@@ -46,14 +46,6 @@ class ToolBar : public QWidget {
   QWidget* background_;
 };
 
-class StatusBar : public QWidget {
- Q_OBJECT
-
- public:
-  explicit StatusBar(int width, int height, QWidget *parent = nullptr);
-  void AddPanel(Panel *panel);
-};
-
 } // namespace s21
 
 #endif // PANEL_H_
