@@ -73,7 +73,6 @@ void Panel::AddSubPanel(SubPanel* mini_panel) {
   main_layout_->addWidget(mini_panel);
 }
 
-
 ToolBar::ToolBar(int width, int height, QWidget *parent)
   : QWidget(parent) {
 
@@ -100,20 +99,6 @@ ToolBar::ToolBar(int width, int height, QWidget *parent)
 
 void ToolBar::AddPanel(Panel* panel) {
   layout_->addWidget(panel);
-}
-
-StatusBar::StatusBar(int width, int height, QWidget *parent)
-  : QWidget(parent) {
-  setFixedSize(width, height);
-  setStyleSheet("background-color: #3D3D3D;");
-
-  QVBoxLayout* layout = new QVBoxLayout(this);
-  layout->setContentsMargins(0, 0, 0, 0);
-  layout->setSpacing(0);
-}
-
-void StatusBar::AddPanel(Panel* panel) {
-  layout()->addWidget(panel);
 }
 
 } // namespace s21
