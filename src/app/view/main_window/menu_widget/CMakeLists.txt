@@ -40,8 +40,10 @@ set(MENU_WIDGET_FILES
 add_library(menu_widget_lib STATIC ${MENU_WIDGET_FILES})
 register_format_sources(${MENU_WIDGET_FILES})
 
-target_include_directories(menu_widget_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(menu_widget_lib PUBLIC
+  ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
-target_link_libraries(menu_widget_lib PRIVATE main_window_lib)
+target_link_libraries(menu_widget_lib PUBLIC common_types)
 
 target_link_qt(menu_widget_lib)

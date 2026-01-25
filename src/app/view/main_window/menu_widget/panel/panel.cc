@@ -1,6 +1,4 @@
 #include "panel.h"
-#include "config.h"
-#include <qnamespace.h>
 
 namespace s21 {
 

@@ -12,4 +12,6 @@ add_subdirectory(main_window)
 target_include_directories(view_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
                                            main_window main_window/menu_widget)
 
-target_link_libraries(view_lib PRIVATE main_window_lib)
+target_link_libraries(view_lib
+  PRIVATE main_window_lib
+  PUBLIC common_types)

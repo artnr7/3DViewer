@@ -7,17 +7,18 @@
 #include <qnamespace.h>
 
 #include "menu_widget.h"
-#include "config.h"
 #include "menu_builder/menu_builder.h"
 #include "panel/panel.h"
 #include "panel/panel_items.h"
 
 namespace s21 {
 
-MenuWidget::MenuWidget(QWidget *parent)
+MenuWidget::MenuWidget(int width, int height, QWidget *parent)
   : QWidget(parent)
+  , width_(width)
+  , height_(height)
   , style_{} {
-  setFixedSize(INIT_W_MENU_WIDGET, INIT_H_MENU_WIDGET);
+  setFixedSize(width_, height_);
   setContentsMargins(style_.zero_margins);
   SetupUI();
 }
@@ -27,10 +28,10 @@ void MenuWidget::SetupUI() {
   main_layout->setSpacing(style_.zero_spacing);
   main_layout->setContentsMargins(style_.zero_margins);
 
-  const int status_bar_width = INIT_W_MENU_WIDGET;
-  const int status_bar_height = INIT_H_MENU_WIDGET*style_.status_bar_height_ratio;
-  const int tool_bar_width = INIT_W_MENU_WIDGET;
-  const int tool_bar_height = INIT_H_MENU_WIDGET*style_.tool_bar_height_ratio;
+  const int status_bar_width = width_;
+  const int status_bar_height = height_*style_.status_bar_height_ratio;
+  const int tool_bar_width = width_;
+  const int tool_bar_height = height_*style_.tool_bar_height_ratio;
 
   const int panel_width = tool_bar_width - 2*style_.edge_margin;
   const int buttons_menu_width = panel_width - 2*style_.buttons_edge_margin_in_panel;
@@ -57,7 +58,9 @@ void MenuWidget::SetupUI() {
 void MenuWidget::SetupToolBar(IBuilder& builder, int buttons_menu_width, int buttons_menu_height) {
   builder.AddPanel("Transform")
       .AddSubPanel("Translation")
-        .Add<PIValueController>("x", nullptr, Qt::Vertical)
+        .Add<PIValueController>("x",
+            Connect(SceneAction::kTranslateX, &PIValueController::CurrentValueChanged),
+            Qt::Vertical)
         .Add<PIValueController>("y", nullptr, Qt::Vertical)
         .Add<PIValueController>("z", nullptr, Qt::Vertical)
       .AddSubPanel("Rotation")

@@ -9,7 +9,7 @@
 #include <QListWidget>
 #include <QPropertyAnimation>
 
-#include "../style_configs/combo_box_style.h"
+#include "style_configs/combo_box_style.h"
 
 namespace s21 {
 

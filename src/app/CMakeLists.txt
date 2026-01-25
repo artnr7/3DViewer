@@ -1,5 +1,10 @@
 register_format_cmake_file()
 
+add_library(common_types INTERFACE)
+target_include_directories(common_types INTERFACE
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
 add_executable(${PROJECT_NAME} 3dviewer.cc)
 
 add_subdirectory(controller)
