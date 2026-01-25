@@ -26,6 +26,8 @@ class SubPanelContext {
   PanelContext AddPanel(const QString& title);
   SubPanelContext AddSubPanel(const QString& title);
 
+  SubPanelContext& SetSize(int width, int height);
+
   private:
   /* Fields */
   SubPanel* sub_panel_;
@@ -33,13 +35,18 @@ class SubPanelContext {
   IBuilder* root_builder_;
   int width_;
   int height_;
+  int current_width_;
+  int current_height_;
 };
 
 template <typename Item, typename... Args>
 SubPanelContext& SubPanelContext::Add(const QString& label,
                                       std::function<void(Item*)> config_func,
                                       Args&&...args) {
-  Item* item = new Item(label, width_, height_, std::forward<Args>(args)...);
+  Item* item = new Item(label, current_width_, current_height_, std::forward<Args>(args)...);
+  current_width_ = width_;
+  current_height_ = height_;
+
   if (config_func) {
     config_func(item);
   }

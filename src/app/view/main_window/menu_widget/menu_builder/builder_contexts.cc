@@ -8,7 +8,9 @@ SubPanelContext::SubPanelContext(SubPanel* sub_panel, PanelContext* panel_contex
   , parent_panel_context_(panel_context)
   , root_builder_(root_builder)
   , width_(width)
-  , height_(height) {
+  , height_(height)
+  , current_width_(width)
+  , current_height_(height) {
 }
 
 PanelContext SubPanelContext::AddPanel(const QString& title) {
@@ -17,6 +19,12 @@ PanelContext SubPanelContext::AddPanel(const QString& title) {
 
 SubPanelContext SubPanelContext::AddSubPanel(const QString& title) {
   return parent_panel_context_->AddSubPanel(title);
+}
+
+SubPanelContext& SubPanelContext::SetSize(int width, int height) {
+  current_width_ = width;
+  current_height_ = height;
+  return *this;
 }
 
 PanelContext::PanelContext(Panel* panel, IBuilder* root, int widht, int height)
