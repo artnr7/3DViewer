@@ -1,5 +1,6 @@
 #include "panel.h"
 #include "config.h"
+#include <qnamespace.h>
 
 namespace s21 {
 
@@ -26,6 +27,9 @@ SubPanel::SubPanel(const QString &name, QWidget *parent)
 }
 
 void SubPanel::AddItem(PIBase* item) {
+  if (item->GetOrientation() == Qt::Horizontal) {
+    items_layout_->addStretch(1);
+  }
   items_layout_->addWidget(item);
 }
 

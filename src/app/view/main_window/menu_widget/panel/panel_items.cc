@@ -10,8 +10,9 @@
 namespace s21 {
 
 //** PI Base **//
-PIBase::PIBase(const QString& name, QWidget* parent)
+PIBase::PIBase(const QString& name, Qt::Orientation orientation, QWidget* parent)
   : QWidget(parent),
+    orientation_(orientation),
   style_{} {
   if (!name.isEmpty()) {
     name_label_ = new QLabel(name, this);
@@ -19,29 +20,39 @@ PIBase::PIBase(const QString& name, QWidget* parent)
 }
 
 /* Setup */
-void PIBase::Initialize(int width, int height, Qt::Orientation orientation) {
-  /* FOR DEBUG */
-  QWidget* container = new QWidget(this);
-  container->setFixedSize(width, height);
-  container->setStyleSheet(R"(
-    border: 1px solid white;
-    background-color: transparent;
-  )");
-  // FOR DEBUG
+void PIBase::Initialize(int width, int height) {
 
+  /* FOR DEBUG */
+  int total_width = orientation_ == Qt::Horizontal
+                       ? 1.5*width
+                       : width;
+
+  setFixedSize(total_width, height);
   int content_height = height * style_.buttons_hight_ratio;
 
   if (name_label_) {
     int font_size = height * style_.font_size_ratio;
-    int label_height = height * style_.label_hight_ratio;
     name_label_->setStyleSheet(CreateLabelStyle(font_size));
-    name_label_->setFixedSize(width, label_height);
+    int label_height = height * style_.label_hight_ratio;
     content_height = height * style_.controller_hight_ratio;
+
+    if (orientation_ == Qt::Horizontal) {
+      name_label_->setFixedSize(0.5*width, label_height);
+    }
   }
+
+  QWidget* container = new QWidget(this);
+    container->setFixedSize(total_width, height);
+    container->setStyleSheet(R"(
+      border: 1px solid white;
+      background-color: transparent;
+    )");
+    // FOR DEBUG
+
   QWidget* content = CreateContentWidget(width, content_height);
   QBoxLayout* inner_layout;
 
-  if (orientation == Qt::Vertical) {
+  if (orientation_ == Qt::Vertical) {
     inner_layout = new QVBoxLayout(container);
     inner_layout->addWidget(content);
     if (name_label_) {
@@ -51,6 +62,7 @@ void PIBase::Initialize(int width, int height, Qt::Orientation orientation) {
   } else {
     inner_layout = new QHBoxLayout(container);
     if (name_label_) {
+      name_label_->setAlignment(Qt::AlignLeft|Qt::AlignVCenter);
       inner_layout->addWidget(name_label_);
     }
     inner_layout->addWidget(content);
@@ -81,14 +93,19 @@ QString PIBase::CreateLabelStyle(int font_size) const {
     .arg(style_.font_weight);
 }
 // Setup
+
+Qt::Orientation PIBase::GetOrientation() {
+  return orientation_;
+}
+
 //// PIBase
 
 /* PIValueController */
 PIValueController::PIValueController(const QString& name,
                                                    int width, int height,
                                                    Qt::Orientation orientation, QWidget* parent)
-  : PIBase(name, parent) {
-    Initialize(width, height, orientation);
+  : PIBase(name, orientation, parent)  {
+    Initialize(width, height);
   }
 
 /* Value Management Accessors */
@@ -126,8 +143,8 @@ void PIValueController::SetupContentConnections() {
                         int width, int height,
                         Qt::Orientation orientation,
                         QWidget* parent)
-  : PIBase(name, parent) {
-  Initialize(width, height, orientation);
+  : PIBase(name, orientation, parent) {
+  Initialize(width, height);
 }
 
 /* Value Management Mutators */
@@ -154,8 +171,8 @@ PIColorPicker::PIColorPicker(const QString& name,
                              int width, int height,
                              Qt::Orientation orientation,
                              QWidget* parent)
-  : PIBase(name, parent) {
-  Initialize(width, height, orientation);
+  : PIBase(name, orientation, parent) {
+  Initialize(width, height);
 }
 
 /* Setup */
@@ -177,7 +194,7 @@ PIDoubleButton::PIDoubleButton(const QString& name,
                                const QString& right_text,
                                bool is_exclusive,
                                QWidget* parent)
-  : PIBase(name, parent)
+  : PIBase(name, Qt::Vertical, parent)
   , is_exclusive_(is_exclusive)
   , left_text_(left_text)
   , right_text_(right_text) {
@@ -209,7 +226,7 @@ PIFileManagement::PIFileManagement(const QString& name,
                                    const QString& button_text,
                                    const QString& label_text,
                                    QWidget* parent)
-  : PIBase("", parent)
+  : PIBase("", Qt::Vertical, parent)
   , button_text_(button_text)
   , label_text_(label_text) {
 

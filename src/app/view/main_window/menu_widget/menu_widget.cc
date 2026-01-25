@@ -15,32 +15,47 @@
 namespace s21 {
 
 MenuWidget::MenuWidget(QWidget *parent)
-  : QWidget(parent) {
+  : QWidget(parent)
+  , style_{} {
   setFixedSize(INIT_W_MENU_WIDGET, INIT_H_MENU_WIDGET);
-  setContentsMargins(0, 0, 0, 0);
+  setContentsMargins(style_.zero_margins);
   SetupUI();
 }
 
 void MenuWidget::SetupUI() {
   QVBoxLayout *main_layout = new QVBoxLayout(this);
-  int spacing = 0;
-  main_layout->setSpacing(spacing);
-  main_layout->setContentsMargins(spacing, spacing, spacing, spacing);
+  main_layout->setSpacing(style_.zero_spacing);
+  main_layout->setContentsMargins(style_.zero_margins);
 
-  const int status_bar_h = 30;
+  const int status_bar_width = INIT_W_MENU_WIDGET;
+  const int status_bar_height = INIT_H_MENU_WIDGET*style_.status_bar_height_ratio;
+  const int tool_bar_width = INIT_W_MENU_WIDGET;
+  const int tool_bar_height = INIT_H_MENU_WIDGET*style_.tool_bar_height_ratio;
 
-  ToolBar* tool_bar = new ToolBar(INIT_W_MENU_WIDGET, INIT_H_MENU_WIDGET - status_bar_h);
-  StatusBar* status_bar = new StatusBar(INIT_W_MENU_WIDGET, status_bar_h);
+  const int panel_width = tool_bar_width - 2*style_.edge_margin;
+  const int buttons_menu_width = panel_width - 2*style_.buttons_edge_margin_in_panel;
 
-  int panel_width = INIT_W_MENU_WIDGET - 20;
-  int item_height = 44;
-  int item_width = panel_width * 0.3;
+  const int item_width = panel_width * style_.item_width_ratio;
+  const int item_height = style_.item_height;
 
+  ToolBar* tool_bar = new ToolBar(tool_bar_width, tool_bar_height);
+  StatusBar* status_bar = new StatusBar(status_bar_width, status_bar_height);
 
   /* TODO: FIX SIGNALS */
   MenuBuilder tool_builder(tool_bar, item_width, item_height);
+  SetupToolBar(tool_builder, buttons_menu_width, item_height);
 
-  tool_builder.AddPanel("Transform")
+  // pcmb1->SetArrows("assets/icons/open_arrow.png", "assets/icons/close_arrow.png");
+  // pcmb1->AddItems("assets/icons/square.png", "assets/icons/circle.png");
+  // pcmb2->SetArrows("assets/icons/open_arrow.png", "assets/icons/close_arrow.png");
+  // pcmb2->AddItems("assets/icons/line.png", "assets/icons/line_dash.png");
+
+  main_layout->addWidget(tool_bar);
+  main_layout->addWidget(status_bar);
+}
+
+void MenuWidget::SetupToolBar(IBuilder& builder, int buttons_menu_width, int buttons_menu_height) {
+  builder.AddPanel("Transform")
       .AddSubPanel("Translation")
         .Add<PIValueController>("x", nullptr, Qt::Vertical)
         .Add<PIValueController>("y", nullptr, Qt::Vertical)
@@ -64,22 +79,16 @@ void MenuWidget::SetupUI() {
         .Add<PIColorPicker>("color", nullptr, Qt::Horizontal)
     .AddPanel("Projection")
       .AddSubPanel("")
+        .SetSize(buttons_menu_width, buttons_menu_height)
         .Add<PIDoubleButton>("", nullptr, "perspective", "ortography", true)
     .AddPanel("Render")
       .AddSubPanel("")
+        .SetSize(buttons_menu_width, buttons_menu_height)
         .Add<PIDoubleButton>("", nullptr, "GIF", "Image", false)
     .AddPanel("Files")
       .AddSubPanel("")
+        .SetSize(buttons_menu_width, buttons_menu_height)
         .Add<PIFileManagement>("", nullptr, "Open", "File name:");
-
-  // pcmb1->SetArrows("assets/icons/open_arrow.png", "assets/icons/close_arrow.png");
-  // pcmb1->AddItems("assets/icons/square.png", "assets/icons/circle.png");
-  // pcmb2->SetArrows("assets/icons/open_arrow.png", "assets/icons/close_arrow.png");
-  // pcmb2->AddItems("assets/icons/line.png", "assets/icons/line_dash.png");
-
-  main_layout->addWidget(tool_bar);
-  main_layout->addWidget(status_bar);
-  // main_layout->addStretch();
 }
 
 } // namespace s21

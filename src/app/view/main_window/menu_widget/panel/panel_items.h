@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QLabel>
+#include <qnamespace.h>
 
 #include "style_configs/panel_items_style.h"
 #include "value_controller/value_controller.h"
@@ -20,13 +21,16 @@ class PIBase: public QWidget {
  Q_OBJECT
 
  public:
-  explicit PIBase(const QString& name, QWidget* parent = nullptr);
+  explicit PIBase(const QString& name, Qt::Orientation orientation, QWidget* parent = nullptr);
   virtual ~PIBase() = default;
+  Qt::Orientation GetOrientation();
 
  protected:
   /* Setup */
-  void Initialize(int width, int height, Qt::Orientation orientation = Qt::Vertical);
+  void Initialize(int width, int height);
+
   QString CreateLabelStyle(int font_size) const;
+
 
   virtual QWidget* CreateContentWidget(int width, int height) = 0;
   virtual void SetupContentConnections() = 0;
@@ -34,6 +38,7 @@ class PIBase: public QWidget {
  protected:
   /* Fields */
   PIStyle style_;
+  Qt::Orientation orientation_;
   QLabel* name_label_ = nullptr;
 };
 //// PIBase
