@@ -6,8 +6,9 @@
 
 namespace s21 {
 class Model {
- protected:
+ public:
   Model() = default;
+ protected:
   // explicit Model(const std::string &obj_filename);
 
  private:

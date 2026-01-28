@@ -3,6 +3,7 @@
 
 #include "menu_builder/builder_contexts.h"
 #include "action_types.h"
+
 #include <QWidget>
 
 namespace s21 {

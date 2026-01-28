@@ -54,14 +54,14 @@ void MenuWidget::SetupUI() {
   main_layout->addWidget(tool_bar);
   main_layout->addWidget(status_bar);
 }
-
+// jj
 void MenuWidget::SetupToolBar(IBuilder& builder, int buttons_menu_width, int buttons_menu_height) {
   builder.AddPanel("Transform")
       .AddSubPanel("Translation")
         .Add<PIValueController>("x",
             Connect(SceneAction::kTranslateX, &PIValueController::CurrentValueChanged),
             Qt::Vertical)
-        .Add<PIValueController>("y", nullptr, Qt::Vertical)
+        .Add<PIValueController>("y", Connect(SceneAction::kTranslateY, &PIValueController::CurrentValueChanged), Qt::Vertical)
         .Add<PIValueController>("z", nullptr, Qt::Vertical)
       .AddSubPanel("Rotation")
         .Add<PIValueController>("x", nullptr, Qt::Vertical)

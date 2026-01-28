@@ -7,4 +7,6 @@ register_format_sources(${CONTROLLER_FILES})
 
 target_include_directories(controller_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries(controller_lib PRIVATE model_lib view_lib)
+target_link_libraries(controller_lib PUBLIC model_lib common_types)
+
+target_link_qt(controller_lib)

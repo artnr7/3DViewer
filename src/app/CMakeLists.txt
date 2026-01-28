@@ -7,13 +7,12 @@ target_include_directories(common_types INTERFACE
 
 add_executable(${PROJECT_NAME} 3dviewer.cc)
 
-add_subdirectory(controller)
-add_subdirectory(model)
-add_subdirectory(view)
 add_subdirectory(utils)
+add_subdirectory(model)
+add_subdirectory(controller)
+add_subdirectory(view)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE controller_lib model_lib view_lib
-                                              utils_lib)
+target_link_libraries(${PROJECT_NAME} PRIVATE view_lib controller_lib model_lib utils_lib)
 
 target_link_qt(${PROJECT_NAME})
 

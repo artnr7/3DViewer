@@ -1,3 +1,5 @@
+#ifndef ACTION_TYPES_H_
+#define ACTION_TYPES_H_
 
 #include <QString>
 #include <QColor>
@@ -13,6 +15,9 @@ enum class SceneAction {
   kSwitchProjection
 };
 
-using ActionData = std::variant<double, int, QColor, QString, bool>;
+// using ActionData = std::variant<double, int, QColor, QString, bool>;
+ using ActionData = std::variant<int>;
 
 } // namespace s21
+
+#endif // ACTION_TYPES_H_
