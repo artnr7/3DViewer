@@ -28,12 +28,21 @@ class MenuWidget : public QWidget {
  public:
   MenuWidget(int width, int height, QWidget *parent = nullptr);
 
+ public slots:
+  void OnUpdateObjectInfo(ModelUpdateData data);
+
  signals:
   void ActionTriggered(SceneAction action, ActionData data);
 
  private:
+ signals:
+  void UpdateInfo(int vertices_count, int edges_count);
+  void ShowError(const QString& msg);
+
+ private:
   void SetupUI();
   void SetupToolBar(IBuilder& builder, int buttons_menu_width, int buttons_menu_height);
+  void SetupStatusBar(StatusBar* status_bar);
 
   template <typename WidgetType, typename DataType>
   void Bind(WidgetType* widget, SceneAction action, void (WidgetType::*signal)(DataType));

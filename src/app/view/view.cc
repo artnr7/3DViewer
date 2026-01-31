@@ -21,6 +21,7 @@ View::View(Controller* controller, QWidget* parent)
 
 void View::SetupConnections() {
   connect(p_menu_wid_, &MenuWidget::ActionTriggered, controller_, &Controller::OnActionTriggered);
+  connect(controller_, &Controller::UpdateObjectInfo, p_menu_wid_, &MenuWidget::OnUpdateObjectInfo);
 }
 
 } // namespace s21

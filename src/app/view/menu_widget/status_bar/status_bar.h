@@ -18,8 +18,8 @@ class StatusBar : public QWidget {
 
  public slots:
   /* Slots */
-  void UpdateState(int vertices_count, int edges_count);
-  void ShowError(const QString& msg);
+  void OnUpdateInfo(int vertices_count, int edges_count);
+  void OnShowError(const QString& msg);
 
  private:
   /* Setup */

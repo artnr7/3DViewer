@@ -2,6 +2,7 @@
 #define CONTROLLER_HPP_
 
 #include <QObject>
+#include <qtmetamacros.h>
 #include <vector>
 #include <string>
 // #include "spdlog/spdlog.h"
@@ -20,6 +21,9 @@ class Controller : public QObject {
   Controller(Model* model);
   [[nodiscard]] static std::vector<float> &GetVertices();
   static void CreateNewObject(const std::string &obj_filename) noexcept;
+
+ signals:
+  void UpdateObjectInfo(ModelUpdateData data);
 
  public slots:
   void OnActionTriggered(SceneAction action, ActionData data);

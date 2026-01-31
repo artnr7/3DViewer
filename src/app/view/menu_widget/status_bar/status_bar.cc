@@ -92,7 +92,7 @@ void StatusBar::SetupAnimation() {
 // Setup
 
 /* Slots */
-void StatusBar::UpdateState(int vertices_count, int edges_count) {
+void StatusBar::OnUpdateInfo(int vertices_count, int edges_count) {
   if (blink_anim_->state() == QAbstractAnimation::Running) {
     blink_anim_->stop();
   }
@@ -101,7 +101,7 @@ void StatusBar::UpdateState(int vertices_count, int edges_count) {
   stack_->setCurrentIndex(style_.statistics_page_index);
 }
 
-void StatusBar::ShowError(const QString& msg) {
+void StatusBar::OnShowError(const QString& msg) {
   error_label_->setText(style_.error_label + ": " + msg);
   stack_->setCurrentIndex(style_.error_page_index);
   blink_anim_->start();

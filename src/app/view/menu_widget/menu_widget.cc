@@ -5,11 +5,14 @@
 #include <QPushButton>
 #include <QDebug>
 #include <qnamespace.h>
+#include <qstringview.h>
+#include <type_traits>
 
 #include "menu_widget.h"
 #include "menu_builder/menu_builder.h"
 #include "panel/panel.h"
 #include "panel/panel_items.h"
+#include "status_bar/status_bar.h"
 
 namespace s21 {
 
@@ -45,6 +48,7 @@ void MenuWidget::SetupUI() {
   /* TODO: FIX SIGNALS */
   MenuBuilder tool_builder(tool_bar, item_width, item_height);
   SetupToolBar(tool_builder, buttons_menu_width, item_height);
+  SetupStatusBar(status_bar);
 
   // pcmb1->SetArrows("assets/icons/open_arrow.png", "assets/icons/close_arrow.png");
   // pcmb1->AddItems("assets/icons/square.png", "assets/icons/circle.png");
@@ -54,7 +58,7 @@ void MenuWidget::SetupUI() {
   main_layout->addWidget(tool_bar);
   main_layout->addWidget(status_bar);
 }
-// jj
+
 void MenuWidget::SetupToolBar(IBuilder& builder, int buttons_menu_width, int buttons_menu_height) {
   builder.AddPanel("Transform")
       .AddSubPanel("Translation")
@@ -92,6 +96,23 @@ void MenuWidget::SetupToolBar(IBuilder& builder, int buttons_menu_width, int but
       .AddSubPanel("")
         .SetSize(buttons_menu_width, buttons_menu_height)
         .Add<PIFileManagement>("", nullptr, "Open", "File name:");
+}
+
+void MenuWidget::SetupStatusBar(StatusBar* status_bar) {
+  connect(this, &MenuWidget::UpdateInfo, status_bar, &StatusBar::OnUpdateInfo);
+  connect(this, &MenuWidget::ShowError, status_bar, &StatusBar::OnShowError);
+}
+
+void MenuWidget::OnUpdateObjectInfo(ModelUpdateData data){
+  std::visit([this](auto&& arg){
+    using T = std::decay_t<decltype(arg)>;
+
+    if constexpr (std::is_same_v<T, ObjectInfo>) {
+      emit UpdateInfo(arg.vertices, arg.edges);
+    } else if constexpr (std::is_same_v<T, QString>) {
+      emit ShowError(arg);
+    }
+  }, data);
 }
 
 } // namespace s21
