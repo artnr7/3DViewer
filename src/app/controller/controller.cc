@@ -26,6 +26,10 @@ Controller::Controller(Model* model)
   {
 }
 
+void Controller::SetupConnections() {
+  connect(model_, &Model::UpdateObjectInfo, this, &Controller::UpdateObjectInfo);
+}
+
 /*
  * TODO:
  * 1. Refactor this function

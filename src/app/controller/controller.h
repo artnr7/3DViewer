@@ -29,6 +29,7 @@ class Controller : public QObject {
   void OnActionTriggered(SceneAction action, ActionData data);
 
  private:
+  void SetupConnections();
   /* Fields */
   Model* model_;
 };

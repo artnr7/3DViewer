@@ -3,7 +3,6 @@
 
 #include <QString>
 #include <QColor>
-#include <qobject.h>
 
 namespace s21 {
 
@@ -34,15 +33,7 @@ enum class ComboBoxData {
 };
 
 // using ActionData = std::variant<double, int, QColor, QString, bool>;
- using ActionData = std::variant<int>;
-
-
- struct ObjectInfo {
-  int vertices; /* vertices count */
-  int edges;    /* edges    count */
- };
-
- using ModelUpdateData = std::variant<QString, ObjectInfo>;
+using ActionData = std::variant<int>;
 
 } // namespace s21
 

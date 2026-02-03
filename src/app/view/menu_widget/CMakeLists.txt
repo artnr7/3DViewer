@@ -44,6 +44,6 @@ target_include_directories(menu_widget_lib
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/
 )
 
-target_link_libraries(menu_widget_lib PUBLIC common_types)
+target_link_libraries(menu_widget_lib PRIVATE action_types model_types)
 
 target_link_qt(menu_widget_lib)
