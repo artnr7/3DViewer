@@ -1,7 +1,5 @@
 register_format_cmake_file()
 
-
-
 add_executable(${PROJECT_NAME} 3dviewer.cc)
 
 add_subdirectory(utils)
