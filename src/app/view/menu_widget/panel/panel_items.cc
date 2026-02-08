@@ -148,6 +148,14 @@ void PIValueController::SetupContentConnections() {
 }
 
 /* Value Management Mutators */
+void PIComboBox::AddItems(std::initializer_list<std::pair<QString, int>> items) {
+  combo_box_->AddItems(items);
+}
+
+void PIComboBox::AddItem(const QString& icon_path, int value) {
+  combo_box_->AddItem(icon_path, value);
+}
+
 void PIComboBox::SetArrows(const QString& up_icon_path,
                            const QString& down_icon_path) {
   combo_box_->SetArrows(up_icon_path, down_icon_path);
@@ -160,8 +168,9 @@ QWidget* PIComboBox::CreateContentWidget(int width, int height) {
   return combo_box_;
 }
 
-// TODO: Fix signals
 void PIComboBox::SetupContentConnections() {
+  connect(combo_box_, &CustomComboBox::CurrentIndexChanged, this,
+          &PIComboBox::CurrentIndexChanged);
 }
 // Setup
 //// PIComboBox
@@ -181,8 +190,9 @@ QWidget* PIColorPicker::CreateContentWidget(int width, int height) {
   return color_picker_;
 }
 
-// TODO: Fix signals
 void PIColorPicker::SetupContentConnections() {
+  connect(color_picker_, &ColorPicker::ColorChanged, this,
+          &PIColorPicker::ColorChanged);
 }
 // Setup
 //// PIColorPicker
@@ -213,8 +223,20 @@ QWidget* PIDoubleButton::CreateContentWidget(int width, int height) {
   return double_button_;
 }
 
-// TODO: Fix signals
 void PIDoubleButton::SetupContentConnections() {
+  if (is_exclusive_) {
+    auto* exclusive_button = qobject_cast<ExclusiveDoubleButton*>(double_button_);
+    if (exclusive_button) {
+      connect(exclusive_button, &ExclusiveDoubleButton::LeftButtonToggled, this, &PIDoubleButton::LeftButtonToggled);
+      connect(exclusive_button, &ExclusiveDoubleButton::RightButtonToggled, this, &PIDoubleButton::RightButtonToggled);
+    }
+  } else {
+    auto* independent_button = qobject_cast<IndependentDoubleButton*>(double_button_);
+    if (independent_button) {
+      connect(independent_button, &IndependentDoubleButton::LeftButtonClicked, this, &PIDoubleButton::LeftButtonClicked);
+      connect(independent_button, &IndependentDoubleButton::RightButtonClicked, this, &PIDoubleButton::RightButtonClicked);
+    }
+  }
 }
 // Setup
 
@@ -240,8 +262,8 @@ QWidget* PIFileManagement::CreateContentWidget(int width, int height) {
   return file_panel_;
 }
 
-// TODO: Fix signals
 void PIFileManagement::SetupContentConnections() {
+  connect(file_panel_, &FileDialogPanel::FileSelected, this, &PIFileManagement::FileSelected);
 }
 // Setup
 //// PIFileManagement

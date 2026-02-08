@@ -86,16 +86,15 @@ class PIComboBox: public PIBase {
   /* Value Management Accessors */
 
   /* Value Management Mutators */
-  template <typename... Args>
-  void AddItems(Args&&... args);
+  void AddItems(std::initializer_list<std::pair<QString, int>> items);
+  void AddItem(const QString& icon_path, int value);
 
   void SetArrows(const QString& up_icon_path,
                  const QString& down_icon_path);
 
-  // TODO: Fix signals
-   // signals:
-    /* Signals */
-   // void CurrentValueChanged(int value);
+ signals:
+  /* Signals */
+  void CurrentIndexChanged(int index);
 
  protected:
   /* Setup */
@@ -107,10 +106,10 @@ class PIComboBox: public PIBase {
 };
 
 /* Value Management Mutators */
-template <typename... Args>
-void PIComboBox::AddItems(Args&&... args) {
-  combo_box_->AddItems(std::forward<Args>(args)...);
-}
+// template <typename... Args>
+// void PIComboBox::AddItems(Args&&... args) {
+//   combo_box_->AddItems(std::forward<Args>(args)...);
+// }
 // Value Management Mutators
 //// PIComboBox
 
@@ -125,10 +124,9 @@ class PIColorPicker: public PIBase {
   /* Value Management Accessors */
   /* Value Management Mutators */
 
-  // TODO: Fix signals
-   // signals:
-    /* Signals */
-   // void CurrentValueChanged(int value);
+ signals:
+  /* Signals */
+  void ColorChanged(const QColor& color);
 
  protected:
   /* Setup */
@@ -156,10 +154,13 @@ class PIDoubleButton: public PIBase {
   /* Value Management Accessors */
   /* Value Management Mutators */
 
- // TODO: Fix signals
- // signals:
-  /* Signals */
- // void CurrentValueChanged(int value);
+ signals:
+  /* Signals for ExclusiveDoubleButton */
+  void LeftButtonToggled(bool checked);
+  void RightButtonToggled(bool checked);
+  /* Signals for IndependentDoubleButton */
+  void LeftButtonClicked();
+  void RightButtonClicked();
 
  protected:
   /* Setup */
@@ -190,9 +191,9 @@ class PIFileManagement: public PIBase {
   /* Value Management Mutators */
 
  // TODO: Fix signals
- // signals:
+ signals:
   /* Signals */
- // void CurrentValueChanged(int value);
+  void FileSelected(const QString& filePath);
 
  protected:
   /* Setup */

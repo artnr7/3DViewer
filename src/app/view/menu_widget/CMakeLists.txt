@@ -1,5 +1,14 @@
 register_format_cmake_file()
 
+#* action_types interface *#
+set(ACTION_TYPES_FILES interface/action_types.h)
+
+add_library(action_types INTERFACE)
+target_include_directories(action_types INTERFACE
+  ${CMAKE_CURRENT_SOURCE_DIR}/interface
+)
+## action_types interface
+
 set(MENU_WIDGET_FILES
     menu_widget.cc
     menu_builder/builder_contexts.cc

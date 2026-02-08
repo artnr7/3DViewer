@@ -1,8 +1,11 @@
+#include <qpalette.h>
+#include <type_traits>
+#include <iostream>
+
 #include "controller.h"
 #include "action_types.h"
 #include "model.h"
-#include <type_traits>
-#include <iostream>
+#include "enum.h"
 
 namespace s21 {
 
@@ -82,31 +85,31 @@ void Controller::OnActionTriggered(SceneAction action, ActionData data) {
       switch (action) {
         /* Vertexes */
         case SceneAction::kVertexColor:
-          std::cout << "Vertex color to: " << arg << "\n";
+          std::cout << "Vertex color to: " << arg.toStdString() << "\n";
           break;
         /* Edges */
         case SceneAction::kEdgeColor:
-          std::cout << "Edge color to: " << arg << "\n";
+          std::cout << "Edge color to: " << arg.toStdString() << "\n";
           break;
         /* Open file */
         case SceneAction::kOpenFile:
-          std::cout << "File with name: " << arg << "open\n";
+          std::cout << "File with name: " << arg.toStdString() << " open\n";
+          model_->OpenModelFile(arg);
           break;
 
         default:
           /* Write Error to log */
           break;
       }
-    } else if constexpr (std::is_same_v<T, ComboBoxData>) {
+    } else if constexpr (std::is_same_v<T, VertexStyle> || std::is_same_v<T, EdgeStyle>) {
       switch (action) {
-
         /* Vertexes */
         case SceneAction::kVertexStyle:
-          std::cout << "Vertex style to: " << arg << "\n";
-            break;
+          std::cout << "Vertex style to: " << static_cast<int>(arg) << "\n";
+          break;
         /* Edges */
         case SceneAction::kEdgeStyle:
-          std::cout << "Edge style to: " << arg << "\n";
+          std::cout << "Edge style to: " << static_cast<int>(arg) << "\n";
           break;
 
         default:

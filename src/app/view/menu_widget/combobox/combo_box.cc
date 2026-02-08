@@ -50,10 +50,10 @@ void CustomComboBox::SetArrows(const QString& up_icon_path,
                                const QString& down_icon_path) {
   QString absolute_path_up = QDir::cleanPath(QCoreApplication::applicationDirPath() + "/../" + up_icon_path);
   QString absolute_path_down = QDir::cleanPath(QCoreApplication::applicationDirPath() + "/../" + down_icon_path);
-  
+
   qDebug() << "Absolute path up:" << absolute_path_up;
   qDebug() << "Absolute path down :" << absolute_path_down;
-  
+
   SetUpArrow(absolute_path_up);
   SetDownArrow(absolute_path_down);
 }
@@ -130,42 +130,48 @@ QColor CustomComboBox::GetSelectedColor() const { return colors_.selected; }
 const ComboBoxStyle::Color& CustomComboBox::GetColor() const {
   return colors_;
 }
-
 // Color managment accessors
 
 /* Item management */
-void CustomComboBox::AddItem(const QString& icon_path) {
+void CustomComboBox::AddItem(const QString& icon_path, int value) {
   QString absolute_path = QDir::cleanPath(
       QCoreApplication::applicationDirPath() +
       "/../" +
       icon_path
   );
-  
+
   qDebug() << "Original path:" << icon_path;
   qDebug() << "Absolute path:" << absolute_path;
-  
-  AddItem(QIcon(absolute_path));
+
+  AddItem(QIcon(absolute_path), value);
 }
 
-void CustomComboBox::AddItem(const QIcon& icon) {
+void CustomComboBox::AddItem(const QIcon& icon, int value) {
   if (icon.isNull()) {
     qWarning() << "Attempting to add null icon to CustomComboBox";
     return;
   }
 
   items_.append(icon);
-  QListWidgetItem* listItem = new QListWidgetItem(list_widget_);
+  QListWidgetItem* list_item = new QListWidgetItem(list_widget_);
 
-  listItem->setIcon(icon);
-  listItem->setText("");
-  listItem->setTextAlignment(Qt::AlignCenter);
-  listItem->setSizeHint(QSize(width_, ItemHeight()));
+  list_item->setIcon(icon);
+  list_item->setData(Qt::UserRole, value);
+  list_item->setText("");
+  list_item->setTextAlignment(Qt::AlignCenter);
+  list_item->setSizeHint(QSize(width_, ItemHeight()));
 
   if (current_index_ == -1) {
     SetCurrentIndex(0);
   }
 
   UpdateCurrentDisplay();
+}
+
+void CustomComboBox::AddItems(std::initializer_list<std::pair<QString, int>> items) {
+  for (const auto& item : items) {
+    AddItem(item.first, item.second);
+  }
 }
 
 void CustomComboBox::Clear() {
@@ -181,7 +187,9 @@ void CustomComboBox::SetCurrentIndex(int index) {
   if (index >= 0 && index < items_.size() && index != current_index_) {
     current_index_ = index;
     UpdateCurrentDisplay();
-    emit CurrentIndexChanged(index);
+
+    int actual_value = list_widget_->item(index)->data(Qt::UserRole).toInt();
+    emit CurrentIndexChanged(actual_value);
   }
 }
 

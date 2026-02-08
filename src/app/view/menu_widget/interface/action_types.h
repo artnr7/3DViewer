@@ -3,6 +3,8 @@
 
 #include <QString>
 #include <QColor>
+#include <qmainwindow.h>
+#include <qobject.h>
 
 namespace s21 {
 
@@ -27,13 +29,19 @@ enum class SceneAction {
   kOpenFile
 };
 
-enum class ComboBoxData {
-  kCircle, kSquare,
-  kLine, kDashLine
+enum class VertexStyle {
+  kEmpty,
+  kSquare,
+  kCircle
+};
+
+enum class EdgeStyle {
+  kLine,
+  kDashLine
 };
 
 // using ActionData = std::variant<double, int, QColor, QString, bool>;
-using ActionData = std::variant<int>;
+using ActionData = std::variant<int, QString, VertexStyle, EdgeStyle>;
 
 } // namespace s21
 

@@ -48,11 +48,9 @@ class CustomComboBox : public QWidget {
   QColor GetPopupBackgroundColor() const;
 
   /* Item Management */
-  void AddItem(const QIcon& icon);
-  void AddItem(const QString& icon_path);
-
-  template <typename... Args>
-  void AddItems(Args&&... args);
+  void AddItem(const QIcon& icon, int value);
+  void AddItem(const QString& icon_path, int value);
+  void AddItems(std::initializer_list<std::pair<QString, int>> items);
 
   void Clear();
 
@@ -109,38 +107,6 @@ class CustomComboBox : public QWidget {
   QWidget* popup_;
   QPropertyAnimation* animation_;
 };
-
-/**
- * @brief Variadic template function to add multiple items to the combo box
- *
- * Supported argument types:
- *   - QIcon
- *   - QString
- *   - const char*
- *
- * @tparam Args Parameter pack of arguments to process
- * @param args Arguments to be added as items
- *
- * @note Unsupported types will trigger a warning message via qWarning()
- */
-template <typename... Args>
-void CustomComboBox::AddItems(Args&&... args) {
-  auto process = [this](auto&& arg) {
-    using T = std::decay_t<decltype(arg)>;
-
-    if constexpr (std::is_same_v<T, QIcon>) {
-      AddItem(std::forward<decltype(arg)>(arg));
-    } else if constexpr (std::is_same_v<T, QString>) {
-      AddItem(std::forward<decltype(arg)>(arg));
-    } else if constexpr (std::is_convertible_v<T, const char*>) {
-      AddItem(QString(std::forward<decltype(arg)>(arg)));
-    } else {
-      qWarning() << "Cannot convert argument to icon!";
-    }
-  };
-
-  (process(std::forward<Args>(args)), ...);
-}
 
 } // namespace s21
 

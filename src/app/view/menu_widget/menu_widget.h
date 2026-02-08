@@ -6,6 +6,7 @@
 #include "model_types.h"
 
 #include <QWidget>
+#include <iostream>
 
 namespace s21 {
 
@@ -42,14 +43,17 @@ class MenuWidget : public QWidget {
 
  private:
   void SetupUI();
-  void SetupToolBar(IBuilder& builder, int buttons_menu_width, int buttons_menu_height);
+  void SetupToolBar(IBuilder* builder, int buttons_menu_width, int buttons_menu_height);
   void SetupStatusBar(StatusBar* status_bar);
-
-  template <typename WidgetType, typename DataType>
-  void Bind(WidgetType* widget, SceneAction action, void (WidgetType::*signal)(DataType));
+  void SetupTransformPanel(IBuilder* builder);
+  void SetupShadingPanel(IBuilder* builder);
+  void SetupButtonsPanel(IBuilder* builder, int buttons_menu_width, int buttons_menu_height);
 
   template <typename Item, typename DataType>
   auto Connect(SceneAction action, void (Item::*signal)(DataType));
+
+  template <typename EnumType, typename Item, typename DataType>
+  auto ConnectEnum(SceneAction action, void (Item::*signal)(DataType));
 
   /* Fields */
   MenuWidgetStyle style_;
@@ -57,17 +61,21 @@ class MenuWidget : public QWidget {
   int height_;
 };
 
-template <typename WidgetType, typename DataType>
-void MenuWidget::Bind(WidgetType* widget, SceneAction action, void (WidgetType::*signal)(DataType)) {
-  connect(widget, signal, this, [this, action](DataType value) {
-    emit ActionTriggered(action, value);
-  });
-}
-
 template <typename Item, typename DataType>
 auto MenuWidget::Connect(SceneAction action, void (Item::*signal)(DataType)) {
   return [this, action, signal](Item* item) {
-    this->Bind(item, action, signal);
+    connect(item, signal, this, [this, action](DataType value) {
+      emit ActionTriggered(action, value);
+    });
+  };
+}
+
+template <typename EnumType, typename Item, typename DataType>
+auto MenuWidget::ConnectEnum(SceneAction action, void (Item::*signal)(DataType)) {
+  return [this, action, signal](Item* item) {
+    connect(item, signal, this, [this, action](DataType value) {
+      emit ActionTriggered(action, static_cast<EnumType>(value));
+    });
   };
 }
 
