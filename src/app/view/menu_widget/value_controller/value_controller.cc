@@ -4,7 +4,7 @@
 #include <QKeyEvent>
 #include <QMouseEvent>
 
-namespace  s21 {
+namespace s21 {
 
 ValueController::ValueController(int width, int height, QWidget* parent)
     : QWidget(parent),
@@ -67,8 +67,9 @@ void ValueController::SetupUI() {
 
   left_button_ = new QPushButton(style_.left_arrow_symbol, container);
   left_button_->setFixedSize(button_width, button_height);
-  left_button_->setStyleSheet(CreateButtonStyle(
-      arrow_font_size, style_.container_border_radius, 0, style_.container_border_radius, 0));
+  left_button_->setStyleSheet(
+      CreateButtonStyle(arrow_font_size, style_.container_border_radius, 0,
+                        style_.container_border_radius, 0));
 
   value_field_ = new QLineEdit(container);
   value_field_->setFixedSize(field_width, field_height);
@@ -81,8 +82,9 @@ void ValueController::SetupUI() {
 
   right_button_ = new QPushButton(style_.right_arrow_symbol, container);
   right_button_->setFixedSize(button_width, button_height);
-  right_button_->setStyleSheet(CreateButtonStyle(
-      arrow_font_size, 0, style_.container_border_radius, 0, style_.container_border_radius));
+  right_button_->setStyleSheet(
+      CreateButtonStyle(arrow_font_size, 0, style_.container_border_radius, 0,
+                        style_.container_border_radius));
 
   main_layout_->addWidget(left_button_);
   main_layout_->addWidget(value_field_);
@@ -277,4 +279,4 @@ void ValueController::UpdateValueField() {
 }
 // Value Management Update
 
-} // namespace s21
+}  // namespace s21

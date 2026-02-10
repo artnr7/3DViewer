@@ -7,7 +7,7 @@
 
 #define CAST_INT(value) static_cast<int>(value)
 
-namespace  s21 {
+namespace s21 {
 
 ColorSelectionDialog::ColorSelectionDialog(int width, int height,
                                            const QColor& initial_color,
@@ -88,10 +88,10 @@ void ColorSelectionDialog::SetupConnections() {
 
   connect(red_controller_, &PIValueController::CurrentValueChanged, this,
           [this](int value) { OnRGBValueChanged(); });
-  connect(green_controller_, &PIValueController::CurrentValueChanged,
-          this, [this](int value) { OnRGBValueChanged(); });
-  connect(blue_controller_, &PIValueController::CurrentValueChanged,
-          this, [this](int value) { OnRGBValueChanged(); });
+  connect(green_controller_, &PIValueController::CurrentValueChanged, this,
+          [this](int value) { OnRGBValueChanged(); });
+  connect(blue_controller_, &PIValueController::CurrentValueChanged, this,
+          [this](int value) { OnRGBValueChanged(); });
 }
 
 void ColorSelectionDialog::SetupRGBControls(int width, int height) {
@@ -250,4 +250,4 @@ void ColorSelectionDialog::OnRGBValueChanged() {
   }
 }
 
-} // namespace s21
+}  // namespace s21

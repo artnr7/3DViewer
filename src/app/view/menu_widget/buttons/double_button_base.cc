@@ -1,16 +1,15 @@
 #include "double_button_base.h"
+
 #include <QtMath>
 
 DoubleButtonBase::DoubleButtonBase(const QString& left_button_name,
-                                   const QString& right_button_name,
-                                   int width, int height,
-                                   QWidget* parent)
-  : QWidget(parent)
-  , left_button_(new QPushButton(left_button_name))
-  , right_button_(new QPushButton(right_button_name))
-  , main_layout_(new QHBoxLayout(this))
-  , widget_size_(width, height) {
-
+                                   const QString& right_button_name, int width,
+                                   int height, QWidget* parent)
+    : QWidget(parent),
+      left_button_(new QPushButton(left_button_name)),
+      right_button_(new QPushButton(right_button_name)),
+      main_layout_(new QHBoxLayout(this)),
+      widget_size_(width, height) {
   setFixedSize(widget_size_);
   SetupLayout();
   SetupButtonSize();
@@ -40,8 +39,8 @@ void DoubleButtonBase::SetupStyles() {
   int button_area = button_width * button_height;
 
   int font_size = qSqrt(button_area) * 0.2;
-  auto create_button_style = [font_size] (int radius_tl, int radius_tr,
-                                          int radius_bl, int radius_br) {
+  auto create_button_style = [font_size](int radius_tl, int radius_tr,
+                                         int radius_bl, int radius_br) {
     return QString(R"(
       QPushButton {
         background-color: #5A5A5A;
@@ -60,11 +59,11 @@ void DoubleButtonBase::SetupStyles() {
         background-color: #404040;
       }
     )")
-      .arg(font_size)
-      .arg(radius_tl)
-      .arg(radius_bl)
-      .arg(radius_tr)
-      .arg(radius_br);
+        .arg(font_size)
+        .arg(radius_tl)
+        .arg(radius_bl)
+        .arg(radius_tr)
+        .arg(radius_br);
   };
 
   left_button_->setStyleSheet(create_button_style(4, 0, 4, 0));

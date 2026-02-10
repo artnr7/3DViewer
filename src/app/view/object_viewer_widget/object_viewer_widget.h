@@ -11,12 +11,13 @@ namespace s21 {
 class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   Q_OBJECT
  public:
-  ObjectViewerWidget(int x_offset, int y_offset, int with, int height, QWidget *parent); //, const std::string &obj_filename);
+  ObjectViewerWidget(int x_offset, int y_offset, int with, int height,
+                     QWidget* parent);  //, const std::string &obj_filename);
 
- // protected:
- //  void initializeGL() override;
- //  void resizeGL(int w, int h) override;
- //  void paintGL() override;
+  // protected:
+  //  void initializeGL() override;
+  //  void resizeGL(int w, int h) override;
+  //  void paintGL() override;
 
  private:
   // void LoadShaders();
@@ -30,7 +31,7 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   // GLint projLoc;
   QOpenGLBuffer m_vbo_;
   QOpenGLVertexArrayObject m_vao_;
-  QOpenGLShaderProgram *m_shader_program_;
+  QOpenGLShaderProgram* m_shader_program_;
   // Model →
   std::string obj_filename_;
 

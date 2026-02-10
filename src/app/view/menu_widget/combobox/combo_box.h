@@ -3,11 +3,11 @@
 
 #include <QIcon>
 #include <QLabel>
-#include <QWidget>
-#include <QListWidgetItem>
-#include <QVector>
 #include <QListWidget>
+#include <QListWidgetItem>
 #include <QPropertyAnimation>
+#include <QVector>
+#include <QWidget>
 
 #include "style_configs/combo_box_style.h"
 
@@ -80,8 +80,10 @@ class CustomComboBox : public QWidget {
 
   /* Paint Management */
   void PaintBackground(QPainter& painter);
-  void PaintExpandedBackground(QPainter& painter, const QRect& rect, const QColor& bg_color);
-  void PaintCollapsedBackground(QPainter& painter, const QRect& rect, const QColor& bg_color);
+  void PaintExpandedBackground(QPainter& painter, const QRect& rect,
+                               const QColor& bg_color);
+  void PaintCollapsedBackground(QPainter& painter, const QRect& rect,
+                                const QColor& bg_color);
   void PaintArrow(QPainter& painter);
 
   /* Internal Helpers */
@@ -108,6 +110,6 @@ class CustomComboBox : public QWidget {
   QPropertyAnimation* animation_;
 };
 
-} // namespace s21
+}  // namespace s21
 
 #endif  // COMBOX_H

@@ -1,8 +1,8 @@
 #ifndef FILE_DIALOG_PANEL_H
 #define FILE_DIALOG_PANEL_H
 
-#include <QWidget>
 #include <QLabel>
+#include <QWidget>
 
 #include "file_dialog_button.h"
 #include "style_configs/file_dialog_panel_style.h"
@@ -12,11 +12,10 @@ namespace s21 {
 class FileDialogPanel : public QWidget {
   Q_OBJECT
 
-public:
-  explicit FileDialogPanel(int width, int height,
-                          const QString& button_text,
-                          const QString& label_text,
-                          QWidget* parent = nullptr);
+ public:
+  explicit FileDialogPanel(int width, int height, const QString& button_text,
+                           const QString& label_text,
+                           QWidget* parent = nullptr);
 
   /* File Management Accessors */
   QString GetSelectedFile() const;
@@ -24,15 +23,15 @@ public:
  signals:
   void FileSelected(const QString& filePath);
 
-protected:
+ protected:
   /* Event Handlers */
   bool eventFilter(QObject* obj, QEvent* event) override;
 
-private slots:
+ private slots:
   /* Slot Management */
   void OnFileSelected(const QString& file_path);
 
-private:
+ private:
   /* UI Setup */
   void SetupUI();
   void SetupStyles();
@@ -53,6 +52,6 @@ private:
   QLabel* file_name_label_;
 };
 
-} // namespace s21
+}  // namespace s21
 
-#endif // FILE_DIALOG_PANEL_H
+#endif  // FILE_DIALOG_PANEL_H

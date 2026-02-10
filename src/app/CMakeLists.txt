@@ -1,6 +1,9 @@
 register_format_cmake_file()
 
-add_executable(${PROJECT_NAME} 3dviewer.cc)
+set(MAIN_FILES 3dviewer.cc)
+register_format_sources(${MAIN_FILES})
+
+add_executable(${PROJECT_NAME} ${MAIN_FILES})
 
 add_subdirectory(utils)
 add_subdirectory(model)

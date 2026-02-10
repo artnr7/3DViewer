@@ -3,7 +3,7 @@
 #include <QMouseEvent>
 #include <QPainter>
 
-namespace  s21 {
+namespace s21 {
 
 BrightnessSlider::BrightnessSlider(int width, int height, QWidget* parent)
     : QWidget(parent),
@@ -136,4 +136,4 @@ void BrightnessSlider::SetBrightness(int brightness) {
 }
 // Brightness Managment Mutators
 
-} // namespace s21
+}  // namespace s21

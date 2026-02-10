@@ -5,7 +5,7 @@
 
 #include "style_configs/brightness_slider_style.h"
 
-namespace  s21 {
+namespace s21 {
 
 class BrightnessSlider : public QWidget {
   Q_OBJECT
@@ -53,6 +53,6 @@ class BrightnessSlider : public QWidget {
   int line_height_;
 };
 
-} // namespace s21
+}  // namespace s21
 
 #endif  // BRIGHTNESS_SLIDER_H_

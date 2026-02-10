@@ -6,7 +6,7 @@
 
 #include "style_configs/color_picker_style.h"
 
-namespace  s21 {
+namespace s21 {
 
 class ColorSelectionDialog;
 
@@ -35,6 +35,6 @@ class ColorPicker : public QWidget {
   int height_;
 };
 
-} // namespace s21
+}  // namespace s21
 
 #endif  // COLOR_PICKER_H_

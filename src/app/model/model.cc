@@ -1,4 +1,5 @@
 #include "model.h"
+
 #include <type_traits>
 #include <variant>
 
@@ -10,18 +11,20 @@ void Model::OpenModelFile(const QString& file_path) {
 }
 
 ModelUpdateData Model::ConvertData(LoadData data) {
-  return std::visit([](auto&& arg){
-    using T = std::decay_t<decltype(arg)>;
-    ModelUpdateData result;
+  return std::visit(
+      [](auto&& arg) {
+        using T = std::decay_t<decltype(arg)>;
+        ModelUpdateData result;
 
-    if constexpr (std::is_same_v<T, std::string>) {
-      result = QString::fromStdString(arg);
-    } else {
-      result = arg;
-    }
+        if constexpr (std::is_same_v<T, std::string>) {
+          result = QString::fromStdString(arg);
+        } else {
+          result = arg;
+        }
 
-    return result;
-  }, data);
+        return result;
+      },
+      data);
 }
 
-} // namespace s21
+}  // namespace s21

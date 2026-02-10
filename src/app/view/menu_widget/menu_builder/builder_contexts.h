@@ -18,17 +18,19 @@ class IBuilder {
 
 class SubPanelContext {
  public:
-  SubPanelContext(SubPanel* sub_panel, PanelContext* panel_context, IBuilder* root_builder, int width, int height);
+  SubPanelContext(SubPanel* sub_panel, PanelContext* panel_context,
+                  IBuilder* root_builder, int width, int height);
 
   template <typename T, typename... Args>
-  SubPanelContext& Add(const QString& label, std::function<void(T*)> config, Args&&...args);
+  SubPanelContext& Add(const QString& label, std::function<void(T*)> config,
+                       Args&&... args);
 
   PanelContext AddPanel(const QString& title);
   SubPanelContext AddSubPanel(const QString& title);
 
   SubPanelContext& SetSize(int width, int height);
 
-  private:
+ private:
   /* Fields */
   SubPanel* sub_panel_;
   PanelContext* parent_panel_context_;
@@ -42,8 +44,9 @@ class SubPanelContext {
 template <typename Item, typename... Args>
 SubPanelContext& SubPanelContext::Add(const QString& label,
                                       std::function<void(Item*)> config_func,
-                                      Args&&...args) {
-  Item* item = new Item(label, current_width_, current_height_, std::forward<Args>(args)...);
+                                      Args&&... args) {
+  Item* item = new Item(label, current_width_, current_height_,
+                        std::forward<Args>(args)...);
   current_width_ = width_;
   current_height_ = height_;
 
@@ -69,6 +72,6 @@ class PanelContext {
   int item_height_;
 };
 
-} // namespace s21
+}  // namespace s21
 
-#endif // BUILDER_CONTEXTS_H_
+#endif  // BUILDER_CONTEXTS_H_

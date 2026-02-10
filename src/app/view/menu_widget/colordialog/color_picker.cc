@@ -6,7 +6,7 @@
 
 #include "color_select_dialog.h"
 
-namespace  s21 {
+namespace s21 {
 
 ColorPicker::ColorPicker(int widht, int height, QWidget* parent)
     : QWidget(parent), style_{}, width_(widht), height_(height) {
@@ -36,7 +36,9 @@ void ColorPicker::paintEvent(QPaintEvent* event) {
 
 void ColorPicker::mousePressEvent(QMouseEvent* event) {
   if (event->button() == Qt::LeftButton) {
-    ColorSelectionDialog dialog(style_.color_selection_dialog_width, style_.color_selection_dialog_height, style_.default_color, this);
+    ColorSelectionDialog dialog(style_.color_selection_dialog_width,
+                                style_.color_selection_dialog_height,
+                                style_.default_color, this);
 
     QPoint dialogPos = mapToGlobal(QPoint(0, 0));
     dialogPos.setY(dialogPos.y() - dialog.height() - style_.dialog_offset_y);
@@ -53,4 +55,4 @@ void ColorPicker::mousePressEvent(QMouseEvent* event) {
 }
 // Event Handlers
 
-} // namespace s21
+}  // namespace s21

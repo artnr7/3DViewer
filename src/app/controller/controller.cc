@@ -1,11 +1,13 @@
-#include <qpalette.h>
-#include <type_traits>
-#include <iostream>
-
 #include "controller.h"
+
+#include <qpalette.h>
+
+#include <iostream>
+#include <type_traits>
+
 #include "action_types.h"
-#include "model.h"
 #include "enum.h"
+#include "model.h"
 
 namespace s21 {
 
@@ -24,13 +26,11 @@ namespace s21 {
 // }
 //
 
-Controller::Controller(Model* model)
-  : model_(model)
-  {
-}
+Controller::Controller(Model* model) : model_(model) {}
 
 void Controller::SetupConnections() {
-  connect(model_, &Model::UpdateObjectInfo, this, &Controller::UpdateObjectInfo);
+  connect(model_, &Model::UpdateObjectInfo, this,
+          &Controller::UpdateObjectInfo);
 }
 
 /*
@@ -39,85 +39,88 @@ void Controller::SetupConnections() {
  * 2. Make a log output
  */
 void Controller::OnActionTriggered(SceneAction action, ActionData data) {
-  std::visit([this, action](auto&& arg) {
-    using T = std::decay_t<decltype(arg)>;
+  std::visit(
+      [this, action](auto&& arg) {
+        using T = std::decay_t<decltype(arg)>;
 
-    if constexpr (std::is_same_v<T, int>) {
-      switch (action) {
-        /* Translate */
-        case SceneAction::kTranslateX:
-          std::cout << "Model move X to: " << arg << "\n";
-          break;
-        case SceneAction::kTranslateY:
-          std::cout << "Model move Y to: " << arg << "\n";
-          break;
-        case SceneAction::kTranslateZ:
-          std::cout << "Model move Z to: " << arg << "\n";
-          break;
-        /* Rotate */
-        case SceneAction::kRotateX:
-          std::cout << "Model rotate X to: " << arg << "\n";
-          break;
-        case SceneAction::kRotateY:
-          std::cout << "Model rotate Y to: " << arg << "\n";
-          break;
-        case SceneAction::kRotateZ:
-          std::cout << "Model rotate Z to: " << arg << "\n";
-          break;
-        /* Scale */
-        case SceneAction::kScale:
-          std::cout << "Model scale to: " << arg << "\n";
-          break;
-        /* Vertexes */
-        case SceneAction::kVertexSize:
-          std::cout << "Vertex size to: " << arg << "\n";
-          break;
-        /* Edges */
-        case SceneAction::kEdgeThickness:
-          std::cout << "Edge thickness to: " << arg << "\n";
-          break;
+        if constexpr (std::is_same_v<T, int>) {
+          switch (action) {
+            /* Translate */
+            case SceneAction::kTranslateX:
+              std::cout << "Model move X to: " << arg << "\n";
+              break;
+            case SceneAction::kTranslateY:
+              std::cout << "Model move Y to: " << arg << "\n";
+              break;
+            case SceneAction::kTranslateZ:
+              std::cout << "Model move Z to: " << arg << "\n";
+              break;
+            /* Rotate */
+            case SceneAction::kRotateX:
+              std::cout << "Model rotate X to: " << arg << "\n";
+              break;
+            case SceneAction::kRotateY:
+              std::cout << "Model rotate Y to: " << arg << "\n";
+              break;
+            case SceneAction::kRotateZ:
+              std::cout << "Model rotate Z to: " << arg << "\n";
+              break;
+            /* Scale */
+            case SceneAction::kScale:
+              std::cout << "Model scale to: " << arg << "\n";
+              break;
+            /* Vertexes */
+            case SceneAction::kVertexSize:
+              std::cout << "Vertex size to: " << arg << "\n";
+              break;
+            /* Edges */
+            case SceneAction::kEdgeThickness:
+              std::cout << "Edge thickness to: " << arg << "\n";
+              break;
 
-        default:
-          /* Write Error to log */
-          break;
-      }
-    } else if constexpr (std::is_same_v<T, QString>) {
-      switch (action) {
-        /* Vertexes */
-        case SceneAction::kVertexColor:
-          std::cout << "Vertex color to: " << arg.toStdString() << "\n";
-          break;
-        /* Edges */
-        case SceneAction::kEdgeColor:
-          std::cout << "Edge color to: " << arg.toStdString() << "\n";
-          break;
-        /* Open file */
-        case SceneAction::kOpenFile:
-          std::cout << "File with name: " << arg.toStdString() << " open\n";
-          model_->OpenModelFile(arg);
-          break;
+            default:
+              /* Write Error to log */
+              break;
+          }
+        } else if constexpr (std::is_same_v<T, QString>) {
+          switch (action) {
+            /* Vertexes */
+            case SceneAction::kVertexColor:
+              std::cout << "Vertex color to: " << arg.toStdString() << "\n";
+              break;
+            /* Edges */
+            case SceneAction::kEdgeColor:
+              std::cout << "Edge color to: " << arg.toStdString() << "\n";
+              break;
+            /* Open file */
+            case SceneAction::kOpenFile:
+              std::cout << "File with name: " << arg.toStdString() << " open\n";
+              model_->OpenModelFile(arg);
+              break;
 
-        default:
-          /* Write Error to log */
-          break;
-      }
-    } else if constexpr (std::is_same_v<T, VertexStyle> || std::is_same_v<T, EdgeStyle>) {
-      switch (action) {
-        /* Vertexes */
-        case SceneAction::kVertexStyle:
-          std::cout << "Vertex style to: " << static_cast<int>(arg) << "\n";
-          break;
-        /* Edges */
-        case SceneAction::kEdgeStyle:
-          std::cout << "Edge style to: " << static_cast<int>(arg) << "\n";
-          break;
+            default:
+              /* Write Error to log */
+              break;
+          }
+        } else if constexpr (std::is_same_v<T, VertexStyle> ||
+                             std::is_same_v<T, EdgeStyle>) {
+          switch (action) {
+            /* Vertexes */
+            case SceneAction::kVertexStyle:
+              std::cout << "Vertex style to: " << static_cast<int>(arg) << "\n";
+              break;
+            /* Edges */
+            case SceneAction::kEdgeStyle:
+              std::cout << "Edge style to: " << static_cast<int>(arg) << "\n";
+              break;
 
-        default:
-          /* Write Error to log */
-          break;
-      }
-    }
-  }, data);
+            default:
+              /* Write Error to log */
+              break;
+          }
+        }
+      },
+      data);
 }
 
-} // namespace s21
+}  // namespace s21

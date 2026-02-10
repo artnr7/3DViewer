@@ -6,7 +6,7 @@
 
 #include "style_configs/color_wheel_style.h"
 
-namespace  s21 {
+namespace s21 {
 
 class ColorWheel : public QWidget {
   Q_OBJECT
@@ -57,6 +57,6 @@ class ColorWheel : public QWidget {
   bool base_wheel_generated_ = false;
 };
 
-} // namespace s21
+}  // namespace s21
 
 #endif  // COLOR_WHEEL_H_

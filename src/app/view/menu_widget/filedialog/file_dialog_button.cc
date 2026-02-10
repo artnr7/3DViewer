@@ -1,22 +1,22 @@
 #include "file_dialog_button.h"
+
+#include <QDebug>
+#include <QDir>
 #include <QFileDialog>
 #include <QFileInfo>
-#include <QDir>
-#include <QDebug>
 
 namespace s21 {
 
-FileDialogButton::FileDialogButton(int width, int height, const QString& text, QWidget* parent)
-  : QPushButton(text, parent) {
+FileDialogButton::FileDialogButton(int width, int height, const QString& text,
+                                   QWidget* parent)
+    : QPushButton(text, parent) {
   setFixedSize(width, height);
   SetupStyle();
   SetupConnection();
 }
 
 /* File Management Accessors */
-QString FileDialogButton::GetSelectedFile() const {
-  return current_file_;
-}
+QString FileDialogButton::GetSelectedFile() const { return current_file_; }
 // File Management Accessors
 
 /* UI Setup & Connections */
@@ -37,15 +37,15 @@ void FileDialogButton::SetupStyle() {
         background-color: %9;
     }
   )")
-  .arg(style_button_.background_color)
-  .arg(style_button_.text_color)
-  .arg(style_button_.text_border_size)
-  .arg(style_button_.border_color)
-  .arg(style_button_.font_size)
-  .arg(style_button_.border_radius)
-  .arg(style_button_.hover_color)
-  .arg(style_button_.hover_border_color)
-  .arg(style_button_.pressed_color));
+                    .arg(style_button_.background_color)
+                    .arg(style_button_.text_color)
+                    .arg(style_button_.text_border_size)
+                    .arg(style_button_.border_color)
+                    .arg(style_button_.font_size)
+                    .arg(style_button_.border_radius)
+                    .arg(style_button_.hover_color)
+                    .arg(style_button_.hover_border_color)
+                    .arg(style_button_.pressed_color));
 }
 
 void FileDialogButton::SetupConnection() {
@@ -87,17 +87,19 @@ QString FileDialogButton::SetupDialogStyle() {
         background-color: %12;
     }
   )")
-  .arg(style_dialog_.background_color)
-  .arg(style_dialog_.text_color)
-  .arg(style_dialog_.widget_background)
-  .arg(style_dialog_.border_color)
-  .arg(style_dialog_.selection_color)
-  .arg(style_dialog_.border_radius)
-  .arg(style_dialog_.padding)
-  .arg(style_dialog_.button_border_radius).arg(style_dialog_.button_padding_vertical)
-  .arg(style_dialog_.button_padding_horizontal).arg(style_dialog_.min_button_width)
-  .arg(style_dialog_.hover_color)
-  .arg(style_dialog_.text_border_size);
+      .arg(style_dialog_.background_color)
+      .arg(style_dialog_.text_color)
+      .arg(style_dialog_.widget_background)
+      .arg(style_dialog_.border_color)
+      .arg(style_dialog_.selection_color)
+      .arg(style_dialog_.border_radius)
+      .arg(style_dialog_.padding)
+      .arg(style_dialog_.button_border_radius)
+      .arg(style_dialog_.button_padding_vertical)
+      .arg(style_dialog_.button_padding_horizontal)
+      .arg(style_dialog_.min_button_width)
+      .arg(style_dialog_.hover_color)
+      .arg(style_dialog_.text_border_size);
 }
 // UI Setup & Connections
 
@@ -135,4 +137,4 @@ void FileDialogButton::HandleClick() {
 }
 // Slot Management
 
-} // namespace s21
+}  // namespace s21

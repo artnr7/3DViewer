@@ -1,11 +1,13 @@
 register_format_cmake_file()
 
-add_library(view_lib STATIC
-  connections.cc
+set(VIEW_FILES connections.cc
   slots.cc
   view.cc
   view.h
   config.h)
+register_format_sources(${VIEW_FILES})
+
+add_library(view_lib STATIC ${VIEW_FILES})
 
 add_subdirectory(menu_widget)
 add_subdirectory(object_viewer_widget)

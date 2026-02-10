@@ -12,7 +12,8 @@ class FileDialogButton : public QPushButton {
   Q_OBJECT
 
  public:
-  explicit FileDialogButton(int width, int height, const QString& name, QWidget* parent = nullptr);
+  explicit FileDialogButton(int width, int height, const QString& name,
+                            QWidget* parent = nullptr);
 
   /* File Management Accessors */
   QString GetSelectedFile() const;
@@ -34,7 +35,6 @@ class FileDialogButton : public QPushButton {
   void HandleClick();
 
  private:
-
   /* Fields */
   FileDialogButtonStyle style_button_;
   FileDialogStyle style_dialog_;
@@ -44,6 +44,6 @@ class FileDialogButton : public QPushButton {
   QString current_file_;
 };
 
-} // namespace s21
+}  // namespace s21
 
-#endif // FILE_DIALOG_BUTTON_H_
+#endif  // FILE_DIALOG_BUTTON_H_

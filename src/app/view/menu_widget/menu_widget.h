@@ -1,12 +1,12 @@
 #ifndef MENU_WIDGET_HPP_
 #define MENU_WIDGET_HPP_
 
-#include "menu_builder/builder_contexts.h"
-#include "action_types.h"
-#include "model_types.h"
-
 #include <QWidget>
 #include <iostream>
+
+#include "action_types.h"
+#include "menu_builder/builder_contexts.h"
+#include "model_types.h"
 
 namespace s21 {
 
@@ -28,7 +28,7 @@ struct MenuWidgetStyle {
 class MenuWidget : public QWidget {
   Q_OBJECT
  public:
-  MenuWidget(int width, int height, QWidget *parent = nullptr);
+  MenuWidget(int width, int height, QWidget* parent = nullptr);
 
  public slots:
   void OnUpdateObjectInfo(ModelUpdateData data);
@@ -43,11 +43,17 @@ class MenuWidget : public QWidget {
 
  private:
   void SetupUI();
-  void SetupToolBar(IBuilder* builder, int buttons_menu_width, int buttons_menu_height);
+  void SetupToolBar(IBuilder* builder, int buttons_menu_width,
+                    int buttons_menu_height);
   void SetupStatusBar(StatusBar* status_bar);
   void SetupTransformPanel(IBuilder* builder);
   void SetupShadingPanel(IBuilder* builder);
-  void SetupButtonsPanel(IBuilder* builder, int buttons_menu_width, int buttons_menu_height);
+  void SetupButtonsPanel(IBuilder* builder, int buttons_menu_width,
+                         int buttons_menu_height);
+
+  template <typename EnumType>
+  auto GetComboBoxConnection(
+      SceneAction action, std::initializer_list<std::pair<QString, int>> items);
 
   template <typename Item, typename DataType>
   auto Connect(SceneAction action, void (Item::*signal)(DataType));
@@ -71,11 +77,24 @@ auto MenuWidget::Connect(SceneAction action, void (Item::*signal)(DataType)) {
 }
 
 template <typename EnumType, typename Item, typename DataType>
-auto MenuWidget::ConnectEnum(SceneAction action, void (Item::*signal)(DataType)) {
+auto MenuWidget::ConnectEnum(SceneAction action,
+                             void (Item::*signal)(DataType)) {
   return [this, action, signal](Item* item) {
     connect(item, signal, this, [this, action](DataType value) {
       emit ActionTriggered(action, static_cast<EnumType>(value));
     });
+  };
+}
+
+template <typename EnumType>
+auto MenuWidget::GetComboBoxConnection(
+    SceneAction action, std::initializer_list<std::pair<QString, int>> items) {
+  return [this, action, items](PIComboBox* combo) {
+    this->ConnectEnum<EnumType>(action,
+                                &PIComboBox::CurrentIndexChanged)(combo);
+    combo->SetArrows("assets/icons/open_arrow.png",
+                     "assets/icons/close_arrow.png");
+    combo->AddItems(items);
   };
 }
 

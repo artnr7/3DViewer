@@ -1,22 +1,31 @@
 #ifndef ACTION_TYPES_H_
 #define ACTION_TYPES_H_
 
-#include <QString>
-#include <QColor>
 #include <qmainwindow.h>
 #include <qobject.h>
+
+#include <QColor>
+#include <QString>
 
 namespace s21 {
 
 enum class SceneAction {
   /* Transform */
-  kTranslateX, kTranslateY, kTranslateZ,
-  kRotateX,    kRotateY,    kRotateZ,
+  kTranslateX,
+  kTranslateY,
+  kTranslateZ,
+  kRotateX,
+  kRotateY,
+  kRotateZ,
   kScale,
 
   /* Shading */
-  kVertexSize,    kVertexStyle, kVertexColor,
-  kEdgeThickness, kEdgeStyle,   kEdgeColor,
+  kVertexSize,
+  kVertexStyle,
+  kVertexColor,
+  kEdgeThickness,
+  kEdgeStyle,
+  kEdgeColor,
   kBackgroundColor,
 
   /* Projection */
@@ -29,20 +38,13 @@ enum class SceneAction {
   kOpenFile
 };
 
-enum class VertexStyle {
-  kEmpty,
-  kSquare,
-  kCircle
-};
+enum class VertexStyle { kEmpty, kSquare, kCircle };
 
-enum class EdgeStyle {
-  kLine,
-  kDashLine
-};
+enum class EdgeStyle { kLine, kDashLine };
 
 // using ActionData = std::variant<double, int, QColor, QString, bool>;
 using ActionData = std::variant<int, QString, VertexStyle, EdgeStyle>;
 
-} // namespace s21
+}  // namespace s21
 
-#endif // ACTION_TYPES_H_
+#endif  // ACTION_TYPES_H_

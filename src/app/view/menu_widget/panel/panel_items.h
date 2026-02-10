@@ -1,27 +1,29 @@
 #ifndef PANEL_ITEMS_H_
 #define PANEL_ITEMS_H_
 
-#include <QWidget>
-#include <QPushButton>
-#include <QLabel>
 #include <qnamespace.h>
 
-#include "style_configs/panel_items_style.h"
-#include "value_controller/value_controller.h"
-#include "combobox/combo_box.h"
-#include "colordialog/color_picker.h"
+#include <QLabel>
+#include <QPushButton>
+#include <QWidget>
+
 #include "buttons/double_button_base.h"
+#include "colordialog/color_picker.h"
+#include "combobox/combo_box.h"
 #include "filedialog/file_dialog_panel.h"
 #include "status_bar/status_bar.h"
+#include "style_configs/panel_items_style.h"
+#include "value_controller/value_controller.h"
 
 namespace s21 {
 
 /* PIBASe */
-class PIBase: public QWidget {
- Q_OBJECT
+class PIBase : public QWidget {
+  Q_OBJECT
 
  public:
-  explicit PIBase(const QString& name, Qt::Orientation orientation, QWidget* parent = nullptr);
+  explicit PIBase(const QString& name, Qt::Orientation orientation,
+                  QWidget* parent = nullptr);
   virtual ~PIBase() = default;
   Qt::Orientation GetOrientation();
 
@@ -30,7 +32,6 @@ class PIBase: public QWidget {
   void Initialize(int width, int height);
 
   QString CreateLabelStyle(int font_size) const;
-
 
   virtual QWidget* CreateContentWidget(int width, int height) = 0;
   virtual void SetupContentConnections() = 0;
@@ -44,14 +45,13 @@ class PIBase: public QWidget {
 //// PIBase
 
 /* PIValueController */
-class PIValueController: public PIBase {
- Q_OBJECT
+class PIValueController : public PIBase {
+  Q_OBJECT
 
  public:
-  explicit PIValueController(const QString& name,
-                                    int width, int height,
-                                    Qt::Orientation orientation,
-                                    QWidget* parent = nullptr);
+  explicit PIValueController(const QString& name, int width, int height,
+                             Qt::Orientation orientation,
+                             QWidget* parent = nullptr);
   /* Value Management Accessors */
   int GetCurrentValue() const;
 
@@ -75,13 +75,11 @@ class PIValueController: public PIBase {
 //// PIValueController
 
 /* PIComboBox */
-class PIComboBox: public PIBase {
+class PIComboBox : public PIBase {
   Q_OBJECT
  public:
-  explicit PIComboBox(const QString& name,
-                      int width, int height,
-                      Qt::Orientation orientation,
-                      QWidget* parent = nullptr);
+  explicit PIComboBox(const QString& name, int width, int height,
+                      Qt::Orientation orientation, QWidget* parent = nullptr);
 
   /* Value Management Accessors */
 
@@ -89,8 +87,7 @@ class PIComboBox: public PIBase {
   void AddItems(std::initializer_list<std::pair<QString, int>> items);
   void AddItem(const QString& icon_path, int value);
 
-  void SetArrows(const QString& up_icon_path,
-                 const QString& down_icon_path);
+  void SetArrows(const QString& up_icon_path, const QString& down_icon_path);
 
  signals:
   /* Signals */
@@ -114,11 +111,10 @@ class PIComboBox: public PIBase {
 //// PIComboBox
 
 /* PIColorPicker */
-class PIColorPicker: public PIBase {
+class PIColorPicker : public PIBase {
   Q_OBJECT
  public:
-  explicit PIColorPicker(const QString& name,
-                         int width, int height,
+  explicit PIColorPicker(const QString& name, int width, int height,
                          Qt::Orientation orientation,
                          QWidget* parent = nullptr);
   /* Value Management Accessors */
@@ -134,22 +130,19 @@ class PIColorPicker: public PIBase {
   void SetupContentConnections() override;
 
  private:
- /* Fields */
+  /* Fields */
   ColorPicker* color_picker_;
 };
 //// PIColorPicker
 
 /* PIDoubleButton */
-class PIDoubleButton: public PIBase {
- Q_OBJECT
+class PIDoubleButton : public PIBase {
+  Q_OBJECT
 
  public:
-  explicit PIDoubleButton(const QString& name,
-                          int width, int height,
-                          const QString& left_text,
-                          const QString& right_text,
-                          bool is_exclusive,
-                          QWidget* parent = nullptr);
+  explicit PIDoubleButton(const QString& name, int width, int height,
+                          const QString& left_text, const QString& right_text,
+                          bool is_exclusive, QWidget* parent = nullptr);
 
   /* Value Management Accessors */
   /* Value Management Mutators */
@@ -177,12 +170,11 @@ class PIDoubleButton: public PIBase {
 //// PIDoubleButton
 
 /* PIFileManagement */
-class PIFileManagement: public PIBase {
- Q_OBJECT
+class PIFileManagement : public PIBase {
+  Q_OBJECT
 
  public:
-  explicit PIFileManagement(const QString& name,
-                            int width, int height,
+  explicit PIFileManagement(const QString& name, int width, int height,
                             const QString& button_text,
                             const QString& label_text,
                             QWidget* parent = nullptr);
@@ -190,7 +182,7 @@ class PIFileManagement: public PIBase {
   /* Value Management Accessors */
   /* Value Management Mutators */
 
- // TODO: Fix signals
+  // TODO: Fix signals
  signals:
   /* Signals */
   void FileSelected(const QString& filePath);
@@ -208,6 +200,6 @@ class PIFileManagement: public PIBase {
 };
 //// PIFileManagement
 
-} // namespace s21
+}  // namespace s21
 
-#endif // PANEL_ITEMS_H_
+#endif  // PANEL_ITEMS_H_

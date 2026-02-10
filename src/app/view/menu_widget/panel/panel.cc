@@ -2,9 +2,7 @@
 
 namespace s21 {
 
-SubPanel::SubPanel(const QString &name, QWidget *parent)
-  : QWidget(parent) {
-
+SubPanel::SubPanel(const QString& name, QWidget* parent) : QWidget(parent) {
   QVBoxLayout* main_layout = new QVBoxLayout(this);
 
   if (!name.isEmpty()) {
@@ -31,13 +29,10 @@ void SubPanel::AddItem(PIBase* item) {
   items_layout_->addWidget(item);
 }
 
-int SubPanel::GetWidth() const {
-  return items_layout_->geometry().width();
-}
+int SubPanel::GetWidth() const { return items_layout_->geometry().width(); }
 
-Panel::Panel(const QString &name, QWidget *parent)
-  : QWidget(parent) {
-//  this->setContentsMargins(0, 10, 0, 10);
+Panel::Panel(const QString& name, QWidget* parent) : QWidget(parent) {
+  //  this->setContentsMargins(0, 10, 0, 10);
 
   QWidget* container = new QWidget();
   container->setObjectName("panel_container");
@@ -75,9 +70,7 @@ void Panel::AddSubPanel(SubPanel* mini_panel) {
   main_layout_->addWidget(mini_panel);
 }
 
-ToolBar::ToolBar(int width, int height, QWidget *parent)
-  : QWidget(parent) {
-
+ToolBar::ToolBar(int width, int height, QWidget* parent) : QWidget(parent) {
   setFixedSize(width, height);
 
   QVBoxLayout* main_layout_ = new QVBoxLayout(this);
@@ -99,8 +92,6 @@ ToolBar::ToolBar(int width, int height, QWidget *parent)
   layout_->setSpacing(8);
 }
 
-void ToolBar::AddPanel(Panel* panel) {
-  layout_->addWidget(panel);
-}
+void ToolBar::AddPanel(Panel* panel) { layout_->addWidget(panel); }
 
-} // namespace s21
+}  // namespace s21

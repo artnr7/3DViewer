@@ -10,8 +10,7 @@ CenterIconDelegate::CenterIconDelegate(CustomComboBox* combo_box,
     : QStyledItemDelegate(parent),
       combo_box_(combo_box),
       style_(&combo_box_->GetStyle()),
-      colors_(style_->colors) {
-}
+      colors_(style_->colors) {}
 
 /* Paint Handlers */
 void CenterIconDelegate::paint(QPainter* painter,
@@ -113,12 +112,12 @@ void CenterIconDelegate::DrawBackground(QPainter* painter, const QRect& rect,
 
     path = topPart.united(bottomPart);
   } else {
-    path.addRect(
-        rect.adjusted(style_->default_item_border, 0, -style_->default_item_border, 0));
+    path.addRect(rect.adjusted(style_->default_item_border, 0,
+                               -style_->default_item_border, 0));
   }
 
   painter->fillPath(path, bgColor);
 }
 // Internal Helpers
 
-} // namespace s21
+}  // namespace s21

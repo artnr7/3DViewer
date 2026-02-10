@@ -11,7 +11,8 @@ constexpr auto GetEnumName() {
   constexpr std::string_view separator = "::";
   constexpr std::string_view str_end = "]";
   constexpr std::string_view pretty_function = __PRETTY_FUNCTION__;
-  constexpr size_t start = pretty_function.rfind(separator) + separator.length();
+  constexpr size_t start =
+      pretty_function.rfind(separator) + separator.length();
   constexpr size_t end = pretty_function.rfind(str_end);
   constexpr std::string_view name = pretty_function.substr(start, end - start);
 
@@ -21,6 +22,6 @@ constexpr auto GetEnumName() {
 #endif
 }
 
-} // namespace s21
+}  // namespace s21
 
-#endif // ENUM_UTILS
+#endif  // ENUM_UTILS

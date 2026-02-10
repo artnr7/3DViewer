@@ -1,10 +1,11 @@
 #ifndef CONTROLLER_HPP_
 #define CONTROLLER_HPP_
 
-#include <QObject>
 #include <qtmetamacros.h>
-#include <vector>
+
+#include <QObject>
 #include <string>
+#include <vector>
 // #include "spdlog/spdlog.h"
 
 #include "action_types.h"
@@ -19,8 +20,8 @@ class Controller : public QObject {
 
  public:
   Controller(Model* model);
-  [[nodiscard]] static std::vector<float> &GetVertices();
-  static void CreateNewObject(const std::string &obj_filename) noexcept;
+  [[nodiscard]] static std::vector<float>& GetVertices();
+  static void CreateNewObject(const std::string& obj_filename) noexcept;
 
  signals:
   void UpdateObjectInfo(ModelUpdateData data);

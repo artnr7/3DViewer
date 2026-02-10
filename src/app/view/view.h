@@ -1,17 +1,17 @@
 #ifndef MAIN_WINDOW_HPP_
 #define MAIN_WINDOW_HPP_
 
-#include <QWidget>
 #include <QMainWindow>
+#include <QWidget>
 
+#include "controller.h"
 #include "menu_widget/menu_widget.h"
 #include "object_viewer_widget/object_viewer_widget.h"
-#include "controller.h"
 
 namespace s21 {
 
 class View : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   View(Controller* controller, QWidget* parent = nullptr);

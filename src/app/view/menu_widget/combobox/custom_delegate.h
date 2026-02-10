@@ -34,7 +34,6 @@ class CenterIconDelegate : public QStyledItemDelegate {
   const ComboBoxStyle::Color& colors_;
 };
 
-} // namespace s21
-
+}  // namespace s21
 
 #endif  // CUSTOM_DELEGATE_H_

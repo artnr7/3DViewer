@@ -1,18 +1,17 @@
 #ifndef DOUBLE_BUTTON_BASE_H_
 #define DOUBLE_BUTTON_BASE_H_
 
-#include <QWidget>
+#include <QButtonGroup>
 #include <QHBoxLayout>
 #include <QPushButton>
-#include <QButtonGroup>
+#include <QWidget>
 
 class DoubleButtonBase : public QWidget {
- Q_OBJECT
+  Q_OBJECT
  public:
   explicit DoubleButtonBase(const QString& left_button_name,
-                            const QString& right_button_name,
-                            int width, int height,
-                            QWidget* parent = nullptr);
+                            const QString& right_button_name, int width,
+                            int height, QWidget* parent = nullptr);
 
  private:
   virtual void SetupStyles();
@@ -28,4 +27,4 @@ class DoubleButtonBase : public QWidget {
   QSize widget_size_;
 };
 
-#endif // DOUBLE_BUTTON_BASE_H_
+#endif  // DOUBLE_BUTTON_BASE_H_

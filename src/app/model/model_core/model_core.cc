@@ -6,4 +6,4 @@ LoadData ModelCore::OpenModelFile(const std::string& file_path) {
   return "test error";
 }
 
-} // namespace s21
+}  // namespace s21

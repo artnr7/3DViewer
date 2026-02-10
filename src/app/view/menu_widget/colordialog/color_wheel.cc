@@ -9,7 +9,7 @@
 #include <QPen>
 #include <QPixmap>
 
-namespace  s21 {
+namespace s21 {
 
 ColorWheel::ColorWheel(int size, QWidget* parent)
     : QWidget(parent),
@@ -223,4 +223,4 @@ void ColorWheel::mouseMoveEvent(QMouseEvent* event) {
 }
 // Event Handlers
 
-} // namespace s21
+}  // namespace s21

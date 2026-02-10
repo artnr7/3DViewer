@@ -1,14 +1,16 @@
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QFrame>
-#include <QPushButton>
-#include <QDebug>
+#include "menu_widget.h"
+
 #include <qnamespace.h>
 #include <qstringview.h>
+
+#include <QDebug>
+#include <QFrame>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QPushButton>
+#include <QVBoxLayout>
 #include <type_traits>
 
-#include "menu_widget.h"
 #include "action_types.h"
 #include "menu_builder/menu_builder.h"
 #include "panel/panel.h"
@@ -17,28 +19,26 @@
 
 namespace s21 {
 
-MenuWidget::MenuWidget(int width, int height, QWidget *parent)
-  : QWidget(parent)
-  , width_(width)
-  , height_(height)
-  , style_{} {
+MenuWidget::MenuWidget(int width, int height, QWidget* parent)
+    : QWidget(parent), width_(width), height_(height), style_{} {
   setFixedSize(width_, height_);
   setContentsMargins(style_.zero_margins);
   SetupUI();
 }
 
 void MenuWidget::SetupUI() {
-  QVBoxLayout *main_layout = new QVBoxLayout(this);
+  QVBoxLayout* main_layout = new QVBoxLayout(this);
   main_layout->setSpacing(style_.zero_spacing);
   main_layout->setContentsMargins(style_.zero_margins);
 
   const int status_bar_width = width_;
-  const int status_bar_height = height_*style_.status_bar_height_ratio;
+  const int status_bar_height = height_ * style_.status_bar_height_ratio;
   const int tool_bar_width = width_;
-  const int tool_bar_height = height_*style_.tool_bar_height_ratio;
+  const int tool_bar_height = height_ * style_.tool_bar_height_ratio;
 
-  const int panel_width = tool_bar_width - 2*style_.edge_margin;
-  const int buttons_menu_width = panel_width - 2*style_.buttons_edge_margin_in_panel;
+  const int panel_width = tool_bar_width - 2 * style_.edge_margin;
+  const int buttons_menu_width =
+      panel_width - 2 * style_.buttons_edge_margin_in_panel;
 
   const int item_width = panel_width * style_.item_width_ratio;
   const int item_height = style_.item_height;
@@ -53,14 +53,16 @@ void MenuWidget::SetupUI() {
 
   // ;
   // pcmb1->AddItems("assets/icons/square.png", "assets/icons/circle.png");
-  // pcmb2->SetArrows("assets/icons/open_arrow.png", "assets/icons/close_arrow.png");
-  // pcmb2->AddItems("assets/icons/line.png", "assets/icons/line_dash.png");
+  // pcmb2->SetArrows("assets/icons/open_arrow.png",
+  // "assets/icons/close_arrow.png"); pcmb2->AddItems("assets/icons/line.png",
+  // "assets/icons/line_dash.png");
 
   main_layout->addWidget(tool_bar);
   main_layout->addWidget(status_bar);
 }
 
-void MenuWidget::SetupToolBar(IBuilder* builder, int buttons_menu_width, int buttons_menu_height) {
+void MenuWidget::SetupToolBar(IBuilder* builder, int buttons_menu_width,
+                              int buttons_menu_height) {
   SetupTransformPanel(builder);
   SetupShadingPanel(builder);
   SetupButtonsPanel(builder, buttons_menu_width, buttons_menu_height);
@@ -68,52 +70,92 @@ void MenuWidget::SetupToolBar(IBuilder* builder, int buttons_menu_width, int but
 
 void MenuWidget::SetupTransformPanel(IBuilder* builder) {
   builder->AddPanel("Transform")
-    .AddSubPanel("Translation")
-      .Add<PIValueController>("x", Connect(SceneAction::kTranslateX, &PIValueController::CurrentValueChanged), Qt::Vertical)
-      .Add<PIValueController>("y", Connect(SceneAction::kTranslateY, &PIValueController::CurrentValueChanged), Qt::Vertical)
-      .Add<PIValueController>("z", Connect(SceneAction::kTranslateZ, &PIValueController::CurrentValueChanged), Qt::Vertical)
-    .AddSubPanel("Rotation")
-      .Add<PIValueController>("x", Connect(SceneAction::kRotateX, &PIValueController::CurrentValueChanged), Qt::Vertical)
-      .Add<PIValueController>("y", Connect(SceneAction::kRotateY, &PIValueController::CurrentValueChanged), Qt::Vertical)
-      .Add<PIValueController>("z", Connect(SceneAction::kRotateZ, &PIValueController::CurrentValueChanged), Qt::Vertical)
-    .AddSubPanel("Scale")
-      .Add<PIValueController>("value", Connect(SceneAction::kScale, &PIValueController::CurrentValueChanged), Qt::Horizontal);
+      .AddSubPanel("Translation")
+      .Add<PIValueController>("x",
+                              Connect(SceneAction::kTranslateX,
+                                      &PIValueController::CurrentValueChanged),
+                              Qt::Vertical)
+      .Add<PIValueController>("y",
+                              Connect(SceneAction::kTranslateY,
+                                      &PIValueController::CurrentValueChanged),
+                              Qt::Vertical)
+      .Add<PIValueController>("z",
+                              Connect(SceneAction::kTranslateZ,
+                                      &PIValueController::CurrentValueChanged),
+                              Qt::Vertical)
+      .AddSubPanel("Rotation")
+      .Add<PIValueController>("x",
+                              Connect(SceneAction::kRotateX,
+                                      &PIValueController::CurrentValueChanged),
+                              Qt::Vertical)
+      .Add<PIValueController>("y",
+                              Connect(SceneAction::kRotateY,
+                                      &PIValueController::CurrentValueChanged),
+                              Qt::Vertical)
+      .Add<PIValueController>("z",
+                              Connect(SceneAction::kRotateZ,
+                                      &PIValueController::CurrentValueChanged),
+                              Qt::Vertical)
+      .AddSubPanel("Scale")
+      .Add<PIValueController>(
+          "value",
+          Connect(SceneAction::kScale, &PIValueController::CurrentValueChanged),
+          Qt::Horizontal);
 }
 
+/* TODO: Add new icon for empty-vertex */
 void MenuWidget::SetupShadingPanel(IBuilder* builder) {
   builder->AddPanel("Shading")
-    .AddSubPanel("Vertices")
-      .Add<PIValueController>("size", Connect(SceneAction::kVertexSize, &PIValueController::CurrentValueChanged), Qt::Vertical)
-      .Add<PIComboBox>("style", nullptr, Qt::Vertical)
+      .AddSubPanel("Vertices")
+      .Add<PIValueController>("size",
+                              Connect(SceneAction::kVertexSize,
+                                      &PIValueController::CurrentValueChanged),
+                              Qt::Vertical)
+      .Add<PIComboBox>("style",
+                       GetComboBoxConnection<VertexStyle>(
+                           SceneAction::kEdgeStyle,
+                           {{"assets/icons/square.png",
+                             static_cast<int>(VertexStyle::kEmpty)},
+                            {"assets/icons/square.png",
+                             static_cast<int>(VertexStyle::kSquare)},
+                            {"assets/icons/circle.png",
+                             static_cast<int>(VertexStyle::kCircle)}}),
+                       Qt::Vertical)
       .Add<PIColorPicker>("color", nullptr, Qt::Vertical)
-    .AddSubPanel("Edges")
-      .Add<PIValueController>("thickness", Connect(SceneAction::kEdgeThickness, &PIValueController::CurrentValueChanged), Qt::Vertical)
-      .Add<PIComboBox>("style", [this](PIComboBox* combo) {
-        this->ConnectEnum<EdgeStyle>(SceneAction::kEdgeStyle, &PIComboBox::CurrentIndexChanged)(combo);
-        combo->SetArrows("assets/icons/open_arrow.png", "assets/icons/close_arrow.png");
-        combo->AddItems({
-          {"assets/icons/line.png", static_cast<int>(EdgeStyle::kLine)},
-          {"assets/icons/line_dash.png", static_cast<int>(EdgeStyle::kDashLine)}
-        });
-      }, Qt::Vertical)
+      .AddSubPanel("Edges")
+      .Add<PIValueController>("thickness",
+                              Connect(SceneAction::kEdgeThickness,
+                                      &PIValueController::CurrentValueChanged),
+                              Qt::Vertical)
+      .Add<PIComboBox>(
+          "style",
+          GetComboBoxConnection<EdgeStyle>(
+              SceneAction::kEdgeStyle,
+              {{"assets/icons/line.png", static_cast<int>(EdgeStyle::kLine)},
+               {"assets/icons/line_dash.png",
+                static_cast<int>(EdgeStyle::kDashLine)}}),
+          Qt::Vertical)
       .Add<PIColorPicker>("color", nullptr, Qt::Vertical)
-    .AddSubPanel("Background")
+      .AddSubPanel("Background")
       .Add<PIColorPicker>("color", nullptr, Qt::Horizontal);
 }
 
-void MenuWidget::SetupButtonsPanel(IBuilder* builder, int buttons_menu_width, int buttons_menu_height) {
+void MenuWidget::SetupButtonsPanel(IBuilder* builder, int buttons_menu_width,
+                                   int buttons_menu_height) {
   builder->AddPanel("Projection")
       .AddSubPanel("")
-        .SetSize(buttons_menu_width, buttons_menu_height)
-        .Add<PIDoubleButton>("", nullptr, "perspective", "ortography", true)
-    .AddPanel("Render")
+      .SetSize(buttons_menu_width, buttons_menu_height)
+      .Add<PIDoubleButton>("", nullptr, "perspective", "ortography", true)
+      .AddPanel("Render")
       .AddSubPanel("")
-        .SetSize(buttons_menu_width, buttons_menu_height)
-        .Add<PIDoubleButton>("", nullptr, "GIF", "Image", false)
-    .AddPanel("Files")
+      .SetSize(buttons_menu_width, buttons_menu_height)
+      .Add<PIDoubleButton>("", nullptr, "GIF", "Image", false)
+      .AddPanel("Files")
       .AddSubPanel("")
-        .SetSize(buttons_menu_width, buttons_menu_height)
-        .Add<PIFileManagement>("", Connect(SceneAction::kOpenFile, &PIFileManagement::FileSelected), "Open", "File name:");
+      .SetSize(buttons_menu_width, buttons_menu_height)
+      .Add<PIFileManagement>(
+          "", Connect(SceneAction::kOpenFile, &PIFileManagement::FileSelected),
+          "Open", "File name:");
 }
 
 void MenuWidget::SetupStatusBar(StatusBar* status_bar) {
@@ -121,16 +163,18 @@ void MenuWidget::SetupStatusBar(StatusBar* status_bar) {
   connect(this, &MenuWidget::ShowError, status_bar, &StatusBar::OnShowError);
 }
 
-void MenuWidget::OnUpdateObjectInfo(ModelUpdateData data){
-  std::visit([this](auto&& arg){
-    using T = std::decay_t<decltype(arg)>;
+void MenuWidget::OnUpdateObjectInfo(ModelUpdateData data) {
+  std::visit(
+      [this](auto&& arg) {
+        using T = std::decay_t<decltype(arg)>;
 
-    if constexpr (std::is_same_v<T, ObjectInfo>) {
-      emit UpdateInfo(arg.vertices, arg.edges);
-    } else if constexpr (std::is_same_v<T, QString>) {
-      emit ShowError(arg);
-    }
-  }, data);
+        if constexpr (std::is_same_v<T, ObjectInfo>) {
+          emit UpdateInfo(arg.vertices, arg.edges);
+        } else if constexpr (std::is_same_v<T, QString>) {
+          emit ShowError(arg);
+        }
+      },
+      data);
 }
 
-} // namespace s21
+}  // namespace s21

@@ -1,10 +1,10 @@
 #ifndef MODEL_TYPES_H_
 #define MODEL_TYPES_H_
 
-#include "model_core_types.h"
-
 #include <QString>
+
+#include "model_core_types.h"
 
 using ModelUpdateData = TemplateData<QString>;
 
-#endif // MODEL_TYPES_H_
+#endif  // MODEL_TYPES_H_

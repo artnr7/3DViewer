@@ -2,6 +2,7 @@ register_format_cmake_file()
 
 #* action_types interface *#
 set(ACTION_TYPES_FILES interface/action_types.h)
+register_format_sources(${ACTION_TYPES_FILES})
 
 add_library(action_types INTERFACE)
 target_include_directories(action_types INTERFACE

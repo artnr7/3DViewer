@@ -1,4 +1,8 @@
+#include "combo_box.h"
+
 #include <QApplication>
+#include <QDebug>
+#include <QDir>
 #include <QLabel>
 #include <QListWidget>
 #include <QListWidgetItem>
@@ -11,11 +15,7 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-#include <QDebug>
-#include <QDir>
-
 #include "custom_delegate.h"
-#include "combo_box.h"
 
 namespace s21 {
 
@@ -48,8 +48,10 @@ CustomComboBox::CustomComboBox(int width, int height, QWidget* parent)
 /* Arrow Icon Management */
 void CustomComboBox::SetArrows(const QString& up_icon_path,
                                const QString& down_icon_path) {
-  QString absolute_path_up = QDir::cleanPath(QCoreApplication::applicationDirPath() + "/../" + up_icon_path);
-  QString absolute_path_down = QDir::cleanPath(QCoreApplication::applicationDirPath() + "/../" + down_icon_path);
+  QString absolute_path_up = QDir::cleanPath(
+      QCoreApplication::applicationDirPath() + "/../" + up_icon_path);
+  QString absolute_path_down = QDir::cleanPath(
+      QCoreApplication::applicationDirPath() + "/../" + down_icon_path);
 
   qDebug() << "Absolute path up:" << absolute_path_up;
   qDebug() << "Absolute path down :" << absolute_path_down;
@@ -78,7 +80,8 @@ void CustomComboBox::SetArrow(QPixmap& pixmap, const QString& pixmap_path) {
 }
 
 void CustomComboBox::SetArrowAreaWidth(int width) {
-  style_.minimum_arrow_area_width = qMax(style_.minimum_arrow_area_width, width);
+  style_.minimum_arrow_area_width =
+      qMax(style_.minimum_arrow_area_width, width);
   update();
 }
 // Arrow Icon Management
@@ -92,9 +95,7 @@ int CustomComboBox::ItemMargin() const {
   return static_cast<int>((height_ - IconSize()) / 2);
 }
 
-int CustomComboBox::ItemHeight() const {
-  return IconSize() + ItemMargin() * 2;
-}
+int CustomComboBox::ItemHeight() const { return IconSize() + ItemMargin() * 2; }
 // Size calculations
 
 /* Color managment mutator*/
@@ -120,25 +121,18 @@ void CustomComboBox::SetSelectedColor(const QColor& color) {
 // Color managment mutator
 
 /* Color managment accessors*/
-QColor CustomComboBox::GetBackgroundColor() const {
-  return colors_.background;
-}
+QColor CustomComboBox::GetBackgroundColor() const { return colors_.background; }
 QColor CustomComboBox::GetBorderColor() const { return colors_.border; }
 QColor CustomComboBox::GetHoverColor() const { return colors_.hover; }
 QColor CustomComboBox::GetSelectedColor() const { return colors_.selected; }
 
-const ComboBoxStyle::Color& CustomComboBox::GetColor() const {
-  return colors_;
-}
+const ComboBoxStyle::Color& CustomComboBox::GetColor() const { return colors_; }
 // Color managment accessors
 
 /* Item management */
 void CustomComboBox::AddItem(const QString& icon_path, int value) {
   QString absolute_path = QDir::cleanPath(
-      QCoreApplication::applicationDirPath() +
-      "/../" +
-      icon_path
-  );
+      QCoreApplication::applicationDirPath() + "/../" + icon_path);
 
   qDebug() << "Original path:" << icon_path;
   qDebug() << "Absolute path:" << absolute_path;
@@ -168,7 +162,8 @@ void CustomComboBox::AddItem(const QIcon& icon, int value) {
   UpdateCurrentDisplay();
 }
 
-void CustomComboBox::AddItems(std::initializer_list<std::pair<QString, int>> items) {
+void CustomComboBox::AddItems(
+    std::initializer_list<std::pair<QString, int>> items) {
   for (const auto& item : items) {
     AddItem(item.first, item.second);
   }
@@ -251,9 +246,9 @@ void CustomComboBox::SetupUI() {
       border-bottom-right-radius: %3px;
     }
   )")
-    .arg(colors_.background.name())
-    .arg(style_.border_radius)
-    .arg(style_.border_radius));
+                                  .arg(colors_.background.name())
+                                  .arg(style_.border_radius)
+                                  .arg(style_.border_radius));
 
   popupLayout->addWidget(list_widget_);
 
@@ -276,15 +271,16 @@ void CustomComboBox::UpdateCurrentDisplay() {
     int available_width = width_ - style_.minimum_arrow_area_width;
     int available_height = height_;
 
-    int max_width = static_cast<int>(available_width * style_.current_icon_max_scale);
-    int max_height = static_cast<int>(available_height * style_.current_icon_max_scale);
+    int max_width =
+        static_cast<int>(available_width * style_.current_icon_max_scale);
+    int max_height =
+        static_cast<int>(available_height * style_.current_icon_max_scale);
 
-    int fallback_size = IconSize()*2;
+    int fallback_size = IconSize() * 2;
     QList<QSize> available_sizes = icon.availableSizes();
-    QSize original_size =
-        available_sizes.isEmpty()
-        ? QSize(fallback_size, fallback_size)
-        : available_sizes.first();
+    QSize original_size = available_sizes.isEmpty()
+                              ? QSize(fallback_size, fallback_size)
+                              : available_sizes.first();
 
     qreal aspectRatio = qreal(original_size.width()) / original_size.height();
 
@@ -399,21 +395,26 @@ void CustomComboBox::PaintBackground(QPainter& painter) {
   }
 }
 
-void CustomComboBox::PaintExpandedBackground(QPainter& painter, const QRect& rect, const QColor& bg_color) {
+void CustomComboBox::PaintExpandedBackground(QPainter& painter,
+                                             const QRect& rect,
+                                             const QColor& bg_color) {
   int radius = style_.border_radius;
   int correction = style_.border_correction;
 
   QPainterPath roundedPath;
-  roundedPath.addRoundedRect(rect.adjusted(0, 0, -correction, -correction), radius, radius);
+  roundedPath.addRoundedRect(rect.adjusted(0, 0, -correction, -correction),
+                             radius, radius);
 
   QPainterPath clipPath;
-  clipPath.addRect(rect.left(), rect.top(), rect.width(), rect.height() - radius);
+  clipPath.addRect(rect.left(), rect.top(), rect.width(),
+                   rect.height() - radius);
 
   QPainterPath clippedPath = roundedPath.intersected(clipPath);
 
   QPainterPath bottomRectPath;
   int bottomRectTop = rect.top() + rect.height() - (radius + correction);
-  bottomRectPath.addRect(rect.left(), bottomRectTop, rect.width() - correction, radius);
+  bottomRectPath.addRect(rect.left(), bottomRectTop, rect.width() - correction,
+                         radius);
 
   QPainterPath finalPath = clippedPath.united(bottomRectPath);
 
@@ -421,12 +422,15 @@ void CustomComboBox::PaintExpandedBackground(QPainter& painter, const QRect& rec
   painter.drawPath(finalPath);
 }
 
-void CustomComboBox::PaintCollapsedBackground(QPainter& painter, const QRect& rect, const QColor& bg_color) {
+void CustomComboBox::PaintCollapsedBackground(QPainter& painter,
+                                              const QRect& rect,
+                                              const QColor& bg_color) {
   int radius = style_.border_radius;
   int correction = style_.border_correction;
 
   QPainterPath path;
-  path.addRoundedRect(rect.adjusted(0, 0, -correction, -correction), radius, radius);
+  path.addRoundedRect(rect.adjusted(0, 0, -correction, -correction), radius,
+                      radius);
 
   painter.fillPath(path, bg_color);
   painter.drawPath(path);
@@ -435,28 +439,23 @@ void CustomComboBox::PaintCollapsedBackground(QPainter& painter, const QRect& re
 void CustomComboBox::PaintArrow(QPainter& painter) {
   QRect arrow_area(0, 0, style_.minimum_arrow_area_width, height_);
 
-  const QPixmap* arrow_pixmap = expanded_ ? &arrow_up_pixmap_ : &arrow_down_pixmap_;
+  const QPixmap* arrow_pixmap =
+      expanded_ ? &arrow_up_pixmap_ : &arrow_down_pixmap_;
 
-  int icon_size = qMin(arrow_area.width(), arrow_area.height()) * style_.arrow_scale_factor;
+  int icon_size =
+      qMin(arrow_area.width(), arrow_area.height()) * style_.arrow_scale_factor;
 
-  QRect icon_rect(
-    arrow_area.left() + (arrow_area.width() - icon_size) / 2,
-    arrow_area.top() + (arrow_area.height() - icon_size) / 2,
-    icon_size, icon_size
-  );
+  QRect icon_rect(arrow_area.left() + (arrow_area.width() - icon_size) / 2,
+                  arrow_area.top() + (arrow_area.height() - icon_size) / 2,
+                  icon_size, icon_size);
 
   QPixmap scaled_pixmap = arrow_pixmap->scaled(
-    icon_size, icon_size,
-    Qt::KeepAspectRatio,
-    Qt::SmoothTransformation
-  );
+      icon_size, icon_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
   QRect drawRect(
-    icon_rect.left() + (icon_rect.width() - scaled_pixmap.width()) / 2,
-    icon_rect.top() + (icon_rect.height() - scaled_pixmap.height()) / 2,
-    scaled_pixmap.width(),
-    scaled_pixmap.height()
-  );
+      icon_rect.left() + (icon_rect.width() - scaled_pixmap.width()) / 2,
+      icon_rect.top() + (icon_rect.height() - scaled_pixmap.height()) / 2,
+      scaled_pixmap.width(), scaled_pixmap.height());
 
   painter.drawPixmap(drawRect, scaled_pixmap);
 }
@@ -479,4 +478,4 @@ void CustomComboBox::OnAnimationFinished() {
 }
 // Internal Helpers
 
-} // namespace s21
+}  // namespace s21

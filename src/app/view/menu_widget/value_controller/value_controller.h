@@ -8,7 +8,7 @@
 
 #include "style_configs/value_controller_style.h"
 
-namespace  s21 {
+namespace s21 {
 
 class ValueController : public QWidget {
   Q_OBJECT
@@ -81,6 +81,6 @@ class ValueController : public QWidget {
   QLineEdit* value_field_;
 };
 
-} // namespace s21
+}  // namespace s21
 
 #endif  // VALUE_CONTROLLER_H_

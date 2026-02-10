@@ -1,6 +1,6 @@
-#include <QHBoxLayout>
-
 #include "status_bar.h"
+
+#include <QHBoxLayout>
 
 namespace s21 {
 
@@ -14,12 +14,13 @@ StatusBar::StatusBar(int width, int height, QWidget* parrent)
 
   /* Statistics page */
   status_page_ = new QWidget();
-  status_page_->setContentsMargins(style_.statistics_space, style_.zero_space, style_.statistics_space, style_.zero_space);
+  status_page_->setContentsMargins(style_.statistics_space, style_.zero_space,
+                                   style_.statistics_space, style_.zero_space);
 
-  vertices_label_ =
-      new QLabel(GetValueLabel(style_.vertices_label, style_.default_value), status_page_);
-  edges_label_ =
-      new QLabel(GetValueLabel(style_.edges_label, style_.default_value), status_page_);
+  vertices_label_ = new QLabel(
+      GetValueLabel(style_.vertices_label, style_.default_value), status_page_);
+  edges_label_ = new QLabel(
+      GetValueLabel(style_.edges_label, style_.default_value), status_page_);
 
   QHBoxLayout* status_layout = new QHBoxLayout(status_page_);
   status_layout->addWidget(vertices_label_, style_.stretch_factor);
@@ -49,8 +50,8 @@ void StatusBar::SetupStyles() {
     background-color: %1;
     border: %2;
   )")
-  .arg(style_.background_color)
-  .arg(style_.background_border));
+                    .arg(style_.background_color)
+                    .arg(style_.background_border));
 
   QString status_labels_style = GetLabelStyle(style_.status_text_color);
   vertices_label_->setStyleSheet(status_labels_style);
@@ -96,7 +97,8 @@ void StatusBar::OnUpdateInfo(int vertices_count, int edges_count) {
   if (blink_anim_->state() == QAbstractAnimation::Running) {
     blink_anim_->stop();
   }
-  vertices_label_->setText(GetValueLabel(style_.vertices_label, vertices_count));
+  vertices_label_->setText(
+      GetValueLabel(style_.vertices_label, vertices_count));
   edges_label_->setText(GetValueLabel(style_.edges_label, edges_count));
   stack_->setCurrentIndex(style_.statistics_page_index);
 }
@@ -114,10 +116,12 @@ QString StatusBar::GetValueLabel(const QString& label, int value) {
 
   if (value >= style_.millions_threshold) {
     double millions = value / static_cast<double>(style_.millions_threshold);
-    formatted_value = QString("%1м").arg(millions, 0, 'f', style_.decimal_places);
+    formatted_value =
+        QString("%1м").arg(millions, 0, 'f', style_.decimal_places);
   } else if (value >= style_.thousands_threshold) {
     double thousands = value / static_cast<double>(style_.thousands_threshold);
-    formatted_value = QString("%1к").arg(thousands, 0, 'f', style_.decimal_places);
+    formatted_value =
+        QString("%1к").arg(thousands, 0, 'f', style_.decimal_places);
   } else {
     formatted_value = QString::number(value);
   }

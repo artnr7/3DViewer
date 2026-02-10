@@ -2,14 +2,15 @@
 #define MODEL_H_
 
 #include <QObject>
+
+#include "model_core/model_core.h"
 #include "model_core_types.h"
 #include "model_types.h"
-#include "model_core/model_core.h"
 
 namespace s21 {
 
 class Model : public QObject {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   Model() = default;
@@ -27,6 +28,6 @@ class Model : public QObject {
   ModelCore* pimpl_;
 };
 
-} // namespace s21
+}  // namespace s21
 
-#endif // MODEL_H_
+#endif  // MODEL_H_

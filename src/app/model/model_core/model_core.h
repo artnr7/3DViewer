@@ -11,7 +11,7 @@ namespace s21 {
 class ModelCore {
   ModelCore() = default;
 
-  protected:
+ protected:
   // explicit Model(const std::string &obj_filename);
 
  private:

@@ -1,14 +1,14 @@
-#include "model.h"
-#include "controller.h"
-#include "logger.h"
-
-#include "view.h"
 #include <QApplication>
 #include <QSurfaceFormat>
 
+#include "controller.h"
+#include "logger.h"
+#include "model.h"
+#include "view.h"
+
 std::unique_ptr<s21::Logger> s21::Logger::instance_ = nullptr;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
   QApplication app(argc, argv);
 
   s21::Model model;
