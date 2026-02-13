@@ -39,11 +39,12 @@ enum class SceneAction {
 };
 
 enum class VertexStyle { kEmpty, kSquare, kCircle };
-
 enum class EdgeStyle { kLine, kDashLine };
+enum class ProjectionType { kPerspective, kOrthographic };
+enum class RenderType { kGif, kImage };
 
 // using ActionData = std::variant<double, int, QColor, QString, bool>;
-using ActionData = std::variant<int, QString, VertexStyle, EdgeStyle>;
+using ActionData = std::variant<int, QString, VertexStyle, EdgeStyle, ProjectionType, RenderType>;
 
 }  // namespace s21
 

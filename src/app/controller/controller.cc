@@ -82,16 +82,25 @@ void Controller::OnActionTriggered(SceneAction action, ActionData data) {
               /* Write Error to log */
               break;
           }
-        } else if constexpr (std::is_same_v<T, QString>) {
+        } else if constexpr (std::is_same_v<T, QColor>) {
           switch (action) {
             /* Vertexes */
             case SceneAction::kVertexColor:
-              std::cout << "Vertex color to: " << arg.toStdString() << "\n";
+              std::cout << "Vertex color to: (" << arg.red() << ", " << arg.green() << ", "<< arg.blue() << ")\n";
               break;
             /* Edges */
             case SceneAction::kEdgeColor:
-              std::cout << "Edge color to: " << arg.toStdString() << "\n";
+              std::cout << "Edge color to: (" << arg.red() << ", " << arg.green() << ", "<< arg.blue() << ")\n";
               break;
+            case SceneAction::kBackgroundColor:
+              std::cout << "Background color to: (" << arg.red() << ", " << arg.green() << ", "<< arg.blue() << ")\n";
+              break;
+            default:
+              /* Write Error to log */
+              break;
+          }
+        } else if constexpr (std::is_same_v<T, QString>) {
+          switch (action) {
             /* Open file */
             case SceneAction::kOpenFile:
               std::cout << "File with name: " << arg.toStdString() << " open\n";
@@ -118,6 +127,10 @@ void Controller::OnActionTriggered(SceneAction action, ActionData data) {
               /* Write Error to log */
               break;
           }
+        } else if constexpr (std::is_same_v<T, ProjectionType>) {
+          std::cout << GetEnumName<SceneAction::kProjection>() << " to: " << static_cast<int>(arg) << "\n";
+        } else if constexpr (std::is_same_v<T, RenderType>) {
+          std::cout << GetEnumName<SceneAction::kRender>() << " to: " << static_cast<int>(arg) << "\n";
         }
       },
       data);

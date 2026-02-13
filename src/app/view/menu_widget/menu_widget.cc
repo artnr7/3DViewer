@@ -145,11 +145,15 @@ void MenuWidget::SetupButtonsPanel(IBuilder* builder, int buttons_menu_width,
   builder->AddPanel("Projection")
       .AddSubPanel("")
       .SetSize(buttons_menu_width, buttons_menu_height)
-      .Add<PIDoubleButton>("", nullptr, "perspective", "ortography", true)
+      .Add<PIDoubleButton>("",
+        ConnectEnum<ProjectionType>(SceneAction::kProjection, &PIDoubleButton::ButtonToggled),
+        "perspective", "ortography", true)
       .AddPanel("Render")
       .AddSubPanel("")
       .SetSize(buttons_menu_width, buttons_menu_height)
-      .Add<PIDoubleButton>("", nullptr, "GIF", "Image", false)
+      .Add<PIDoubleButton>("",
+        ConnectEnum<RenderType>(SceneAction::kRender, &PIDoubleButton::ButtonClicked),
+        "GIF", "Image", false)
       .AddPanel("Files")
       .AddSubPanel("")
       .SetSize(buttons_menu_width, buttons_menu_height)

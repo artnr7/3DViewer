@@ -35,6 +35,7 @@ class ModelCore {
   // void SetObjFilename(std::string &obj_filename) noexcept;
 
   LoadData OpenModelFile(const std::string& file_path);
+  void SetColor(ColorEntity entity, const ColorRGB& color);
 };
 
 }  // namespace s21

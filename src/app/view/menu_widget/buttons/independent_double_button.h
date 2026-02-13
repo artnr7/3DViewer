@@ -16,8 +16,7 @@ class IndependentDoubleButton : public DoubleButtonBase {
                                    int height, QWidget* parent = nullptr);
 
  signals:
-  void LeftButtonClicked();
-  void RightButtonClicked();
+  void ButtonClicked(ButtonSide side);
 
  private slots:
   void OnLeftButtonClicked();

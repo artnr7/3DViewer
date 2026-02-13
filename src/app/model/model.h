@@ -2,6 +2,7 @@
 #define MODEL_H_
 
 #include <QObject>
+#include <qcolor.h>
 
 #include "model_core/model_core.h"
 #include "model_core_types.h"
@@ -20,9 +21,11 @@ class Model : public QObject {
 
  public:
   void OpenModelFile(const QString& file_path);
+  void SetColor(ColorEntity entity, const QColor& color);
 
  private:
   ModelUpdateData ConvertData(LoadData);
+  ColorRGB ConvertToRGB(const QColor& color);
 
   /* Fields */
   ModelCore* pimpl_;

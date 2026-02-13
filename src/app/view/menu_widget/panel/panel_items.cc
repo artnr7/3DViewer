@@ -5,6 +5,7 @@
 #include <QDir>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <qsharedpointer.h>
 
 #include "buttons/exclusive_double_button.h"
 #include "buttons/independent_double_button.h"
@@ -218,23 +219,11 @@ QWidget* PIDoubleButton::CreateContentWidget(int width, int height) {
 
 void PIDoubleButton::SetupContentConnections() {
   if (is_exclusive_) {
-    auto* exclusive_button =
-        qobject_cast<ExclusiveDoubleButton*>(double_button_);
-    if (exclusive_button) {
-      connect(exclusive_button, &ExclusiveDoubleButton::LeftButtonToggled, this,
-              &PIDoubleButton::LeftButtonToggled);
-      connect(exclusive_button, &ExclusiveDoubleButton::RightButtonToggled,
-              this, &PIDoubleButton::RightButtonToggled);
-    }
+    auto* exclusive_button = qobject_cast<ExclusiveDoubleButton*>(double_button_);
+    connect(exclusive_button, &ExclusiveDoubleButton::ButtonToggled, this, &PIDoubleButton::ButtonToggled);
   } else {
-    auto* independent_button =
-        qobject_cast<IndependentDoubleButton*>(double_button_);
-    if (independent_button) {
-      connect(independent_button, &IndependentDoubleButton::LeftButtonClicked,
-              this, &PIDoubleButton::LeftButtonClicked);
-      connect(independent_button, &IndependentDoubleButton::RightButtonClicked,
-              this, &PIDoubleButton::RightButtonClicked);
-    }
+    auto* independent_button = qobject_cast<IndependentDoubleButton*>(double_button_);
+    connect(independent_button, &IndependentDoubleButton::ButtonClicked, this, &PIDoubleButton::ButtonClicked);
   }
 }
 // Setup

@@ -5,16 +5,16 @@ IndependentDoubleButton::IndependentDoubleButton(
     int width, int height, QWidget* parent)
     : DoubleButtonBase(left_button_name, right_button_name, width, height,
                        parent) {
-  connect(right_button_, &QPushButton::clicked, this,
-          &IndependentDoubleButton::OnLeftButtonClicked);
   connect(left_button_, &QPushButton::clicked, this,
+          &IndependentDoubleButton::OnLeftButtonClicked);
+  connect(right_button_, &QPushButton::clicked, this,
           &IndependentDoubleButton::OnRightButtonClicked);
 }
 
 void IndependentDoubleButton::OnLeftButtonClicked() {
-  emit LeftButtonClicked();
+  emit ButtonClicked(ButtonSide::kLeft);
 }
 
 void IndependentDoubleButton::OnRightButtonClicked() {
-  emit RightButtonClicked();
+  emit ButtonClicked(ButtonSide::kRight);
 }

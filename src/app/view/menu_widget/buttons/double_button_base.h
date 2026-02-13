@@ -6,6 +6,10 @@
 #include <QPushButton>
 #include <QWidget>
 
+enum class ButtonSide {
+  kLeft, kRight
+};
+
 class DoubleButtonBase : public QWidget {
   Q_OBJECT
  public:

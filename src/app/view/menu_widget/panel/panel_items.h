@@ -149,11 +149,9 @@ class PIDoubleButton : public PIBase {
 
  signals:
   /* Signals for ExclusiveDoubleButton */
-  void LeftButtonToggled(bool checked);
-  void RightButtonToggled(bool checked);
+  void ButtonToggled(ButtonSide side);
   /* Signals for IndependentDoubleButton */
-  void LeftButtonClicked();
-  void RightButtonClicked();
+  void ButtonClicked(ButtonSide side);
 
  protected:
   /* Setup */

@@ -30,9 +30,9 @@ void ExclusiveDoubleButton::OnButtonToggled(QAbstractButton* button,
   if (checked) {
     int id = button_group_->id(button);
     if (id == LEFT_BUTTON_ID) {
-      emit LeftButtonToggled(true);
+      emit ButtonToggled(ButtonSide::kLeft);
     } else if (id == RIGHT_BUTTON_ID) {
-      emit RightButtonToggled(true);
+      emit ButtonToggled(ButtonSide::kRight);
     }
   }
 }

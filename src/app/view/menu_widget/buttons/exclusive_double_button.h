@@ -19,8 +19,7 @@ class ExclusiveDoubleButton : public DoubleButtonBase {
                                  int height, QWidget* parent = nullptr);
 
  signals:
-  void LeftButtonToggled(bool checked);
-  void RightButtonToggled(bool checked);
+  void ButtonToggled(ButtonSide side);
 
  private:
   void SetupStyles() override;
