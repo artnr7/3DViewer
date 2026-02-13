@@ -121,7 +121,7 @@ void MenuWidget::SetupShadingPanel(IBuilder* builder) {
                             {"assets/icons/circle.png",
                              static_cast<int>(VertexStyle::kCircle)}}),
                        Qt::Vertical)
-      .Add<PIColorPicker>("color", nullptr, Qt::Vertical)
+      .Add<PIColorPicker>("color", Connect(SceneAction::kVertexColor, &PIColorPicker::ColorChanged), Qt::Vertical)
       .AddSubPanel("Edges")
       .Add<PIValueController>("thickness",
                               Connect(SceneAction::kEdgeThickness,
@@ -135,9 +135,9 @@ void MenuWidget::SetupShadingPanel(IBuilder* builder) {
                {"assets/icons/line_dash.png",
                 static_cast<int>(EdgeStyle::kDashLine)}}),
           Qt::Vertical)
-      .Add<PIColorPicker>("color", nullptr, Qt::Vertical)
+      .Add<PIColorPicker>("color", Connect(SceneAction::kEdgeColor, &PIColorPicker::ColorChanged), Qt::Vertical)
       .AddSubPanel("Background")
-      .Add<PIColorPicker>("color", nullptr, Qt::Horizontal);
+      .Add<PIColorPicker>("color", Connect(SceneAction::kBackgroundColor, &PIColorPicker::ColorChanged), Qt::Horizontal);
 }
 
 void MenuWidget::SetupButtonsPanel(IBuilder* builder, int buttons_menu_width,

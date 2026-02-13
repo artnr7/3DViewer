@@ -43,8 +43,7 @@ enum class EdgeStyle { kLine, kDashLine };
 enum class ProjectionType { kPerspective, kOrthographic };
 enum class RenderType { kGif, kImage };
 
-// using ActionData = std::variant<double, int, QColor, QString, bool>;
-using ActionData = std::variant<int, QString, VertexStyle, EdgeStyle, ProjectionType, RenderType>;
+using ActionData = std::variant<int, QString, QColor, VertexStyle, EdgeStyle, ProjectionType, RenderType>;
 
 }  // namespace s21
 
