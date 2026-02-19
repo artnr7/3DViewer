@@ -7,7 +7,7 @@
 
 namespace s21 {
 
-View::View(Controller* controller, QWidget* parent)
+View::View(Controller *controller, QWidget *parent)
     : QWidget(parent), controller_(controller) {
   setWindowTitle("3DViewer");
   setGeometry(INIT_AX_MAIN_WINDOW, INIT_AY_MAIN_WINDOW, INIT_W_MAIN_WINDOW,
@@ -28,4 +28,4 @@ void View::SetupConnections() {
           &MenuWidget::OnUpdateObjectInfo);
 }
 
-}  // namespace s21
+} // namespace s21

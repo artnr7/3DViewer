@@ -6,7 +6,7 @@
 
 #include "action_types.h"
 #include "menu_builder/builder_contexts.h"
-#include "model_types.h"
+// #include "model_types.h"
 
 namespace s21 {
 
@@ -31,7 +31,7 @@ class MenuWidget : public QWidget {
   MenuWidget(int width, int height, QWidget* parent = nullptr);
 
  public slots:
-  void OnUpdateObjectInfo(ModelUpdateData data);
+  // void OnUpdateObjectInfo(ModelUpdateData data);
 
  signals:
   void ActionTriggered(SceneAction action, ActionData data);

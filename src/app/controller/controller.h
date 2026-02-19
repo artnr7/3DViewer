@@ -24,7 +24,7 @@ class Controller : public QObject {
   static void CreateNewObject(const std::string& obj_filename) noexcept;
 
  signals:
-  void UpdateObjectInfo(ModelUpdateData data);
+  // void UpdateObjectInfo(ModelUpdateData data);
 
  public slots:
   void OnActionTriggered(SceneAction action, ActionData data);

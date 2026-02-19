@@ -1,6 +1,6 @@
 register_format_cmake_file()
 
-set(VIEW_FILES connections.cc
+set(VIEW_FILES 
   slots.cc
   view.cc
   view.h

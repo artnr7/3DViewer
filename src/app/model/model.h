@@ -1,36 +1,31 @@
-#ifndef MODEL_H_
-#define MODEL_H_
-
-#include <QObject>
-#include <qcolor.h>
-
-#include "model_core/model_core.h"
-#include "model_core_types.h"
-#include "model_types.h"
+#include "../model_interface/interface.h"
+#include "object_class.h"
+#include <memory>
 
 namespace s21 {
 
-class Model : public QObject {
-  Q_OBJECT
+class Model : IModel {
 
- public:
+public:
   Model() = default;
+  ~Model() = default;
 
- signals:
-  void UpdateObjectInfo(ModelUpdateData data);
+private:
+  // DATA -------------------------
+  std::unique_ptr<Object> obj_;
+  std::string obj_filename_;
+  // affine_trans at_;
 
- public:
-  void OpenModelFile(const QString& file_path);
-  void SetColor(ColorEntity entity, const QColor& color);
+  // METHODS ------------------------
+  // create/build
+  void BuildObject(const std::string &filename) override;
 
- private:
-  ModelUpdateData ConvertData(LoadData);
-  ColorRGB ConvertToRGB(const QColor& color);
+  // get glvertices
+  std::vector<float> &GetGLVertices() override;
 
-  /* Fields */
-  ModelCore* pimpl_;
+  // update data
+  void MoveObject() override;
+  void ZoomObject() override;
 };
 
-}  // namespace s21
-
-#endif  // MODEL_H_
+} // namespace s21

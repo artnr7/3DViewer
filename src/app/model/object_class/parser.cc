@@ -1,4 +1,4 @@
-#include "logger.h"
+// #include "logger.h"
 #include "object_class.h"
 
 void s21::Object::ObjectParser() {
@@ -7,8 +7,8 @@ void s21::Object::ObjectParser() {
   if (!obj_file_stream.is_open()) {
     std::cerr << "Ошибка открытия файла: " << file_name_ << std::endl;
     // s21::Logger::Log();
-    s21::Logger::Log()->Msg("Ошибка открытия файла : " + file_name_,
-                            s21::Logger::MessageType::Warning);
+    // s21::Logger::Log()->Msg("Ошибка открытия файла : " + file_name_,
+    //                         s21::Logger::MessageType::Warning);
     return;
   }
 

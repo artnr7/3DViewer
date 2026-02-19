@@ -1,43 +1,20 @@
 #include "model.h"
-#include "model_core_types.h"
-
-#include <type_traits>
-#include <variant>
+#include "object_class/object_class.h"
+#include <memory>
 
 namespace s21 {
 
-void Model::OpenModelFile(const QString& file_path) {
-  LoadData data = pimpl_->OpenModelFile(file_path.toStdString());
-  emit UpdateObjectInfo(ConvertData(data));
+void Model::BuildObject(const std::string &filename) {
+  obj_filename_ = filename;
+
+  obj_ = std::make_unique<Object>(obj_filename_);
 }
 
-void Model::SetColor(ColorEntity entity, const QColor& color) {
-  pimpl_->SetColor(entity, ConvertToRGB(color));
+std::vector<float> &s21::Model::GetGLVertices() {
+  if (obj_ == nullptr) {
+    throw std::runtime_error("obj is not initialized");
+  }
+
+  return obj_->GetGLVertices();
 }
-
-ColorRGB Model::ConvertToRGB(const QColor& color) {
-  return {
-    color.redF(),
-    color.greenF(),
-    color.blueF()
-  };
-}
-
-ModelUpdateData Model::ConvertData(LoadData data) {
-  return std::visit(
-      [](auto&& arg) {
-        using T = std::decay_t<decltype(arg)>;
-        ModelUpdateData result;
-
-        if constexpr (std::is_same_v<T, std::string>) {
-          result = QString::fromStdString(arg);
-        } else {
-          result = arg;
-        }
-
-        return result;
-      },
-      data);
-}
-
-}  // namespace s21
+} // namespace s21

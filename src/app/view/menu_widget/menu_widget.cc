@@ -19,7 +19,7 @@
 
 namespace s21 {
 
-MenuWidget::MenuWidget(int width, int height, QWidget* parent)
+MenuWidget::MenuWidget(int width, int height, QWidget *parent)
     : QWidget(parent), width_(width), height_(height), style_{} {
   setFixedSize(width_, height_);
   setContentsMargins(style_.zero_margins);
@@ -27,7 +27,7 @@ MenuWidget::MenuWidget(int width, int height, QWidget* parent)
 }
 
 void MenuWidget::SetupUI() {
-  QVBoxLayout* main_layout = new QVBoxLayout(this);
+  QVBoxLayout *main_layout = new QVBoxLayout(this);
   main_layout->setSpacing(style_.zero_spacing);
   main_layout->setContentsMargins(style_.zero_margins);
 
@@ -43,8 +43,8 @@ void MenuWidget::SetupUI() {
   const int item_width = panel_width * style_.item_width_ratio;
   const int item_height = style_.item_height;
 
-  ToolBar* tool_bar = new ToolBar(tool_bar_width, tool_bar_height);
-  StatusBar* status_bar = new StatusBar(status_bar_width, status_bar_height);
+  ToolBar *tool_bar = new ToolBar(tool_bar_width, tool_bar_height);
+  StatusBar *status_bar = new StatusBar(status_bar_width, status_bar_height);
 
   /* TODO: FIX SIGNALS */
   MenuBuilder tool_builder(tool_bar, item_width, item_height);
@@ -61,14 +61,14 @@ void MenuWidget::SetupUI() {
   main_layout->addWidget(status_bar);
 }
 
-void MenuWidget::SetupToolBar(IBuilder* builder, int buttons_menu_width,
+void MenuWidget::SetupToolBar(IBuilder *builder, int buttons_menu_width,
                               int buttons_menu_height) {
   SetupTransformPanel(builder);
   SetupShadingPanel(builder);
   SetupButtonsPanel(builder, buttons_menu_width, buttons_menu_height);
 }
 
-void MenuWidget::SetupTransformPanel(IBuilder* builder) {
+void MenuWidget::SetupTransformPanel(IBuilder *builder) {
   builder->AddPanel("Transform")
       .AddSubPanel("Translation")
       .Add<PIValueController>("x",
@@ -104,7 +104,7 @@ void MenuWidget::SetupTransformPanel(IBuilder* builder) {
 }
 
 /* TODO: Add new icon for empty-vertex */
-void MenuWidget::SetupShadingPanel(IBuilder* builder) {
+void MenuWidget::SetupShadingPanel(IBuilder *builder) {
   builder->AddPanel("Shading")
       .AddSubPanel("Vertices")
       .Add<PIValueController>("size",
@@ -121,7 +121,10 @@ void MenuWidget::SetupShadingPanel(IBuilder* builder) {
                             {"assets/icons/circle.png",
                              static_cast<int>(VertexStyle::kCircle)}}),
                        Qt::Vertical)
-      .Add<PIColorPicker>("color", Connect(SceneAction::kVertexColor, &PIColorPicker::ColorChanged), Qt::Vertical)
+      .Add<PIColorPicker>(
+          "color",
+          Connect(SceneAction::kVertexColor, &PIColorPicker::ColorChanged),
+          Qt::Vertical)
       .AddSubPanel("Edges")
       .Add<PIValueController>("thickness",
                               Connect(SceneAction::kEdgeThickness,
@@ -135,25 +138,35 @@ void MenuWidget::SetupShadingPanel(IBuilder* builder) {
                {"assets/icons/line_dash.png",
                 static_cast<int>(EdgeStyle::kDashLine)}}),
           Qt::Vertical)
-      .Add<PIColorPicker>("color", Connect(SceneAction::kEdgeColor, &PIColorPicker::ColorChanged), Qt::Vertical)
+      .Add<PIColorPicker>(
+          "color",
+          Connect(SceneAction::kEdgeColor, &PIColorPicker::ColorChanged),
+          Qt::Vertical)
       .AddSubPanel("Background")
-      .Add<PIColorPicker>("color", Connect(SceneAction::kBackgroundColor, &PIColorPicker::ColorChanged), Qt::Horizontal);
+      .Add<PIColorPicker>(
+          "color",
+          Connect(SceneAction::kBackgroundColor, &PIColorPicker::ColorChanged),
+          Qt::Horizontal);
 }
 
-void MenuWidget::SetupButtonsPanel(IBuilder* builder, int buttons_menu_width,
+void MenuWidget::SetupButtonsPanel(IBuilder *builder, int buttons_menu_width,
                                    int buttons_menu_height) {
   builder->AddPanel("Projection")
       .AddSubPanel("")
       .SetSize(buttons_menu_width, buttons_menu_height)
-      .Add<PIDoubleButton>("",
-        ConnectEnum<ProjectionType>(SceneAction::kProjection, &PIDoubleButton::ButtonToggled),
-        "perspective", "ortography", true)
+      .Add<PIDoubleButton>(
+          "",
+          ConnectEnum<ProjectionType>(SceneAction::kProjection,
+                                      &PIDoubleButton::ButtonToggled),
+          "perspective", "ortography", true)
       .AddPanel("Render")
       .AddSubPanel("")
       .SetSize(buttons_menu_width, buttons_menu_height)
-      .Add<PIDoubleButton>("",
-        ConnectEnum<RenderType>(SceneAction::kRender, &PIDoubleButton::ButtonClicked),
-        "GIF", "Image", false)
+      .Add<PIDoubleButton>(
+          "",
+          ConnectEnum<RenderType>(SceneAction::kRender,
+                                  &PIDoubleButton::ButtonClicked),
+          "GIF", "Image", false)
       .AddPanel("Files")
       .AddSubPanel("")
       .SetSize(buttons_menu_width, buttons_menu_height)
@@ -162,23 +175,23 @@ void MenuWidget::SetupButtonsPanel(IBuilder* builder, int buttons_menu_width,
           "Open", "File name:");
 }
 
-void MenuWidget::SetupStatusBar(StatusBar* status_bar) {
+void MenuWidget::SetupStatusBar(StatusBar *status_bar) {
   connect(this, &MenuWidget::UpdateInfo, status_bar, &StatusBar::OnUpdateInfo);
   connect(this, &MenuWidget::ShowError, status_bar, &StatusBar::OnShowError);
 }
 
-void MenuWidget::OnUpdateObjectInfo(ModelUpdateData data) {
-  std::visit(
-      [this](auto&& arg) {
-        using T = std::decay_t<decltype(arg)>;
+// void MenuWidget::OnUpdateObjectInfo(ModelUpdateData data) {
+//   std::visit(
+//       [this](auto&& arg) {
+//         using T = std::decay_t<decltype(arg)>;
+//
+//         if constexpr (std::is_same_v<T, ObjectInfo>) {
+//           emit UpdateInfo(arg.vertices, arg.edges);
+//         } else if constexpr (std::is_same_v<T, QString>) {
+//           emit ShowError(arg);
+//         }
+//       },
+//       data);
+// }
 
-        if constexpr (std::is_same_v<T, ObjectInfo>) {
-          emit UpdateInfo(arg.vertices, arg.edges);
-        } else if constexpr (std::is_same_v<T, QString>) {
-          emit ShowError(arg);
-        }
-      },
-      data);
-}
-
-}  // namespace s21
+} // namespace s21

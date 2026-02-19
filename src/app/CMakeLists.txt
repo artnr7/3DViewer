@@ -1,6 +1,6 @@
 register_format_cmake_file()
 
-set(MAIN_FILES 3dviewer.cc)
+set(MAIN_FILES main.cc)
 register_format_sources(${MAIN_FILES})
 
 add_executable(${PROJECT_NAME} ${MAIN_FILES})

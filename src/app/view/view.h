@@ -13,18 +13,18 @@ namespace s21 {
 class View : public QWidget {
   Q_OBJECT
 
- public:
-  View(Controller* controller, QWidget* parent = nullptr);
+public:
+  View(Controller *controller, QWidget *parent = nullptr);
 
- private:
+private:
   void SetupConnections();
 
   /* Fields */
-  MenuWidget* p_menu_wid_;
-  ObjectViewerWidget* p_obj_v_wid_;
-  Controller* controller_;
+  MenuWidget *p_menu_wid_;
+  ObjectViewerWidget *p_obj_v_wid_;
+  Controller *controller_;
 };
 
-}  // namespace s21
+} // namespace s21
 
 #endif
