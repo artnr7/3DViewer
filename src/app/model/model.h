@@ -1,36 +1,36 @@
-#ifndef MODEL_HPP_
-#define MODEL_HPP_
+#ifndef MODEL_H_
+#define MODEL_H_
 
-// #include "spdlog/spdlog.h"
-#include "object_class/object_class.h"
+#include <QObject>
+#include <qcolor.h>
+
+#include "model_core/model_core.h"
+#include "model_core_types.h"
+#include "model_types.h"
 
 namespace s21 {
-class Model {
- protected:
-  Model() = default;
-  // explicit Model(const std::string &obj_filename);
 
- private:
-  // Variables ----------→
-  static std::unique_ptr<Model> instance;
-  std::unique_ptr<Object> obj_;
-  std::string obj_filename_;
+class Model : public QObject {
+  Q_OBJECT
 
  public:
-  // Constructors ----------→
+  Model() = default;
 
-  static Model *GetModel() {
-    if (instance == nullptr) {
-      instance = std::unique_ptr<Model>(new Model());
-    }
-    return instance.get();
-  }
+ signals:
+  void UpdateObjectInfo(ModelUpdateData data);
 
-  std::vector<float> &GetGLVertices();
-  void CreateNewObject(const std::string &obj_filename);
-  // void SetObjFilename(std::string &obj_filename) noexcept;
+ public:
+  void OpenModelFile(const QString& file_path);
+  void SetColor(ColorEntity entity, const QColor& color);
+
+ private:
+  ModelUpdateData ConvertData(LoadData);
+  ColorRGB ConvertToRGB(const QColor& color);
+
+  /* Fields */
+  ModelCore* pimpl_;
 };
 
 }  // namespace s21
 
-#endif
+#endif  // MODEL_H_

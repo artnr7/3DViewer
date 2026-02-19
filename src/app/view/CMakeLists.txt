@@ -1,15 +1,20 @@
 register_format_cmake_file()
 
-set(VIEW_FILES src/app.cc src/view.cc include/app.h include/view.h)
-
-add_library(view_lib STATIC ${VIEW_FILES})
+set(VIEW_FILES connections.cc
+  slots.cc
+  view.cc
+  view.h
+  config.h)
 register_format_sources(${VIEW_FILES})
 
+add_library(view_lib STATIC ${VIEW_FILES})
+
+add_subdirectory(menu_widget)
+add_subdirectory(object_viewer_widget)
+
+target_include_directories(view_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+target_link_libraries(
+  view_lib PUBLIC menu_widget_lib object_viewer_widget_lib utils_lib controller_lib)
+
 target_link_qt(view_lib)
-
-add_subdirectory(main_window)
-
-target_include_directories(view_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
-                                           main_window main_window/menu_widget)
-
-target_link_libraries(view_lib PRIVATE main_window_lib)

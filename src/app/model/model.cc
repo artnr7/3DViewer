@@ -1,25 +1,43 @@
 #include "model.h"
-#include "object_class/object_class.h"
+#include "model_core_types.h"
 
-std::unique_ptr<s21::Model> s21::Model::instance = nullptr;
+#include <type_traits>
+#include <variant>
 
-// s21::Model::Model(const std::string &obj_filename)
-//     : obj_filename_(obj_filename) {
-//   obj_ = std::make_unique<s21::Object>(obj_filename_);
-// }
+namespace s21 {
 
-std::vector<float> &s21::Model::GetGLVertices() {
-  std::cout << "obj-pointer: " << obj_ << std::endl;
-
-  if (obj_ == nullptr) {
-    throw std::runtime_error("obj is not initialized");
-  }
-  obj_->PrintArray();
-  return obj_->GetGLVertices();
-};
-
-void s21::Model::CreateNewObject(const std::string &obj_filename) {
-  obj_filename_ = obj_filename;
-
-  obj_ = std::make_unique<Object>(obj_filename_);
+void Model::OpenModelFile(const QString& file_path) {
+  LoadData data = pimpl_->OpenModelFile(file_path.toStdString());
+  emit UpdateObjectInfo(ConvertData(data));
 }
+
+void Model::SetColor(ColorEntity entity, const QColor& color) {
+  pimpl_->SetColor(entity, ConvertToRGB(color));
+}
+
+ColorRGB Model::ConvertToRGB(const QColor& color) {
+  return {
+    color.redF(),
+    color.greenF(),
+    color.blueF()
+  };
+}
+
+ModelUpdateData Model::ConvertData(LoadData data) {
+  return std::visit(
+      [](auto&& arg) {
+        using T = std::decay_t<decltype(arg)>;
+        ModelUpdateData result;
+
+        if constexpr (std::is_same_v<T, std::string>) {
+          result = QString::fromStdString(arg);
+        } else {
+          result = arg;
+        }
+
+        return result;
+      },
+      data);
+}
+
+}  // namespace s21
