@@ -17,4 +17,7 @@ std::vector<float> &s21::Model::GetGLVertices() {
 
   return obj_->GetGLVertices();
 }
+
+void Model::TranslateObject() {}
+void Model::ScaleObject() {}
 } // namespace s21

@@ -1,39 +1,33 @@
-#ifndef CONTROLLER_HPP_
-#define CONTROLLER_HPP_
+#ifndef CONTROLLER_H_
+#define CONTROLLER_H_
 
-#include <qtmetamacros.h>
-
-#include <QObject>
-#include <string>
+#include <../controller_interface/interface.h>
+#include <../model_interface/interface.h>
+#include <memory>
 #include <vector>
-// #include "spdlog/spdlog.h"
-
-#include "action_types.h"
-#include "model.h"
 
 namespace s21 {
-class Controller : public QObject {
-  Q_OBJECT
- private:
-  // Controller() = delete;
-  // // explicit Controller(std::string &obj_filename);
 
- public:
-  Controller(Model* model);
-  [[nodiscard]] static std::vector<float>& GetVertices();
-  static void CreateNewObject(const std::string& obj_filename) noexcept;
+class Controller : public IController {
 
- signals:
-  // void UpdateObjectInfo(ModelUpdateData data);
+public:
+  Controller(IModel *model) : model_(model) {};
+  ~Controller() = default;
 
- public slots:
-  void OnActionTriggered(SceneAction action, ActionData data);
+private:
+  // DATA -------------------------
+  std::unique_ptr<IModel> model_;
 
- private:
-  void SetupConnections();
-  /* Fields */
-  Model* model_;
+  // METHODS ------------------------
+  void BuildObject(const std::string &filename) override;
+
+  std::vector<float> &GetGLVertices() override;
+
+  void TranslateObject() override;
+  void RotateObject() override;
+  void ScaleObject() override;
 };
-}  // namespace s21
 
-#endif
+} // namespace s21
+
+#endif // !CONTROLLER_H_

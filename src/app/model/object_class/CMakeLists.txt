@@ -1,6 +1,6 @@
 register_format_cmake_file()
 
-set (PARSER_LIB_NAME parser_lib)
+# set (PARSER_LIB_NAME parser_lib)
 
 set(PARSER_FILES
     centetring_and_normalization.cc
@@ -16,8 +16,9 @@ set(PARSER_FILES
 
 register_format_sources(${PARSER_FILES})
 
-add_library(${PARSER_LIB_NAME} STATIC ${PARSER_FILES})
+add_library(parser_lib STATIC ${PARSER_FILES})
 
-target_include_directories(${PARSER_LIB_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(parser_lib  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_qt(parser_lib)
+
+add_coverage_version(parser_lib)

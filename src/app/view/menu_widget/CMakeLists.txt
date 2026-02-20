@@ -45,7 +45,9 @@ set(MENU_WIDGET_FILES
     colordialog/color_wheel.h
     filedialog/file_dialog_button.h
     filedialog/file_dialog_panel.h
-    status_bar/status_bar.h)
+    status_bar/status_bar.h
+    interface/action_types.h
+  )
 
 add_library(menu_widget_lib STATIC ${MENU_WIDGET_FILES})
 register_format_sources(${MENU_WIDGET_FILES})
@@ -54,6 +56,7 @@ target_include_directories(menu_widget_lib
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/
 )
 
-target_link_libraries(menu_widget_lib PRIVATE action_types model_types)
+# target_link_libraries(menu_widget_lib PRIVATE action_types model_types)
+target_link_libraries(menu_widget_lib PUBLIC action_types )
 
 target_link_qt(menu_widget_lib)

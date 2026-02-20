@@ -1,10 +1,13 @@
+#ifndef MODEL_H_
+#define MODEL_H_
+
 #include "../model_interface/interface.h"
 #include "object_class.h"
 #include <memory>
 
 namespace s21 {
 
-class Model : IModel {
+class Model : public IModel {
 
 public:
   Model() = default;
@@ -24,8 +27,10 @@ private:
   std::vector<float> &GetGLVertices() override;
 
   // update data
-  void MoveObject() override;
-  void ZoomObject() override;
+  void TranslateObject() override;
+  void ScaleObject() override;
 };
 
 } // namespace s21
+
+#endif

@@ -27,33 +27,34 @@ struct MenuWidgetStyle {
 
 class MenuWidget : public QWidget {
   Q_OBJECT
- public:
-  MenuWidget(int width, int height, QWidget* parent = nullptr);
+public:
+  MenuWidget(int width, int height, QWidget *parent = nullptr);
 
- public slots:
+public slots:
   // void OnUpdateObjectInfo(ModelUpdateData data);
 
- signals:
+signals:
   void ActionTriggered(SceneAction action, ActionData data);
 
- private:
- signals:
+private:
+signals:
   void UpdateInfo(int vertices_count, int edges_count);
-  void ShowError(const QString& msg);
+  void ShowError(const QString &msg);
 
- private:
+private:
   void SetupUI();
-  void SetupToolBar(IBuilder* builder, int buttons_menu_width,
+  void SetupToolBar(IBuilder *builder, int buttons_menu_width,
                     int buttons_menu_height);
-  void SetupStatusBar(StatusBar* status_bar);
-  void SetupTransformPanel(IBuilder* builder);
-  void SetupShadingPanel(IBuilder* builder);
-  void SetupButtonsPanel(IBuilder* builder, int buttons_menu_width,
+  void SetupStatusBar(StatusBar *status_bar);
+  void SetupTransformPanel(IBuilder *builder);
+  void SetupShadingPanel(IBuilder *builder);
+  void SetupButtonsPanel(IBuilder *builder, int buttons_menu_width,
                          int buttons_menu_height);
 
   template <typename EnumType>
-  auto GetComboBoxConnection(
-      SceneAction action, std::initializer_list<std::pair<QString, int>> items);
+  auto
+  GetComboBoxConnection(SceneAction action,
+                        std::initializer_list<std::pair<QString, int>> items);
 
   template <typename Item, typename DataType>
   auto Connect(SceneAction action, void (Item::*signal)(DataType));
@@ -69,7 +70,7 @@ class MenuWidget : public QWidget {
 
 template <typename Item, typename DataType>
 auto MenuWidget::Connect(SceneAction action, void (Item::*signal)(DataType)) {
-  return [this, action, signal](Item* item) {
+  return [this, action, signal](Item *item) {
     connect(item, signal, this, [this, action](DataType value) {
       emit ActionTriggered(action, value);
     });
@@ -79,7 +80,7 @@ auto MenuWidget::Connect(SceneAction action, void (Item::*signal)(DataType)) {
 template <typename EnumType, typename Item, typename DataType>
 auto MenuWidget::ConnectEnum(SceneAction action,
                              void (Item::*signal)(DataType)) {
-  return [this, action, signal](Item* item) {
+  return [this, action, signal](Item *item) {
     connect(item, signal, this, [this, action](DataType value) {
       emit ActionTriggered(action, static_cast<EnumType>(value));
     });
@@ -89,7 +90,7 @@ auto MenuWidget::ConnectEnum(SceneAction action,
 template <typename EnumType>
 auto MenuWidget::GetComboBoxConnection(
     SceneAction action, std::initializer_list<std::pair<QString, int>> items) {
-  return [this, action, items](PIComboBox* combo) {
+  return [this, action, items](PIComboBox *combo) {
     this->ConnectEnum<EnumType>(action,
                                 &PIComboBox::CurrentIndexChanged)(combo);
     combo->SetArrows("assets/icons/open_arrow.png",
@@ -98,6 +99,6 @@ auto MenuWidget::GetComboBoxConnection(
   };
 }
 
-}  // namespace s21
+} // namespace s21
 
 #endif
