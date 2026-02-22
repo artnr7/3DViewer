@@ -39,7 +39,7 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   // void EnterObjFilename() noexcept;
   // void SetObjFilename() noexcept;
 
-  /* Fields */
+  // Fields
   int width_;
   int height_;
 };

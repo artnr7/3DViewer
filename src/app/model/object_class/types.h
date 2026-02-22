@@ -22,19 +22,19 @@ using CoordT = long double;
 using PolyPcInT = long int;
 
 // Vertices
-typedef struct {
- private:
-  typedef struct {
-   private:
-    typedef struct {
+struct Points {
+private:
+  struct Vertices {
+  private:
+    struct VerticeMap {
       PolyPcInT i;
       CoordT x;
       CoordT y;
       CoordT z;
       friend class Object;
-    } VerticeMap;
+    };
 
-   public:
+  public:
     std::vector<VerticeMap> vertice_maps;
     CoordT min_x;
     CoordT max_x;
@@ -43,18 +43,18 @@ typedef struct {
     CoordT min_z;
     CoordT max_z;
     friend class Object;
-  } Vertices;
+  };
 
-  typedef struct {
-   private:
-    typedef struct {
+  struct Textures {
+  private:
+    struct TextureMap {
       PolyPcInT i;
       CoordT u;
       CoordT v;
       CoordT w = 0;
-    } TextureMap;
+    };
 
-   public:
+  public:
     std::vector<TextureMap> texture_maps;
     // CoordT min_x;
     // CoordT max_x;
@@ -62,18 +62,18 @@ typedef struct {
     // CoordT max_y;
     // CoordT min_z;
     // CoordT max_z;
-  } Textures;
+  };
 
-  typedef struct {
-   private:
-    typedef struct {
+  struct Normals {
+  private:
+    struct NormalMap {
       PolyPcInT i;
       CoordT x;
       CoordT y;
       CoordT z;
-    } NormalMap;
+    };
 
-   public:
+  public:
     std::vector<NormalMap> texture_maps;
     // CoordT min_x;
     // CoordT max_x;
@@ -81,37 +81,37 @@ typedef struct {
     // CoordT max_y;
     // CoordT min_z;
     // CoordT max_z;
-  } Normals;
+  };
 
- public:
+public:
   Vertices vertices;
   Textures textures;
   Normals normals;
   friend class Object;
-} Vertices;
+};
 
 // Face
-typedef struct {
- private:
-  typedef struct {
-   private:
-    typedef struct {
+struct Faces {
+private:
+  struct FaceMap {
+  private:
+    struct MapEl {
       PolyPcInT vert_i;
       PolyPcInT txr_i;
       PolyPcInT norl_i;
       friend class Object;
-    } MapEl;
+    };
 
-   public:
+  public:
     PolyPcInT i;
     std::vector<MapEl> map;
     friend class Object;
-  } FaceMap;
+  };
 
- public:
+public:
   std::vector<FaceMap> face_maps;
   size_t dimension_qty = DIMENSION_QTY;
   friend class Object;
-} Faces;
+};
 
-};  // namespace s21
+}; // namespace s21

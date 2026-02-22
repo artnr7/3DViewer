@@ -7,6 +7,13 @@ void Controller::BuildObject(const std::string &filename) {}
 
 std::vector<float> &Controller::GetGLVertices() {};
 
+
+
+
+
+
+
+
 void Controller::TranslateObject() {}
 void Controller::RotateObject() {}
 void Controller::ScaleObject() {}

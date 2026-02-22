@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
   s21::Model model;
   s21::Controller controller(&model);
   s21::View view(&controller);
-  // //s21::Controller controller(&model, &view);
+
   view.show();
 
   return app.exec();

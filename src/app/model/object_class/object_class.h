@@ -16,12 +16,12 @@ namespace s21 {
 
 class Object {
   using StrIter = std::string::iterator;
-  using VertIter = std::vector<Vertices::Vertices::VerticeMap>::iterator;
+  using VertIter = std::vector<Points::Vertices::VerticeMap>::iterator;
   using FaceIter = std::vector<Faces::FaceMap>::iterator;
 
- private:
+private:
   // Variables ----------→
-  Vertices vertices_;
+  Points vertices_;
   Faces faces_;
 
   std::vector<float> glvertices_;
@@ -66,7 +66,7 @@ class Object {
   // Normalization
   void Normalization();
 
- public:
+public:
   // Constructors --------------------→
   Object() = delete;
   Object(const std::string &file_name);
@@ -77,6 +77,6 @@ class Object {
   void PrintArray();
   void FillGLvertices();
 };
-}  // namespace s21
+} // namespace s21
 
 #endif

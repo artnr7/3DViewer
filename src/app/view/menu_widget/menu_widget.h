@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <iostream>
+#include <string>
 
 #include "action_types.h"
 #include "menu_builder/builder_contexts.h"
@@ -35,6 +36,7 @@ public slots:
 
 signals:
   void ActionTriggered(SceneAction action, ActionData data);
+  void FilenameSet( const std::string &filename);
 
 private:
 signals:

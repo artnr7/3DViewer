@@ -16,13 +16,16 @@ class View : public QWidget {
 public:
   View(Controller *controller, QWidget *parent = nullptr);
 
+private slots:
+  void OnActionTriggered(SceneAction action, ActionData data);
+
 private:
   void SetupConnections();
 
   /* Fields */
-  MenuWidget *p_menu_wid_;
-  ObjectViewerWidget *p_obj_v_wid_;
-  Controller *controller_;
+  MenuWidget *pmenu_wid_;
+  ObjectViewerWidget *pobj_v_wid_;
+  IController *pcontroller_;
 };
 
 } // namespace s21
