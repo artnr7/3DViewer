@@ -16,8 +16,8 @@ namespace s21 {
 
 class Object {
   using StrIter = std::string::iterator;
-  using VertIter = std::vector<Points::Vertices::VerticeMap>::iterator;
-  using FaceIter = std::vector<Faces::FaceMap>::iterator;
+  using VertIter = std::vector<VerticeMap>::iterator;
+  using FaceIter = std::vector<FaceMap>::iterator;
 
 private:
   // Variables ----------→
@@ -47,9 +47,9 @@ private:
   // FLine
   void ParseFLine(PolyPcInT &face_i, std::string &obj_file_line);
   void ParseFMap(PolyPcInT &face_i);
-  void ParseFMapEls(std::vector<Faces::FaceMap::MapEl> &map);
-  void ParseFMapEl(Faces::FaceMap::MapEl &map_el);
-  void ParseFMapElTok(Faces::FaceMap::MapEl &map_el, int &token_i);
+  void ParseFMapEls(std::vector<MapEl> &map);
+  void ParseFMapEl(MapEl &map_el);
+  void ParseFMapElTok(MapEl &map_el, int &token_i);
 
   // Parser Utils --------------→
   bool IsFLine();

@@ -3,7 +3,7 @@ register_format_cmake_file()
 # set (PARSER_LIB_NAME parser_lib)
 
 set(PARSER_FILES
-    centetring_and_normalization.cc
+    centering_and_normalization.cc
     init.cc
     parse_f_lines.cc
     parser.cc

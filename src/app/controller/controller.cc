@@ -3,16 +3,11 @@
 
 namespace s21 {
 
-void Controller::BuildObject(const std::string &filename) {}
+void Controller::BuildObject(const std::string &filename) {
+  model_->BuildObject(filename);
+}
 
 std::vector<float> &Controller::GetGLVertices() {};
-
-
-
-
-
-
-
 
 void Controller::TranslateObject() {}
 void Controller::RotateObject() {}

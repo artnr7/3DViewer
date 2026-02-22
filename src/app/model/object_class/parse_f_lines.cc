@@ -28,7 +28,7 @@ void s21::Object::ParseFMap(PolyPcInT &face_i) {
   ++face_i;
 }
 
-void s21::Object::ParseFMapEls(std::vector<Faces::FaceMap::MapEl> &map) {
+void s21::Object::ParseFMapEls(std::vector<MapEl> &map) {
   int map_el_i = 0;
   while (!IsEndOfLine()) {
     map.push_back({});
@@ -43,7 +43,7 @@ void s21::Object::ParseFMapEls(std::vector<Faces::FaceMap::MapEl> &map) {
   }
 }
 
-void s21::Object::ParseFMapEl(Faces::FaceMap::MapEl &map_el) {
+void s21::Object::ParseFMapEl(MapEl &map_el) {
   int token_i = 0;
   while (token_i < DIMENSION_QTY && *ofl_it_ != ' ' && !IsEndOfLine()) {
     // надо как-то выше выкидывать
@@ -57,7 +57,7 @@ void s21::Object::ParseFMapEl(Faces::FaceMap::MapEl &map_el) {
   }
 }
 
-void s21::Object::ParseFMapElTok(Faces::FaceMap::MapEl &map_el, int &token_i) {
+void s21::Object::ParseFMapElTok(MapEl &map_el, int &token_i) {
   if (IsSlash() && IsNextSlash()) {
     ++token_i;
     ofl_it_ += 2;
@@ -67,15 +67,15 @@ void s21::Object::ParseFMapElTok(Faces::FaceMap::MapEl &map_el, int &token_i) {
 
   PolyPcInT *token = nullptr;
   switch (token_i) {
-    case TokenID::VerticeID:
-      token = &map_el.vert_i;
-      break;
-    case TokenID::TextureID:
-      token = &map_el.txr_i;
-      break;
-    case TokenID::NormalID:
-      token = &map_el.norl_i;
-      break;
+  case TokenID::VerticeID:
+    token = &map_el.vert_i;
+    break;
+  case TokenID::TextureID:
+    token = &map_el.txr_i;
+    break;
+  case TokenID::NormalID:
+    token = &map_el.norl_i;
+    break;
   }
 
   std::string num{};

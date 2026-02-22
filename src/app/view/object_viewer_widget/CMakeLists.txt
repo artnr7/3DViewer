@@ -1,10 +1,11 @@
 register_format_cmake_file()
 
 set(OBJECT_VIEWER_WIDGET_FILES
-    #src/connections.cc
+    connections.cc
     init.cc
-    #src/object_viewer_widget.cc src/shaders.cc
-    #src/slots.cc
+    object_viewer_widget.cc
+   shaders.cc
+    slots.cc
     object_viewer_widget.h)
 register_format_sources(${OBJECT_VIEWER_WIDGET_FILES})
 

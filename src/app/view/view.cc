@@ -3,6 +3,7 @@
 #include "config.h"
 #include "controller.h"
 #include "enum.h"
+#include "logger.h"
 #include "menu_widget.h"
 #include "object_viewer_widget.h"
 
@@ -95,8 +96,15 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
           switch (action) {
           /* Open file */
           case SceneAction::kOpenFile:
-            std::cout << "File with name: " << arg.toStdString() << " open\n";
-            // model_->OpenModelFile(arg);
+            // auto filename = arg.toStdString();
+            Logger::Log()->Msg("Попытка открытия файла : " + arg.toStdString(),
+                               s21::Logger::MessageType::Default);
+
+            // std::cout << "File with name: " << arg.toStdString() << "
+            // open\n";
+
+            pcontroller_->BuildObject(arg.toStdString());
+            emit pobj_v_wid_->ObjectParseStarted();
             break;
 
           default:
