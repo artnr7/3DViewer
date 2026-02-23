@@ -20,12 +20,21 @@ View::View(Controller *controller, QWidget *parent)
       new ObjectViewerWidget(INIT_AX_OBJECT_WIDGET, INIT_AY_OBJECT_WIDGET,
                              INIT_W_OBJECT_WIDGET, INIT_H_OBJECT_WIDGET, this);
 
+  menu_wid_update_timer_ = new QTimer;
   SetupConnections();
+}
+
+void View::ObjectBuilded() {
+  emit pobj_v_wid_->ObjectParseStarted();
+  emit ControllerDataUpdateStarted();
 }
 
 void View::SetupConnections() {
   connect(pmenu_wid_, &MenuWidget::ActionTriggered, this,
           &View::OnActionTriggered);
+  // connect(pobj_v_wid_, &ObjectViewerWidget::GetGLVertices, this, &
+  connect(this, &View::ControllerDataUpdateStarted, this,
+          &View::OnControllerDataUpdateStarted);
 }
 
 void View::OnActionTriggered(SceneAction action, ActionData data) {
@@ -104,7 +113,7 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
             // open\n";
 
             pcontroller_->BuildObject(arg.toStdString());
-            emit pobj_v_wid_->ObjectParseStarted();
+            ObjectBuilded();
             break;
 
           default:

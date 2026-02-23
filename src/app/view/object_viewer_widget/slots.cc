@@ -2,6 +2,7 @@
 #include <qtimer.h>
 
 void s21::ObjectViewerWidget::OnObjectBuilded() {
+  initGL();
   front_update_timer_->start(15);
 }
 

@@ -17,17 +17,19 @@ public:
                      QWidget *parent); //, const std::string &obj_filename);
 
 protected:
-  void initializeGL() override;
   void resizeGL(int w, int h) override;
   void paintGL() override;
+
 signals:
   void ObjectParseStarted();
+  void GetGLVertices();
 
 private slots:
   void OnObjectBuilded();
   void FrontUpdate();
 
 private:
+  void initGL();
   void LoadShaders();
   void Connections();
 

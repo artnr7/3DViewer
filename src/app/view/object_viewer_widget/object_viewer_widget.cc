@@ -1,14 +1,12 @@
 #include "object_viewer_widget.h"
 
 #define TR_QTY 1
-void s21::ObjectViewerWidget::initializeGL() {
+void s21::ObjectViewerWidget::initGL() {
   initializeOpenGLFunctions();
   m_shader_program_ = new QOpenGLShaderProgram(this);
-  glClearColor(1.0f, 0.5f, 0.0f, 1.0f);
+  glClearColor(1.0f, 0.5f, 0.0f, 1.0f); // установить цвет фона, который будет храниться в GL_COLOR_BUFFER_BIT
 
   LoadShaders();
-
-  exit(1);
 
   std::vector<float> glvertices();
 

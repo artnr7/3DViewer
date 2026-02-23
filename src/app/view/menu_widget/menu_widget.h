@@ -33,10 +33,10 @@ public:
 
 public slots:
   // void OnUpdateObjectInfo(ModelUpdateData data);
+  void OnUpdateObjectInfo(); // TODO: надо исправить тип
 
 signals:
   void ActionTriggered(SceneAction action, ActionData data);
-  void FilenameSet( const std::string &filename);
 
 private:
 signals:
