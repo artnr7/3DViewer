@@ -7,35 +7,41 @@
 #include <QtGui>
 #include <QtOpenGL>
 #include <memory>
+#include <qopenglwidget.h>
 #include <qtimer.h>
+#include <vector>
 
 namespace s21 {
 class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   Q_OBJECT
 public:
-  ObjectViewerWidget(int x_offset, int y_offset, int with, int height,
-                     QWidget *parent); //, const std::string &obj_filename);
+  ObjectViewerWidget(
+      int x_offset, int y_offset, int width, int height,
+      QWidget *parent = nullptr); //, const std::string &obj_filename);
 
 protected:
+  void initializeGL() override;
   void resizeGL(int w, int h) override;
   void paintGL() override;
 
 signals:
   void ObjectParseStarted();
-  void GetGLVertices();
+  void ActionGetGLVertices();
+  void UpdateFront();
 
 private slots:
   void OnObjectBuilded();
-  void FrontUpdate();
+  void OnUpdateFront();
+  void OnFrontUpdateTimer();
 
 private:
-  void initGL();
   void LoadShaders();
-  void Connections();
+  void SetupConnections();
 
   // Variables -------------------→
   // Graphics →
-  size_t vert_qty_;
+  std::vector<float> *vert_attrs_;
+  size_t verts_qty_;
   QMatrix4x4 m_modelview;
   QMatrix4x4 m_projection;
   // GLint projLoc;
@@ -47,8 +53,10 @@ private:
   QTimer *front_update_timer_;
 
 public:
-  // void EnterObjFilename() noexcept;
-  // void SetObjFilename() noexcept;
+  void initGL();
+  void SetGLVertices(std::vector<float> &vert_attrs) {
+    vert_attrs = vert_attrs;
+  }
 
   // Fields
   int width_;

@@ -4,7 +4,7 @@ set(OBJECT_VIEWER_WIDGET_FILES
     connections.cc
     init.cc
     object_viewer_widget.cc
-   shaders.cc
+    shaders.cc
     slots.cc
     object_viewer_widget.h)
 register_format_sources(${OBJECT_VIEWER_WIDGET_FILES})

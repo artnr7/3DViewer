@@ -6,9 +6,9 @@
 #include "model.h"
 #include "view.h"
 
-std::unique_ptr<s21::Logger> s21::Logger::instance_ = nullptr;
+std::unique_ptr<s21::Lg> s21::Lg::inst_ = nullptr;
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   QApplication app(argc, argv);
 
   s21::Model model;

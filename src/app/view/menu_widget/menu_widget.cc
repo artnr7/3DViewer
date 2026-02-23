@@ -17,10 +17,13 @@
 #include "panel/panel_items.h"
 #include "status_bar/status_bar.h"
 
+#include "../../utils/logger.h"
+
 namespace s21 {
 
 MenuWidget::MenuWidget(int width, int height, QWidget *parent)
     : QWidget(parent), width_(width), height_(height), style_{} {
+  Lg::Log()->Info(std::string(__func__) + " constuctor");
   setFixedSize(width_, height_);
   setContentsMargins(style_.zero_margins);
   SetupUI();

@@ -1,5 +1,8 @@
 #include "view.h"
 
+#include <string>
+#include <vector>
+
 #include "config.h"
 #include "controller.h"
 #include "enum.h"
@@ -11,33 +14,46 @@ namespace s21 {
 
 View::View(Controller *controller, QWidget *parent)
     : QWidget(parent), pcontroller_(controller) {
+  Lg::Log()->Info(std::string(__func__) + " constuctor");
   setWindowTitle("3DViewer");
   setGeometry(INIT_AX_MAIN_WINDOW, INIT_AY_MAIN_WINDOW, INIT_W_MAIN_WINDOW,
               INIT_H_MAIN_WINDOW);
 
   pmenu_wid_ = new MenuWidget(INIT_W_MENU_WIDGET, INIT_H_MENU_WIDGET, this);
+
   pobj_v_wid_ =
       new ObjectViewerWidget(INIT_AX_OBJECT_WIDGET, INIT_AY_OBJECT_WIDGET,
                              INIT_W_OBJECT_WIDGET, INIT_H_OBJECT_WIDGET, this);
 
-  menu_wid_update_timer_ = new QTimer;
-  SetupConnections();
+  // menu_wid_update_timer_ = new QTimer(this);
+  // SetupConnections();
 }
 
 void View::ObjectBuilded() {
-  emit pobj_v_wid_->ObjectParseStarted();
+  pobj_v_wid_->SetGLVertices(pcontroller_->GetGLVertices());
+  pobj_v_wid_->initGL();
   emit ControllerDataUpdateStarted();
 }
 
+void View::GetNSetGLVertices() {
+  pobj_v_wid_->SetGLVertices(pcontroller_->GetGLVertices());
+}
+
 void View::SetupConnections() {
+  Lg::Log()->Info("View::" + std::string(__func__));
+
   connect(pmenu_wid_, &MenuWidget::ActionTriggered, this,
           &View::OnActionTriggered);
-  // connect(pobj_v_wid_, &ObjectViewerWidget::GetGLVertices, this, &
+
   connect(this, &View::ControllerDataUpdateStarted, this,
           &View::OnControllerDataUpdateStarted);
+
+  connect(pobj_v_wid_, &ObjectViewerWidget::ActionGetGLVertices, this,
+          &View::OnGetGLVertices);
 }
 
 void View::OnActionTriggered(SceneAction action, ActionData data) {
+  Lg::Log()->Info(std::string(__func__));
   std::visit(
       [this, action](auto &&arg) {
         using T = std::decay_t<decltype(arg)>;
@@ -106,12 +122,7 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
           /* Open file */
           case SceneAction::kOpenFile:
             // auto filename = arg.toStdString();
-            Logger::Log()->Msg("Попытка открытия файла : " + arg.toStdString(),
-                               s21::Logger::MessageType::Default);
-
-            // std::cout << "File with name: " << arg.toStdString() << "
-            // open\n";
-
+            Lg::Log()->Debug("Попытка открытия файла: " + arg.toStdString());
             pcontroller_->BuildObject(arg.toStdString());
             ObjectBuilded();
             break;

@@ -1,6 +1,7 @@
 #ifndef MAIN_WINDOW_HPP_
 #define MAIN_WINDOW_HPP_
 
+#include <GL/gl.h>
 #include <QMainWindow>
 #include <QWidget>
 #include <qtimer.h>
@@ -8,6 +9,8 @@
 #include "controller.h"
 #include "menu_widget/menu_widget.h"
 #include "object_viewer_widget/object_viewer_widget.h"
+
+#include "../../utils/logger.h"
 
 namespace s21 {
 
@@ -20,13 +23,16 @@ public:
 private slots:
   void OnActionTriggered(SceneAction action, ActionData data);
   void OnControllerDataUpdateStarted();
+  void OnGetGLVertices();
 
 signals:
   void ControllerDataUpdateStarted();
 
 private:
   void ObjectBuilded();
+
   void SetupConnections();
+  void GetNSetGLVertices();
 
   /* Fields */
   MenuWidget *pmenu_wid_;

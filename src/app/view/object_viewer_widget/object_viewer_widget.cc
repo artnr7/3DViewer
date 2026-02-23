@@ -1,81 +1,24 @@
 #include "object_viewer_widget.h"
+#include <vector>
 
 #define TR_QTY 1
+void s21::ObjectViewerWidget::initializeGL() {}
 void s21::ObjectViewerWidget::initGL() {
   initializeOpenGLFunctions();
   m_shader_program_ = new QOpenGLShaderProgram(this);
-  glClearColor(1.0f, 0.5f, 0.0f, 1.0f); // установить цвет фона, который будет храниться в GL_COLOR_BUFFER_BIT
-
+  glClearColor(1.0f, 0.5f, 0.0f, 1.0f); // установить цвет фона, который будет
+                                        // храниться в GL_COLOR_BUFFER_BIT
   LoadShaders();
 
-  std::vector<float> glvertices();
-
-  auto glv_size = glvertices.size();
-
-  vert_qty_ = glv_size / 3;
-
-  // std::cout << "\n----------------------------------------\n"
-  //           << "\nglvertices\n";
-
-  // int i = 0;
-  // for (auto it = glvertices.begin(); it != glvertices.end(); ++it, ++i) {
-  //   std::cout << *it;
-  //   if (i % 3 == 0 || i % 3 == 1) {
-  //     std::cout << "/";
-  //   }
-
-  //   if (i % 3 == 2) {
-  //     std::cout << "  |  ";
-  //   }
-
-  //   if (i % 9 == 8) {
-  //     std::cout << "\n";
-  //   }
-  // }
-  // std::cout << "\n----------------------------------------\n\n";
-
-  // GLfloat *vertices = new GLfloat[glv_size];
-
-  // std::move(glvertices.begin(), glvertices.end(), vertices);
-
-  // std::cout << "\n----------------------------------------\n"
-  //           << "\nglvertices\n";
-
-  // for (int i = 0; i < (int)glv_size; ++i) {
-  //   std::cout << vertices[i];
-  //   if (i % 3 == 0 || i % 3 == 1) {
-  //     std::cout << "/";
-  //   }
-
-  //   if (i % 3 == 2) {
-  //     std::cout << "  |  ";
-  //   }
-
-  //   if (i % 9 == 8) {
-  //     std::cout << "\n";
-  //   }
-  // }
-  // std::cout << "\n----------------------------------------\n\n";
-
-  // GLdouble vertices[] = {
-  //     0.5f,  1.0f, 0.5f,  0.5f,  1.0f, -0.5f, 0.5f,  0.0f, 0.5f,
-  //     0.5f,  0.0f, -0.5f, -0.5f, 1.0f, -0.5f, -0.5f, 1.0f, 0.5f,
-  //     -0.5f, 0.0f, -0.5f, -0.5f, 0.0f, 0.5f,  -0.5f, 1.0f, -0.5f,
-  //     0.5f,  1.0f, -0.5f, -0.5f, 1.0f, 0.5f,  0.5f,  1.0f, 0.5f,
-  //     -0.5f, 0.0f, 0.5f,  0.5f,  0.0f, 0.5f,  -0.5f, 0.0f, -0.5f,
-  //     0.5f,  0.0f, -0.5f, -0.5f, 1.0f, 0.5f,  0.5f,  1.0f, 0.5f,
-  //     -0.5f, 0.0f, 0.5f,  0.5f,  0.0f, 0.5f,  0.5f,  1.0f, -0.5f,
-  //     -0.5f, 1.0f, -0.5f, 0.5f,  0.0f, -0.5f, -0.5f, 0.0f, -0.5f};
-
-  // GLfloat vertices[] = {-0.5f, -0.5f, 0.0f, 0.5f, -0.5f,
-  //                       0.0f,  0.0f,  0.5f, 0.0f};
+  auto glv_size = vert_attrs_->size();
+  verts_qty_ = glv_size / 3;
 
   m_vao_.create();
   m_vao_.bind();
 
   m_vbo_.create();
   m_vbo_.bind();
-  m_vbo_.allocate(glvertices.data(), glv_size * sizeof(GLfloat));
+  m_vbo_.allocate(vert_attrs_->data(), glv_size * sizeof(GLfloat));
   // m_vbo_.allocate(vertices, sizeof(vertices));
 
   m_shader_program_->enableAttributeArray("aPos");
@@ -94,13 +37,15 @@ void s21::ObjectViewerWidget::resizeGL(int w, int h) {
 void s21::ObjectViewerWidget::paintGL() {
   m_modelview.setToIdentity();
 
+  emit ActionGetGLVertices();
+
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // glUniformMatrix4fv(projLoc, 1, GL_FALSE, m_projection.constData());
 
   m_shader_program_->bind();
   m_vao_.bind();
-  glDrawArrays(GL_TRIANGLES, 0, 3 * vert_qty_);
+  glDrawArrays(GL_TRIANGLES, 0, 3 * verts_qty_);
   // glDrawArrays(GL_TRIANGLES, 0, 3 * TR_QTY);
   m_vao_.release();
   m_shader_program_->release();

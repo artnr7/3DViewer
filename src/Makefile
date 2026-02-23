@@ -20,7 +20,10 @@ build: configure
 rebuild: clean build
 
 run: build
+	rm -f logs/3dviewer.log
 	$(PROTOCOL) ./$(BIN_DIR)/$(EXECUTABLE)
+
+r: run
 
 test: build
 	@ctest --test-dir build --parallel $(NPROC) --output-on-failure

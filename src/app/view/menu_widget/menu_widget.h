@@ -33,7 +33,7 @@ public:
 
 public slots:
   // void OnUpdateObjectInfo(ModelUpdateData data);
-  void OnUpdateObjectInfo(); // TODO: надо исправить тип
+  // void OnUpdateObjectInfo(); // TODO: надо исправить тип
 
 signals:
   void ActionTriggered(SceneAction action, ActionData data);

@@ -3,11 +3,17 @@
 #include <QTimer>
 #include <QtWidgets/QWidget>
 
-void s21::ObjectViewerWidget::Connections() {
+#include "../../utils/logger.h"
+
+void s21::ObjectViewerWidget::SetupConnections() {
+  Lg::Log()->Info(std::string(__func__));
 
   connect(this, &ObjectViewerWidget::ObjectParseStarted, this,
           &ObjectViewerWidget::OnObjectBuilded);
 
+  connect(this, &ObjectViewerWidget::UpdateFront, this,
+          &ObjectViewerWidget::OnUpdateFront);
+
   connect(front_update_timer_, &QTimer::timeout, this,
-          &s21::ObjectViewerWidget::FrontUpdate);
+          &s21::ObjectViewerWidget::OnFrontUpdateTimer);
 }
