@@ -4,11 +4,9 @@
 // #include <QOpenGLExtraFunctions>
 // #include <QOpenGLVertexArrayObject>
 #include <QOpenGLWidget>
+#include <QTimer>
 #include <QtGui>
 #include <QtOpenGL>
-#include <memory>
-#include <qopenglwidget.h>
-#include <qtimer.h>
 #include <vector>
 
 namespace s21 {

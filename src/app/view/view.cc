@@ -16,10 +16,10 @@ View::View(Controller *controller, QWidget *parent)
     : QWidget(parent), pcontroller_(controller) {
   Lg::Log()->Info(std::string(__func__) + " constuctor");
   setWindowTitle("3DViewer");
-  setGeometry(INIT_AX_MAIN_WINDOW, INIT_AY_MAIN_WINDOW, INIT_W_MAIN_WINDOW,
-              INIT_H_MAIN_WINDOW);
+  // setGeometry(INIT_AX_MAIN_WINDOW, INIT_AY_MAIN_WINDOW, INIT_W_MAIN_WINDOW,
+  //             INIT_H_MAIN_WINDOW);
 
-  pmenu_wid_ = new MenuWidget(INIT_W_MENU_WIDGET, INIT_H_MENU_WIDGET, this);
+  // pmenu_wid_ = new MenuWidget(INIT_W_MENU_WIDGET, INIT_H_MENU_WIDGET, this);
 
   pobj_v_wid_ =
       new ObjectViewerWidget(INIT_AX_OBJECT_WIDGET, INIT_AY_OBJECT_WIDGET,

@@ -1,10 +1,10 @@
 #ifndef MAIN_WINDOW_HPP_
 #define MAIN_WINDOW_HPP_
 
-#include <GL/gl.h>
+// #include <GL/gl.h>
 #include <QMainWindow>
+#include <QTimer>
 #include <QWidget>
-#include <qtimer.h>
 
 #include "controller.h"
 #include "menu_widget/menu_widget.h"

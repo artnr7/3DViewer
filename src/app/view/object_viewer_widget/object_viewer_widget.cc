@@ -1,8 +1,7 @@
 #include "object_viewer_widget.h"
-#include <vector>
 
 #define TR_QTY 1
-void s21::ObjectViewerWidget::initializeGL() {}
+void s21::ObjectViewerWidget::initializeGL() { initializeOpenGLFunctions(); }
 void s21::ObjectViewerWidget::initGL() {
   initializeOpenGLFunctions();
   m_shader_program_ = new QOpenGLShaderProgram(this);
