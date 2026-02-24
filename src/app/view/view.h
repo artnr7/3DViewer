@@ -29,6 +29,8 @@ signals:
   void ControllerDataUpdateStarted();
 
 private:
+void GetModelData();
+
   void ObjectBuilded();
 
   void SetupConnections();

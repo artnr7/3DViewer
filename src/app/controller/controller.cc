@@ -7,12 +7,30 @@ void Controller::BuildObject(const std::string &filename) {
   model_->BuildObject(filename);
 }
 
-std::vector<float> &Controller::GetGLVertices() {
-  return model_->GetGLVertices();
-};
-
+// SETTERS -------------------------------
 void Controller::TranslateObject() {}
 void Controller::RotateObject() {}
 void Controller::ScaleObject() {}
+
+void Controller::SetVertexSize() {}
+void Controller::SetVertexStyle() {}
+void Controller::SetVertexColor() {}
+void Controller::SetVertexThickness() {}
+void Controller::SetEdgeStyle() {}
+void Controller::SetEdgeColor() {}
+void Controller::SetBackgroundColor() {}
+
+// GETTERS -------------------------------
+std::vector<float> &Controller::GetGLVertices() {
+  return model_->GetGLVertices();
+}
+//
+void Controller::GetVertexSize() {}
+void Controller::GetVertexStyle() {}
+void Controller::GetVertexColor() {}
+void Controller::GetVertexThickness() {}
+void Controller::GetEdgeStyle() {}
+void Controller::GetEdgeColor() {}
+void Controller::GetBackgroundColor() {}
 
 } // namespace s21

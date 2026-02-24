@@ -1,7 +1,8 @@
 register_format_cmake_file()
 
-set(VIEW_FILES 
+set(VIEW_FILES
   slots.cc
+  init.cc
   view.cc
   view.h
   config.h)

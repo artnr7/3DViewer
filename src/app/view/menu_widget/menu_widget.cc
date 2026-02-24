@@ -182,6 +182,7 @@ void MenuWidget::SetupStatusBar(StatusBar *status_bar) {
   connect(this, &MenuWidget::UpdateInfo, status_bar, &StatusBar::OnUpdateInfo);
   connect(this, &MenuWidget::ShowError, status_bar, &StatusBar::OnShowError);
 }
+void MenuWidget::OnUpdateObjectInfo() {}
 
 // void MenuWidget::OnUpdateObjectInfo(ModelUpdateData data) {
 //   std::visit(

@@ -21,11 +21,31 @@ private:
   // METHODS ------------------------
   void BuildObject(const std::string &filename) override;
 
-  std::vector<float> &GetGLVertices() override;
-
+  // SETTERS -------------------------------
   void TranslateObject() override;
   void RotateObject() override;
   void ScaleObject() override;
+
+  void SetVertexSize() override;
+  void SetVertexStyle() override;
+  void SetVertexColor() override;
+  void SetVertexThickness() override;
+  void SetEdgeStyle() override;
+  void SetEdgeColor() override;
+  void SetBackgroundColor() override;
+
+  // GETTERS -------------------------------
+  // get glvertices
+  std::vector<float> &GetGLVertices() override;
+
+  //
+  void GetVertexSize() override;
+  void GetVertexStyle() override;
+  void GetVertexColor() override;
+  void GetVertexThickness() override;
+  void GetEdgeStyle() override;
+  void GetEdgeColor() override;
+  void GetBackgroundColor() override;
 };
 
 } // namespace s21
