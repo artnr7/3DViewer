@@ -23,23 +23,27 @@ View::View(Controller *controller, QWidget *parent)
                              INIT_W_OBJECT_WIDGET, INIT_H_OBJECT_WIDGET, this);
 
   menu_wid_update_timer_ = new QTimer(this);
-  // SetupConnections();
+  SetupConnections();
 }
 
 void View::SetupConnections() {
   Lg::Log()->Info("View::" + std::string(__func__));
 
   // menu_wid
+  // эт когда меню данны в модель посылает
   connect(pmenu_wid_, &MenuWidget::ActionTriggered, this,
           &View::OnActionTriggered);
 
-  // view
-  connect(this, &View::ControllerDataUpdateStarted, this,
-          &View::OnControllerDataUpdateStarted);
+  // это когда уже запущенный таймер менюшки хочет данные обновить
+  connect(menu_wid_update_timer_, &QTimer::timeout, this,
+          &View::OnMenuWidgetTimerUpdated);
 
   // obj_wid
   connect(pobj_v_wid_, &ObjectViewerWidget::ActionGetGLVertices, this,
           &View::OnGetGLVertices);
+
+  connect(pobj_v_wid_, &ObjectViewerWidget::BackgroundColorUpdate, this,
+          &View::OnObjectViewerBackgroundUpdated);
 }
 
 void View::OnActionTriggered(SceneAction action, ActionData data) {
@@ -112,9 +116,8 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
           /* Open file */
           case SceneAction::kOpenFile:
             // auto filename = arg.toStdString();
-            Lg::Log()->Debug("Попытка открытия файла: " + arg.toStdString());
+            Lg::Log()->Info("Попытка открытия файла: " + arg.toStdString());
             pcontroller_->BuildObject(arg.toStdString());
-            ObjectBuilded();
             break;
 
           default:

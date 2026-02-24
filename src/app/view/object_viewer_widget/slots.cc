@@ -5,9 +5,8 @@
 
 void s21::ObjectViewerWidget::OnObjectBuilded() {
   Lg::Log()->Info(std::string(__func__));
-  emit ActionGetGLVertices();
+  file_uploaded_ = true;
   // initGL();
-  // front_update_timer_->start(15);
 }
 
 void s21::ObjectViewerWidget::OnUpdateFront() {
@@ -17,5 +16,10 @@ void s21::ObjectViewerWidget::OnUpdateFront() {
 
 void s21::ObjectViewerWidget::OnFrontUpdateTimer() {
   Lg::Log()->Info(std::string(__func__));
-  emit ActionGetGLVertices();
+
+  emit BackgroundColorUpdate();
+
+  if (file_uploaded_) {
+    emit ActionGetGLVertices();
+  }
 }

@@ -22,19 +22,13 @@ public:
 
 private slots:
   void OnActionTriggered(SceneAction action, ActionData data);
-  void OnControllerDataUpdateStarted();
   void OnGetGLVertices();
-
-signals:
-  void ControllerDataUpdateStarted();
+  void OnMenuWidgetTimerUpdated();
+  void OnObjectViewerBackgroundUpdated();
 
 private:
-void GetModelData();
-
-  void ObjectBuilded();
-
+  void OnObjectStartBuild();
   void SetupConnections();
-  void GetNSetGLVertices();
 
   /* Fields */
   MenuWidget *pmenu_wid_;

@@ -1,6 +1,7 @@
 register_format_cmake_file()
 
 set(OBJECT_VIEWER_WIDGET_FILES
+    gl.cc
     connections.cc
     init.cc
     object_viewer_widget.cc

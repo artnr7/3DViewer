@@ -18,7 +18,6 @@ int main(int argc, char *argv[]) {
 
   s21::Lg::Log()->Info("View SHOW");
   view.show();
-  s21::Lg::Log()->Info("View SHOW END");
 
   return app.exec();
 }

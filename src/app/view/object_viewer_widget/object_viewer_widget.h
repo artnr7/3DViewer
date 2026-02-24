@@ -3,6 +3,7 @@
 
 // #include <QOpenGLExtraFunctions>
 // #include <QOpenGLVertexArrayObject>
+#include <GL/gl.h>
 #include <QOpenGLWidget>
 #include <QTimer>
 #include <QtGui>
@@ -18,11 +19,12 @@ public:
       QWidget *parent = nullptr); //, const std::string &obj_filename);
 
 protected:
-  // void initializeGL() override;
+  void initializeGL() override;
   void resizeGL(int w, int h) override;
   void paintGL() override;
 
 signals:
+  void BackgroundColorUpdate();
   void ObjectParseStarted();
   void ActionGetGLVertices();
   void UpdateFront();
@@ -48,12 +50,23 @@ private:
   QOpenGLShaderProgram *m_shader_program_;
   // Model →
   std::string obj_filename_;
+  bool file_uploaded_ = false;
+
   QTimer *front_update_timer_;
 
 public:
   void initGL();
-  void SetGLVertices(std::vector<float> &vert_attrs) {
-    vert_attrs = vert_attrs;
+  void ObjectInit();
+  void SetVBO(std::vector<float> &vert_attrs) {
+    verts_qty_ = vert_attrs.size() / 3;
+    m_vbo_.bind();
+    // size - это размер в байтах всех элементов
+    m_vbo_.allocate(vert_attrs.data(), verts_qty_ * 3 * sizeof(GLfloat));
+    m_vbo_.release();
+  }
+
+  void SetBackgroundColor(int r, int g, int b) {
+    glClearColor(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
   }
 
   // Fields

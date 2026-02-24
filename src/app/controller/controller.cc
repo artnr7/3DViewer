@@ -1,3 +1,4 @@
+#include "../utils/logger.h"
 #include <controller.h>
 #include <string>
 
@@ -33,4 +34,8 @@ void Controller::GetEdgeStyle() {}
 void Controller::GetEdgeColor() {}
 void Controller::GetBackgroundColor() {}
 
+Controller::CModelData &Controller::GetCModelData() {
+  Lg::Log()->Info("Controller::" + std::string(__func__));
+  return testdata_;
+}
 } // namespace s21

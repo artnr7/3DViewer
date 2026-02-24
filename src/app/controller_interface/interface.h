@@ -25,13 +25,22 @@ enum class ObjectAction {
   // kBackgroundColor,
 };
 
-// struct CModelData {
-//   VertexSize
-//
-// }
-
 class IController {
 public:
+  struct RGBColor {
+    int r, g, b;
+  };
+
+  struct CModelData {
+    int vertex_size;
+    int vertex_style;
+    RGBColor vertex_color;
+    int edge_thickness;
+    int edge_style;
+    RGBColor edge_color;
+    RGBColor background_color;
+  };
+
   virtual void BuildObject(const std::string &filename) = 0;
 
   // SETTERS -------------------------------
@@ -59,6 +68,8 @@ public:
   virtual void GetEdgeStyle() = 0;
   virtual void GetEdgeColor() = 0;
   virtual void GetBackgroundColor() = 0;
+
+  virtual CModelData &GetCModelData() = 0;
 };
 
 } // namespace s21
