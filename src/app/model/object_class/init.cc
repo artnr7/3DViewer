@@ -10,7 +10,7 @@ s21::Object::Object(const std::string &obj_filename)
   Lg::Log()->Info(std::string(__func__) + " constructor");
 
   ObjectParser();
-  PrintArray();
+  // PrintArray();
   ObjectCentering();
   Normalization();
   FillGLvertices();

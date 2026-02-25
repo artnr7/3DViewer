@@ -5,6 +5,7 @@ namespace s21 {
 void ObjectViewerWidget::ObjectInit() { file_uploaded_ = true; }
 
 void ObjectViewerWidget::SetVBO(std::vector<float> &vert_attrs) {
+  makeCurrent();
   // for (auto el : vert_attrs) {
   //   std::cout << el << " ";
   // }
@@ -12,11 +13,12 @@ void ObjectViewerWidget::SetVBO(std::vector<float> &vert_attrs) {
 
   data_ready_ = true;
 
-  verts_qty_ = vert_attrs.size() / 3;
+  points_qty_ = vert_attrs.size();
   m_vbo_.bind();
   // size - это размер в байтах всех элементов
-  m_vbo_.allocate(vert_attrs.data(), verts_qty_ * 3 * sizeof(GLfloat));
+  m_vbo_.allocate(vert_attrs.data(), points_qty_ * sizeof(GLfloat));
   m_vbo_.release();
+  doneCurrent();
 }
 
 void ObjectViewerWidget::SetBackgroundColor(int r, int g, int b) {

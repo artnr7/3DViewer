@@ -42,7 +42,7 @@ private:
   // Variables -------------------→
   // Graphics →
   std::vector<float> *vert_attrs_;
-  size_t verts_qty_;
+  size_t points_qty_;
   QMatrix4x4 m_modelview;
   QMatrix4x4 m_projection;
   // GLint projLoc;

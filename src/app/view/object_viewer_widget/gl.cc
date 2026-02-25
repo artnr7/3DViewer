@@ -20,10 +20,12 @@ void s21::ObjectViewerWidget::initializeGL() {
   m_vao_.bind();
 
   m_vbo_.create();
+  m_vbo_.bind();
 
   m_shader_program_->enableAttributeArray("aPos");
   m_shader_program_->setAttributeBuffer("aPos", GL_FLOAT, 0, 3);
 
+  m_vbo_.release();
   m_vao_.release();
 }
 
@@ -49,7 +51,7 @@ void s21::ObjectViewerWidget::paintGL() {
 
   m_shader_program_->bind();
   m_vao_.bind();
-  glDrawArrays(GL_TRIANGLES, 0, 3 * verts_qty_);
+  glDrawArrays(GL_TRIANGLES, 0, points_qty_);
   m_vao_.release();
   m_shader_program_->release();
 }

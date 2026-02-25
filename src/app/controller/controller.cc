@@ -22,8 +22,8 @@ void Controller::SetEdgeStyle() {}
 void Controller::SetEdgeColor() {}
 void Controller::SetBackgroundColor(int r, int g, int b) {
   testdata_.background_color.r = r;
-  testdata_.background_color.r = g;
-  testdata_.background_color.r = b;
+  testdata_.background_color.g = g;
+  testdata_.background_color.b = b;
 }
 
 // GETTERS -------------------------------
