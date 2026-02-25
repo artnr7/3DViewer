@@ -22,6 +22,7 @@ enum TokenID { VerticeID, TextureID, NormalID };
 using CoordT = long double;
 using PolyPcInT = long int;
 
+// Vertices
 struct VerticeMap {
   PolyPcInT i;
   CoordT x;
@@ -37,7 +38,8 @@ struct Vertices {
   CoordT min_z;
   CoordT max_z;
 };
-//
+
+// Textures
 struct TextureMap {
   PolyPcInT i;
   CoordT u;

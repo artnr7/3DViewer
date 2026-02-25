@@ -2,6 +2,8 @@
 
 #include "object_class.h"
 
+#include "iostream"
+
 size_t s21::Object::GetVerticesSize() {
   return vertices_.vertices.vertice_maps.size();
 }
@@ -9,7 +11,7 @@ size_t s21::Object::GetVerticesSize() {
 #define INDEX_SETW_SIZE 5
 #define VAR_SETW_SIZE 5
 void s21::Object::PrintArray() {
-  std::cout << "\n   " << file_name_ << "   "
+  std::cout << "\n   " << filename_ << "   "
             << "---------------------------------------- " << "\n\nv-strings\n";
 
   for (auto it = vertices_.vertices.vertice_maps.begin();
@@ -35,13 +37,14 @@ void s21::Object::PrintArray() {
     std::cout << "\n";
   }
 
-  std::cout << "\n";
+  std::cout << "MIN MAX =======\n";
   std::cout << "min_x = " << vertices_.vertices.min_x << std::endl;
   std::cout << "max_x = " << vertices_.vertices.max_x << std::endl;
   std::cout << "min_y = " << vertices_.vertices.min_y << std::endl;
   std::cout << "max_y = " << vertices_.vertices.max_y << std::endl;
   std::cout << "min_z = " << vertices_.vertices.min_z << std::endl;
   std::cout << "max_z = " << vertices_.vertices.max_z << std::endl;
+  std::cout << "\n";
 
   // std::cout << "\n----------------------------------------\n"
   //           << "\nglvertices\n";
@@ -67,8 +70,13 @@ void s21::Object::PrintArray() {
 // void s21::Object::FillFLines() {}
 
 void s21::Object::FillGLvertices() {
+  Lg::Log()->Info("Object::" + std::string(__func__));
+
   for (auto it = faces_.face_maps.begin(); it != faces_.face_maps.end(); ++it) {
     for (auto m_it = it->map.begin(); m_it != it->map.end(); ++m_it) {
+      // TODO: надо проверять что мы не выходим за границы массива
+      // индекс, который лежит в faces может не ссылаться на vertice, который
+      // вообще сущестукет
       glvertices_.push_back(
           vertices_.vertices.vertice_maps[m_it->vert_i - 1].x);
       glvertices_.push_back(

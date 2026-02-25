@@ -3,6 +3,7 @@
 
 // #include <QOpenGLExtraFunctions>
 // #include <QOpenGLVertexArrayObject>
+#include "../../utils/logger.h"
 #include <GL/gl.h>
 #include <QOpenGLWidget>
 #include <QTimer>
@@ -51,23 +52,16 @@ private:
   // Model →
   std::string obj_filename_;
   bool file_uploaded_ = false;
+  bool data_ready_ = false;
 
   QTimer *front_update_timer_;
 
 public:
   void initGL();
   void ObjectInit();
-  void SetVBO(std::vector<float> &vert_attrs) {
-    verts_qty_ = vert_attrs.size() / 3;
-    m_vbo_.bind();
-    // size - это размер в байтах всех элементов
-    m_vbo_.allocate(vert_attrs.data(), verts_qty_ * 3 * sizeof(GLfloat));
-    m_vbo_.release();
-  }
 
-  void SetBackgroundColor(int r, int g, int b) {
-    glClearColor(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
-  }
+  void SetVBO(std::vector<float> &vert_attrs);
+  void SetBackgroundColor(int r, int g, int);
 
   // Fields
   int width_;

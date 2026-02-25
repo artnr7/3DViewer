@@ -54,7 +54,7 @@ public:
   virtual void SetVertexThickness() = 0;
   virtual void SetEdgeStyle() = 0;
   virtual void SetEdgeColor() = 0;
-  virtual void SetBackgroundColor() = 0;
+  virtual void SetBackgroundColor(int r, int g, int b) = 0;
 
   // GETTERS -------------------------------
   // get glvertices

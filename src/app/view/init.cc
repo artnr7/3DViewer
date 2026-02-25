@@ -47,7 +47,8 @@ void View::SetupConnections() {
 }
 
 void View::OnActionTriggered(SceneAction action, ActionData data) {
-  Lg::Log()->Info(std::string(__func__));
+  // Lg::Log()->Info("View::"+std::string(__func__));
+
   std::visit(
       [this, action](auto &&arg) {
         using T = std::decay_t<decltype(arg)>;
@@ -106,6 +107,8 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
           case SceneAction::kBackgroundColor:
             std::cout << "Background color to: (" << arg.red() << ", "
                       << arg.green() << ", " << arg.blue() << ")\n";
+            pcontroller_->SetBackgroundColor(arg.red(), arg.green(),
+                                             arg.blue());
             break;
           default:
             /* Write Error to log */
@@ -118,6 +121,7 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
             // auto filename = arg.toStdString();
             Lg::Log()->Info("Попытка открытия файла: " + arg.toStdString());
             pcontroller_->BuildObject(arg.toStdString());
+            OnObjectStartBuild();
             break;
 
           default:

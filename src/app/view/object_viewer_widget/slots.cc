@@ -4,18 +4,19 @@
 #include "../../utils/logger.h"
 
 void s21::ObjectViewerWidget::OnObjectBuilded() {
-  Lg::Log()->Info(std::string(__func__));
-  file_uploaded_ = true;
+  // Lg::Log()->Info(std::string(__func__));
+  // file_uploaded_ = true;
   // initGL();
 }
 
 void s21::ObjectViewerWidget::OnUpdateFront() {
-  Lg::Log()->Info(std::string(__func__));
-  update();
+  // Lg::Log()->Info(std::string(__func__));
+  // update();
 }
 
 void s21::ObjectViewerWidget::OnFrontUpdateTimer() {
-  Lg::Log()->Info(std::string(__func__));
+  // Lg::Log()->Info(std::string(__func__));
+  update();
 
   emit BackgroundColorUpdate();
 

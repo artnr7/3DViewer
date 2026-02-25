@@ -14,7 +14,7 @@ class Controller : public IController {
 public:
   Controller(IModel *model) : model_(model) {
     testdata_ = CModelData();
-    testdata_.background_color = RGBColor(255, 120, 50);
+    testdata_.background_color = RGBColor(128, 128, 128);
   }
   ~Controller() = default;
 
@@ -37,7 +37,7 @@ private:
   void SetVertexThickness() override;
   void SetEdgeStyle() override;
   void SetEdgeColor() override;
-  void SetBackgroundColor() override;
+  void SetBackgroundColor(int r, int g, int b) override;
 
   // GETTERS -------------------------------
   // get glvertices

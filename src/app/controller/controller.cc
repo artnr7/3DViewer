@@ -5,6 +5,7 @@
 namespace s21 {
 
 void Controller::BuildObject(const std::string &filename) {
+  Lg::Log()->Info("Controller::" + std::string(__func__));
   model_->BuildObject(filename);
 }
 
@@ -19,7 +20,11 @@ void Controller::SetVertexColor() {}
 void Controller::SetVertexThickness() {}
 void Controller::SetEdgeStyle() {}
 void Controller::SetEdgeColor() {}
-void Controller::SetBackgroundColor() {}
+void Controller::SetBackgroundColor(int r, int g, int b) {
+  testdata_.background_color.r = r;
+  testdata_.background_color.r = g;
+  testdata_.background_color.r = b;
+}
 
 // GETTERS -------------------------------
 std::vector<float> &Controller::GetGLVertices() {
@@ -35,7 +40,7 @@ void Controller::GetEdgeColor() {}
 void Controller::GetBackgroundColor() {}
 
 Controller::CModelData &Controller::GetCModelData() {
-  Lg::Log()->Info("Controller::" + std::string(__func__));
+  // Lg::Log()->Info("Controller::" + std::string(__func__));
   return testdata_;
 }
 } // namespace s21

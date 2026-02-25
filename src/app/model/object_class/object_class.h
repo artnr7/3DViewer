@@ -7,6 +7,8 @@
 
 #include <memory>
 
+#include "../../utils/logger.h"
+
 // #include "../model.hpp"
 // #include "../utils/exception.hpp"
 
@@ -26,7 +28,8 @@ private:
 
   std::vector<float> glvertices_;
 
-  std::string file_name_;
+  // file
+  std::string filename_;
   StrIter ofl_it_;
   StrIter eofl_it_;
 

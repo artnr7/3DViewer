@@ -2,13 +2,13 @@
 #include "object_class.h"
 
 void s21::Object::ObjectParser() {
-  std::ifstream obj_file_stream(file_name_);
+  Lg::Log()->Info("Object::" + std::string(__func__));
+
+  std::ifstream obj_file_stream(filename_);
 
   if (!obj_file_stream.is_open()) {
-    std::cerr << "Ошибка открытия файла: " << file_name_ << std::endl;
-    // s21::Logger::Log();
-    // s21::Logger::Log()->Msg("Ошибка открытия файла : " + file_name_,
-    //                         s21::Logger::MessageType::Warning);
+    std::cerr << "Ошибка открытия файла: " << filename_ << std::endl;
+    s21::Lg::Log()->Err("Ошибка открытия файла : " + filename_);
     return;
   }
 
