@@ -21,9 +21,9 @@ void s21::Object::ObjectCentering() {
     it.y -= center_y;
     it.z -= center_z;
   }
-  std::cout << "center_ = x" << center_x << std::endl;
-  std::cout << "center_ = y" << center_x << std::endl;
-  std::cout << "center_ = z" << center_x << std::endl;
+  std::cout << "center_x = " << center_x << std::endl;
+  std::cout << "center_y = " << center_y << std::endl;
+  std::cout << "center_z = " << center_z << std::endl;
 }
 
 void s21::Object::FindCenterAxis(CoordT &center_axis, CoordT min, CoordT max) {

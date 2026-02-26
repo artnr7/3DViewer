@@ -1,5 +1,6 @@
 #include "../../utils/logger.h"
 #include "object_viewer_widget.h"
+#include <GL/gl.h>
 #include <qtclasshelpermacros.h>
 
 #define TR_QTY 1
@@ -21,6 +22,8 @@ void s21::ObjectViewerWidget::initializeGL() {
 
   m_vbo_.create();
   m_vbo_.bind();
+
+  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
   m_shader_program_->enableAttributeArray("aPos");
   m_shader_program_->setAttributeBuffer("aPos", GL_FLOAT, 0, 3);
@@ -51,7 +54,7 @@ void s21::ObjectViewerWidget::paintGL() {
 
   m_shader_program_->bind();
   m_vao_.bind();
-  glDrawArrays(GL_TRIANGLES, 0, points_qty_);
+  glDrawArrays(GL_QUADS, 0, points_qty_);
   m_vao_.release();
   m_shader_program_->release();
 }
