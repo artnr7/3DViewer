@@ -5,7 +5,7 @@
 #include "../../utils/logger.h"
 
 s21::Object::Object(const std::string &obj_filename)
-    : vertices_{}, faces_{}, glvertices_{}, filename_{obj_filename}, ofl_it_{},
+    : points_{}, faces_{}, glvertices_{}, filename_{obj_filename}, ofl_it_{},
       eofl_it_(), scale_() {
   Lg::Log()->Info(std::string(__func__) + " constructor");
 
@@ -13,5 +13,6 @@ s21::Object::Object(const std::string &obj_filename)
   PrintArray();
   ObjectCentering();
   Normalization();
-  FillGLvertices();
+  FillGLverticesOnce();
+  MakeEBO();
 }

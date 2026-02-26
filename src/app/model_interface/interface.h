@@ -13,6 +13,7 @@ public:
 
   // get glvertices
   virtual std::vector<float> &GetGLVertices() = 0;
+  virtual std::vector<float> &GetVBO() = 0;
 
   // update data
   virtual void TranslateObject() = 0;

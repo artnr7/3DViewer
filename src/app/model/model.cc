@@ -22,6 +22,15 @@ std::vector<float> &s21::Model::GetGLVertices() {
 
   return obj_->GetGLVertices();
 }
+std::vector<float> &s21::Model::GetVBO() {
+  // Lg::Log()->Info("Model::" + std::string(__func__));
+
+  if (obj_ == nullptr) {
+    throw std::runtime_error("obj is not initialized");
+  }
+
+  return obj_->GetVBO();
+}
 
 void Model::TranslateObject() {
   Lg::Log()->Info("Model::" + std::string(__func__));

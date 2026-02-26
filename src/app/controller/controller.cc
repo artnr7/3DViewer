@@ -30,6 +30,7 @@ void Controller::SetBackgroundColor(int r, int g, int b) {
 std::vector<float> &Controller::GetGLVertices() {
   return model_->GetGLVertices();
 }
+std::vector<float> &Controller::GetGLVBO() { return model_->GetVBO(); }
 //
 void Controller::GetVertexSize() {}
 void Controller::GetVertexStyle() {}

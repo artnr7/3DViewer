@@ -4,18 +4,20 @@
 
 #include "iostream"
 
-size_t s21::Object::GetVerticesSize() {
-  return vertices_.vertices.vertice_maps.size();
+namespace s21 {
+
+size_t Object::GetVerticesSize() {
+  return points_.vertices.vertice_maps.size();
 }
 
 #define INDEX_SETW_SIZE 5
 #define VAR_SETW_SIZE 5
-void s21::Object::PrintArray() {
+void Object::PrintArray() {
   std::cout << "\n   " << filename_ << "   "
             << "---------------------------------------- " << "\n\nv-strings\n";
 
-  for (auto it = vertices_.vertices.vertice_maps.begin();
-       it != vertices_.vertices.vertice_maps.end(); ++it) {
+  for (auto it = points_.vertices.vertice_maps.begin();
+       it != points_.vertices.vertice_maps.end(); ++it) {
     std::cout << std::setw(INDEX_SETW_SIZE) << it->i << "  "
               << std::setw(VAR_SETW_SIZE) << it->x << " | "
               << std::setw(VAR_SETW_SIZE) << it->y << " | "
@@ -38,12 +40,12 @@ void s21::Object::PrintArray() {
   }
 
   std::cout << "MIN MAX =======\n";
-  std::cout << "min_x = " << vertices_.vertices.min_x << std::endl;
-  std::cout << "max_x = " << vertices_.vertices.max_x << std::endl;
-  std::cout << "min_y = " << vertices_.vertices.min_y << std::endl;
-  std::cout << "max_y = " << vertices_.vertices.max_y << std::endl;
-  std::cout << "min_z = " << vertices_.vertices.min_z << std::endl;
-  std::cout << "max_z = " << vertices_.vertices.max_z << std::endl;
+  std::cout << "min_x = " << points_.vertices.min_x << std::endl;
+  std::cout << "max_x = " << points_.vertices.max_x << std::endl;
+  std::cout << "min_y = " << points_.vertices.min_y << std::endl;
+  std::cout << "max_y = " << points_.vertices.max_y << std::endl;
+  std::cout << "min_z = " << points_.vertices.min_z << std::endl;
+  std::cout << "max_z = " << points_.vertices.max_z << std::endl;
   std::cout << "\n";
 
   // std::cout << "\n----------------------------------------\n"
@@ -69,33 +71,31 @@ void s21::Object::PrintArray() {
 
 // void s21::Object::FillFLines() {}
 
-void s21::Object::FillGLvertices() {
+void Object::FillGLverticesOnce() {
   Lg::Log()->Info("Object::" + std::string(__func__));
 
   for (auto it = faces_.face_maps.begin(); it != faces_.face_maps.end(); ++it) {
+
     for (auto m_it = it->map.begin(); m_it != it->map.end(); ++m_it) {
       // TODO: надо проверять что мы не выходим за границы массива
       // индекс, который лежит в faces может не ссылаться на vertice, который
       // вообще сущестукет
-      glvertices_.push_back(
-          vertices_.vertices.vertice_maps[m_it->vert_i - 1].x);
-      glvertices_.push_back(
-          vertices_.vertices.vertice_maps[m_it->vert_i - 1].y);
-      glvertices_.push_back(
-          vertices_.vertices.vertice_maps[m_it->vert_i - 1].z);
-      // glvertices_.push_back(0);
+      auto el = points_.vertices.vertice_maps[m_it->vert_i - 1];
+      glvertices_.push_back(el.x);
+      glvertices_.push_back(el.y);
+      glvertices_.push_back(el.z);
     }
   }
-
-  // glvertices_.push_back(-0.5f);
-  // glvertices_.push_back(-0.5f);
-  // glvertices_.push_back(0.0f);
-
-  // glvertices_.push_back(0.5f);
-  // glvertices_.push_back(-0.5f);
-  // glvertices_.push_back(0.0f);
-
-  // glvertices_.push_back(0.0f);
-  // glvertices_.push_back(0.5f);
-  // glvertices_.push_back(0.0f);
 }
+
+void Object::MakeEBO() {
+  for (auto it = faces_.face_maps.begin(); it != faces_.face_maps.end(); ++it) {
+    for (auto m_it = it->map.begin(); m_it != it->map.end(); ++m_it) {
+      for (int i = 0; i < 2; ++i) {
+        ebo_.push_back(m_it->vert_i);
+      }
+    }
+  }
+}
+
+} // namespace s21

@@ -34,7 +34,7 @@ void s21::ObjectViewerWidget::initializeGL() {
 
 void s21::ObjectViewerWidget::resizeGL(int w, int h) {
   Lg::Log()->Info("ObjectViewerWidget::" + std::string(__func__));
-  if (!data_ready_) {
+  if (!vertices_ready_) {
     return;
   }
   glViewport(0, 0, w, h);
@@ -46,7 +46,7 @@ void s21::ObjectViewerWidget::paintGL() {
   // Lg::Log()->Info("ObjectViewerWidget::" + std::string(__func__));
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  if (!data_ready_) {
+  if (!vertices_ready_) {
     return;
   }
 

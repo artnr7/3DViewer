@@ -14,9 +14,9 @@ void s21::Object::ParseVLine(PolyPcInT &vert_i, std::string &obj_file_line) {
     ++ofl_it_;
   }
 
-  vertices_.vertices.vertice_maps.push_back({0, 0, 0, 0});
+  points_.vertices.vertice_maps.push_back({0, 0, 0, 0});
 
-  VertIter vert_it = vertices_.vertices.vertice_maps.begin() + vert_i;
+  VertIter vert_it = points_.vertices.vertice_maps.begin() + vert_i;
   vert_it->i = ++vert_i;
 
   ParseVLineNums(vert_it);
@@ -29,7 +29,7 @@ void s21::Object::ParseVLineNums(VertIter &vert_it) {
 
   static long int i = 0;
   if (!i++) {
-    auto &vert = vertices_.vertices;
+    auto &vert = points_.vertices;
 
     vert.min_x = vert_it->x;
     vert.max_x = vert_it->x;
@@ -57,7 +57,7 @@ void s21::Object::ParseNum(CoordT &coord) {
 }
 
 void s21::Object::FindMinMax(VertIter &vert_it) {
-  auto &vert = vertices_.vertices;
+  auto &vert = points_.vertices;
   if (vert_it->x < vert.min_x) {
     vert.min_x = vert_it->x;
   }

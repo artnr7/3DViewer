@@ -10,7 +10,7 @@ void s21::Object::ObjectCentering() {
   CoordT center_y = 0;
   CoordT center_z = 0;
 
-  auto &vert = vertices_.vertices;
+  auto &vert = points_.vertices;
 
   FindCenterAxis(center_x, vert.min_x, vert.max_x);
   FindCenterAxis(center_y, vert.min_y, vert.max_y);
@@ -34,7 +34,7 @@ void s21::Object::FindCenterAxis(CoordT &center_axis, CoordT min, CoordT max) {
 void s21::Object::Normalization() {
   Lg::Log()->Info("Object::" + std::string(__func__));
 
-  auto &vert = vertices_.vertices;
+  auto &vert = points_.vertices;
   CoordT diff_x = vert.max_x - vert.min_x;
   CoordT diff_y = vert.max_y - vert.min_y;
   CoordT diff_z = vert.max_z - vert.min_z;

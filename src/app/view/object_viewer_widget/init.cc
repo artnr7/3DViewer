@@ -9,13 +9,13 @@ namespace s21 {
 ObjectViewerWidget::ObjectViewerWidget(int x_offset, int y_offset, int width,
                                        int height, QWidget *parent)
     : QOpenGLWidget(parent), width_(width), height_(height),
-      file_uploaded_(false), data_ready_(false)
+      file_uploaded_(false), vertices_ready_(false)
 // ,QOpenGLFunctions()
 {
   Lg::Log()->Info(std::string(__func__) + " constuctor");
 
   front_update_timer_ = new QTimer(this);
-  front_update_timer_->start(300);
+  front_update_timer_->start(100);
 
   // GUI
   setGeometry(x_offset, y_offset, width_, height_);

@@ -1,4 +1,5 @@
 #include "object_viewer_widget.h"
+#include <GL/gl.h>
 #include <iostream>
 
 namespace s21 {
@@ -11,13 +12,25 @@ void ObjectViewerWidget::SetVBO(std::vector<float> &vert_attrs) {
   // }
   // std::cout << std::endl;
 
-  data_ready_ = true;
+  vertices_ready_ = true;
 
   points_qty_ = vert_attrs.size();
   m_vbo_.bind();
   // size - это размер в байтах всех элементов
   m_vbo_.allocate(vert_attrs.data(), points_qty_ * sizeof(GLfloat));
   m_vbo_.release();
+  doneCurrent();
+}
+
+void ObjectViewerWidget::SetEBO(std::vector<float> &vert_indx) {
+  if (ebo_ready_) {
+    return;
+  }
+
+  makeCurrent();
+  m_ebo_.bind();
+  m_ebo_.allocate(vert_indx.data(), vert_indx.size() * sizeof(GLint));
+  m_ebo_.release();
   doneCurrent();
 }
 

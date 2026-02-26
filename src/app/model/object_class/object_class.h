@@ -23,10 +23,12 @@ class Object {
 
 private:
   // Variables ----------→
-  Points vertices_;
+  Points points_;
   Faces faces_;
 
+  // GL
   std::vector<float> glvertices_;
+  std::vector<int> ebo_;
 
   // file
   std::string filename_;
@@ -75,10 +77,12 @@ public:
   Object(const std::string &file_name);
 
   std::vector<float> &GetGLVertices() { return glvertices_; }
+  std::vector<int> &GetEBO() { return ebo_; }
 
   // utils
   void PrintArray();
-  void FillGLvertices();
+  void FillGLverticesOnce();
+  void MakeEBO();
 };
 } // namespace s21
 

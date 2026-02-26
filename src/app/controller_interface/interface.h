@@ -59,6 +59,7 @@ public:
   // GETTERS -------------------------------
   // get glvertices
   virtual std::vector<float> &GetGLVertices() = 0;
+  virtual std::vector<float> &GetVBO() = 0;
 
   //
   virtual void GetVertexSize() = 0;
