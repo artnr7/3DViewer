@@ -11,10 +11,10 @@ void ObjectViewerWidget::SetVBO(std::vector<float> &vert_attrs) {
   vertices_ready_ = true;
 
   points_qty_ = vert_attrs.size();
-  m_vbo_.bind();
+  m_vbo_->bind();
   // size - это размер в байтах всех элементов
-  m_vbo_.allocate(vert_attrs.data(), points_qty_ * sizeof(GLfloat));
-  m_vbo_.release();
+  m_vbo_->allocate(vert_attrs.data(), points_qty_ * sizeof(GLfloat));
+  m_vbo_->release();
   doneCurrent();
 }
 
@@ -23,18 +23,22 @@ void ObjectViewerWidget::SetEBO(std::vector<uint> &vert_indx) {
     return;
   }
 
-  for (auto el : vert_indx) {
-    std::cout << el << " ";
-  }
+  // std::cout << "-----------------------" << std::endl;
+  //
+  // for (auto el : vert_indx) {
+  //   std::cout << el << " ";
+  // }
+  //
+  // std::cout << "\n-----------------------" << std::endl;
 
   ebo_qty_ = vert_indx.size();
 
   makeCurrent();
-  m_vao_.bind();
+  m_vao_->bind();
   m_ebo_->bind();
   m_ebo_->allocate(vert_indx.data(), ebo_qty_ * sizeof(GLuint));
-  m_vao_.release();
-  m_ebo_->release();
+
+  m_vao_->release();
   doneCurrent();
   ebo_ready_ = true;
 }

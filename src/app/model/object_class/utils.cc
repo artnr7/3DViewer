@@ -105,8 +105,10 @@ void Object::MakeEBO() {
           continue;
         }
         ebo_.push_back(m_it->vert_i - 1);
+        std::cout << m_it->vert_i - 1 << " ";
       }
     }
+    std::cout << std::endl;
   }
 }
 

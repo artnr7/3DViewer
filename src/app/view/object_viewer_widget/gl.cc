@@ -32,11 +32,11 @@ void s21::ObjectViewerWidget::initializeGL() {
   m_shader_program_ = new QOpenGLShaderProgram(this);
   LoadShaders();
 
-  m_vao_.create();
-  m_vao_.bind();
+  m_vao_->create();
+  m_vao_->bind();
 
-  m_vbo_.create();
-  m_vbo_.bind();
+  m_vbo_->create();
+  m_vbo_->bind();
   // m_vbo_.allocate(vertices, 12 * sizeof(GLfloat));
 
   m_ebo_->create();
@@ -48,9 +48,8 @@ void s21::ObjectViewerWidget::initializeGL() {
   m_shader_program_->enableAttributeArray("aPos");
   m_shader_program_->setAttributeBuffer("aPos", GL_FLOAT, 0, 3);
 
-  m_vbo_.release();
-  m_vao_.release();
-  // m_ebo_.release();
+  m_vbo_->release();
+  m_vao_->release();
 }
 
 void s21::ObjectViewerWidget::resizeGL(int w, int h) {
@@ -75,11 +74,10 @@ void s21::ObjectViewerWidget::paintGL() {
   m_modelview.setToIdentity();
 
   m_shader_program_->bind();
-  m_vao_.bind();
+  m_vao_->bind();
   // glDrawArrays(GL_QUADS, 0, points_qty_);
   // std::cout << ebo_qty_ << std::endl;
   glDrawElements(GL_LINES, ebo_qty_, GL_UNSIGNED_INT, 0);
-  // glDrawElements(GL_LINES, 6, GL_UNSIGNED_INT, 0);
-  m_vao_.release();
+  m_vao_->release();
   m_shader_program_->release();
 }

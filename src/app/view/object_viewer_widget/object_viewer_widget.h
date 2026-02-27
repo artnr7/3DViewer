@@ -46,9 +46,9 @@ private:
   QMatrix4x4 m_modelview;
   QMatrix4x4 m_projection;
   // GLint projLoc;
-  QOpenGLBuffer m_vbo_;
+  QOpenGLBuffer *m_vbo_;
   QOpenGLBuffer *m_ebo_;
-  QOpenGLVertexArrayObject m_vao_;
+  QOpenGLVertexArrayObject *m_vao_;
   QOpenGLShaderProgram *m_shader_program_;
   // Model →
   std::string obj_filename_;
