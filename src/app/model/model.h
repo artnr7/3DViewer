@@ -15,7 +15,7 @@ public:
 
 private:
   // DATA -------------------------
-  std::unique_ptr<Object> ob;
+  std::unique_ptr<Object> obj_;
   std::string obj_filename_;
   // affine_trans at_;
 
@@ -25,7 +25,7 @@ private:
 
   // get glvertices
   std::vector<float> &GetGLVertices() override;
-  std::vector<float> &GetVBO() override;
+  std::vector<uint> &GetEBO() override;
 
   // update data
   void TranslateObject() override;

@@ -28,7 +28,7 @@ private:
 
   // GL
   std::vector<float> glvertices_;
-  std::vector<int> ebo_;
+  std::vector<uint> ebo_;
 
   // file
   std::string filename_;
@@ -77,10 +77,11 @@ public:
   Object(const std::string &file_name);
 
   std::vector<float> &GetGLVertices() { return glvertices_; }
-  std::vector<int> &GetEBO() { return ebo_; }
+  std::vector<uint> &GetEBO() { return ebo_; }
 
   // utils
   void PrintArray();
+  void PrintEBO();
   void FillGLverticesOnce();
   void MakeEBO();
 };

@@ -42,7 +42,7 @@ private:
   // GETTERS -------------------------------
   // get glvertices
   std::vector<float> &GetGLVertices() override;
-  std::vector<float> &GetVBO() override;
+  std::vector<uint> &GetEBO() override;
 
   //
   void GetVertexSize() override;

@@ -13,7 +13,7 @@ void Model::BuildObject(const std::string &filename) {
   obj_ = std::make_unique<Object>(obj_filename_);
 }
 
-std::vector<float> &s21::Model::GetGLVertices() {
+std::vector<float> &Model::GetGLVertices() {
   // Lg::Log()->Info("Model::" + std::string(__func__));
 
   if (obj_ == nullptr) {
@@ -22,14 +22,14 @@ std::vector<float> &s21::Model::GetGLVertices() {
 
   return obj_->GetGLVertices();
 }
-std::vector<float> &s21::Model::GetVBO() {
+std::vector<uint> &Model::GetEBO() {
   // Lg::Log()->Info("Model::" + std::string(__func__));
 
   if (obj_ == nullptr) {
     throw std::runtime_error("obj is not initialized");
   }
 
-  return obj_->GetVBO();
+  return obj_->GetEBO();
 }
 
 void Model::TranslateObject() {

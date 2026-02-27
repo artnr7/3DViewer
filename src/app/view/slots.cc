@@ -5,8 +5,7 @@ namespace s21 {
 
 void View::OnGetGLVertices() {
   // Lg::Log()->Info("View:" + std::string(__func__));
-  static int i = 0;
-    pobj_v_wid_->SetEBO(pcontroller_->GetEBO());
+  pobj_v_wid_->SetEBO(pcontroller_->GetEBO());
   pobj_v_wid_->SetVBO(pcontroller_->GetGLVertices());
 }
 

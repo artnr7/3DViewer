@@ -69,6 +69,13 @@ void Object::PrintArray() {
   // std::cout << "\n----------------------------------------\n\n";
 }
 
+void Object::PrintEBO() {
+
+  for (auto el : ebo_) {
+    std::cout << el << " ";
+  }
+}
+
 // void s21::Object::FillFLines() {}
 
 void Object::FillGLverticesOnce() {
@@ -89,10 +96,15 @@ void Object::FillGLverticesOnce() {
 }
 
 void Object::MakeEBO() {
+  Lg::Log()->Info("Object::" + std::string(__func__));
+
   for (auto it = faces_.face_maps.begin(); it != faces_.face_maps.end(); ++it) {
     for (auto m_it = it->map.begin(); m_it != it->map.end(); ++m_it) {
       for (int i = 0; i < 2; ++i) {
-        ebo_.push_back(m_it->vert_i);
+        if (i && (m_it == it->map.begin() || m_it == it->map.end() - 1)) {
+          continue;
+        }
+        ebo_.push_back(m_it->vert_i - 1);
       }
     }
   }

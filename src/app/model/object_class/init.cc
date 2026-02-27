@@ -15,4 +15,5 @@ s21::Object::Object(const std::string &obj_filename)
   Normalization();
   FillGLverticesOnce();
   MakeEBO();
+  // PrintEBO();
 }

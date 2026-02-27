@@ -47,7 +47,7 @@ private:
   QMatrix4x4 m_projection;
   // GLint projLoc;
   QOpenGLBuffer m_vbo_;
-  QOpenGLBuffer m_ebo_;
+  QOpenGLBuffer *m_ebo_;
   QOpenGLVertexArrayObject m_vao_;
   QOpenGLShaderProgram *m_shader_program_;
   // Model →
@@ -55,6 +55,7 @@ private:
   bool file_uploaded_ = false;
   bool vertices_ready_ = false;
   bool ebo_ready_ = false;
+  int ebo_qty_ = 0;
 
   QTimer *front_update_timer_;
 
@@ -63,7 +64,7 @@ public:
   void ObjectInit();
 
   void SetVBO(std::vector<float> &vert_attrs);
-  void SetEBO(std::vector<float> &vert_indx);
+  void SetEBO(std::vector<uint> &vert_indx);
   void SetBackgroundColor(int r, int g, int);
 
   // Fields
