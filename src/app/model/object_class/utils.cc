@@ -24,21 +24,6 @@ void Object::PrintArray() {
               << std::setw(VAR_SETW_SIZE) << it->z << std::endl;
   }
 
-  std::cout << "\n----------------------------------------\n"
-            << "\nf-strings\n";
-
-  for (auto it = faces_.face_maps.begin(); it != faces_.face_maps.end(); ++it) {
-    std::cout << std::setw(INDEX_SETW_SIZE) << it->i << "  ";
-    for (auto m_it = it->map.begin(); m_it != it->map.end(); ++m_it) {
-      std::cout << m_it->vert_i << "|" << m_it->txr_i << "|" << m_it->norl_i;
-      if (m_it + 1 != it->map.end()) {
-        std::cout << " ";
-      }
-    }
-
-    std::cout << "\n";
-  }
-
   std::cout << "MIN MAX =======\n";
   std::cout << "min_x = " << points_.vertices.min_x << std::endl;
   std::cout << "max_x = " << points_.vertices.max_x << std::endl;
@@ -47,26 +32,24 @@ void Object::PrintArray() {
   std::cout << "min_z = " << points_.vertices.min_z << std::endl;
   std::cout << "max_z = " << points_.vertices.max_z << std::endl;
   std::cout << "\n";
+}
 
-  // std::cout << "\n----------------------------------------\n"
-  //           << "\nglvertices\n";
+void Object::PrintFaces() {
+  std::cout << "\n----------------------------------------\n"
+            << "\nf-strings\n";
 
-  // int i = 0;
-  // for (auto it = glvertices_.begin(); it != glvertices_.end(); ++it, ++i) {
-  //   std::cout << *it;
-  //   if (i % 3 == 0 || i % 3 == 1) {
-  //     std::cout << "/";
-  //   }
+  for (auto it = faces_.face_maps.begin(); it != faces_.face_maps.end(); ++it) {
+    std::cout << std::setw(INDEX_SETW_SIZE) << it->i << "  ";
+    for (auto m_it = it->map.begin(); m_it != it->map.end(); ++m_it) {
+      // std::cout << m_it->vert_i << "|" << m_it->txr_i << "|" << m_it->norl_i;
+      std::cout << m_it->vert_i << "|" << "|";
+      if (m_it + 1 != it->map.end()) {
+        std::cout << " ";
+      }
+    }
 
-  //   if (i % 3 == 2) {
-  //     std::cout << "  |  ";
-  //   }
-
-  //   if (i % 9 == 8) {
-  //     std::cout << "\n";
-  //   }
-  // }
-  // std::cout << "\n----------------------------------------\n\n";
+    std::cout << "\n";
+  }
 }
 
 void Object::PrintEBO() {
@@ -88,6 +71,9 @@ void Object::FillGLverticesOnce() {
       // индекс, который лежит в faces может не ссылаться на vertice, который
       // вообще сущестукет
       auto el = points_.vertices.vertice_maps[m_it->vert_i - 1];
+      // std::cout << "i = " << points_.vertices.vertice_maps[m_it->vert_i -
+      // 1].i
+      //           << std::endl;
       glvertices_.push_back(el.x);
       glvertices_.push_back(el.y);
       glvertices_.push_back(el.z);
@@ -97,17 +83,24 @@ void Object::FillGLverticesOnce() {
 
 void Object::MakeEBO() {
   Lg::Log()->Info("Object::" + std::string(__func__));
+  int shift = -1;
 
   for (auto it = faces_.face_maps.begin(); it != faces_.face_maps.end(); ++it) {
+    ebo_.push_back((it->map.begin()->vert_i) + shift);
+    std::cout << (it->map.begin()->vert_i) + shift << " ";
+
     for (auto m_it = it->map.begin(); m_it != it->map.end(); ++m_it) {
+      if (m_it == it->map.begin()) {
+        continue;
+      }
       for (int i = 0; i < 2; ++i) {
-        if (i && (m_it == it->map.begin() || m_it == it->map.end() - 1)) {
-          continue;
-        }
-        ebo_.push_back(m_it->vert_i - 1);
-        std::cout << m_it->vert_i - 1 << " ";
+        ebo_.push_back(m_it->vert_i + shift);
+        std::cout << m_it->vert_i + shift << " ";
       }
     }
+
+    ebo_.push_back((it->map.begin()->vert_i) + shift);
+    std::cout << (it->map.begin()->vert_i) + shift << " ";
     std::cout << std::endl;
   }
 }

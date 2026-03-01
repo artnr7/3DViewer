@@ -53,7 +53,7 @@ dkms.conf
 # custom 
 .vscode
 .cache
-src/logs
+src/logs/*
 build
 *.o
 src/.idea

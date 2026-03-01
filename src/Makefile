@@ -20,6 +20,7 @@ build: configure
 rebuild: clean build
 
 run: build
+	mkdir -p logs
 	rm -f logs/3dviewer.log
 	$(PROTOCOL) ./$(BIN_DIR)/$(EXECUTABLE)
 

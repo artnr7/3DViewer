@@ -81,6 +81,7 @@ public:
 
   // utils
   void PrintArray();
+  void PrintFaces();
   void PrintEBO();
   void FillGLverticesOnce();
   void MakeEBO();

@@ -1,5 +1,6 @@
 #include "file_dialog_button.h"
 
+#include <QCoreApplication>
 #include <QDebug>
 #include <QDir>
 #include <QFileDialog>
@@ -7,8 +8,8 @@
 
 namespace s21 {
 
-FileDialogButton::FileDialogButton(int width, int height, const QString& text,
-                                   QWidget* parent)
+FileDialogButton::FileDialogButton(int width, int height, const QString &text,
+                                   QWidget *parent)
     : QPushButton(text, parent) {
   setFixedSize(width, height);
   SetupStyle();
@@ -111,7 +112,10 @@ QString FileDialogButton::OpenFileDialog() {
 
   dialog.setWindowTitle(style_dialog_.dialog_title);
   dialog.setNameFilter(style_dialog_.filter);
-  dialog.setDirectory(QDir::homePath());
+  // dialog.setDirectory(QDir::homePath());
+  auto path = QCoreApplication::applicationDirPath() + "/../../assets/objs";
+  dialog.setDirectory(path);
+  // qDebug() << "Path:" << path;
   dialog.setFileMode(QFileDialog::ExistingFile);
 
   QString file = QString();
@@ -137,4 +141,4 @@ void FileDialogButton::HandleClick() {
 }
 // Slot Management
 
-}  // namespace s21
+} // namespace s21

@@ -37,13 +37,15 @@ void s21::ObjectViewerWidget::initializeGL() {
 
   m_vbo_->create();
   m_vbo_->bind();
+  m_vbo_->setUsagePattern(QOpenGLBuffer::DynamicDraw);
   // m_vbo_.allocate(vertices, 12 * sizeof(GLfloat));
 
   m_ebo_->create();
   m_ebo_->bind();
+  m_ebo_->setUsagePattern(QOpenGLBuffer::DynamicDraw);
   // m_ebo_->allocate(indices, 6 * sizeof(GLuint));
 
-  // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
   m_shader_program_->enableAttributeArray("aPos");
   m_shader_program_->setAttributeBuffer("aPos", GL_FLOAT, 0, 3);
@@ -75,9 +77,15 @@ void s21::ObjectViewerWidget::paintGL() {
 
   m_shader_program_->bind();
   m_vao_->bind();
-  // glDrawArrays(GL_QUADS, 0, points_qty_);
-  // std::cout << ebo_qty_ << std::endl;
-  glDrawElements(GL_LINES, ebo_qty_, GL_UNSIGNED_INT, 0);
+  m_ebo_->bind();
+  // glDrawArrays(GL_TRIANGLES, 0, points_qty_);
+  // std::cout << "EBO QTY = " << ebo_qty_ << std::endl;
+  // std::cout << "VBO QTY = " << points_qty_ / 3 << std::endl;
+  // GLint ebo = 0;
+  // glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &ebo);
+  // std::cout << "Active EBO = " << ebo << std::endl;
+  glDrawElements(GL_LINES, ebo_qty_, GL_UNSIGNED_INT, (void *)0);
   m_vao_->release();
+  m_ebo_->release();
   m_shader_program_->release();
 }

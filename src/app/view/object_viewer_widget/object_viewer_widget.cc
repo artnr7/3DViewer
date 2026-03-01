@@ -32,13 +32,16 @@ void ObjectViewerWidget::SetEBO(std::vector<uint> &vert_indx) {
   // std::cout << "\n-----------------------" << std::endl;
 
   ebo_qty_ = vert_indx.size();
+  // std::cout << "EBO QTY = " << ebo_qty_ << std::endl;
 
   makeCurrent();
   m_vao_->bind();
   m_ebo_->bind();
   m_ebo_->allocate(vert_indx.data(), ebo_qty_ * sizeof(GLuint));
-
   m_vao_->release();
+  // std::cout << "Max index = "
+  //           << *std::max_element(vert_indx.begin(), vert_indx.end())
+  //           << std::endl;
   doneCurrent();
   ebo_ready_ = true;
 }
