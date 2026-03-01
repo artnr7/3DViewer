@@ -16,19 +16,6 @@ void s21::ObjectViewerWidget::initializeGL() {
   // установить цвет фона, который будет
   // храниться в GL_COLOR_BUFFER_BIT
 
-  // // Указывание вершин (и буферов) и настройка вершинных атрибутов
-  // float vertices[] = {
-  //     0.5f,  0.5f,  0.0f, // верхняя правая
-  //     0.5f,  -0.5f, 0.0f, // нижняя правая
-  //     -0.5f, -0.5f, 0.0f, // нижняя левая
-  //     -0.5f, 0.5f,  0.0f  // верхняя левая
-  // };
-  // unsigned int indices[] = {
-  //     // помните, что мы начинаем с 0!
-  //     0, 1, 3, // первый треугольник
-  //     1, 2, 3  // второй треугольник
-  // };
-
   m_shader_program_ = new QOpenGLShaderProgram(this);
   LoadShaders();
 
@@ -38,14 +25,10 @@ void s21::ObjectViewerWidget::initializeGL() {
   m_vbo_->create();
   m_vbo_->bind();
   m_vbo_->setUsagePattern(QOpenGLBuffer::DynamicDraw);
-  // m_vbo_.allocate(vertices, 12 * sizeof(GLfloat));
 
   m_ebo_->create();
   m_ebo_->bind();
   m_ebo_->setUsagePattern(QOpenGLBuffer::DynamicDraw);
-  // m_ebo_->allocate(indices, 6 * sizeof(GLuint));
-
-  glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
   m_shader_program_->enableAttributeArray("aPos");
   m_shader_program_->setAttributeBuffer("aPos", GL_FLOAT, 0, 3);
@@ -61,8 +44,6 @@ void s21::ObjectViewerWidget::resizeGL(int w, int h) {
     return;
   }
   glViewport(0, 0, w, h);
-  m_projection.setToIdentity();
-  m_projection.perspective(45.0f, w / float(h), 0.01f, 100.0f);
 }
 
 void s21::ObjectViewerWidget::paintGL() {
@@ -73,17 +54,9 @@ void s21::ObjectViewerWidget::paintGL() {
     return;
   }
 
-  m_modelview.setToIdentity();
-
   m_shader_program_->bind();
   m_vao_->bind();
   m_ebo_->bind();
-  // glDrawArrays(GL_TRIANGLES, 0, points_qty_);
-  // std::cout << "EBO QTY = " << ebo_qty_ << std::endl;
-  // std::cout << "VBO QTY = " << points_qty_ / 3 << std::endl;
-  // GLint ebo = 0;
-  // glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &ebo);
-  // std::cout << "Active EBO = " << ebo << std::endl;
   glDrawElements(GL_LINES, ebo_qty_, GL_UNSIGNED_INT, (void *)0);
   glPointSize(8.0f);
   glDrawArrays(GL_POINTS, 0, points_qty_ / 3);

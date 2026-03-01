@@ -3,23 +3,20 @@
 #include <iostream>
 
 namespace s21 {
-void ObjectViewerWidget::ObjectInit() { file_uploaded_ = true; }
+void ObjectViewerWidget::ObjectInit() {
+  if (file_uploaded_) { // если файл уже загружен
+    vertices_ready_ = false;
+    ebo_ready_ = false;
+    ebo_qty_ = 0;
+    points_qty_ = 0;
+  }
+  file_uploaded_ = true;
+}
 
 void ObjectViewerWidget::SetVBO(std::vector<float> &vert_attrs) {
   makeCurrent();
 
   vertices_ready_ = true;
-  static int i = 0;
-  if (!i++) {
-
-    std::cout << "-----------------------" << std::endl;
-
-    for (auto el : vert_attrs) {
-      std::cout << el << std::endl;
-    }
-
-    std::cout << "\n-----------------------" << std::endl;
-  }
 
   points_qty_ = vert_attrs.size();
   m_vbo_->bind();
@@ -34,25 +31,11 @@ void ObjectViewerWidget::SetEBO(std::vector<uint> &vert_indx) {
     return;
   }
 
-  std::cout << "-----------------------" << std::endl;
-
-  for (auto el : vert_indx) {
-    std::cout << el << std::endl;
-  }
-
-  std::cout << "\n-----------------------" << std::endl;
-
   ebo_qty_ = vert_indx.size();
-  // std::cout << "EBO QTY = " << ebo_qty_ << std::endl;
 
   makeCurrent();
-  m_vao_->bind();
   m_ebo_->bind();
   m_ebo_->allocate(vert_indx.data(), ebo_qty_ * sizeof(GLuint));
-  m_vao_->release();
-  // std::cout << "Max index = "
-  //           << *std::max_element(vert_indx.begin(), vert_indx.end())
-  //           << std::endl;
   doneCurrent();
   ebo_ready_ = true;
 }

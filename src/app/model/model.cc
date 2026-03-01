@@ -8,6 +8,11 @@ namespace s21 {
 
 void Model::BuildObject(const std::string &filename) {
   Lg::Log()->Info("Model::" + std::string(__func__));
+
+  if (obj_.get() != nullptr){
+    obj_.reset();
+  }
+
   obj_filename_ = filename;
 
   obj_ = std::make_unique<Object>(obj_filename_);

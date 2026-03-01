@@ -44,6 +44,8 @@ void View::SetupConnections() {
 
   connect(pobj_v_wid_, &ObjectViewerWidget::BackgroundColorUpdate, this,
           &View::OnObjectViewerBackgroundUpdated);
+
+  // connect pobj_v_wid_, &ObjectViewerWidget::MouseUpdate, this, &View::
 }
 
 void View::OnActionTriggered(SceneAction action, ActionData data) {
@@ -118,8 +120,8 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
           switch (action) {
           /* Open file */
           case SceneAction::kOpenFile:
-            // auto filename = arg.toStdString();
             Lg::Log()->Info("Попытка открытия файла: " + arg.toStdString());
+
             pcontroller_->BuildObject(arg.toStdString());
             OnObjectStartBuild();
             break;

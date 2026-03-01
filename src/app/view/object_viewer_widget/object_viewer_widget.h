@@ -2,13 +2,13 @@
 #define MAIN_WIDGET_HPP_
 
 // #include <QOpenGLExtraFunctions>
-// #include <QOpenGLVertexArrayObject>
 #include "../../utils/logger.h"
 #include <GL/gl.h>
 #include <QOpenGLWidget>
 #include <QTimer>
 #include <QtGui>
 #include <QtOpenGL>
+#include <cstddef>
 #include <vector>
 
 namespace s21 {
@@ -26,50 +26,47 @@ protected:
 
 signals:
   void BackgroundColorUpdate();
-  void ObjectParseStarted();
   void ActionGetGLVertices();
   void UpdateFront();
+  void MouseUpdate(int x, int y);
 
 private slots:
-  void OnObjectBuilded();
-  void OnUpdateFront();
   void OnFrontUpdateTimer();
+  bool eventFilter(QObject *obj, QEvent *event);
 
 private:
   void LoadShaders();
   void SetupConnections();
 
   // Variables -------------------→
+
   // Graphics →
-  std::vector<float> *vert_attrs_;
-  size_t points_qty_;
-  QMatrix4x4 m_modelview;
-  QMatrix4x4 m_projection;
-  // GLint projLoc;
   QOpenGLBuffer *m_vbo_;
   QOpenGLBuffer *m_ebo_;
   QOpenGLVertexArrayObject *m_vao_;
   QOpenGLShaderProgram *m_shader_program_;
+
   // Model →
-  std::string obj_filename_;
+  // std::string obj_filename_;
   bool file_uploaded_ = false;
   bool vertices_ready_ = false;
   bool ebo_ready_ = false;
-  int ebo_qty_ = 0;
+  size_t ebo_qty_ = 0;
+  size_t points_qty_ = 0;
 
   QTimer *front_update_timer_;
 
+  // Fields
+  int width_;
+  int height_;
+
 public:
-  void initGL();
+  // void initGL();
   void ObjectInit();
 
   void SetVBO(std::vector<float> &vert_attrs);
   void SetEBO(std::vector<uint> &vert_indx);
   void SetBackgroundColor(int r, int g, int);
-
-  // Fields
-  int width_;
-  int height_;
 };
 } // namespace s21
 

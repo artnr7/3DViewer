@@ -21,6 +21,8 @@ ObjectViewerWidget::ObjectViewerWidget(int x_offset, int y_offset, int width,
   m_vbo_ = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
   m_ebo_ = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
 
+  installEventFilter(this);
+
   front_update_timer_ = new QTimer(this);
   front_update_timer_->start(100);
 

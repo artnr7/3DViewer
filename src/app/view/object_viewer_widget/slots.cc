@@ -1,20 +1,13 @@
 #include "object_viewer_widget.h"
+#include <qcoreevent.h>
+#include <qevent.h>
+#include <qlogging.h>
 #include <qtimer.h>
 
 #include "../../utils/logger.h"
+namespace s21 {
 
-void s21::ObjectViewerWidget::OnObjectBuilded() {
-  // Lg::Log()->Info(std::string(__func__));
-  // file_uploaded_ = true;
-  // initGL();
-}
-
-void s21::ObjectViewerWidget::OnUpdateFront() {
-  // Lg::Log()->Info(std::string(__func__));
-  // update();
-}
-
-void s21::ObjectViewerWidget::OnFrontUpdateTimer() {
+void ObjectViewerWidget::OnFrontUpdateTimer() {
   // Lg::Log()->Info(std::string(__func__));
   update();
 
@@ -24,3 +17,14 @@ void s21::ObjectViewerWidget::OnFrontUpdateTimer() {
     emit ActionGetGLVertices();
   }
 }
+
+bool ObjectViewerWidget::eventFilter(QObject *obj, QEvent *event) {
+  if (event->type() == QEvent::MouseMove) {
+    QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+    emit MouseUpdate(mouseEvent->pos().x(), mouseEvent->pos().y());
+    // qDebug() << "Mouse move" << mouseEvent->pos().x();
+  }
+  return false;
+}
+
+} // namespace s21
