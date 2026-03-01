@@ -80,6 +80,15 @@ void Object::FillGLverticesOnce() {
     }
   }
 }
+void Object::FillGLvertices() {
+
+  for (auto it = points_.vertices.vertice_maps.begin();
+       it != points_.vertices.vertice_maps.end(); ++it) {
+    glvertices_.push_back(it->x);
+    glvertices_.push_back(it->y);
+    glvertices_.push_back(it->z);
+  }
+}
 
 void Object::MakeEBO() {
   Lg::Log()->Info("Object::" + std::string(__func__));

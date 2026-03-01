@@ -85,6 +85,8 @@ void s21::ObjectViewerWidget::paintGL() {
   // glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING, &ebo);
   // std::cout << "Active EBO = " << ebo << std::endl;
   glDrawElements(GL_LINES, ebo_qty_, GL_UNSIGNED_INT, (void *)0);
+  glPointSize(8.0f);
+  glDrawArrays(GL_POINTS, 0, points_qty_ / 3);
   m_vao_->release();
   m_ebo_->release();
   m_shader_program_->release();

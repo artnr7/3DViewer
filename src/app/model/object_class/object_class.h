@@ -84,6 +84,7 @@ public:
   void PrintFaces();
   void PrintEBO();
   void FillGLverticesOnce();
+  void FillGLvertices();
   void MakeEBO();
 };
 } // namespace s21

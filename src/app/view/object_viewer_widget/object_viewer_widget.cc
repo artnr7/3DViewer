@@ -9,6 +9,17 @@ void ObjectViewerWidget::SetVBO(std::vector<float> &vert_attrs) {
   makeCurrent();
 
   vertices_ready_ = true;
+  static int i = 0;
+  if (!i++) {
+
+    std::cout << "-----------------------" << std::endl;
+
+    for (auto el : vert_attrs) {
+      std::cout << el << std::endl;
+    }
+
+    std::cout << "\n-----------------------" << std::endl;
+  }
 
   points_qty_ = vert_attrs.size();
   m_vbo_->bind();
@@ -23,13 +34,13 @@ void ObjectViewerWidget::SetEBO(std::vector<uint> &vert_indx) {
     return;
   }
 
-  // std::cout << "-----------------------" << std::endl;
-  //
-  // for (auto el : vert_indx) {
-  //   std::cout << el << " ";
-  // }
-  //
-  // std::cout << "\n-----------------------" << std::endl;
+  std::cout << "-----------------------" << std::endl;
+
+  for (auto el : vert_indx) {
+    std::cout << el << std::endl;
+  }
+
+  std::cout << "\n-----------------------" << std::endl;
 
   ebo_qty_ = vert_indx.size();
   // std::cout << "EBO QTY = " << ebo_qty_ << std::endl;

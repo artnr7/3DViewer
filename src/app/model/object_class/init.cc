@@ -11,11 +11,12 @@ s21::Object::Object(const std::string &obj_filename)
 
   ObjectParser();
   // PrintArray();
-  // PrintFaces();
+  PrintFaces();
   ObjectCentering();
   Normalization();
-  PrintArray();
-  FillGLverticesOnce();
+  // PrintArray();
+  // FillGLverticesOnce();
+  FillGLvertices();
   MakeEBO();
   // PrintEBO();
 }
