@@ -7,11 +7,11 @@
 namespace s21 {
 
 Object::Object(const std::string &obj_filename)
-    : points_{}, faces_{}, glvertices_{}, filename_{obj_filename}, ofl_it_{},
-      eofl_it_(), scale_(), a_(*this) {
+    : points_{}, faces_{}, glvertices_{}, filename_{obj_filename}, scale_(),
+      a_(*this), p_(*this) {
   Lg::Log()->Info(std::string(__func__) + " constructor");
 
-  ObjectParser();
+  p_.Parse();
   // PrintArray();
   // PrintFaces();
   ObjectCentering();

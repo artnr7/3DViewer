@@ -1,6 +1,7 @@
 #include "object_class.h"
+namespace s21 {
 
-void s21::Object::ParseFLine(PolyPcInT &face_i, std::string &obj_file_line) {
+void Object::Parser::ParseFLine(PolyPcInT &face_i, std::string &obj_file_line) {
   // std::cout << obj_file_line << std::endl;
 
   ofl_it_ = obj_file_line.begin();
@@ -17,18 +18,18 @@ void s21::Object::ParseFLine(PolyPcInT &face_i, std::string &obj_file_line) {
   ParseFMap(face_i);
 }
 
-void s21::Object::ParseFMap(PolyPcInT &face_i) {
-  faces_.face_maps.push_back({});
-  faces_.face_maps[face_i].i = (face_i + 1);
-  faces_.face_maps[face_i].map = {};
+void s21::Object::Parser::ParseFMap(PolyPcInT &face_i) {
+  obj_.faces_.face_maps.push_back({});
+  obj_.faces_.face_maps[face_i].i = (face_i + 1);
+  obj_.faces_.face_maps[face_i].map = {};
 
   while (!IsEndOfLine()) {
-    ParseFMapEls(faces_.face_maps[face_i].map);
+    ParseFMapEls(obj_.faces_.face_maps[face_i].map);
   }
   ++face_i;
 }
 
-void s21::Object::ParseFMapEls(std::vector<MapEl> &map) {
+void s21::Object::Parser::ParseFMapEls(std::vector<MapEl> &map) {
   int map_el_i = 0;
   while (!IsEndOfLine()) {
     map.push_back({});
@@ -43,7 +44,7 @@ void s21::Object::ParseFMapEls(std::vector<MapEl> &map) {
   }
 }
 
-void s21::Object::ParseFMapEl(MapEl &map_el) {
+void Object::Parser::ParseFMapEl(MapEl &map_el) {
   int token_i = 0;
   while (token_i < DIMENSION_QTY && *ofl_it_ != ' ' && !IsEndOfLine()) {
     // надо как-то выше выкидывать
@@ -57,7 +58,7 @@ void s21::Object::ParseFMapEl(MapEl &map_el) {
   }
 }
 
-void s21::Object::ParseFMapElTok(MapEl &map_el, int &token_i) {
+void Object::Parser::ParseFMapElTok(MapEl &map_el, int &token_i) {
   if (IsSlash() && IsNextSlash()) {
     ++token_i;
     ofl_it_ += 2;
@@ -96,3 +97,5 @@ void s21::Object::ParseFMapElTok(MapEl &map_el, int &token_i) {
   // std::cout << "---token |" << *token << "| ofl_it |" << *ofl_it_
   //           << "| token_i |" << token_i << "| \n";
 }
+
+} // namespace s21

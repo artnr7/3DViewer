@@ -1,14 +1,16 @@
 // #include "logger.h"
 #include "object_class.h"
 
-void s21::Object::ObjectParser() {
+namespace s21 {
+
+void Object::Parser::Parse() {
   Lg::Log()->Info("Object::" + std::string(__func__));
 
-  std::ifstream obj_file_stream(filename_);
+  std::ifstream obj_file_stream(obj_.filename_);
 
   if (!obj_file_stream.is_open()) {
-    std::cerr << "Ошибка открытия файла: " << filename_ << std::endl;
-    s21::Lg::Log()->Err("Ошибка открытия файла : " + filename_);
+    std::cerr << "Ошибка открытия файла: " << obj_.filename_ << std::endl;
+    s21::Lg::Log()->Err("Ошибка открытия файла : " + obj_.filename_);
     return;
   }
 
@@ -29,3 +31,5 @@ void s21::Object::ObjectParser() {
     ParseFLine(face_i, obj_file_line);
   }
 }
+
+} // namespace s21

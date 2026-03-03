@@ -1,8 +1,9 @@
 #include <iostream>
 
 #include "object_class.h"
+namespace s21 {
 
-void s21::Object::ParseVLine(PolyPcInT &vert_i, std::string &obj_file_line) {
+void Object::Parser::ParseVLine(PolyPcInT &vert_i, std::string &obj_file_line) {
   ofl_it_ = obj_file_line.begin();
 
   if (!IsVLine()) {
@@ -14,22 +15,22 @@ void s21::Object::ParseVLine(PolyPcInT &vert_i, std::string &obj_file_line) {
     ++ofl_it_;
   }
 
-  points_.vertices.vertice_maps.push_back({0, 0, 0, 0});
+  obj_.points_.vertices.vertice_maps.push_back({0, 0, 0, 0});
 
-  VertIter vert_it = points_.vertices.vertice_maps.begin() + vert_i;
+  VertIter vert_it = obj_.points_.vertices.vertice_maps.begin() + vert_i;
   vert_it->i = ++vert_i;
 
   ParseVLineNums(vert_it);
 }
 
-void s21::Object::ParseVLineNums(VertIter &vert_it) {
+void Object::Parser::ParseVLineNums(VertIter &vert_it) {
   ParseNum(vert_it->x);
   ParseNum(vert_it->y);
   ParseNum(vert_it->z);
 
   static long int i = 0;
   if (!i++) {
-    auto &vert = points_.vertices;
+    auto &vert = obj_.points_.vertices;
 
     vert.min_x = vert_it->x;
     vert.max_x = vert_it->x;
@@ -43,7 +44,7 @@ void s21::Object::ParseVLineNums(VertIter &vert_it) {
   }
 }
 
-void s21::Object::ParseNum(CoordT &coord) {
+void Object::Parser::ParseNum(CoordT &coord) {
   std::string num{};
   while (!IsSpace() && !IsEndOfLine()) {
     num += *ofl_it_++;
@@ -56,8 +57,8 @@ void s21::Object::ParseNum(CoordT &coord) {
   }
 }
 
-void s21::Object::FindMinMax(VertIter &vert_it) {
-  auto &vert = points_.vertices;
+void Object::Parser::FindMinMax(VertIter &vert_it) {
+  auto &vert = obj_.points_.vertices;
   if (vert_it->x < vert.min_x) {
     vert.min_x = vert_it->x;
   }
@@ -77,3 +78,5 @@ void s21::Object::FindMinMax(VertIter &vert_it) {
     vert.max_z = vert_it->z;
   }
 }
+
+} // namespace s21

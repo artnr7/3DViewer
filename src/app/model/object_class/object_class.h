@@ -38,47 +38,17 @@ private:
 
   // file
   std::string filename_;
-  StrIter ofl_it_;
-  StrIter eofl_it_;
-
-  ParseStatus parse_status_;
 
   long double scale_;
-
-  // Methods ------------→
-  void ObjectParser();
-
   size_t GetVerticesSize();
-  // VLine ----------------------------------------------------→
-  void ParseVLine(PolyPcInT &vert_i, std::string &obj_file_line);
-  void ParseVLineNums(VertIter &vert_it);
-  void ParseNum(CoordT &coord);
-  void FindMinMax(VertIter &vert_it);
-
-  // FLine
-  void ParseFLine(PolyPcInT &face_i, std::string &obj_file_line);
-  void ParseFMap(PolyPcInT &face_i);
-  void ParseFMapEls(std::vector<MapEl> &map);
-  void ParseFMapEl(MapEl &map_el);
-  void ParseFMapElTok(MapEl &map_el, int &token_i);
-
-  // Parser Utils --------------→
-  bool IsFLine();
-  bool IsVLine();
-
-  bool IsEndOfLine();
-  bool IsSlash();
-  bool IsNextSlash();
-  bool IsSpace();
 
   // Object methods -------------→
   void ObjectCentering();
   void FindCenterAxis(CoordT &center_axis, CoordT min, CoordT max);
   // Normalization
   void Normalization();
-  friend class Affine;
 
-  // Object affine methods -------------→
+  // AFFINE ---------------------------------------------------→
   class Affine {
   public:
     void TranslateX(float x);
@@ -96,6 +66,58 @@ private:
   public:
     Affine(Object &obj) : obj_(obj) {}
   };
+
+  // PARSER ---------------------------------------------------→
+  class Parser {
+    enum ParseStatus {
+      Good,
+      Invalid,
+
+      NoVertices,
+      InvalidVertice,
+
+      NoFaces,
+      InvalidFace,
+
+      NotEnoughVertices,
+    };
+
+  private:
+    Object &obj_;
+
+  private:
+    StrIter ofl_it_;
+    StrIter eofl_it_;
+    ParseStatus parse_status_;
+
+  public:
+    Parser(Object &obj) : obj_(obj) {}
+
+    void Parse();
+    // VLine ----------------------------------------------------→
+    void ParseVLine(PolyPcInT &vert_i, std::string &obj_file_line);
+    void ParseVLineNums(VertIter &vert_it);
+    void ParseNum(CoordT &coord);
+    void FindMinMax(VertIter &vert_it);
+
+    // FLine
+    void ParseFLine(PolyPcInT &face_i, std::string &obj_file_line);
+    void ParseFMap(PolyPcInT &face_i);
+    void ParseFMapEls(std::vector<MapEl> &map);
+    void ParseFMapEl(MapEl &map_el);
+    void ParseFMapElTok(MapEl &map_el, int &token_i);
+
+    // Parser Utils --------------→
+    bool IsFLine();
+    bool IsVLine();
+
+    bool IsEndOfLine();
+    bool IsSlash();
+    bool IsNextSlash();
+    bool IsSpace();
+  };
+
+  Parser p_;
 
 public:
   Affine a_;

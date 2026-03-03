@@ -3,19 +3,6 @@
 
 namespace s21 {
 
-enum ParseStatus {
-  Good,
-  Invalid,
-
-  NoVertices,
-  InvalidVertice,
-
-  NoFaces,
-  InvalidFace,
-
-  NotEnoughVertices,
-};
-
 enum TokenID { VerticeID, TextureID, NormalID };
 
 #define DIMENSION_QTY 3
