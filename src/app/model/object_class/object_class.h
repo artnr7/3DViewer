@@ -70,6 +70,24 @@ private:
   void FindCenterAxis(CoordT &center_axis, CoordT min, CoordT max);
   // Normalization
   void Normalization();
+  friend class Affine;
+
+  // Object affine methods -------------→
+  class Affine {
+  public:
+    void TranslateX(float x);
+    void TranslateY(float y);
+    void TranslateZ(float z);
+
+  private:
+    void Translate(const short shift, float arg);
+    Object &obj_;
+
+  public:
+    Affine(Object &obj) : obj_(obj) {};
+  };
+
+  Affine a_;
 
 public:
   // Constructors --------------------→

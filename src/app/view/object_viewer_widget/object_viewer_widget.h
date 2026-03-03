@@ -32,7 +32,7 @@ signals:
 
 private slots:
   void OnFrontUpdateTimer();
-  bool eventFilter(QObject *obj, QEvent *event);
+  bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
   void LoadShaders();
@@ -59,6 +59,10 @@ private:
   // Fields
   int width_;
   int height_;
+
+  // Mouse
+  QPoint start_pos_{};
+  void RightButton(QMouseEvent &m_e, int m_y, int m_x);
 
 public:
   // void initGL();

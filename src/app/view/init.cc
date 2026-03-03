@@ -1,3 +1,4 @@
+#include "action_types.h"
 #include "view.h"
 
 #include <string>
@@ -45,8 +46,11 @@ void View::SetupConnections() {
   connect(pobj_v_wid_, &ObjectViewerWidget::BackgroundColorUpdate, this,
           &View::OnObjectViewerBackgroundUpdated);
 
-  // connect pobj_v_wid_, &ObjectViewerWidget::MouseUpdate, this, &View::
+  // connect (pobj_v_wid_, &ObjectViewerWidget::MouseUpdate, this,
+  // &View::MouseUpdate);
 }
+
+// void View::OnMouseUpdated() { OnActionTriggered(SceneAction::kRotateX, pos) }
 
 void View::OnActionTriggered(SceneAction action, ActionData data) {
   // Lg::Log()->Info("View::"+std::string(__func__));

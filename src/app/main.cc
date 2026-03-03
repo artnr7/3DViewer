@@ -12,8 +12,6 @@ std::unique_ptr<s21::Lg> s21::Lg::inst_ = nullptr;
 int main(int argc, char *argv[]) {
 
   s21::Lg::Log()->Info(std::string(__func__));
-  s21::Lg::Log()->Info(std::source_location::current().function_name());
-  s21::Lg::Log()->Info(std::source_location::current().file_name());
 
   QApplication app(argc, argv);
 
@@ -21,7 +19,7 @@ int main(int argc, char *argv[]) {
   s21::Controller controller(&model);
   s21::View view(&controller);
 
-  s21::Lg::Log()->Info("View SHOW");
+  s21::Lg::Log()->Info("View show");
   view.show();
 
   return app.exec();

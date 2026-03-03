@@ -7,6 +7,7 @@ set(OBJECT_VIEWER_WIDGET_FILES
     object_viewer_widget.cc
     shaders.cc
     slots.cc
+    events.cc
     object_viewer_widget.h)
 register_format_sources(${OBJECT_VIEWER_WIDGET_FILES})
 
