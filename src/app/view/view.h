@@ -30,6 +30,10 @@ private:
   void OnObjectStartBuild();
   void SetupConnections();
 
+  void OnTranslateOnX(float x);
+  void OnTranslateOnY(float y);
+  void OnTranslateOnZ(float z);
+
   /* Fields */
   MenuWidget *pmenu_wid_;
   ObjectViewerWidget *pobj_v_wid_;

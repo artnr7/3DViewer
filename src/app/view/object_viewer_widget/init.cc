@@ -10,11 +10,7 @@ namespace s21 {
 
 ObjectViewerWidget::ObjectViewerWidget(int x_offset, int y_offset, int width,
                                        int height, QWidget *parent)
-    : QOpenGLWidget(parent), width_(width), height_(height),
-      file_uploaded_(false), vertices_ready_(false), ebo_qty_(0),
-      ebo_ready_(false)
-// ,QOpenGLFunctions()
-{
+    : QOpenGLWidget(parent) {
   Lg::Log()->Info(std::string(__func__) + " constuctor");
 
   m_vao_ = new QOpenGLVertexArrayObject();
@@ -27,7 +23,7 @@ ObjectViewerWidget::ObjectViewerWidget(int x_offset, int y_offset, int width,
   front_update_timer_->start(100);
 
   // GUI
-  setGeometry(x_offset, y_offset, width_, height_);
+  setGeometry(x_offset, y_offset, width, height);
   //
   QSurfaceFormat format;
   format.setDepthBufferSize(24);

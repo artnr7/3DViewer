@@ -11,6 +11,7 @@ set(PARSER_FILES
     parse_v_lines.cc
     utils.cc
     object_class.h
+    affine.cc
     types.h
 )
 

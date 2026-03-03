@@ -27,7 +27,14 @@ private:
   void BuildObject(const std::string &filename) override;
 
   // SETTERS -------------------------------
-  void TranslateObject() override;
+  void TranslateToX(float x) override;
+  void TranslateToY(float x) override;
+  void TranslateToZ(float x) override;
+
+  void TranslateOnX(float x) override;
+  void TranslateOnY(float x) override;
+  void TranslateOnZ(float x) override;
+
   void RotateObject() override;
   void ScaleObject() override;
 

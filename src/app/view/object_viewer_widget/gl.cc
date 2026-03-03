@@ -58,7 +58,10 @@ void s21::ObjectViewerWidget::paintGL() {
   m_vao_->bind();
   m_ebo_->bind();
   glDrawElements(GL_LINES, ebo_qty_, GL_UNSIGNED_INT, (void *)0);
-  glPointSize(8.0f);
+  glLineWidth(line_w_);
+
+  // points
+  glPointSize(verts_point_sz_);
   glDrawArrays(GL_POINTS, 0, points_qty_ / 3);
   m_vao_->release();
   m_ebo_->release();

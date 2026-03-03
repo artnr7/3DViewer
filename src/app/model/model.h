@@ -28,7 +28,14 @@ private:
   std::vector<uint> &GetEBO() override;
 
   // update data
-  void TranslateObject() override;
+  void TranslateToX(float x) override;
+  void TranslateToY(float x) override;
+  void TranslateToZ(float x) override;
+
+  void TranslateOnX(float x) override;
+  void TranslateOnY(float x) override;
+  void TranslateOnZ(float x) override;
+
   void ScaleObject() override;
 };
 

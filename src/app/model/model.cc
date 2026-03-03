@@ -9,7 +9,7 @@ namespace s21 {
 void Model::BuildObject(const std::string &filename) {
   Lg::Log()->Info("Model::" + std::string(__func__));
 
-  if (obj_.get() != nullptr){
+  if (obj_.get() != nullptr) {
     obj_.reset();
   }
 
@@ -36,10 +36,30 @@ std::vector<uint> &Model::GetEBO() {
 
   return obj_->GetEBO();
 }
-
-void Model::TranslateObject() {
+void Model::TranslateToX(float x) {
   Lg::Log()->Info("Model::" + std::string(__func__));
 }
+void Model::TranslateToY(float x) {
+  Lg::Log()->Info("Model::" + std::string(__func__));
+}
+void Model::TranslateToZ(float x) {
+  Lg::Log()->Info("Model::" + std::string(__func__));
+}
+
+void Model::TranslateOnX(float x) {
+  Lg::Log()->Info("Model::" + std::string(__func__));
+  obj_->a_.TranslateX(x);
+}
+
+void Model::TranslateOnY(float x) {
+  Lg::Log()->Info("Model::" + std::string(__func__));
+  obj_->a_.TranslateY(x);
+}
+
+void Model::TranslateOnZ(float x) {
+  Lg::Log()->Info("Model::" + std::string(__func__));
+}
+
 void Model::ScaleObject() {
   Lg::Log()->Info("Model::" + std::string(__func__));
 }

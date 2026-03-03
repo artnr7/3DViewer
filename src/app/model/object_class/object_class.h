@@ -2,7 +2,13 @@
 #define OBJECT_HPP_
 
 #include <cctype>
+#include <cstdint>
 #include <fstream>
+#include <glm/ext/matrix_clip_space.hpp>
+#include <glm/ext/matrix_float4x4.hpp>
+#include <glm/ext/matrix_transform.hpp>
+#include <glm/ext/scalar_constants.hpp>
+#include <glm/mat4x4.hpp>
 #include <iostream>
 
 #include <memory>
@@ -79,17 +85,20 @@ private:
     void TranslateY(float y);
     void TranslateZ(float z);
 
+    void RotateX();
+
   private:
-    void Translate(const short shift, float arg);
     Object &obj_;
 
+  private:
+    void Translate(const uint8_t shift, float arg);
+
   public:
-    Affine(Object &obj) : obj_(obj) {};
+    Affine(Object &obj) : obj_(obj) {}
   };
 
-  Affine a_;
-
 public:
+  Affine a_;
   // Constructors --------------------→
   Object() = delete;
   Object(const std::string &file_name);

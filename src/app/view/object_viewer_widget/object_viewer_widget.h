@@ -28,7 +28,8 @@ signals:
   void BackgroundColorUpdate();
   void ActionGetGLVertices();
   void UpdateFront();
-  void MouseUpdate(int x, int y);
+  void MouseUpdateY(float y);
+  void MouseUpdateX(float x);
 
 private slots:
   void OnFrontUpdateTimer();
@@ -46,6 +47,9 @@ private:
   QOpenGLVertexArrayObject *m_vao_;
   QOpenGLShaderProgram *m_shader_program_;
 
+  float verts_point_sz_ = 0.0f;
+  float line_w_ = 0.0f;
+
   // Model →
   // std::string obj_filename_;
   bool file_uploaded_ = false;
@@ -56,12 +60,9 @@ private:
 
   QTimer *front_update_timer_;
 
-  // Fields
-  int width_;
-  int height_;
-
   // Mouse
-  QPoint start_pos_{};
+  QPoint start_pos_{0, 0};
+  bool rb_clicked_ = false;
   void RightButton(QMouseEvent &m_e, int m_y, int m_x);
 
 public:

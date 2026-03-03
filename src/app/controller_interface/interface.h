@@ -44,7 +44,14 @@ public:
   virtual void BuildObject(const std::string &filename) = 0;
 
   // SETTERS -------------------------------
-  virtual void TranslateObject() = 0;
+  virtual void TranslateToX(float x) = 0;
+  virtual void TranslateToY(float x) = 0;
+  virtual void TranslateToZ(float x) = 0;
+
+  virtual void TranslateOnX(float x) = 0;
+  virtual void TranslateOnY(float x) = 0;
+  virtual void TranslateOnZ(float x) = 0;
+
   virtual void RotateObject() = 0;
   virtual void ScaleObject() = 0;
 

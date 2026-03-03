@@ -46,8 +46,11 @@ void View::SetupConnections() {
   connect(pobj_v_wid_, &ObjectViewerWidget::BackgroundColorUpdate, this,
           &View::OnObjectViewerBackgroundUpdated);
 
-  // connect (pobj_v_wid_, &ObjectViewerWidget::MouseUpdate, this,
-  // &View::MouseUpdate);
+  connect(pobj_v_wid_, &ObjectViewerWidget::MouseUpdateY, this,
+          &View::OnTranslateOnY);
+
+  connect(pobj_v_wid_, &ObjectViewerWidget::MouseUpdateX, this,
+          &View::OnTranslateOnX);
 }
 
 // void View::OnMouseUpdated() { OnActionTriggered(SceneAction::kRotateX, pos) }

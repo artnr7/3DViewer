@@ -10,7 +10,14 @@ void Controller::BuildObject(const std::string &filename) {
 }
 
 // SETTERS -------------------------------
-void Controller::TranslateObject() {}
+void Controller::TranslateToX(float x) {}
+void Controller::TranslateToY(float x) {}
+void Controller::TranslateToZ(float x) {}
+
+void Controller::TranslateOnX(float x) { model_->TranslateOnX(x); }
+void Controller::TranslateOnY(float x) { model_->TranslateOnY(x); }
+void Controller::TranslateOnZ(float x) {}
+
 void Controller::RotateObject() {}
 void Controller::ScaleObject() {}
 
