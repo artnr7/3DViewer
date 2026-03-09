@@ -3,7 +3,7 @@
 #include "object_class.h"
 namespace s21 {
 
-void Object::Parser::ParseVLine(PolyPcInT &vert_i, std::string &obj_file_line) {
+void Object::Parser::ParseVLine(IndT &vert_i, std::string &obj_file_line) {
   ofl_it_ = obj_file_line.begin();
 
   if (!IsVLine()) {
@@ -15,33 +15,21 @@ void Object::Parser::ParseVLine(PolyPcInT &vert_i, std::string &obj_file_line) {
     ++ofl_it_;
   }
 
-  obj_.points_.vertices.vertice_maps.push_back({0, 0, 0, 0});
+  obj_.vertices_.maps.push_back({});
 
-  VertIter vert_it = obj_.points_.vertices.vertice_maps.begin() + vert_i;
-  vert_it->i = ++vert_i;
+  auto vert_it = obj_.vertices_.maps.begin() + vert_i;
+  vert_it->first = ++vert_i;
 
   ParseVLineNums(vert_it);
 }
 
 void Object::Parser::ParseVLineNums(VertIter &vert_it) {
-  ParseNum(vert_it->x);
-  ParseNum(vert_it->y);
-  ParseNum(vert_it->z);
+  auto [_, val] = *vert_it;
+  ParseNum(val.x);
+  ParseNum(val.y);
+  ParseNum(val.z);
 
-  static long int i = 0;
-  if (!i++) {
-    auto &vert = obj_.points_.vertices;
-
-    vert.min_x = vert_it->x;
-    vert.max_x = vert_it->x;
-    vert.min_y = vert_it->y;
-    vert.max_y = vert_it->y;
-    vert.min_z = vert_it->z;
-    vert.max_z = vert_it->z;
-
-  } else {
-    FindMinMax(vert_it);
-  }
+  FindMinMax(vert_it);
 }
 
 void Object::Parser::ParseNum(CoordT &coord) {
@@ -58,25 +46,35 @@ void Object::Parser::ParseNum(CoordT &coord) {
 }
 
 void Object::Parser::FindMinMax(VertIter &vert_it) {
-  auto &vert = obj_.points_.vertices;
-  if (vert_it->x < vert.min_x) {
-    vert.min_x = vert_it->x;
+  auto [_, val] = *vert_it;
+  auto &mnx = obj_.vertices_.mnx;
+
+  if (parser_once_f) {
+    mnx.min_x, mnx.max_x = val.x, val.x;
+    mnx.min_y, mnx.max_y = val.y, val.y;
+    mnx.min_z, mnx.max_z = val.z, val.z;
+
+    parser_once_f = false;
+    return;
   }
-  if (vert_it->x > vert.max_x) {
-    vert.max_x = vert_it->x;
-  }
-  if (vert_it->y < vert.min_y) {
-    vert.min_y = vert_it->y;
-  }
-  if (vert_it->y > vert.max_y) {
-    vert.max_y = vert_it->y;
-  }
-  if (vert_it->z < vert.min_z) {
-    vert.min_y = vert_it->y;
-  }
-  if (vert_it->z > vert.max_z) {
-    vert.max_z = vert_it->z;
-  }
+
+  Min(val.x, mnx.min_x);
+  Max(val.x, mnx.max_x);
+
+  Min(val.y, mnx.min_y);
+  Max(val.y, mnx.max_y);
+
+  Min(val.z, mnx.min_z);
+  Max(val.z, mnx.max_z);
+}
+
+void Object::Parser::Min(CoordT coord, CoordT &min) {
+  if (coord < min)
+    min = coord;
+}
+void Object::Parser::Max(CoordT coord, CoordT &max) {
+  if (coord > max)
+    max = coord;
 }
 
 } // namespace s21

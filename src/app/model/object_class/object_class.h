@@ -8,7 +8,9 @@
 #include <glm/ext/matrix_float4x4.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/scalar_constants.hpp>
+#include <glm/ext/vector_float3.hpp>
 #include <glm/mat4x4.hpp>
+#include <glm/trigonometric.hpp>
 #include <iostream>
 
 #include <memory>
@@ -24,12 +26,10 @@ namespace s21 {
 
 class Object {
   using StrIter = std::string::iterator;
-  using VertIter = std::vector<VerticeMap>::iterator;
-  using FaceIter = std::vector<FaceMap>::iterator;
 
 private:
   // Variables ----------→
-  Points points_;
+  Vertices vertices_;
   Faces faces_;
 
   // GL
@@ -39,7 +39,7 @@ private:
   // file
   std::string filename_;
 
-  long double scale_;
+  long double normalization_scale_;
   size_t GetVerticesSize();
 
   // Object methods -------------→
@@ -61,6 +61,8 @@ private:
     Object &obj_;
 
   private:
+    // glm::mat4 model_ = glm::scale(glm::mat4(1.0f),glm::vec3(0.5f));
+    // glm::mat4 model_ = glm::translate(glm::mat4(1.0f),glm::vec3(0.5f));
     void Translate(const uint8_t shift, float arg);
 
   public:
@@ -69,7 +71,7 @@ private:
 
   // PARSER ---------------------------------------------------→
   class Parser {
-    enum ParseStatus {
+    enum class ParseStatus : uint8_t {
       Good,
       Invalid,
 
@@ -82,27 +84,35 @@ private:
       NotEnoughVertices,
     };
 
+    using VertIter = std::vector<vert_map>::iterator;
+    using FaceIter = std::vector<FaceMap>::iterator;
+
   private:
     Object &obj_;
 
-  private:
-    StrIter ofl_it_;
-    StrIter eofl_it_;
-    ParseStatus parse_status_;
+    StrIter ofl_it_{};
+    StrIter eofl_it_{};
+    ParseStatus parse_status_ = ParseStatus::Good;
+    bool parser_once_f = true;
 
   public:
+    Parser() = delete;
     Parser(Object &obj) : obj_(obj) {}
 
     void Parse();
+
+  private:
     // VLine ----------------------------------------------------→
-    void ParseVLine(PolyPcInT &vert_i, std::string &obj_file_line);
+    void ParseVLine(IndT &vert_i, std::string &obj_file_line);
     void ParseVLineNums(VertIter &vert_it);
     void ParseNum(CoordT &coord);
     void FindMinMax(VertIter &vert_it);
+    void Min(CoordT coord, CoordT &min);
+    void Max(CoordT coord, CoordT &max);
 
     // FLine
-    void ParseFLine(PolyPcInT &face_i, std::string &obj_file_line);
-    void ParseFMap(PolyPcInT &face_i);
+    void ParseFLine(IndT &face_i, std::string &obj_file_line);
+    void ParseFMap(IndT &face_i);
     void ParseFMapEls(std::vector<MapEl> &map);
     void ParseFMapEl(MapEl &map_el);
     void ParseFMapElTok(MapEl &map_el, int &token_i);

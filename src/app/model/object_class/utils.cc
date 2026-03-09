@@ -59,7 +59,6 @@ void Object::PrintEBO() {
   }
 }
 
-
 void Object::FillGLverticesOnce() {
   Lg::Log()->Info("Object::" + std::string(__func__));
 
@@ -69,7 +68,7 @@ void Object::FillGLverticesOnce() {
       // TODO: надо проверять что мы не выходим за границы массива
       // индекс, который лежит в faces может не ссылаться на vertice, который
       // вообще сущестукет
-      auto el = points_.vertices.vertice_maps[m_it->vert_i - 1];
+      auto el = vertices.vertice_maps[m_it->vert_i - 1];
       // std::cout << "i = " << points_.vertices.vertice_maps[m_it->vert_i -
       // 1].i
       //           << std::endl;
@@ -81,11 +80,11 @@ void Object::FillGLverticesOnce() {
 }
 void Object::FillGLvertices() {
 
-  for (auto it = points_.vertices.vertice_maps.begin();
-       it != points_.vertices.vertice_maps.end(); ++it) {
-    glvertices_.push_back(it->x);
-    glvertices_.push_back(it->y);
-    glvertices_.push_back(it->z);
+  for (auto it = vertices_.maps.begin(); it != vertices_.maps.end(); ++it) {
+    auto [i, val] = *it;
+    glvertices_.push_back(val.x);
+    glvertices_.push_back(val.y);
+    glvertices_.push_back(val.z);
   }
 }
 
@@ -93,23 +92,21 @@ void Object::MakeEBO() {
   Lg::Log()->Info("Object::" + std::string(__func__));
   int shift = -1;
 
-  for (auto it = faces_.face_maps.begin(); it != faces_.face_maps.end(); ++it) {
-    ebo_.push_back((it->map.begin()->vert_i) + shift);
-    // std::cout << (it->map.begin()->vert_i) + shift << " ";
+  for (auto it = faces_.begin(); it != faces_.end(); ++it) {
+    auto m_it = it->data.begin();
 
-    for (auto m_it = it->map.begin(); m_it != it->map.end(); ++m_it) {
-      if (m_it == it->map.begin()) {
+    ebo_.push_back(m_it->vert_i + shift);
+
+    for (; m_it != it->data.end(); ++m_it) {
+      if (m_it == it->data.begin()) {
         continue;
       }
       for (int i = 0; i < 2; ++i) {
         ebo_.push_back(m_it->vert_i + shift);
-        // std::cout << m_it->vert_i + shift << " ";
       }
     }
 
-    ebo_.push_back((it->map.begin()->vert_i) + shift);
-    // std::cout << (it->map.begin()->vert_i) + shift << " ";
-    // std::cout << std::endl;
+    ebo_.push_back(m_it->vert_i + shift);
   }
 }
 

@@ -1,87 +1,78 @@
+#include <array>
+#include <cmath>
+#include <cstdint>
+#include <glm/ext/vector_float4.hpp>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace s21 {
 
+#define DIMENSION_QTY 3
+
 enum TokenID { VerticeID, TextureID, NormalID };
 
-#define DIMENSION_QTY 3
-using CoordT = long double;
-using PolyPcInT = long int;
+using CoordT = float;
+using IndT = uint32_t;
+
+using vec3 = std::array<CoordT, 3>;
+
+struct vec4 {
+  std::array<CoordT, 4> data_{0.0f, 0.0f, 0.0f, 1.0f};
+  vec4() = default;
+  vec4(CoordT x, CoordT y, CoordT z, CoordT w = 1.0f) : data_{x, y, z, w} {};
+  CoordT &x = data_[0];
+  CoordT &y = data_[1];
+  CoordT &z = data_[2];
+  CoordT &w = data_[3];
+};
+
+using vert_map = std::pair<IndT, vec4>;
+
+struct MinMax {
+  CoordT min_x, max_x, min_y, max_y, min_z, max_z;
+};
 
 // Vertices
-struct VerticeMap {
-  PolyPcInT i;
-  CoordT x;
-  CoordT y;
-  CoordT z;
-};
 struct Vertices {
-  std::vector<VerticeMap> vertice_maps;
-  CoordT min_x;
-  CoordT max_x;
-  CoordT min_y;
-  CoordT max_y;
-  CoordT min_z;
-  CoordT max_z;
+  std::vector<vert_map> maps;
+  MinMax mnx;
 };
 
 // Textures
 struct TextureMap {
-  PolyPcInT i;
-  CoordT u;
-  CoordT v;
-  CoordT w = 0;
+  IndT i;
+  CoordT u, v, w = 0;
 };
+
 struct Textures {
   std::vector<TextureMap> texture_maps;
-  // CoordT min_x;
-  // CoordT max_x;
-  // CoordT min_y;
-  // CoordT max_y;
-  // CoordT min_z;
-  // CoordT max_z;
+  MinMax mnx;
 };
 
 // Normals
 struct NormalMap {
-  PolyPcInT i;
-  CoordT x;
-  CoordT y;
-  CoordT z;
-};
-struct Normals {
-  std::vector<NormalMap> texture_maps;
-  // CoordT min_x;
-  // CoordT max_x;
-  // CoordT min_y;
-  // CoordT max_y;
-  // CoordT min_z;
-  // CoordT max_z;
+  IndT i;
+  CoordT x, y, z;
 };
 
-// Points ---
-struct Points {
-  Vertices vertices;
-  Textures textures;
-  Normals normals;
+struct Normals {
+  std::vector<NormalMap> texture_maps;
+  MinMax minmax;
 };
 
 // Faces ---
 struct MapEl {
-  PolyPcInT vert_i;
-  PolyPcInT txr_i;
-  PolyPcInT norl_i;
+  IndT vert_i;
+  IndT txr_i;
+  IndT norl_i;
 };
 
 struct FaceMap {
-  PolyPcInT i;
-  std::vector<MapEl> map;
+  IndT i;
+  std::vector<MapEl> data;
 };
 
-struct Faces {
-  std::vector<FaceMap> face_maps;
-  size_t dimension_qty = DIMENSION_QTY;
-};
+using Faces = std::vector<FaceMap>;
 
 }; // namespace s21

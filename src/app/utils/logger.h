@@ -2,6 +2,7 @@
 #define LG_H_
 
 #include <cmath>
+#include <cstdint>
 #include <fstream>
 #include <memory>
 #include <string>
@@ -11,11 +12,21 @@
 namespace s21 {
 
 class Lg {
+
+  enum class LogLevel : uint8_t {
+    INFO,
+    WARN,
+    SIGNAL,
+    DEBUG,
+    TRACE // signals, events
+  };
+
 private:
   static std::unique_ptr<Lg> inst_;
-  std::ofstream logfile_;
+  std::ofstream logfile_ = std::ofstream(LOGFILE);
+  LogLevel log_lvl_ = LogLevel::INFO;
 
-  Lg() { logfile_ = std::ofstream(LOGFILE); }
+  Lg() = default;
 
 public:
   static Lg *Log() {
@@ -25,14 +36,19 @@ public:
     return inst_.get();
   }
 
-  void Msg(const std::string &m) { logfile_ << m << std::endl; }
+  void SetLogLevel(LogLevel log_lvl) { log_lvl_ = log_lvl_; }
 
-  void Tmp(std::string attr, const std::string &m) { Msg(attr + m); }
+  void LogToFile(const std::string &m) { logfile_ << m << std::endl; }
 
-  void Info(const std::string &m) { Tmp("INFO: ", m); }
-  void Debug(const std::string &m) { Tmp("DEBUG: ", m); }
-  void Err(const std::string &m) { Tmp("ERROR: ", m); }
-  void Warn(const std::string &m) { Tmp("WARN: ", m); }
+  void OutWithAttr(std::string attr, const std::string &m) {
+    LogToFile(attr + m);
+  }
+
+  void Info(const std::string &m) { OutWithAttr("INFO: ", m); }
+  void Trace(const std::string &m) { OutWithAttr("TRACE: ", m); }
+  void Debug(const std::string &m) { OutWithAttr("DEBUG: ", m); }
+  void Err(const std::string &m) { OutWithAttr("ERROR: ", m); }
+  void Warn(const std::string &m) { OutWithAttr("WARN: ", m); }
 };
 
 } // namespace s21

@@ -14,8 +14,8 @@ void Object::Parser::Parse() {
     return;
   }
 
-  PolyPcInT vert_i = 0;
-  PolyPcInT face_i = 0;
+  IndT vert_i = 0;
+  IndT face_i = 0;
   parse_status_ = ParseStatus::Good;
 
   std::string obj_file_line{};

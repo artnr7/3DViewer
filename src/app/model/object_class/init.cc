@@ -7,7 +7,7 @@
 namespace s21 {
 
 Object::Object(const std::string &obj_filename)
-    : points_{}, faces_{}, glvertices_{}, filename_{obj_filename}, scale_(),
+    : points_{}, faces_{}, glvertices_{}, filename_{obj_filename}, normalization_scale_(),
       a_(*this), p_(*this) {
   Lg::Log()->Info(std::string(__func__) + " constructor");
 

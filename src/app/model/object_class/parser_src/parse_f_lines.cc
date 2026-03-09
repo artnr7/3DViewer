@@ -1,9 +1,7 @@
 #include "object_class.h"
 namespace s21 {
 
-void Object::Parser::ParseFLine(PolyPcInT &face_i, std::string &obj_file_line) {
-  // std::cout << obj_file_line << std::endl;
-
+void Object::Parser::ParseFLine(IndT &face_i, std::string &obj_file_line) {
   ofl_it_ = obj_file_line.begin();
 
   if (!IsFLine()) {
@@ -18,13 +16,13 @@ void Object::Parser::ParseFLine(PolyPcInT &face_i, std::string &obj_file_line) {
   ParseFMap(face_i);
 }
 
-void s21::Object::Parser::ParseFMap(PolyPcInT &face_i) {
-  obj_.faces_.face_maps.push_back({});
-  obj_.faces_.face_maps[face_i].i = (face_i + 1);
-  obj_.faces_.face_maps[face_i].map = {};
+void s21::Object::Parser::ParseFMap(IndT &face_i) {
+  auto [i, map] = obj_.faces_[face_i];
+
+  obj_.faces_.push_back({face_i + 1, {}});
 
   while (!IsEndOfLine()) {
-    ParseFMapEls(obj_.faces_.face_maps[face_i].map);
+    ParseFMapEls(map);
   }
   ++face_i;
 }
@@ -37,9 +35,6 @@ void s21::Object::Parser::ParseFMapEls(std::vector<MapEl> &map) {
     while (*ofl_it_ == ' ' || *ofl_it_ == '\r') {
       ++ofl_it_;
     }
-    // std::cout << "---mapel |" << map_el_i << "| ofl_it -|" << *ofl_it_
-    //           << "|-\n----------------------\n";
-    // std::cout << eofl_it_ - ofl_it_ << "\n";
     ++map_el_i;
   }
 }
@@ -66,7 +61,7 @@ void Object::Parser::ParseFMapElTok(MapEl &map_el, int &token_i) {
     ofl_it_ += 1;
   }
 
-  PolyPcInT *token = nullptr;
+  IndT *token = nullptr;
   switch (token_i) {
   case TokenID::VerticeID:
     token = &map_el.vert_i;
@@ -94,8 +89,6 @@ void Object::Parser::ParseFMapElTok(MapEl &map_el, int &token_i) {
     // throw s21::InvalidToken{message};
   }
   ++token_i;
-  // std::cout << "---token |" << *token << "| ofl_it |" << *ofl_it_
-  //           << "| token_i |" << token_i << "| \n";
 }
 
 } // namespace s21
