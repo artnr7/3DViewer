@@ -6,44 +6,51 @@
 
 namespace s21 {
 
-size_t Object::GetVerticesSize() {
-  return points_.vertices.vertice_maps.size();
-}
+size_t Object::GetVerticesSize() { return vertices_.maps.size(); }
 
 #define INDEX_SETW_SIZE 5
 #define VAR_SETW_SIZE 5
 void Object::PrintArray() {
-  std::cout << "\n   " << filename_ << "   "
-            << "---------------------------------------- " << "\n\nv-strings\n";
+  std::cout << "\n   " << filename_ << "   ";
+  std::cout << "---------------------------------------- ";
+  std::cout << "\n\nv-strings\n";
 
-  for (auto it = points_.vertices.vertice_maps.begin();
-       it != points_.vertices.vertice_maps.end(); ++it) {
-    std::cout << std::setw(INDEX_SETW_SIZE) << it->i << "  "
+  int ind = 1;
+
+  for (auto it = vertices_.maps.begin(); it != vertices_.maps.end(); ++it) {
+    std::cout << std::setw(INDEX_SETW_SIZE) << ind++ << "  "
               << std::setw(VAR_SETW_SIZE) << it->x << " | "
               << std::setw(VAR_SETW_SIZE) << it->y << " | "
               << std::setw(VAR_SETW_SIZE) << it->z << std::endl;
   }
+}
 
-  std::cout << "MIN MAX =======\n";
-  std::cout << "min_x = " << points_.vertices.min_x << std::endl;
-  std::cout << "max_x = " << points_.vertices.max_x << std::endl;
-  std::cout << "min_y = " << points_.vertices.min_y << std::endl;
-  std::cout << "max_y = " << points_.vertices.max_y << std::endl;
-  std::cout << "min_z = " << points_.vertices.min_z << std::endl;
-  std::cout << "max_z = " << points_.vertices.max_z << std::endl;
-  std::cout << "\n";
+void Object::PrintVertMinMax() {
+  auto print = [](const std::string &s, CoordT &mnx) { std::cout << s << mnx; };
+  std::cout << "MIN MAX =======" << std::endl;
+
+  print("min_x = ", vertices_.mnx.min_x);
+  print("max_x = ", vertices_.mnx.max_x);
+  print("min_y = ", vertices_.mnx.min_y);
+  print("max_y = ", vertices_.mnx.max_y);
+  print("min_z = ", vertices_.mnx.min_z);
+  print("max_z = ", vertices_.mnx.max_z);
+
+  std::cout << std::endl;
 }
 
 void Object::PrintFaces() {
   std::cout << "\n----------------------------------------\n"
             << "\nf-strings\n";
 
-  for (auto it = faces_.face_maps.begin(); it != faces_.face_maps.end(); ++it) {
-    std::cout << std::setw(INDEX_SETW_SIZE) << it->i << "  ";
-    for (auto m_it = it->map.begin(); m_it != it->map.end(); ++m_it) {
+  int ind = 1;
+
+  for (auto it = faces_.begin(); it != faces_.end(); ++it) {
+    std::cout << std::setw(INDEX_SETW_SIZE) << ind++ << "  ";
+    for (auto m_it = it->begin(); m_it != it->end(); ++m_it) {
       // std::cout << m_it->vert_i << "|" << m_it->txr_i << "|" << m_it->norl_i;
       std::cout << m_it->vert_i << "|" << "|";
-      if (m_it + 1 != it->map.end()) {
+      if (m_it + 1 != it->end()) {
         std::cout << " ";
       }
     }
@@ -62,13 +69,13 @@ void Object::PrintEBO() {
 void Object::FillGLverticesOnce() {
   Lg::Log()->Info("Object::" + std::string(__func__));
 
-  for (auto it = faces_.face_maps.begin(); it != faces_.face_maps.end(); ++it) {
+  for (auto it = faces_.begin(); it != faces_.end(); ++it) {
 
-    for (auto m_it = it->map.begin(); m_it != it->map.end(); ++m_it) {
+    for (auto m_it = it->begin(); m_it != it->end(); ++m_it) {
       // TODO: надо проверять что мы не выходим за границы массива
       // индекс, который лежит в faces может не ссылаться на vertice, который
       // вообще сущестукет
-      auto el = vertices.vertice_maps[m_it->vert_i - 1];
+      auto el = vertices_.maps[m_it->vert_i - 1];
       // std::cout << "i = " << points_.vertices.vertice_maps[m_it->vert_i -
       // 1].i
       //           << std::endl;
@@ -81,10 +88,9 @@ void Object::FillGLverticesOnce() {
 void Object::FillGLvertices() {
 
   for (auto it = vertices_.maps.begin(); it != vertices_.maps.end(); ++it) {
-    auto [i, val] = *it;
-    glvertices_.push_back(val.x);
-    glvertices_.push_back(val.y);
-    glvertices_.push_back(val.z);
+    glvertices_.push_back(it->x);
+    glvertices_.push_back(it->y);
+    glvertices_.push_back(it->z);
   }
 }
 
@@ -93,14 +99,15 @@ void Object::MakeEBO() {
   int shift = -1;
 
   for (auto it = faces_.begin(); it != faces_.end(); ++it) {
-    auto m_it = it->data.begin();
+    auto m_it = it->begin();
 
     ebo_.push_back(m_it->vert_i + shift);
 
-    for (; m_it != it->data.end(); ++m_it) {
-      if (m_it == it->data.begin()) {
+    for (; m_it != it->end(); ++m_it) {
+      if (m_it == it->begin()) {
         continue;
       }
+
       for (int i = 0; i < 2; ++i) {
         ebo_.push_back(m_it->vert_i + shift);
       }

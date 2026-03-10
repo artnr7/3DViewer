@@ -1,21 +1,18 @@
 #include <array>
 #include <cmath>
 #include <cstdint>
-#include <glm/ext/vector_float4.hpp>
 #include <string>
 #include <utility>
 #include <vector>
 
 namespace s21 {
 
-#define DIMENSION_QTY 3
+#define THREE_DIMENSIONAL 3
 
 enum TokenID { VerticeID, TextureID, NormalID };
 
 using CoordT = float;
 using IndT = uint32_t;
-
-using vec3 = std::array<CoordT, 3>;
 
 struct vec4 {
   std::array<CoordT, 4> data_{0.0f, 0.0f, 0.0f, 1.0f};
@@ -27,39 +24,37 @@ struct vec4 {
   CoordT &w = data_[3];
 };
 
-using vert_map = std::pair<IndT, vec4>;
-
 struct MinMax {
   CoordT min_x, max_x, min_y, max_y, min_z, max_z;
 };
 
 // Vertices
+using VertMaps = std::vector<vec4>;
+
 struct Vertices {
-  std::vector<vert_map> maps;
+  VertMaps maps;
   MinMax mnx;
 };
 
 // Textures
-struct TextureMap {
-  IndT i;
-  CoordT u, v, w = 0;
-};
-
-struct Textures {
-  std::vector<TextureMap> texture_maps;
-  MinMax mnx;
-};
+// struct TextureMap {
+//   CoordT u, v, w = 0;
+// };
+//
+// struct Textures {
+//   std::vector<TextureMap> maps;
+//   MinMax mnx;
+// };
 
 // Normals
-struct NormalMap {
-  IndT i;
-  CoordT x, y, z;
-};
-
-struct Normals {
-  std::vector<NormalMap> texture_maps;
-  MinMax minmax;
-};
+// struct NormalMap {
+//   CoordT x, y, z;
+// };
+//
+// struct Normals {
+//   std::vector<NormalMap> maps;
+//   MinMax minmax;
+// };
 
 // Faces ---
 struct MapEl {
@@ -68,10 +63,7 @@ struct MapEl {
   IndT norl_i;
 };
 
-struct FaceMap {
-  IndT i;
-  std::vector<MapEl> data;
-};
+using FaceMap = std::vector<MapEl>;
 
 using Faces = std::vector<FaceMap>;
 

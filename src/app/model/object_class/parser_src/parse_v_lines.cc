@@ -1,9 +1,10 @@
 #include <iostream>
 
 #include "object_class.h"
+
 namespace s21 {
 
-void Object::Parser::ParseVLine(IndT &vert_i, std::string &obj_file_line) {
+void Object::Parser::ParseVLine(IndT &v_ind, std::string &obj_file_line) {
   ofl_it_ = obj_file_line.begin();
 
   if (!IsVLine()) {
@@ -15,21 +16,20 @@ void Object::Parser::ParseVLine(IndT &vert_i, std::string &obj_file_line) {
     ++ofl_it_;
   }
 
-  obj_.vertices_.maps.push_back({});
+  obj_.vertices_.maps.push_back(vec4{});
 
-  auto vert_it = obj_.vertices_.maps.begin() + vert_i;
-  vert_it->first = ++vert_i;
+  VertIter v_it = obj_.vertices_.maps.begin() + v_ind;
+  // vert_it->first = ++vert_i;
 
-  ParseVLineNums(vert_it);
+  ParseVLineNums(v_it);
 }
 
-void Object::Parser::ParseVLineNums(VertIter &vert_it) {
-  auto [_, val] = *vert_it;
-  ParseNum(val.x);
-  ParseNum(val.y);
-  ParseNum(val.z);
+void Object::Parser::ParseVLineNums(VertIter &v_it) {
+  ParseNum(v_it->x);
+  ParseNum(v_it->y);
+  ParseNum(v_it->z);
 
-  FindMinMax(vert_it);
+  FindMinMax(v_it);
 }
 
 void Object::Parser::ParseNum(CoordT &coord) {
@@ -45,33 +45,33 @@ void Object::Parser::ParseNum(CoordT &coord) {
   }
 }
 
-void Object::Parser::FindMinMax(VertIter &vert_it) {
-  auto [_, val] = *vert_it;
+void Object::Parser::FindMinMax(VertIter &v_it) {
   auto &mnx = obj_.vertices_.mnx;
 
   if (parser_once_f) {
-    mnx.min_x, mnx.max_x = val.x, val.x;
-    mnx.min_y, mnx.max_y = val.y, val.y;
-    mnx.min_z, mnx.max_z = val.z, val.z;
+    mnx.min_x, mnx.max_x = v_it->x, v_it->x;
+    mnx.min_y, mnx.max_y = v_it->y, v_it->y;
+    mnx.min_z, mnx.max_z = v_it->z, v_it->z;
 
     parser_once_f = false;
     return;
   }
 
-  Min(val.x, mnx.min_x);
-  Max(val.x, mnx.max_x);
+  Min(v_it->x, mnx.min_x);
+  Max(v_it->x, mnx.max_x);
 
-  Min(val.y, mnx.min_y);
-  Max(val.y, mnx.max_y);
+  Min(v_it->y, mnx.min_y);
+  Max(v_it->y, mnx.max_y);
 
-  Min(val.z, mnx.min_z);
-  Max(val.z, mnx.max_z);
+  Min(v_it->z, mnx.min_z);
+  Max(v_it->z, mnx.max_z);
 }
 
 void Object::Parser::Min(CoordT coord, CoordT &min) {
   if (coord < min)
     min = coord;
 }
+
 void Object::Parser::Max(CoordT coord, CoordT &max) {
   if (coord > max)
     max = coord;

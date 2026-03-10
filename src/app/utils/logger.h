@@ -36,7 +36,7 @@ public:
     return inst_.get();
   }
 
-  void SetLogLevel(LogLevel log_lvl) { log_lvl_ = log_lvl_; }
+  void SetLogLevel(LogLevel log_lvl) { log_lvl_ = log_lvl; }
 
   void LogToFile(const std::string &m) { logfile_ << m << std::endl; }
 

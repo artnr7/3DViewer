@@ -4,13 +4,6 @@
 #include <cctype>
 #include <cstdint>
 #include <fstream>
-#include <glm/ext/matrix_clip_space.hpp>
-#include <glm/ext/matrix_float4x4.hpp>
-#include <glm/ext/matrix_transform.hpp>
-#include <glm/ext/scalar_constants.hpp>
-#include <glm/ext/vector_float3.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/trigonometric.hpp>
 #include <iostream>
 
 #include <memory>
@@ -25,7 +18,6 @@
 namespace s21 {
 
 class Object {
-  using StrIter = std::string::iterator;
 
 private:
   // Variables ----------→
@@ -40,6 +32,7 @@ private:
   std::string filename_;
 
   long double normalization_scale_;
+  uint8_t dim_qty_ = THREE_DIMENSIONAL;
   size_t GetVerticesSize();
 
   // Object methods -------------→
@@ -61,8 +54,6 @@ private:
     Object &obj_;
 
   private:
-    // glm::mat4 model_ = glm::scale(glm::mat4(1.0f),glm::vec3(0.5f));
-    // glm::mat4 model_ = glm::translate(glm::mat4(1.0f),glm::vec3(0.5f));
     void Translate(const uint8_t shift, float arg);
 
   public:
@@ -72,6 +63,8 @@ private:
   // PARSER ---------------------------------------------------→
   class Parser {
     enum class ParseStatus : uint8_t {
+      None,
+
       Good,
       Invalid,
 
@@ -84,15 +77,16 @@ private:
       NotEnoughVertices,
     };
 
-    using VertIter = std::vector<vert_map>::iterator;
-    using FaceIter = std::vector<FaceMap>::iterator;
+    using StrIter = std::string::iterator;
+    using VertIter = VertMaps::iterator;
+    using FaceIter = Faces::iterator;
 
   private:
     Object &obj_;
-
+    //
     StrIter ofl_it_{};
     StrIter eofl_it_{};
-    ParseStatus parse_status_ = ParseStatus::Good;
+    ParseStatus parse_status_ = ParseStatus::None;
     bool parser_once_f = true;
 
   public:
@@ -104,9 +98,9 @@ private:
   private:
     // VLine ----------------------------------------------------→
     void ParseVLine(IndT &vert_i, std::string &obj_file_line);
-    void ParseVLineNums(VertIter &vert_it);
+    void ParseVLineNums(VertIter &v_it);
     void ParseNum(CoordT &coord);
-    void FindMinMax(VertIter &vert_it);
+    void FindMinMax(VertIter &v_it);
     void Min(CoordT coord, CoordT &min);
     void Max(CoordT coord, CoordT &max);
 
@@ -139,9 +133,11 @@ public:
   std::vector<uint> &GetEBO() { return ebo_; }
 
   // utils
+  void PrintVertMinMax();
   void PrintArray();
   void PrintFaces();
   void PrintEBO();
+
   void FillGLverticesOnce();
   void FillGLvertices();
   void MakeEBO();

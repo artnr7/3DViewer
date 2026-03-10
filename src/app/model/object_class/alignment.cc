@@ -17,10 +17,9 @@ void s21::Object::ObjectCentering() {
   FindCenterAxis(center_z, mnx.min_z, mnx.max_z);
 
   for (auto &it : vertices_.maps) {
-    auto [_, val] = it;
-    val.x -= center_x;
-    val.y -= center_y;
-    val.z -= center_z;
+    it.x -= center_x;
+    it.y -= center_y;
+    it.z -= center_z;
   }
   // std::cout << "center_x = " << center_x << std::endl;
   // std::cout << "center_y = " << center_y << std::endl;
@@ -46,9 +45,8 @@ void s21::Object::Normalization() {
   normalization_scale_ = (SCALE_MULT - (SCALE_MULT * (-1))) / dim_max_diff;
 
   for (auto &it : vertices_.maps) {
-    auto [_, val] = it;
-    val.x *= normalization_scale_;
-    val.y *= normalization_scale_;
-    val.z *= normalization_scale_;
+    it.x *= normalization_scale_;
+    it.y *= normalization_scale_;
+    it.z *= normalization_scale_;
   }
 }

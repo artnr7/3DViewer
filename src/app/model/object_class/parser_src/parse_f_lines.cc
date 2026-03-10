@@ -17,14 +17,11 @@ void Object::Parser::ParseFLine(IndT &face_i, std::string &obj_file_line) {
 }
 
 void s21::Object::Parser::ParseFMap(IndT &face_i) {
-  auto [i, map] = obj_.faces_[face_i];
+  obj_.faces_.push_back({});
 
-  obj_.faces_.push_back({face_i + 1, {}});
-
-  while (!IsEndOfLine()) {
-    ParseFMapEls(map);
-  }
-  ++face_i;
+  // while (!IsEndOfLine()) {
+  ParseFMapEls(obj_.faces_[face_i++]);
+  // }
 }
 
 void s21::Object::Parser::ParseFMapEls(std::vector<MapEl> &map) {
@@ -41,7 +38,7 @@ void s21::Object::Parser::ParseFMapEls(std::vector<MapEl> &map) {
 
 void Object::Parser::ParseFMapEl(MapEl &map_el) {
   int token_i = 0;
-  while (token_i < DIMENSION_QTY && *ofl_it_ != ' ' && !IsEndOfLine()) {
+  while (token_i < obj_.dim_qty_ && *ofl_it_ != ' ' && !IsEndOfLine()) {
     // надо как-то выше выкидывать
     // try {
 
