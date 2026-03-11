@@ -21,4 +21,15 @@ void Object::Affine::TranslateZ(float z) { Translate(2, z); }
 
 void Object::Affine::RotateX() {}
 
+void Object::Affine::RTS() {
+  rts_.SetZero();
+
+  rts_ = mat_trans_ * mat_scale_ * mat_rotate_;
+}
+
+void Object::Affine::Multiply(){
+  for (auto it = obj_.vertices_.maps.begin(); it != obj_.vertices_.maps.end(); ++it)
+  {}
+}
+
 } // namespace s21

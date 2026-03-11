@@ -14,20 +14,13 @@ void Object::Parser::Parse() {
     return;
   }
 
-  IndT vert_i = 0;
-  IndT face_i = 0;
+  IndT vert_i = 0, face_i = 0;
   parse_status_ = ParseStatus::Good;
 
   std::string obj_file_line{};
 
   while (std::getline(obj_file_stream, obj_file_line)) {
     ParseVLine(vert_i, obj_file_line);
-  }
-
-  obj_file_stream.clear();
-  obj_file_stream.seekg(0);
-
-  while (std::getline(obj_file_stream, obj_file_line)) {
     ParseFLine(face_i, obj_file_line);
   }
 }

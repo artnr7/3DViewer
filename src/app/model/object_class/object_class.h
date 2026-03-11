@@ -48,10 +48,20 @@ private:
     void TranslateY(float y);
     void TranslateZ(float z);
 
+    void SetTranslate(vec4);
+    void RTS();
+
+    void Multiply();
+
     void RotateX();
 
-  private:
+  private: // VARIABLES
     Object &obj_;
+    //
+    mat4 mat_trans_{};
+    mat4 mat_scale_{};
+    mat4 mat_rotate_{};
+    mat4 rts_{};
 
   private:
     void Translate(const uint8_t shift, float arg);
@@ -100,8 +110,6 @@ private:
     void ParseVLineNums(VertIter &v_it);
     void ParseNum(CoordT &coord);
     void FindMinMax(VertIter &v_it);
-    void Min(CoordT coord, CoordT &min);
-    void Max(CoordT coord, CoordT &max);
 
     // FLine
     void ParseFLine(IndT &face_i, std::string &obj_file_line);

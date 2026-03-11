@@ -1,7 +1,9 @@
+#include "iostream"
 #include <array>
 #include <cmath>
 #include <cstdint>
 #include <string>
+#include <sys/types.h>
 #include <utility>
 #include <vector>
 
@@ -19,6 +21,71 @@ struct vec4 {
   vec4() = default;
   vec4(CoordT x, CoordT y, CoordT z, CoordT w = 1.0f)
       : x(x), y(y), z(z), w(w) {};
+};
+
+struct mat4 {
+  std::array<std::array<CoordT, 4>, 4> data{};
+
+  mat4() { SetIdentity(); };
+
+  void TranslateOn(vec4 v) {
+    data[0][3] = v.x;
+    data[1][3] = v.y;
+    data[2][3] = v.z;
+    data[3][3] = v.w;
+  }
+
+  void ScaleOn(vec4 v) {
+    data[0][0] = v.x;
+    data[1][1] = v.y;
+    data[2][2] = v.z;
+    data[3][3] = v.w;
+  }
+
+  mat4 operator*(mat4 &m) {
+    mat4 res{};
+    res.SetZero();
+
+    Multiply(*this, m, res);
+    return res;
+  }
+
+private:
+  std::array<CoordT, 4> &operator[](size_t i) { return data[i]; }
+
+  void Multiply(mat4 &m1, mat4 &m2, mat4 &res) {
+    for (int i = 0; i < 4; ++i) {
+      for (int j = 0; j < 4; ++j) {
+        for (int k = 0; k < 4; ++k) {
+          res[i][j] += m1[i][k] * m2[k][j];
+        }
+      }
+    }
+  }
+
+public:
+  void SetIdentity() {
+    for (uint8_t i = 0; i < 4; ++i) {
+      data[i][i] = 1.0f;
+    }
+  }
+
+  void SetZero() {
+    for (uint8_t i = 0; i < 4; ++i) {
+      for (uint8_t j = 0; j < 4; ++j) {
+        data[0][0] = 0.0f;
+      }
+    }
+  }
+
+  void Print() {
+    for (auto row : data) {
+      for (auto el : row) {
+        std::cout << el << " ";
+      }
+      std::cout << std::endl;
+    }
+  }
 };
 
 struct MinMax {

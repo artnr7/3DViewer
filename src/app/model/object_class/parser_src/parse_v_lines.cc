@@ -63,24 +63,23 @@ void Object::Parser::FindMinMax(VertIter &v_it) {
     return;
   }
 
-  Min(v_it->x, mnx.min_x);
-  Max(v_it->x, mnx.max_x);
+  auto min = [](CoordT coord, CoordT &min) {
+    if (coord < min)
+      min = coord;
+  };
+  auto max = [](CoordT coord, CoordT &max) {
+    if (coord > max)
+      max = coord;
+  };
 
-  Min(v_it->y, mnx.min_y);
-  Max(v_it->y, mnx.max_y);
+  min(v_it->x, mnx.min_x);
+  max(v_it->x, mnx.max_x);
 
-  Min(v_it->z, mnx.min_z);
-  Max(v_it->z, mnx.max_z);
-}
+  min(v_it->y, mnx.min_y);
+  max(v_it->y, mnx.max_y);
 
-void Object::Parser::Min(CoordT coord, CoordT &min) {
-  if (coord < min)
-    min = coord;
-}
-
-void Object::Parser::Max(CoordT coord, CoordT &max) {
-  if (coord > max)
-    max = coord;
+  min(v_it->z, mnx.min_z);
+  max(v_it->z, mnx.max_z);
 }
 
 } // namespace s21
