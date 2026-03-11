@@ -97,6 +97,19 @@ void Object::FillGLvertices() {
   }
 }
 
+void Object::PrintGLVertices() {
+  std::cout << "glvertices_\n-------------------\n";
+  int i = 0;
+  for (auto el : glvertices_) {
+    std::cout << std::setw(VAR_SETW_SIZE) << el << " ";
+    i++;
+    if (i % 3 == 0) {
+      std::cout << std::endl;
+    }
+  }
+  std::cout << std::endl;
+}
+
 void Object::MakeEBO() {
   Lg::Log()->Info("Object::" + std::string(__func__));
   int shift = -1;

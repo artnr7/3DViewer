@@ -48,12 +48,17 @@ void Model::TranslateToZ(float x) {
 
 void Model::TranslateOnX(float x) {
   Lg::Log()->Trace("Model::" + std::string(__func__));
-  obj_->a_.TranslateX(x);
+  obj_->a_.TranslateOnX(x);
+  obj_->a_.RTS();
+  obj_->a_.Multiply();
 }
 
 void Model::TranslateOnY(float x) {
   Lg::Log()->Trace("Model::" + std::string(__func__));
-  obj_->a_.TranslateY(x);
+  // obj_->a_.TranslateY(x);
+  obj_->a_.TranslateOnY(x);
+  obj_->a_.RTS();
+  obj_->a_.Multiply();
 }
 
 void Model::TranslateOnZ(float x) {

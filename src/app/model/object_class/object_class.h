@@ -48,6 +48,9 @@ private:
     void TranslateY(float y);
     void TranslateZ(float z);
 
+    void TranslateOnX(float);
+    void TranslateOnY(float);
+
     void SetTranslate(vec4);
     void RTS();
 
@@ -144,6 +147,7 @@ public:
   void PrintArray();
   void PrintFaces();
   void PrintEBO();
+  void PrintGLVertices();
 
   void FillGLverticesOnce();
   void FillGLvertices();

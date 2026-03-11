@@ -17,7 +17,9 @@ Object::Object(const std::string &obj_filename)
   // PrintVertMinMax();
   ObjectCentering();
   Normalization();
+  // TODO(sundaeka): заменить FillGLvertices на изменение через умножение
   FillGLvertices();
+  PrintGLVertices();
   MakeEBO();
   // PrintEBO();
 }

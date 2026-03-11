@@ -2,6 +2,7 @@
 #include <array>
 #include <cmath>
 #include <cstdint>
+#include <stdexcept>
 #include <string>
 #include <sys/types.h>
 #include <utility>
@@ -21,6 +22,38 @@ struct vec4 {
   vec4() = default;
   vec4(CoordT x, CoordT y, CoordT z, CoordT w = 1.0f)
       : x(x), y(y), z(z), w(w) {};
+
+  void SetZero() {
+    x = 0.0f;
+    y = 0.0f;
+    z = 0.0f;
+    w = 0.0f;
+  }
+
+  CoordT &operator[](size_t i) {
+    switch (i) {
+    case 0:
+      return x;
+      break;
+    case 1:
+      return y;
+      break;
+    case 2:
+      return z;
+      break;
+    case 3:
+      return w;
+      break;
+    default:
+      throw std::invalid_argument("You can't use this index");
+      break;
+    }
+  }
+
+  void Print() {
+    std::cout << "vec\n---------------------------\n";
+    std::cout << x << " " << y << " " << z << " " << w << "\n\n";
+  }
 };
 
 struct mat4 {
@@ -28,18 +61,25 @@ struct mat4 {
 
   mat4() { SetIdentity(); };
 
-  void TranslateOn(vec4 v) {
+  void TranslateTo(vec4 v) {
     data[0][3] = v.x;
     data[1][3] = v.y;
     data[2][3] = v.z;
-    data[3][3] = v.w;
+    // data[3][3] = v.w;
   }
 
-  void ScaleOn(vec4 v) {
+  void TranslateOn(vec4 v) {
+    data[0][3] += v.x;
+    data[1][3] += v.y;
+    data[2][3] += v.z;
+    // data[3][3] += v.w;
+  }
+
+  void ScaleTo(vec4 v) {
     data[0][0] = v.x;
     data[1][1] = v.y;
     data[2][2] = v.z;
-    data[3][3] = v.w;
+    // data[3][3] = v.w;
   }
 
   mat4 operator*(mat4 &m) {
@@ -47,6 +87,14 @@ struct mat4 {
     res.SetZero();
 
     Multiply(*this, m, res);
+    return res;
+  }
+
+  vec4 operator*(vec4 &v) {
+    vec4 res{};
+    res.SetZero();
+
+    Multiply(*this, v, res);
     return res;
   }
 
@@ -63,7 +111,32 @@ private:
     }
   }
 
+  void Multiply(mat4 &m, vec4 &v, vec4 &res) {
+    // for (int i = 0; i < 4; ++i) {
+    //   for (int j = 0; j < 4; ++j) {
+    //     for (int k = 0; k < 4; ++k) {
+    //       try {
+    //         res[i] += m[i][k] * v[k];
+    //       } catch (std::invalid_argument &e) {
+    //         std::cerr << "Index is out of range: " << e.what() << std::endl;
+    //       }
+    //     }
+    //   }
+    // }
+
+    for (int i = 0; i < 4; ++i) {
+      for (int j = 0; j < 4; ++j) {
+        res[i] += m[i][j] * v[j];
+      }
+    }
+  }
+
 public:
+  // void SetCol(uint8_t j, CoordT n) {
+  //   for (int i = 0; i < 4; ++i) {
+  //     data[i][j] = n;
+  //   }
+  // }
   void SetIdentity() {
     for (uint8_t i = 0; i < 4; ++i) {
       data[i][i] = 1.0f;
@@ -73,17 +146,18 @@ public:
   void SetZero() {
     for (uint8_t i = 0; i < 4; ++i) {
       for (uint8_t j = 0; j < 4; ++j) {
-        data[0][0] = 0.0f;
+        data[i][j] = 0.0f;
       }
     }
   }
 
   void Print() {
+    std::cout << "mat4\n---------------------------\n";
     for (auto row : data) {
       for (auto el : row) {
         std::cout << el << " ";
       }
-      std::cout << std::endl;
+      std::cout << "\n";
     }
   }
 };

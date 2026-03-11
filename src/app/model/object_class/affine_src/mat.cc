@@ -4,6 +4,6 @@
 
 namespace s21 {
 
-void Object::Affine::SetTranslate(vec4 vec) { mat_trans_.TranslateOn(vec); }
+void Object::Affine::SetTranslate(vec4 vec) { mat_trans_.TranslateTo(vec); }
 
 } // namespace s21
