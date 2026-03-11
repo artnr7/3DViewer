@@ -15,13 +15,10 @@ using CoordT = float;
 using IndT = uint32_t;
 
 struct vec4 {
-  std::array<CoordT, 4> data_{0.0f, 0.0f, 0.0f, 1.0f};
+  CoordT x = 0.0f, y = 0.0f, z = 0.0f, w = 1.0f;
   vec4() = default;
-  vec4(CoordT x, CoordT y, CoordT z, CoordT w = 1.0f) : data_{x, y, z, w} {};
-  CoordT &x = data_[0];
-  CoordT &y = data_[1];
-  CoordT &z = data_[2];
-  CoordT &w = data_[3];
+  vec4(CoordT x, CoordT y, CoordT z, CoordT w = 1.0f)
+      : x(x), y(y), z(z), w(w) {};
 };
 
 struct MinMax {

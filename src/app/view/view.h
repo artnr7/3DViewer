@@ -1,7 +1,6 @@
 #ifndef MAIN_WINDOW_HPP_
 #define MAIN_WINDOW_HPP_
 
-// #include <GL/gl.h>
 #include <QMainWindow>
 #include <QTimer>
 #include <QWidget>

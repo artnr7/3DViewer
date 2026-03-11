@@ -10,6 +10,7 @@ void Object::Parser::ParseVLine(IndT &v_ind, std::string &obj_file_line) {
   if (!IsVLine()) {
     return;
   }
+
   eofl_it_ = obj_file_line.end();
   ++ofl_it_;
   while (IsSpace()) {
@@ -18,7 +19,7 @@ void Object::Parser::ParseVLine(IndT &v_ind, std::string &obj_file_line) {
 
   obj_.vertices_.maps.push_back(vec4{});
 
-  VertIter v_it = obj_.vertices_.maps.begin() + v_ind;
+  VertIter v_it = obj_.vertices_.maps.begin() + v_ind++;
   // vert_it->first = ++vert_i;
 
   ParseVLineNums(v_it);
@@ -28,6 +29,8 @@ void Object::Parser::ParseVLineNums(VertIter &v_it) {
   ParseNum(v_it->x);
   ParseNum(v_it->y);
   ParseNum(v_it->z);
+
+  // std::cout << v_it->x << " " << v_it->y << " " << v_it->z << std::endl;
 
   FindMinMax(v_it);
 }
@@ -48,12 +51,15 @@ void Object::Parser::ParseNum(CoordT &coord) {
 void Object::Parser::FindMinMax(VertIter &v_it) {
   auto &mnx = obj_.vertices_.mnx;
 
-  if (parser_once_f) {
-    mnx.min_x, mnx.max_x = v_it->x, v_it->x;
-    mnx.min_y, mnx.max_y = v_it->y, v_it->y;
-    mnx.min_z, mnx.max_z = v_it->z, v_it->z;
+  if (parser_once_f_) {
+    mnx.min_x = v_it->x;
+    mnx.max_x = v_it->x;
+    mnx.min_y = v_it->y;
+    mnx.max_y = v_it->y;
+    mnx.min_z = v_it->z;
+    mnx.max_z = v_it->z;
 
-    parser_once_f = false;
+    parser_once_f_ = false;
     return;
   }
 

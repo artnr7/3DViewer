@@ -14,11 +14,12 @@ namespace s21 {
 class Lg {
 
   enum class LogLevel : uint8_t {
+    TRACE, // signals, events
+    DEBUG,
     INFO,
     WARN,
-    SIGNAL,
-    DEBUG,
-    TRACE // signals, events
+    ERR,
+    FATAL
   };
 
 private:
@@ -44,11 +45,58 @@ public:
     LogToFile(attr + m);
   }
 
-  void Info(const std::string &m) { OutWithAttr("INFO: ", m); }
-  void Trace(const std::string &m) { OutWithAttr("TRACE: ", m); }
-  void Debug(const std::string &m) { OutWithAttr("DEBUG: ", m); }
-  void Err(const std::string &m) { OutWithAttr("ERROR: ", m); }
-  void Warn(const std::string &m) { OutWithAttr("WARN: ", m); }
+  bool Throw(LogLevel local_log_lvl) {
+    if (local_log_lvl < log_lvl_) {
+      return true;
+    }
+    return false;
+  }
+
+  void Trace(const std::string &m) {
+    if (Throw(LogLevel::TRACE)) {
+      return;
+    };
+
+    OutWithAttr("TRACE: ", m);
+  }
+  void Debug(const std::string &m) {
+    if (Throw(LogLevel::DEBUG)) {
+      return;
+    };
+
+    OutWithAttr("DEBUG: ", m);
+  }
+
+  void Info(const std::string &m) {
+    if (Throw(LogLevel::INFO)) {
+      return;
+    };
+
+    OutWithAttr("INFO: ", m);
+  }
+  void Warn(const std::string &m) {
+    if (Throw(LogLevel::WARN)) {
+      return;
+    };
+
+    OutWithAttr("WARN: ", m);
+  }
+
+  void Err(const std::string &m) {
+    if (Throw(LogLevel::WARN)) {
+      return;
+    };
+
+    OutWithAttr("ERROR: ", m);
+  }
+
+  void Fatal(const std::string &m) {
+    if (Throw(LogLevel::FATAL)) {
+      return;
+    };
+
+    OutWithAttr("FATAL: ", m);
+  }
 };
 
 } // namespace s21

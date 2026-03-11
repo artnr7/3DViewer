@@ -14,6 +14,7 @@ Object::Object(const std::string &obj_filename)
   p_.Parse();
   // PrintArray();
   // PrintFaces();
+  // PrintVertMinMax();
   ObjectCentering();
   Normalization();
   FillGLvertices();

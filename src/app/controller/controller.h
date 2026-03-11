@@ -1,8 +1,8 @@
 #ifndef CONTROLLER_H_
 #define CONTROLLER_H_
 
-#include <../controller_interface/interface.h>
-#include <../model_interface/interface.h>
+#include "../api/controller_interface.h"
+#include <../api/model_interface.h>
 #include <memory>
 #include <qpixelformat.h>
 #include <vector>

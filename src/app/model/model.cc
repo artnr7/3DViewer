@@ -19,7 +19,7 @@ void Model::BuildObject(const std::string &filename) {
 }
 
 std::vector<float> &Model::GetGLVertices() {
-  // Lg::Log()->Info("Model::" + std::string(__func__));
+  Lg::Log()->Trace("Model::" + std::string(__func__));
 
   if (obj_ == nullptr) {
     throw std::runtime_error("obj is not initialized");
@@ -28,7 +28,7 @@ std::vector<float> &Model::GetGLVertices() {
   return obj_->GetGLVertices();
 }
 std::vector<uint> &Model::GetEBO() {
-  // Lg::Log()->Info("Model::" + std::string(__func__));
+  Lg::Log()->Trace("Model::" + std::string(__func__));
 
   if (obj_ == nullptr) {
     throw std::runtime_error("obj is not initialized");
@@ -47,12 +47,12 @@ void Model::TranslateToZ(float x) {
 }
 
 void Model::TranslateOnX(float x) {
-  Lg::Log()->Info("Model::" + std::string(__func__));
+  Lg::Log()->Trace("Model::" + std::string(__func__));
   obj_->a_.TranslateX(x);
 }
 
 void Model::TranslateOnY(float x) {
-  Lg::Log()->Info("Model::" + std::string(__func__));
+  Lg::Log()->Trace("Model::" + std::string(__func__));
   obj_->a_.TranslateY(x);
 }
 

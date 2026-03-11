@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iostream>
+#include <string>
 
 #include "object_class.h"
 
@@ -21,9 +22,15 @@ void s21::Object::ObjectCentering() {
     it.y -= center_y;
     it.z -= center_z;
   }
-  // std::cout << "center_x = " << center_x << std::endl;
-  // std::cout << "center_y = " << center_y << std::endl;
-  // std::cout << "center_z = " << center_z << std::endl;
+
+  Lg::Log()->Debug("Object::" + std::string("center_x = ") +
+                   std::to_string(center_x));
+
+  Lg::Log()->Debug("Object::" + std::string("center_y = ") +
+                   std::to_string(center_y));
+
+  Lg::Log()->Debug("Object::" + std::string("center_y = ") +
+                   std::to_string(center_y));
 }
 
 void s21::Object::FindCenterAxis(CoordT &center_axis, CoordT min, CoordT max) {
@@ -43,6 +50,9 @@ void s21::Object::Normalization() {
   CoordT dim_max_diff = std::max({diff_x, diff_y, diff_z});
 
   normalization_scale_ = (SCALE_MULT - (SCALE_MULT * (-1))) / dim_max_diff;
+
+  Lg::Log()->Debug("Object::" + std::string("normalization_scale_ = ") +
+                   std::to_string(normalization_scale_));
 
   for (auto &it : vertices_.maps) {
     it.x *= normalization_scale_;

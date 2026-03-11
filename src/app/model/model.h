@@ -1,7 +1,7 @@
 #ifndef MODEL_H_
 #define MODEL_H_
 
-#include "../model_interface/interface.h"
+#include "../api/model_interface.h"
 #include "object_class.h"
 #include <memory>
 

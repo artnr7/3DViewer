@@ -60,7 +60,6 @@ private:
     Affine(Object &obj) : obj_(obj) {}
   };
 
-  // PARSER ---------------------------------------------------→
   class Parser {
     enum class ParseStatus : uint8_t {
       None,
@@ -87,7 +86,7 @@ private:
     StrIter ofl_it_{};
     StrIter eofl_it_{};
     ParseStatus parse_status_ = ParseStatus::None;
-    bool parser_once_f = true;
+    bool parser_once_f_ = true;
 
   public:
     Parser() = delete;

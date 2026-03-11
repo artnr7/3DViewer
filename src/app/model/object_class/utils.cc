@@ -10,8 +10,9 @@ size_t Object::GetVerticesSize() { return vertices_.maps.size(); }
 
 #define INDEX_SETW_SIZE 5
 #define VAR_SETW_SIZE 5
+
 void Object::PrintArray() {
-  std::cout << "\n   " << filename_ << "   ";
+  std::cout << "\n   " << filename_ << "   " << std::endl;
   std::cout << "---------------------------------------- ";
   std::cout << "\n\nv-strings\n";
 
@@ -26,8 +27,10 @@ void Object::PrintArray() {
 }
 
 void Object::PrintVertMinMax() {
-  auto print = [](const std::string &s, CoordT &mnx) { std::cout << s << mnx; };
-  std::cout << "MIN MAX =======" << std::endl;
+  auto print = [](const std::string &s, CoordT &mnx) {
+    std::cout << s << mnx << std::endl;
+  };
+  std::cout << std::endl << "MIN MAX =======" << std::endl;
 
   print("min_x = ", vertices_.mnx.min_x);
   print("max_x = ", vertices_.mnx.max_x);
@@ -113,7 +116,7 @@ void Object::MakeEBO() {
       }
     }
 
-    ebo_.push_back(m_it->vert_i + shift);
+    ebo_.push_back(it->begin()->vert_i + shift);
   }
 }
 
