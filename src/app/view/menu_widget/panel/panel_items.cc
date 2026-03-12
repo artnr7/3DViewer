@@ -112,11 +112,16 @@ PIValueController::PIValueController(const QString &name, int width, int height,
   // Может быть нужно передавать тип ползунка чтобы была возможность точечной
   // настройки
   // типо enum ValueControllerType
+  auto &st = valcontroll_->style_;
   if (name == "value") {
-    auto &st = valcontroll_->style_;
     SetCurrentValue(st.scale_cur_val);
     SetRange(st.scale_min_val, st.scale_max_val);
     SetStepSize(st.scale_step_size);
+  }
+  if (name == "xr" || name == "yr" || name == "zr") {
+    SetCurrentValue(st.rot_cur_val);
+    SetRange(st.rot_min_val, st.rot_max_val);
+    SetStepSize(st.rot_step_size);
   }
 }
 

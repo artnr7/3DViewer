@@ -52,7 +52,10 @@ public:
   virtual void TranslateOnY(float x) = 0;
   virtual void TranslateOnZ(float x) = 0;
 
-  virtual void RotateObject() = 0;
+  virtual void RotateX(float) = 0;
+  virtual void RotateY(float) = 0;
+  virtual void RotateZ(float) = 0;
+
   virtual void ScaleObject(float) = 0;
 
   virtual void SetVertexSize() = 0;

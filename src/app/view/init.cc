@@ -81,14 +81,17 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
           case SceneAction::kRotateX:
             Lg::Log()->Trace("Model rotate X to: " + std::to_string(arg) +
                              "\n");
+            pcontroller_->RotateX(arg);
             break;
           case SceneAction::kRotateY:
             Lg::Log()->Trace("Model rotate Y to: " + std::to_string(arg) +
                              "\n");
+            pcontroller_->RotateY(arg);
             break;
           case SceneAction::kRotateZ:
             Lg::Log()->Trace("Model rotate Z to: " + std::to_string(arg) +
                              "\n");
+            pcontroller_->RotateZ(arg);
             break;
           /* Scale */
           case SceneAction::kScale:

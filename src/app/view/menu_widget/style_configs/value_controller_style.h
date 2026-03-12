@@ -26,6 +26,12 @@ struct ValueControllerStyle {
   float default_step_speed = 1.0f;
   float default_dragging = false;
 
+  // Rotate
+  float rot_cur_val = 0.0f;
+  float rot_step_size = 0.05f;
+  float rot_min_val = 0.00f;
+  float rot_max_val = 1080.0f;
+
   // Scale
   float scale_cur_val = 1.0f;
   float scale_step_size = 0.01f;

@@ -71,7 +71,29 @@ void Model::TranslateOnY(float x) {
 }
 
 void Model::TranslateOnZ(float x) {
-  Lg::Log()->Info("Model::" + std::string(__func__));
+  Lg::Log()->Trace("Model::" + std::string(__func__));
+}
+
+void Model::RotateX(float x) {
+  Lg::Log()->Trace("Model::" + std::string(__func__));
+
+  obj_->a_.RotateX(x);
+  obj_->a_.RTS();
+  obj_->a_.Multiply();
+}
+void Model::RotateY(float x) {
+  Lg::Log()->Trace("Model::" + std::string(__func__));
+
+  obj_->a_.RotateY(x);
+  obj_->a_.RTS();
+  obj_->a_.Multiply();
+}
+void Model::RotateZ(float x) {
+  Lg::Log()->Trace("Model::" + std::string(__func__));
+
+  obj_->a_.RotateZ(x);
+  obj_->a_.RTS();
+  obj_->a_.Multiply();
 }
 
 void Model::ScaleObject(float x) {

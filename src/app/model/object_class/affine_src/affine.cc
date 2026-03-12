@@ -24,12 +24,20 @@ void Object::Affine::TranslateOnZ(float x) {
 // Scale
 void Object::Affine::Scale(float x) { mat_scale_.ScaleTo(x); }
 
-void Object::Affine::RotateX() {}
+void Object::Affine::RotateX(float x) { mat_rot_x_.RotateX(x); }
+void Object::Affine::RotateY(float x) { mat_rot_y_.RotateY(x); }
+void Object::Affine::RotateZ(float x) { mat_rot_z_.RotateZ(x); }
+
+void Object::Affine::RotMat() {
+  mat_rot_ = mat_rot_x_ * mat_rot_y_ * mat_rot_z_;
+}
 
 void Object::Affine::RTS() {
   rts_.SetZero();
 
-  rts_ = mat_trans_ * mat_scale_ * mat_rotate_;
+  mat_rot_ = mat_rot_x_ * mat_rot_y_ * mat_rot_z_;
+  rts_ = mat_trans_ * mat_scale_ * mat_rot_;
+  // rts_ = mat_rotate_;
   // rts_.Print();
 }
 

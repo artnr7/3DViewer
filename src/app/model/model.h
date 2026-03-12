@@ -36,6 +36,10 @@ private:
   void TranslateOnY(float x) override;
   void TranslateOnZ(float x) override;
 
+  void RotateX(float) override;
+  void RotateY(float) override;
+  void RotateZ(float) override;
+
   void ScaleObject(float) override;
 };
 

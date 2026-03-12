@@ -47,7 +47,7 @@ private:
     // void TranslateX(float x);
     // void TranslateY(float y);
     // void TranslateZ(float z);
-    
+
     // Translate
     void TranslateToX(float);
     void TranslateToY(float);
@@ -59,19 +59,28 @@ private:
 
     void Scale(float);
 
+    void RotateX(float);
+    void RotateY(float);
+    void RotateZ(float);
+
     // void SetTranslate(vec4);
     void RTS();
+    void RotMat();
 
     void Multiply();
-
-    void RotateX();
 
   private: // VARIABLES
     Object &obj_;
     //
     mat4 mat_trans_{};
     mat4 mat_scale_{};
-    mat4 mat_rotate_{};
+
+    mat4 mat_rot_{};
+
+    mat4 mat_rot_x_{};
+    mat4 mat_rot_y_{};
+    mat4 mat_rot_z_{};
+
     mat4 rts_{};
 
   private:

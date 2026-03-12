@@ -77,6 +77,38 @@ struct mat4 {
     data[2][2] = x;
   }
 
+  void RotateX(float x) {
+    float d_x = static_cast<double>(x);
+    float c = static_cast<float>(cos(d_x));
+    float s = static_cast<float>(sin(d_x));
+
+    data[0] = {1.0f, 0.0f, 0.0f, 0.0f};
+    data[1] = {0.0f, c, -s, 0.0f};
+    data[2] = {0.0f, s, c, 0.0f};
+    data[3] = {0.0f, 0.0f, 0.0f, 1.0f};
+  }
+
+  void RotateY(float x) {
+    float d_x = static_cast<double>(x);
+    float c = static_cast<float>(cos(d_x));
+    float s = static_cast<float>(sin(d_x));
+
+    data[0] = {c, 0.0f, s, 0.0f};
+    data[1] = {0.0f, 1.0f, 0.0f, 0.0f};
+    data[2] = {-s, 0.0f, c, 0.0f};
+    data[3] = {0.0f, 0.0f, 0.0f, 1.0f};
+  }
+
+  void RotateZ(float x) {
+    float d_x = static_cast<double>(x);
+    float c = static_cast<float>(cos(d_x));
+    float s = static_cast<float>(sin(d_x));
+
+    data[0] = {c, -s, 0.0f, 0.0f};
+    data[1] = {s, c, 0.0f, 0.0f};
+    data[2] = {0.0f, 0.0f, 1.0f, 0.0f};
+    data[3] = {0.0f, 0.0f, 0.0f, 1.0f};
+  }
   mat4 operator*(mat4 &m) {
     mat4 res{};
     res.SetZero();

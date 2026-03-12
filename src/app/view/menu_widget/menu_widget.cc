@@ -87,15 +87,15 @@ void MenuWidget::SetupTransformPanel(IBuilder *builder) {
                                       &PIValueController::CurrentValueChanged),
                               Qt::Vertical)
       .AddSubPanel("Rotation")
-      .Add<PIValueController>("x",
+      .Add<PIValueController>("xr",
                               Connect(SceneAction::kRotateX,
                                       &PIValueController::CurrentValueChanged),
                               Qt::Vertical)
-      .Add<PIValueController>("y",
+      .Add<PIValueController>("yr",
                               Connect(SceneAction::kRotateY,
                                       &PIValueController::CurrentValueChanged),
                               Qt::Vertical)
-      .Add<PIValueController>("z",
+      .Add<PIValueController>("zr",
                               Connect(SceneAction::kRotateZ,
                                       &PIValueController::CurrentValueChanged),
                               Qt::Vertical)
