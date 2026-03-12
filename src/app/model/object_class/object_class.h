@@ -59,9 +59,13 @@ private:
 
     void Scale(float);
 
-    void RotateX(float);
-    void RotateY(float);
-    void RotateZ(float);
+    void RotateToX(float);
+    void RotateToY(float);
+    void RotateToZ(float);
+
+    void RotateOnX(float);
+    void RotateOnY(float);
+    void RotateOnZ(float);
 
     // void SetTranslate(vec4);
     void RTS();
@@ -75,6 +79,10 @@ private:
     mat4 mat_trans_{};
     mat4 mat_scale_{};
 
+    using angle = float;
+
+    angle x_{}, y_{}, z_{};
+
     mat4 mat_rot_{};
 
     mat4 mat_rot_x_{};
@@ -82,9 +90,6 @@ private:
     mat4 mat_rot_z_{};
 
     mat4 rts_{};
-
-  private:
-    // void Translate(const uint8_t shift, float arg);
 
   public:
     Affine(Object &obj) : obj_(obj) {}

@@ -109,6 +109,7 @@ struct mat4 {
     data[2] = {0.0f, 0.0f, 1.0f, 0.0f};
     data[3] = {0.0f, 0.0f, 0.0f, 1.0f};
   }
+
   mat4 operator*(mat4 &m) {
     mat4 res{};
     res.SetZero();

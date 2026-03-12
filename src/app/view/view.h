@@ -33,6 +33,10 @@ private:
   void OnTranslateOnY(float y);
   void OnTranslateOnZ(float z);
 
+  void OnRotateOnX(float x);
+  void OnRotateOnY(float y);
+  void OnRotateOnZ(float z);
+
   /* Fields */
   MenuWidget *pmenu_wid_;
   ObjectViewerWidget *pobj_v_wid_;

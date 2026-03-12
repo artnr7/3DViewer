@@ -74,24 +74,45 @@ void Model::TranslateOnZ(float x) {
   Lg::Log()->Trace("Model::" + std::string(__func__));
 }
 
-void Model::RotateX(float x) {
+void Model::RotateToX(float x) {
   Lg::Log()->Trace("Model::" + std::string(__func__));
 
-  obj_->a_.RotateX(x);
+  obj_->a_.RotateToX(x);
   obj_->a_.RTS();
   obj_->a_.Multiply();
 }
-void Model::RotateY(float x) {
+void Model::RotateToY(float x) {
   Lg::Log()->Trace("Model::" + std::string(__func__));
 
-  obj_->a_.RotateY(x);
+  obj_->a_.RotateToY(x);
   obj_->a_.RTS();
   obj_->a_.Multiply();
 }
-void Model::RotateZ(float x) {
+void Model::RotateToZ(float x) {
   Lg::Log()->Trace("Model::" + std::string(__func__));
 
-  obj_->a_.RotateZ(x);
+  obj_->a_.RotateToZ(x);
+  obj_->a_.RTS();
+  obj_->a_.Multiply();
+}
+void Model::RotateOnX(float x) {
+  Lg::Log()->Trace("Model::" + std::string(__func__));
+
+  obj_->a_.RotateOnX(x);
+  obj_->a_.RTS();
+  obj_->a_.Multiply();
+}
+void Model::RotateOnY(float x) {
+  Lg::Log()->Trace("Model::" + std::string(__func__));
+
+  obj_->a_.RotateOnY(x);
+  obj_->a_.RTS();
+  obj_->a_.Multiply();
+}
+void Model::RotateOnZ(float x) {
+  Lg::Log()->Trace("Model::" + std::string(__func__));
+
+  obj_->a_.RotateOnZ(x);
   obj_->a_.RTS();
   obj_->a_.Multiply();
 }

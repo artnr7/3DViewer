@@ -24,9 +24,13 @@ public:
   virtual void TranslateOnY(float x) = 0;
   virtual void TranslateOnZ(float x) = 0;
 
-  virtual void RotateX(float) = 0;
-  virtual void RotateY(float) = 0;
-  virtual void RotateZ(float) = 0;
+  virtual void RotateToX(float) = 0;
+  virtual void RotateToY(float) = 0;
+  virtual void RotateToZ(float) = 0;
+
+  virtual void RotateOnX(float) = 0;
+  virtual void RotateOnY(float) = 0;
+  virtual void RotateOnZ(float) = 0;
 
   virtual void ScaleObject(float) = 0;
 };

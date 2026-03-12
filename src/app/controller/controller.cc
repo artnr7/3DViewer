@@ -22,9 +22,13 @@ void Controller::TranslateOnX(float x) { model_->TranslateOnX(x); }
 void Controller::TranslateOnY(float x) { model_->TranslateOnY(x); }
 void Controller::TranslateOnZ(float x) {}
 
-void Controller::RotateX(float x) { model_->RotateX(x); }
-void Controller::RotateY(float x) { model_->RotateY(x); }
-void Controller::RotateZ(float x) { model_->RotateZ(x); }
+void Controller::RotateToX(float x) { model_->RotateToX(x); }
+void Controller::RotateToY(float x) { model_->RotateToY(x); }
+void Controller::RotateToZ(float x) { model_->RotateToZ(x); }
+
+void Controller::RotateOnX(float x) { model_->RotateOnX(x); }
+void Controller::RotateOnY(float x) { model_->RotateOnY(x); }
+void Controller::RotateOnZ(float x) { model_->RotateOnZ(x); }
 
 void Controller::ScaleObject(float x) { model_->ScaleObject(x); }
 

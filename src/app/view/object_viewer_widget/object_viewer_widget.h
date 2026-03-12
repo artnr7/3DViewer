@@ -30,6 +30,8 @@ signals:
   void UpdateFront();
   void MouseUpdateY(float y);
   void MouseUpdateX(float x);
+  void MouseRotateY(float y);
+  void MouseRotateX(float x);
 
 private slots:
   void OnFrontUpdateTimer();
@@ -62,6 +64,7 @@ private:
 
   // Mouse
   QPoint start_pos_{0, 0};
+  bool lb_clicked_ = false;
   bool rb_clicked_ = false;
   void RightButton(QMouseEvent &m_e, int m_y, int m_x);
 

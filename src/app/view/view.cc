@@ -15,4 +15,8 @@ void View::OnObjectStartBuild() {
 void View::OnTranslateOnX(float x) { pcontroller_->TranslateOnX(x); }
 void View::OnTranslateOnY(float x) { pcontroller_->TranslateOnY(x); }
 void View::OnTranslateOnZ(float x) { pcontroller_->TranslateOnZ(x); }
+
+void View::OnRotateOnX(float x) { pcontroller_->RotateOnX(x); }
+void View::OnRotateOnY(float x) { pcontroller_->RotateOnY(x); }
+void View::OnRotateOnZ(float x) { pcontroller_->RotateOnZ(x); }
 } // namespace s21

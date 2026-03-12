@@ -24,9 +24,33 @@ void Object::Affine::TranslateOnZ(float x) {
 // Scale
 void Object::Affine::Scale(float x) { mat_scale_.ScaleTo(x); }
 
-void Object::Affine::RotateX(float x) { mat_rot_x_.RotateX(x); }
-void Object::Affine::RotateY(float x) { mat_rot_y_.RotateY(x); }
-void Object::Affine::RotateZ(float x) { mat_rot_z_.RotateZ(x); }
+void Object::Affine::RotateToX(float x) {
+  x_ = x;
+  mat_rot_x_.RotateX(x_);
+}
+
+void Object::Affine::RotateToY(float x) {
+  y_ = x;
+  mat_rot_y_.RotateY(y_);
+}
+
+void Object::Affine::RotateToZ(float x) {
+  z_ = x;
+  mat_rot_z_.RotateZ(z_);
+}
+
+void Object::Affine::RotateOnX(float x) {
+  x_ += x;
+  mat_rot_x_.RotateX(x_);
+}
+void Object::Affine::RotateOnY(float x) {
+  y_ += x;
+  mat_rot_y_.RotateY(y_);
+}
+void Object::Affine::RotateOnZ(float x) {
+  z_ += x;
+  mat_rot_z_.RotateZ(z_);
+}
 
 void Object::Affine::RotMat() {
   mat_rot_ = mat_rot_x_ * mat_rot_y_ * mat_rot_z_;

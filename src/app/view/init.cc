@@ -51,6 +51,12 @@ void View::SetupConnections() {
 
   connect(pobj_v_wid_, &ObjectViewerWidget::MouseUpdateX, this,
           &View::OnTranslateOnX);
+
+  connect(pobj_v_wid_, &ObjectViewerWidget::MouseRotateY, this,
+          &View::OnRotateOnX);
+
+  connect(pobj_v_wid_, &ObjectViewerWidget::MouseRotateX, this,
+          &View::OnRotateOnY);
 }
 
 // void View::OnMouseUpdated() { OnActionTriggered(SceneAction::kRotateX, pos) }
@@ -81,17 +87,17 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
           case SceneAction::kRotateX:
             Lg::Log()->Trace("Model rotate X to: " + std::to_string(arg) +
                              "\n");
-            pcontroller_->RotateX(arg);
+            pcontroller_->RotateToX(arg);
             break;
           case SceneAction::kRotateY:
             Lg::Log()->Trace("Model rotate Y to: " + std::to_string(arg) +
                              "\n");
-            pcontroller_->RotateY(arg);
+            pcontroller_->RotateToY(arg);
             break;
           case SceneAction::kRotateZ:
             Lg::Log()->Trace("Model rotate Z to: " + std::to_string(arg) +
                              "\n");
-            pcontroller_->RotateZ(arg);
+            pcontroller_->RotateToZ(arg);
             break;
           /* Scale */
           case SceneAction::kScale:
