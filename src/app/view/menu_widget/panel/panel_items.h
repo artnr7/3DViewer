@@ -56,8 +56,9 @@ public:
   int GetCurrentValue() const;
 
   /* Value Management Mutators */
-  void SetCurrentValue(int value);
-  void SetRange(int min_value, int max_value);
+  void SetCurrentValue(float value);
+  void SetRange(float min_value, float max_value);
+  void SetStepSize(float step_size);
 
 signals:
   /* Signals */

@@ -74,8 +74,11 @@ void Model::TranslateOnZ(float x) {
   Lg::Log()->Info("Model::" + std::string(__func__));
 }
 
-void Model::ScaleObject() {
+void Model::ScaleObject(float x) {
   Lg::Log()->Info("Model::" + std::string(__func__));
+  obj_->a_.Scale(x);
+  obj_->a_.RTS();
+  obj_->a_.Multiply();
 }
 
 } // namespace s21

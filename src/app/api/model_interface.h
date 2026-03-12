@@ -24,7 +24,7 @@ public:
   virtual void TranslateOnY(float x) = 0;
   virtual void TranslateOnZ(float x) = 0;
 
-  virtual void ScaleObject() = 0;
+  virtual void ScaleObject(float) = 0;
 };
 
 } // namespace s21

@@ -25,8 +25,9 @@ public:
 
   /* Value Management Mutators */
   void SetCurrentValue(float value);
-  void SetMinValue(int value);
-  void SetMaxValue(int value);
+  void SetMinValue(float value);
+  void SetMaxValue(float value);
+  void SetStepSize(float step_size);
 
 signals:
   void CurrentValueChanged(float value);
@@ -59,11 +60,12 @@ private:
   /* Value Management Update */
   void UpdateValueField();
 
+public:
+  ValueControllerStyle style_;
+
 private:
   /* Fields */
   QSize widget_size_;
-
-  ValueControllerStyle style_;
 
   float current_value_;
   float min_value_;
@@ -80,6 +82,11 @@ private:
   QPushButton *left_button_;
   QPushButton *right_button_;
   QLineEdit *value_field_;
+
+  // sundaeka
+  // Может быть можно сделать геттер, хз
+  // public:
+  // ValueControllerStyle style_;
 };
 
 } // namespace s21

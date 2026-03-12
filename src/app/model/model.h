@@ -36,7 +36,7 @@ private:
   void TranslateOnY(float x) override;
   void TranslateOnZ(float x) override;
 
-  void ScaleObject() override;
+  void ScaleObject(float) override;
 };
 
 } // namespace s21

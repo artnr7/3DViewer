@@ -23,7 +23,7 @@ void Controller::TranslateOnY(float x) { model_->TranslateOnY(x); }
 void Controller::TranslateOnZ(float x) {}
 
 void Controller::RotateObject() {}
-void Controller::ScaleObject() {}
+void Controller::ScaleObject(float x) { model_->ScaleObject(x); }
 
 void Controller::SetVertexSize() {}
 void Controller::SetVertexStyle() {}

@@ -4,9 +4,11 @@
 #include <QWidget>
 #include <iostream>
 #include <string>
+#include <type_traits>
 
 #include "action_types.h"
 #include "menu_builder/builder_contexts.h"
+#include "panel/panel_items.h"
 // #include "model_types.h"
 
 namespace s21 {

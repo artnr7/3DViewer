@@ -44,18 +44,22 @@ private:
   // AFFINE ---------------------------------------------------→
   class Affine {
   public:
-    void TranslateX(float x);
-    void TranslateY(float y);
-    void TranslateZ(float z);
-
+    // void TranslateX(float x);
+    // void TranslateY(float y);
+    // void TranslateZ(float z);
+    
+    // Translate
     void TranslateToX(float);
     void TranslateToY(float);
     void TranslateToZ(float);
 
     void TranslateOnX(float);
     void TranslateOnY(float);
+    void TranslateOnZ(float);
 
-    void SetTranslate(vec4);
+    void Scale(float);
+
+    // void SetTranslate(vec4);
     void RTS();
 
     void Multiply();
@@ -71,7 +75,7 @@ private:
     mat4 rts_{};
 
   private:
-    void Translate(const uint8_t shift, float arg);
+    // void Translate(const uint8_t shift, float arg);
 
   public:
     Affine(Object &obj) : obj_(obj) {}

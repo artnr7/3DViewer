@@ -1,5 +1,6 @@
 #include "value_controller.h"
 
+#include "iostream"
 #include <QApplication>
 #include <QKeyEvent>
 #include <QMouseEvent>
@@ -16,6 +17,7 @@ ValueController::ValueController(int width, int height, QWidget *parent)
       step_size_(style_.default_step_size),
       step_speed_(style_.default_step_speed),
       is_dragging_(style_.default_dragging) {
+  // std::cout << "\n\n\n" << is_dragging_ << "\n\n\n\n";
   SetupUI();
   SetupConnections();
 
@@ -45,9 +47,11 @@ void ValueController::SetCurrentValue(float value) {
   }
 }
 
-void ValueController::SetMinValue(int value) { min_value_ = value; }
+void ValueController::SetMinValue(float value) { min_value_ = value; }
 
-void ValueController::SetMaxValue(int value) { max_value_ = value; }
+void ValueController::SetMaxValue(float value) { max_value_ = value; }
+
+void ValueController::SetStepSize(float step_size) { step_size_ = step_size; }
 // Value Management Mutators
 
 /* Setup */

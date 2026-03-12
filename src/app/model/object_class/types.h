@@ -61,25 +61,20 @@ struct mat4 {
 
   mat4() { SetIdentity(); }
 
-  void TranslateTo(vec4 v) {
-    data[0][3] = v.x;
-    data[1][3] = v.y;
-    data[2][3] = v.z;
-    // data[3][3] = v.w;
-  }
+  void TranslateToX(float x) { data[0][3] = x; }
+  void TranslateToY(float x) { data[1][3] = x; }
+  void TranslateToZ(float x) { data[2][3] = x; }
 
   void TranslateOn(vec4 v) {
     data[0][3] += v.x;
     data[1][3] += v.y;
     data[2][3] += v.z;
-    // data[3][3] += v.w;
   }
 
-  void ScaleTo(vec4 v) {
-    data[0][0] = v.x;
-    data[1][1] = v.y;
-    data[2][2] = v.z;
-    // data[3][3] = v.w;
+  void ScaleTo(float x) {
+    data[0][0] = x;
+    data[1][1] = x;
+    data[2][2] = x;
   }
 
   mat4 operator*(mat4 &m) {

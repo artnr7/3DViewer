@@ -5,10 +5,12 @@
 #include <QDir>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <qobject.h>
 #include <qsharedpointer.h>
 
 #include "buttons/exclusive_double_button.h"
 #include "buttons/independent_double_button.h"
+#include "iostream"
 
 namespace s21 {
 
@@ -22,6 +24,7 @@ PIBase::PIBase(const QString &name, Qt::Orientation orientation,
 }
 
 /* Setup */
+// sundaeka
 void PIBase::Initialize(int width, int height) {
   /* FOR DEBUG */
   int total_width = orientation_ == Qt::Horizontal ? 1.5 * width : width;
@@ -49,6 +52,7 @@ void PIBase::Initialize(int width, int height) {
   // FOR DEBUG
 
   QWidget *content = CreateContentWidget(width, content_height);
+
   QBoxLayout *inner_layout;
 
   if (orientation_ == Qt::Vertical) {
@@ -104,6 +108,16 @@ PIValueController::PIValueController(const QString &name, int width, int height,
                                      QWidget *parent)
     : PIBase(name, orientation, parent) {
   Initialize(width, height);
+  // sundaeka
+  // Может быть нужно передавать тип ползунка чтобы была возможность точечной
+  // настройки
+  // типо enum ValueControllerType
+  if (name == "value") {
+    auto &st = valcontroll_->style_;
+    SetCurrentValue(st.scale_cur_val);
+    SetRange(st.scale_min_val, st.scale_max_val);
+    SetStepSize(st.scale_step_size);
+  }
 }
 
 /* Value Management Accessors */
@@ -113,13 +127,18 @@ int PIValueController::GetCurrentValue() const {
 // Value Management Accessors
 
 /* Value Management Mutators */
-void PIValueController::SetCurrentValue(int value) {
+void PIValueController::SetCurrentValue(float value) {
   valcontroll_->SetCurrentValue(value);
 }
 
-void PIValueController::SetRange(int min_value, int max_value) {
+void PIValueController::SetRange(float min_value, float max_value) {
   valcontroll_->SetMinValue(min_value);
   valcontroll_->SetMaxValue(max_value);
+}
+
+// sundaeka
+void PIValueController::SetStepSize(float step_size) {
+  valcontroll_->SetStepSize(step_size);
 }
 // Value Management Mutators
 

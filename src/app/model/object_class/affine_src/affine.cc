@@ -1,36 +1,14 @@
 #include "object_class.h"
 
 namespace s21 {
-void Object::Affine::Translate(const uint8_t shift, float arg) {
-  Lg::Log()->Info("Object::Affine" + std::string(__func__));
-  // TODO(sundaeka): проверка на размера массива, должен быть минимум 3 и кратен
-  // 3
-  for (auto it = obj_.glvertices_.begin(); it != obj_.glvertices_.end();
-       it += 3) {
-    *(it + shift) += arg;
-  }
-}
+// To
+void Object::Affine::TranslateToX(float x) { mat_trans_.TranslateToX(x); }
 
-void Object::Affine::TranslateX(float x) {
-  Lg::Log()->Info("Object::Affine" + std::string(__func__));
-  Translate(0, x);
-}
+void Object::Affine::TranslateToY(float x) { mat_trans_.TranslateToY(x); }
 
-void Object::Affine::TranslateY(float y) { Translate(1, y); }
-void Object::Affine::TranslateZ(float z) { Translate(2, z); }
+void Object::Affine::TranslateToZ(float x) { mat_trans_.TranslateToZ(x); }
 
-void Object::Affine::TranslateToX(float x) {
-  mat_trans_.TranslateTo(vec4{x, 0.0f, 0.0f});
-}
-
-void Object::Affine::TranslateToY(float x) {
-  mat_trans_.TranslateTo(vec4{0.0f, x, 0.0f});
-}
-
-void Object::Affine::TranslateToZ(float x) {
-  mat_trans_.TranslateTo(vec4{0.0f, 0.0f, x});
-}
-
+// On
 void Object::Affine::TranslateOnX(float x) {
   mat_trans_.TranslateOn(vec4{x, 0.0f, 0.0f});
 }
@@ -38,6 +16,13 @@ void Object::Affine::TranslateOnX(float x) {
 void Object::Affine::TranslateOnY(float x) {
   mat_trans_.TranslateOn(vec4{0.0f, x, 0.0f});
 }
+
+void Object::Affine::TranslateOnZ(float x) {
+  mat_trans_.TranslateOn(vec4{0.0f, x, 0.0f});
+}
+
+// Scale
+void Object::Affine::Scale(float x) { mat_scale_.ScaleTo(x); }
 
 void Object::Affine::RotateX() {}
 

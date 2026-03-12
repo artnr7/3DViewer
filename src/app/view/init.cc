@@ -66,8 +66,6 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
           switch (action) {
           /* Translate */
           case SceneAction::kTranslateX:
-            // std::cout << "FLOAT\n";
-            // std::cout << "\n\n\n\n\n" << typeid(arg).name() << "\n\n\n\n";
             Lg::Log()->Trace("Model move X to: " + std::to_string(arg) + "\n");
             pcontroller_->TranslateToX(arg);
             break;
@@ -81,17 +79,21 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
             break;
           /* Rotate */
           case SceneAction::kRotateX:
-            std::cout << "Model rotate X to: " << arg << "\n";
+            Lg::Log()->Trace("Model rotate X to: " + std::to_string(arg) +
+                             "\n");
             break;
           case SceneAction::kRotateY:
-            std::cout << "Model rotate Y to: " << arg << "\n";
+            Lg::Log()->Trace("Model rotate Y to: " + std::to_string(arg) +
+                             "\n");
             break;
           case SceneAction::kRotateZ:
-            std::cout << "Model rotate Z to: " << arg << "\n";
+            Lg::Log()->Trace("Model rotate Z to: " + std::to_string(arg) +
+                             "\n");
             break;
           /* Scale */
           case SceneAction::kScale:
-            std::cout << "Model scale to: " << arg << "\n";
+            Lg::Log()->Trace("Model scale to: " + std::to_string(arg) + "\n");
+            pcontroller_->ScaleObject(arg);
             break;
           /* Vertexes */
           case SceneAction::kVertexSize:
@@ -119,8 +121,8 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
                       << ", " << arg.blue() << ")\n";
             break;
           case SceneAction::kBackgroundColor:
-            std::cout << "Background color to: (" << arg.red() << ", "
-                      << arg.green() << ", " << arg.blue() << ")\n";
+            // std::cout << "Background color to: (" << arg.red() << ", "
+            //           << arg.green() << ", " << arg.blue() << ")\n";
             pcontroller_->SetBackgroundColor(arg.red(), arg.green(),
                                              arg.blue());
             break;
@@ -164,10 +166,6 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
         } else if constexpr (std::is_same_v<T, RenderType>) {
           std::cout << GetEnumName<SceneAction::kRender>()
                     << " to: " << static_cast<int>(arg) << "\n";
-        } else if constexpr (std::is_same_v<T, int>) {
-          std::cout << "INT\n";
-        }
-        {
         }
       },
       data);

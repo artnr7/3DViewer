@@ -36,7 +36,7 @@ private:
   void TranslateOnZ(float x) override;
 
   void RotateObject() override;
-  void ScaleObject() override;
+  void ScaleObject(float) override;
 
   void SetVertexSize() override;
   void SetVertexStyle() override;

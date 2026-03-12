@@ -53,7 +53,7 @@ public:
   virtual void TranslateOnZ(float x) = 0;
 
   virtual void RotateObject() = 0;
-  virtual void ScaleObject() = 0;
+  virtual void ScaleObject(float) = 0;
 
   virtual void SetVertexSize() = 0;
   virtual void SetVertexStyle() = 0;
