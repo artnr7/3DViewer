@@ -12,7 +12,7 @@
 namespace s21 {
 
 class Lg {
-
+public:
   enum class LogLevel : uint8_t {
     TRACE, // signals, events
     DEBUG,

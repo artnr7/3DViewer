@@ -21,7 +21,7 @@ struct vec4 {
   CoordT x = 0.0f, y = 0.0f, z = 0.0f, w = 1.0f;
   vec4() = default;
   vec4(CoordT x, CoordT y, CoordT z, CoordT w = 1.0f)
-      : x(x), y(y), z(z), w(w) {};
+      : x(x), y(y), z(z), w(w) {}
 
   void SetZero() {
     x = 0.0f;
@@ -59,7 +59,7 @@ struct vec4 {
 struct mat4 {
   std::array<std::array<CoordT, 4>, 4> data{};
 
-  mat4() { SetIdentity(); };
+  mat4() { SetIdentity(); }
 
   void TranslateTo(vec4 v) {
     data[0][3] = v.x;
@@ -112,18 +112,6 @@ private:
   }
 
   void Multiply(mat4 &m, vec4 &v, vec4 &res) {
-    // for (int i = 0; i < 4; ++i) {
-    //   for (int j = 0; j < 4; ++j) {
-    //     for (int k = 0; k < 4; ++k) {
-    //       try {
-    //         res[i] += m[i][k] * v[k];
-    //       } catch (std::invalid_argument &e) {
-    //         std::cerr << "Index is out of range: " << e.what() << std::endl;
-    //       }
-    //     }
-    //   }
-    // }
-
     for (int i = 0; i < 4; ++i) {
       for (int j = 0; j < 4; ++j) {
         res[i] += m[i][j] * v[j];
@@ -132,11 +120,6 @@ private:
   }
 
 public:
-  // void SetCol(uint8_t j, CoordT n) {
-  //   for (int i = 0; i < 4; ++i) {
-  //     data[i][j] = n;
-  //   }
-  // }
   void SetIdentity() {
     for (uint8_t i = 0; i < 4; ++i) {
       data[i][i] = 1.0f;

@@ -3,14 +3,14 @@
 #include <QApplication>
 #include <QKeyEvent>
 #include <QMouseEvent>
+#include <cmath>
+#include <qlogging.h>
 
 namespace s21 {
 
-ValueController::ValueController(int width, int height, QWidget* parent)
-    : QWidget(parent),
-      widget_size_(width, height),
-      style_{},
-      current_value_(style_.default_min_value),
+ValueController::ValueController(int width, int height, QWidget *parent)
+    : QWidget(parent), widget_size_(width, height), style_{},
+      current_value_(style_.default_center_value),
       min_value_(style_.default_min_value),
       max_value_(style_.default_max_value),
       step_size_(style_.default_step_size),
@@ -18,6 +18,12 @@ ValueController::ValueController(int width, int height, QWidget* parent)
       is_dragging_(style_.default_dragging) {
   SetupUI();
   SetupConnections();
+
+  // sundaeka
+  // надо как-то округлять величины для вывода на экран
+  value_field_->setText(QString::number(current_value_));
+  // UpdateValueField(); // (sundaeka -> majorswe) Временно, убери, нужно
+  // обновлять value_field_ сразу
 }
 
 /* Value & Size Management Accessors*/
@@ -31,7 +37,7 @@ QSize ValueController::GetSize() const { return widget_size_; }
 // Value & Size Management Accessors
 
 /* Value Management Mutators */
-void ValueController::SetCurrentValue(int value) {
+void ValueController::SetCurrentValue(float value) {
   if (current_value_ != value) {
     current_value_ = qBound(min_value_, value, max_value_);
     UpdateValueField();
@@ -49,7 +55,7 @@ void ValueController::SetupUI() {
   setFixedSize(widget_size_);
   setFocusPolicy(Qt::StrongFocus);
 
-  QWidget* container = new QWidget(this);
+  QWidget *container = new QWidget(this);
   container->setFixedSize(widget_size_);
   container->setStyleSheet(CreateContainerStyle());
 
@@ -163,7 +169,7 @@ QString ValueController::CreateValueFieldStyle(int font_size) const {
 // Style Management
 
 /* Event Handlers */
-bool ValueController::eventFilter(QObject* obj, QEvent* event) {
+bool ValueController::eventFilter(QObject *obj, QEvent *event) {
   bool result{false};
   if (obj == value_field_) {
     if (event->type() == QEvent::MouseButtonDblClick) {
@@ -186,8 +192,8 @@ bool ValueController::eventFilter(QObject* obj, QEvent* event) {
 // Event Handlers
 
 /* Internal Helpers */
-bool ValueController::MouseButtonDblClickEvent(QEvent* event) {
-  QMouseEvent* mouse_event = static_cast<QMouseEvent*>(event);
+bool ValueController::MouseButtonDblClickEvent(QEvent *event) {
+  QMouseEvent *mouse_event = static_cast<QMouseEvent *>(event);
   bool result{false};
   if (mouse_event->button() == Qt::LeftButton) {
     value_field_->setReadOnly(false);
@@ -199,8 +205,8 @@ bool ValueController::MouseButtonDblClickEvent(QEvent* event) {
   return result;
 }
 
-bool ValueController::MouseButtonPressEvent(QEvent* event) {
-  QMouseEvent* mouse_event = static_cast<QMouseEvent*>(event);
+bool ValueController::MouseButtonPressEvent(QEvent *event) {
+  QMouseEvent *mouse_event = static_cast<QMouseEvent *>(event);
   bool result{false};
   if (mouse_event->button() == Qt::LeftButton && value_field_->isReadOnly()) {
     is_dragging_ = true;
@@ -213,13 +219,14 @@ bool ValueController::MouseButtonPressEvent(QEvent* event) {
   return result;
 }
 
-bool ValueController::MouseMoveEvent(QEvent* event) {
+bool ValueController::MouseMoveEvent(QEvent *event) {
   if (is_dragging_) {
-    QMouseEvent* mouse_event = static_cast<QMouseEvent*>(event);
+    QMouseEvent *mouse_event = static_cast<QMouseEvent *>(event);
     QPoint mouse_pos = mouse_event->globalPosition().toPoint();
 
+    // sundaeka
     int delta_x = mouse_pos.x() - drag_start_pos_.x();
-    int new_value = drag_start_value_ + (delta_x / step_speed_) * step_size_;
+    float new_value = drag_start_value_ + (delta_x / step_speed_) * step_size_;
 
     SetCurrentValue(new_value);
   }
@@ -232,8 +239,8 @@ bool ValueController::MouseButtonReleaseEvent() {
   return true;
 }
 
-bool ValueController::KeyPressEvent(QEvent* event) {
-  QKeyEvent* key_event = static_cast<QKeyEvent*>(event);
+bool ValueController::KeyPressEvent(QEvent *event) {
+  QKeyEvent *key_event = static_cast<QKeyEvent *>(event);
   bool result = false;
   if (key_event->key() == Qt::Key_Escape) {
     value_field_->setReadOnly(true);
@@ -279,4 +286,4 @@ void ValueController::UpdateValueField() {
 }
 // Value Management Update
 
-}  // namespace s21
+} // namespace s21

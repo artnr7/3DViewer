@@ -13,9 +13,9 @@ namespace s21 {
 class ValueController : public QWidget {
   Q_OBJECT
 
- public:
+public:
   explicit ValueController(int width = 100, int height = 40,
-                           QWidget* parent = nullptr);
+                           QWidget *parent = nullptr);
 
   /* Value & Size Management Accessors */
   int GetCurrentValue() const;
@@ -24,14 +24,14 @@ class ValueController : public QWidget {
   QSize GetSize() const;
 
   /* Value Management Mutators */
-  void SetCurrentValue(int value);
+  void SetCurrentValue(float value);
   void SetMinValue(int value);
   void SetMaxValue(int value);
 
- signals:
-  void CurrentValueChanged(int value);
+signals:
+  void CurrentValueChanged(float value);
 
- private:
+private:
   /* Setup */
   void SetupUI();
   void SetupConnections();
@@ -42,45 +42,46 @@ class ValueController : public QWidget {
                             int radius_bl, int radius_br) const;
   QString CreateValueFieldStyle(int font_size) const;
 
- protected:
+protected:
   /* Event Handlers */
-  bool eventFilter(QObject* obj, QEvent* event) override;
+  bool eventFilter(QObject *obj, QEvent *event) override;
 
- private:
+private:
   /* Internal Helpers */
-  bool MouseButtonDblClickEvent(QEvent* event);
-  bool MouseButtonPressEvent(QEvent* event);
-  bool MouseMoveEvent(QEvent* event);
+  bool MouseButtonDblClickEvent(QEvent *event);
+  bool MouseButtonPressEvent(QEvent *event);
+  bool MouseMoveEvent(QEvent *event);
   bool MouseButtonReleaseEvent();
-  bool KeyPressEvent(QEvent* event);
+  bool KeyPressEvent(QEvent *event);
   bool FocusOutEvent();
   void EditFinished();
 
   /* Value Management Update */
   void UpdateValueField();
 
- private:
+private:
   /* Fields */
   QSize widget_size_;
 
   ValueControllerStyle style_;
 
-  int current_value_;
-  int min_value_;
-  int max_value_;
-  int step_size_;
-  int step_speed_;
+  float current_value_;
+  float min_value_;
+  float max_value_;
+  float step_size_;
+  float step_speed_;
 
   bool is_dragging_;
   QPoint drag_start_pos_;
-  int drag_start_value_;
+  // sundaeka
+  float drag_start_value_;
 
-  QHBoxLayout* main_layout_;
-  QPushButton* left_button_;
-  QPushButton* right_button_;
-  QLineEdit* value_field_;
+  QHBoxLayout *main_layout_;
+  QPushButton *left_button_;
+  QPushButton *right_button_;
+  QLineEdit *value_field_;
 };
 
-}  // namespace s21
+} // namespace s21
 
-#endif  // VALUE_CONTROLLER_H_
+#endif // VALUE_CONTROLLER_H_

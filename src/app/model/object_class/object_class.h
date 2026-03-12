@@ -23,6 +23,7 @@ private:
   // Variables ----------→
   Vertices vertices_;
   Faces faces_;
+  bool init_f_ = true;
 
   // GL
   std::vector<float> glvertices_;
@@ -33,7 +34,6 @@ private:
 
   long double normalization_scale_;
   uint8_t dim_qty_ = THREE_DIMENSIONAL;
-  size_t GetVerticesSize();
 
   // Object methods -------------→
   void ObjectCentering();
@@ -47,6 +47,10 @@ private:
     void TranslateX(float x);
     void TranslateY(float y);
     void TranslateZ(float z);
+
+    void TranslateToX(float);
+    void TranslateToY(float);
+    void TranslateToZ(float);
 
     void TranslateOnX(float);
     void TranslateOnY(float);
@@ -149,8 +153,6 @@ public:
   void PrintEBO();
   void PrintGLVertices();
 
-  void FillGLverticesOnce();
-  void FillGLvertices();
   void MakeEBO();
 };
 } // namespace s21

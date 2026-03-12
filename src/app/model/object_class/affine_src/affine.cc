@@ -19,6 +19,18 @@ void Object::Affine::TranslateX(float x) {
 void Object::Affine::TranslateY(float y) { Translate(1, y); }
 void Object::Affine::TranslateZ(float z) { Translate(2, z); }
 
+void Object::Affine::TranslateToX(float x) {
+  mat_trans_.TranslateTo(vec4{x, 0.0f, 0.0f});
+}
+
+void Object::Affine::TranslateToY(float x) {
+  mat_trans_.TranslateTo(vec4{0.0f, x, 0.0f});
+}
+
+void Object::Affine::TranslateToZ(float x) {
+  mat_trans_.TranslateTo(vec4{0.0f, 0.0f, x});
+}
+
 void Object::Affine::TranslateOnX(float x) {
   mat_trans_.TranslateOn(vec4{x, 0.0f, 0.0f});
 }
@@ -37,18 +49,27 @@ void Object::Affine::RTS() {
 }
 
 void Object::Affine::Multiply() {
+  Lg::Log()->Trace("Object::Affine::" + std::string(__func__));
   uint32_t i = 0;
   for (auto it = obj_.vertices_.maps.begin(); it != obj_.vertices_.maps.end();
        ++it) {
     // it->Print();
     vec4 v = rts_ * *it;
     // v.Print();
-    obj_.glvertices_[i] = v.x;
-    obj_.glvertices_[i + 1] = v.y;
-    obj_.glvertices_[i + 2] = v.z;
-    i += 3;
+
+    if (obj_.init_f_) {
+      obj_.glvertices_.push_back(v.x);
+      obj_.glvertices_.push_back(v.y);
+      obj_.glvertices_.push_back(v.z);
+    } else {
+      obj_.glvertices_[i] = v.x;
+      obj_.glvertices_[i + 1] = v.y;
+      obj_.glvertices_[i + 2] = v.z;
+      i += 3;
+    }
   }
   // obj_.PrintGLVertices();
+  obj_.init_f_ = false;
 }
 
 } // namespace s21

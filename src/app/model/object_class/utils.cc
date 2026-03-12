@@ -6,8 +6,6 @@
 
 namespace s21 {
 
-size_t Object::GetVerticesSize() { return vertices_.maps.size(); }
-
 #define INDEX_SETW_SIZE 5
 #define VAR_SETW_SIZE 5
 
@@ -30,7 +28,7 @@ void Object::PrintVertMinMax() {
   auto print = [](const std::string &s, CoordT &mnx) {
     std::cout << s << mnx << std::endl;
   };
-  std::cout << std::endl << "MIN MAX =======" << std::endl;
+  std::cout << std::endl << "MIN MAX\n---------------\n" << std::endl;
 
   print("min_x = ", vertices_.mnx.min_x);
   print("max_x = ", vertices_.mnx.max_x);
@@ -66,34 +64,6 @@ void Object::PrintEBO() {
 
   for (auto el : ebo_) {
     std::cout << el << " ";
-  }
-}
-
-void Object::FillGLverticesOnce() {
-  Lg::Log()->Info("Object::" + std::string(__func__));
-
-  for (auto it = faces_.begin(); it != faces_.end(); ++it) {
-
-    for (auto m_it = it->begin(); m_it != it->end(); ++m_it) {
-      // TODO: надо проверять что мы не выходим за границы массива
-      // индекс, который лежит в faces может не ссылаться на vertice, который
-      // вообще сущестукет
-      auto el = vertices_.maps[m_it->vert_i - 1];
-      // std::cout << "i = " << points_.vertices.vertice_maps[m_it->vert_i -
-      // 1].i
-      //           << std::endl;
-      glvertices_.push_back(el.x);
-      glvertices_.push_back(el.y);
-      glvertices_.push_back(el.z);
-    }
-  }
-}
-void Object::FillGLvertices() {
-
-  for (auto it = vertices_.maps.begin(); it != vertices_.maps.end(); ++it) {
-    glvertices_.push_back(it->x);
-    glvertices_.push_back(it->y);
-    glvertices_.push_back(it->z);
   }
 }
 

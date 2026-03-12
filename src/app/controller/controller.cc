@@ -1,5 +1,6 @@
-#include "../utils/logger.h"
 #include "controller.h"
+#include "../utils/logger.h"
+#include "iostream"
 #include <string>
 
 namespace s21 {
@@ -10,9 +11,12 @@ void Controller::BuildObject(const std::string &filename) {
 }
 
 // SETTERS -------------------------------
-void Controller::TranslateToX(float x) {}
-void Controller::TranslateToY(float x) {}
-void Controller::TranslateToZ(float x) {}
+void Controller::TranslateToX(float x) {
+  // std::cout << "\n\n\n\n\n" << x << "\n\n\n\n";
+  model_->TranslateToX(x);
+}
+void Controller::TranslateToY(float x) { model_->TranslateToY(x); }
+void Controller::TranslateToZ(float x) { model_->TranslateToZ(x); }
 
 void Controller::TranslateOnX(float x) { model_->TranslateOnX(x); }
 void Controller::TranslateOnY(float x) { model_->TranslateOnY(x); }

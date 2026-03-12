@@ -1,9 +1,9 @@
 #ifndef VALUE_CONTROLLER_STYLE_H_
 #define VALUE_CONTROLLER_STYLE_H_
 
-#include <QString>
-#include <QMargins>
 #include <QCursor>
+#include <QMargins>
+#include <QString>
 
 namespace s21 {
 
@@ -12,11 +12,19 @@ struct ValueControllerStyle {
   const int zero_spacing = 0;
 
   // Values
-  int default_min_value = 0;
-  int default_max_value = 100;
-  int default_step_size = 1;
-  int default_step_speed = 15;
-  int default_dragging = false;
+  // int default_min_value = -100;
+  // int default_max_value = 100;
+  // int default_center_value = 0;
+  // int default_step_size = 1;
+  // int default_step_speed = 15;
+  // int default_dragging = false;
+
+  float default_min_value = -3.0f;
+  float default_max_value = 3.0f;
+  float default_center_value = 0.0f;
+  float default_step_size = 0.001f;
+  float default_step_speed = 1.0f;
+  float default_dragging = false;
 
   // Colors
   QString container_background = "#545454";
@@ -27,10 +35,10 @@ struct ValueControllerStyle {
   QString font_weight = "bold";
   QString element_border = "none";
 
-  double button_width_ratio = 0.25;        // 15% от ширины виджета
-  double button_font_size_ratio = 0.6;     // 60% от высоты виджета
-  double value_font_size_ratio = 0.6;      // 60% от высоты виджета
-  int container_border_radius = 5;         // px
+  double button_width_ratio = 0.25;    // 15% от ширины виджета
+  double button_font_size_ratio = 0.6; // 60% от высоты виджета
+  double value_font_size_ratio = 0.6;  // 60% от высоты виджета
+  int container_border_radius = 5;     // px
 
   QString left_arrow_symbol = "❮";
   QString right_arrow_symbol = "❯";
@@ -42,4 +50,4 @@ struct ValueControllerStyle {
 
 } // namespace s21
 
-#endif  // VALUE_CONTROLLER_STYLE_H_
+#endif // VALUE_CONTROLLER_STYLE_H_

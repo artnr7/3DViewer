@@ -36,14 +36,24 @@ std::vector<uint> &Model::GetEBO() {
 
   return obj_->GetEBO();
 }
+
 void Model::TranslateToX(float x) {
-  Lg::Log()->Info("Model::" + std::string(__func__));
+  Lg::Log()->Trace("Model::" + std::string(__func__));
+  obj_->a_.TranslateToX(x);
+  obj_->a_.RTS();
+  obj_->a_.Multiply();
 }
 void Model::TranslateToY(float x) {
-  Lg::Log()->Info("Model::" + std::string(__func__));
+  Lg::Log()->Trace("Model::" + std::string(__func__));
+  obj_->a_.TranslateToY(x);
+  obj_->a_.RTS();
+  obj_->a_.Multiply();
 }
 void Model::TranslateToZ(float x) {
-  Lg::Log()->Info("Model::" + std::string(__func__));
+  Lg::Log()->Trace("Model::" + std::string(__func__));
+  obj_->a_.TranslateToZ(x);
+  obj_->a_.RTS();
+  obj_->a_.Multiply();
 }
 
 void Model::TranslateOnX(float x) {
@@ -55,7 +65,6 @@ void Model::TranslateOnX(float x) {
 
 void Model::TranslateOnY(float x) {
   Lg::Log()->Trace("Model::" + std::string(__func__));
-  // obj_->a_.TranslateY(x);
   obj_->a_.TranslateOnY(x);
   obj_->a_.RTS();
   obj_->a_.Multiply();
@@ -68,4 +77,5 @@ void Model::TranslateOnZ(float x) {
 void Model::ScaleObject() {
   Lg::Log()->Info("Model::" + std::string(__func__));
 }
+
 } // namespace s21

@@ -20,7 +20,7 @@ ObjectViewerWidget::ObjectViewerWidget(int x_offset, int y_offset, int width,
   installEventFilter(this);
 
   front_update_timer_ = new QTimer(this);
-  front_update_timer_->start(100);
+  front_update_timer_->start(16);
 
   // GUI
   setGeometry(x_offset, y_offset, width, height);

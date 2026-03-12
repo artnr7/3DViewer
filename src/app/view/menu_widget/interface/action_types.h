@@ -43,8 +43,9 @@ enum class EdgeStyle { kLine, kDashLine };
 enum class ProjectionType { kPerspective, kOrthographic };
 enum class RenderType { kGif, kImage };
 
-using ActionData = std::variant<int, QString, QColor, VertexStyle, EdgeStyle, ProjectionType, RenderType>;
+using ActionData = std::variant<float, QString, QColor, VertexStyle, EdgeStyle,
+                                ProjectionType, RenderType>;
 
-}  // namespace s21
+} // namespace s21
 
-#endif  // ACTION_TYPES_H_
+#endif // ACTION_TYPES_H_

@@ -56,23 +56,28 @@ void View::SetupConnections() {
 // void View::OnMouseUpdated() { OnActionTriggered(SceneAction::kRotateX, pos) }
 
 void View::OnActionTriggered(SceneAction action, ActionData data) {
-  // Lg::Log()->Info("View::"+std::string(__func__));
+  Lg::Log()->Trace("View::" + std::string(__func__));
 
   std::visit(
       [this, action](auto &&arg) {
         using T = std::decay_t<decltype(arg)>;
 
-        if constexpr (std::is_same_v<T, int>) {
+        if constexpr (std::is_same_v<T, float>) {
           switch (action) {
           /* Translate */
           case SceneAction::kTranslateX:
-            std::cout << "Model move X to: " << arg << "\n";
+            // std::cout << "FLOAT\n";
+            // std::cout << "\n\n\n\n\n" << typeid(arg).name() << "\n\n\n\n";
+            Lg::Log()->Trace("Model move X to: " + std::to_string(arg) + "\n");
+            pcontroller_->TranslateToX(arg);
             break;
           case SceneAction::kTranslateY:
-            std::cout << "Model move Y to: " << arg << "\n";
+            Lg::Log()->Trace("Model move Y to: " + std::to_string(arg) + "\n");
+            pcontroller_->TranslateToY(arg);
             break;
           case SceneAction::kTranslateZ:
-            std::cout << "Model move Z to: " << arg << "\n";
+            Lg::Log()->Trace("Model move Z to: " + std::to_string(arg) + "\n");
+            pcontroller_->TranslateToZ(arg);
             break;
           /* Rotate */
           case SceneAction::kRotateX:
@@ -159,6 +164,10 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
         } else if constexpr (std::is_same_v<T, RenderType>) {
           std::cout << GetEnumName<SceneAction::kRender>()
                     << " to: " << static_cast<int>(arg) << "\n";
+        } else if constexpr (std::is_same_v<T, int>) {
+          std::cout << "INT\n";
+        }
+        {
         }
       },
       data);

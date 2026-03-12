@@ -13,8 +13,8 @@
 namespace s21 {
 
 //** PI Base **//
-PIBase::PIBase(const QString& name, Qt::Orientation orientation,
-               QWidget* parent)
+PIBase::PIBase(const QString &name, Qt::Orientation orientation,
+               QWidget *parent)
     : QWidget(parent), orientation_(orientation), style_{} {
   if (!name.isEmpty()) {
     name_label_ = new QLabel(name, this);
@@ -40,7 +40,7 @@ void PIBase::Initialize(int width, int height) {
     }
   }
 
-  QWidget* container = new QWidget(this);
+  QWidget *container = new QWidget(this);
   container->setFixedSize(total_width, height);
   container->setStyleSheet(R"(
       border: 1px solid white;
@@ -48,8 +48,8 @@ void PIBase::Initialize(int width, int height) {
     )");
   // FOR DEBUG
 
-  QWidget* content = CreateContentWidget(width, content_height);
-  QBoxLayout* inner_layout;
+  QWidget *content = CreateContentWidget(width, content_height);
+  QBoxLayout *inner_layout;
 
   if (orientation_ == Qt::Vertical) {
     inner_layout = new QVBoxLayout(container);
@@ -70,7 +70,7 @@ void PIBase::Initialize(int width, int height) {
   inner_layout->setContentsMargins(style_.zero_margins);
   inner_layout->setSpacing(style_.zero_spacing);
 
-  QVBoxLayout* main_layout = new QVBoxLayout(this);
+  QVBoxLayout *main_layout = new QVBoxLayout(this);
   main_layout->setContentsMargins(style_.zero_margins);
   main_layout->addWidget(container);
 
@@ -99,9 +99,9 @@ Qt::Orientation PIBase::GetOrientation() { return orientation_; }
 //// PIBase
 
 /* PIValueController */
-PIValueController::PIValueController(const QString& name, int width, int height,
+PIValueController::PIValueController(const QString &name, int width, int height,
                                      Qt::Orientation orientation,
-                                     QWidget* parent)
+                                     QWidget *parent)
     : PIBase(name, orientation, parent) {
   Initialize(width, height);
 }
@@ -124,7 +124,7 @@ void PIValueController::SetRange(int min_value, int max_value) {
 // Value Management Mutators
 
 /* Setup */
-QWidget* PIValueController::CreateContentWidget(int width, int height) {
+QWidget *PIValueController::CreateContentWidget(int width, int height) {
   valcontroll_ = new ValueController(width, height);
   return valcontroll_;
 }
@@ -137,8 +137,8 @@ void PIValueController::SetupContentConnections() {
 //// PIValueController
 
 /* PIComboBox */
-PIComboBox::PIComboBox(const QString& name, int width, int height,
-                       Qt::Orientation orientation, QWidget* parent)
+PIComboBox::PIComboBox(const QString &name, int width, int height,
+                       Qt::Orientation orientation, QWidget *parent)
     : PIBase(name, orientation, parent) {
   Initialize(width, height);
 }
@@ -149,18 +149,18 @@ void PIComboBox::AddItems(
   combo_box_->AddItems(items);
 }
 
-void PIComboBox::AddItem(const QString& icon_path, int value) {
+void PIComboBox::AddItem(const QString &icon_path, int value) {
   combo_box_->AddItem(icon_path, value);
 }
 
-void PIComboBox::SetArrows(const QString& up_icon_path,
-                           const QString& down_icon_path) {
+void PIComboBox::SetArrows(const QString &up_icon_path,
+                           const QString &down_icon_path) {
   combo_box_->SetArrows(up_icon_path, down_icon_path);
 }
 // Value Management Mutators
 
 /* Setup */
-QWidget* PIComboBox::CreateContentWidget(int width, int height) {
+QWidget *PIComboBox::CreateContentWidget(int width, int height) {
   combo_box_ = new CustomComboBox(width, height, this);
   return combo_box_;
 }
@@ -173,14 +173,14 @@ void PIComboBox::SetupContentConnections() {
 //// PIComboBox
 
 /* PIColorPicker */
-PIColorPicker::PIColorPicker(const QString& name, int width, int height,
-                             Qt::Orientation orientation, QWidget* parent)
+PIColorPicker::PIColorPicker(const QString &name, int width, int height,
+                             Qt::Orientation orientation, QWidget *parent)
     : PIBase(name, orientation, parent) {
   Initialize(width, height);
 }
 
 /* Setup */
-QWidget* PIColorPicker::CreateContentWidget(int width, int height) {
+QWidget *PIColorPicker::CreateContentWidget(int width, int height) {
   color_picker_ = new ColorPicker(width, height, this);
   return color_picker_;
 }
@@ -193,19 +193,17 @@ void PIColorPicker::SetupContentConnections() {
 //// PIColorPicker
 
 /* PIDoubleButton */
-PIDoubleButton::PIDoubleButton(const QString& name, int width, int height,
-                               const QString& left_text,
-                               const QString& right_text, bool is_exclusive,
-                               QWidget* parent)
-    : PIBase(name, Qt::Vertical, parent),
-      is_exclusive_(is_exclusive),
-      left_text_(left_text),
-      right_text_(right_text) {
+PIDoubleButton::PIDoubleButton(const QString &name, int width, int height,
+                               const QString &left_text,
+                               const QString &right_text, bool is_exclusive,
+                               QWidget *parent)
+    : PIBase(name, Qt::Vertical, parent), is_exclusive_(is_exclusive),
+      left_text_(left_text), right_text_(right_text) {
   Initialize(width, height);
 }
 
 /* Setup */
-QWidget* PIDoubleButton::CreateContentWidget(int width, int height) {
+QWidget *PIDoubleButton::CreateContentWidget(int width, int height) {
   if (is_exclusive_) {
     double_button_ =
         new ExclusiveDoubleButton(left_text_, right_text_, width, height, this);
@@ -219,11 +217,15 @@ QWidget* PIDoubleButton::CreateContentWidget(int width, int height) {
 
 void PIDoubleButton::SetupContentConnections() {
   if (is_exclusive_) {
-    auto* exclusive_button = qobject_cast<ExclusiveDoubleButton*>(double_button_);
-    connect(exclusive_button, &ExclusiveDoubleButton::ButtonToggled, this, &PIDoubleButton::ButtonToggled);
+    auto *exclusive_button =
+        qobject_cast<ExclusiveDoubleButton *>(double_button_);
+    connect(exclusive_button, &ExclusiveDoubleButton::ButtonToggled, this,
+            &PIDoubleButton::ButtonToggled);
   } else {
-    auto* independent_button = qobject_cast<IndependentDoubleButton*>(double_button_);
-    connect(independent_button, &IndependentDoubleButton::ButtonClicked, this, &PIDoubleButton::ButtonClicked);
+    auto *independent_button =
+        qobject_cast<IndependentDoubleButton *>(double_button_);
+    connect(independent_button, &IndependentDoubleButton::ButtonClicked, this,
+            &PIDoubleButton::ButtonClicked);
   }
 }
 // Setup
@@ -231,17 +233,16 @@ void PIDoubleButton::SetupContentConnections() {
 //// PIDoubleButton
 
 /* PIFileManagement */
-PIFileManagement::PIFileManagement(const QString& name, int width, int height,
-                                   const QString& button_text,
-                                   const QString& label_text, QWidget* parent)
-    : PIBase("", Qt::Vertical, parent),
-      button_text_(button_text),
+PIFileManagement::PIFileManagement(const QString &name, int width, int height,
+                                   const QString &button_text,
+                                   const QString &label_text, QWidget *parent)
+    : PIBase("", Qt::Vertical, parent), button_text_(button_text),
       label_text_(label_text) {
   Initialize(width, height);
 }
 
 /* Setup */
-QWidget* PIFileManagement::CreateContentWidget(int width, int height) {
+QWidget *PIFileManagement::CreateContentWidget(int width, int height) {
   file_panel_ =
       new FileDialogPanel(width, height, button_text_, label_text_, this);
 
@@ -255,4 +256,4 @@ void PIFileManagement::SetupContentConnections() {
 // Setup
 //// PIFileManagement
 
-}  // namespace s21
+} // namespace s21
