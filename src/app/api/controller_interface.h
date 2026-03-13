@@ -32,10 +32,10 @@ public:
   };
 
   struct CModelData {
-    int vertex_size;
+    float vertex_size;
     int vertex_style;
     RGBColor vertex_color;
-    int edge_thickness;
+    float edge_thickness;
     int edge_style;
     RGBColor edge_color;
     RGBColor background_color;
@@ -62,12 +62,13 @@ public:
 
   virtual void ScaleObject(float) = 0;
 
-  virtual void SetVertexSize() = 0;
+  virtual void SetVertexSize(float) = 0;
   virtual void SetVertexStyle() = 0;
   virtual void SetVertexColor() = 0;
-  virtual void SetVertexThickness() = 0;
+  
+  virtual void SetEdgeThickness(float) = 0;
   virtual void SetEdgeStyle() = 0;
-  virtual void SetEdgeColor() = 0;
+  virtual void SetEdgeColor(int r, int g, int b) = 0;
   virtual void SetBackgroundColor(int r, int g, int b) = 0;
 
   // GETTERS -------------------------------

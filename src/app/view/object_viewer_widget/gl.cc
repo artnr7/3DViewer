@@ -11,7 +11,8 @@ void s21::ObjectViewerWidget::initializeGL() {
   initializeOpenGLFunctions();
 
   Lg::Log()->Info("glClearColor");
-  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+  glClearColor(bckg_clr_.redF(), bckg_clr_.greenF(), bckg_clr_.blueF(),
+               bckg_clr_.alphaF());
   glEnable(GL_DEPTH_TEST);
   // установить цвет фона, который будет
   // храниться в GL_COLOR_BUFFER_BIT

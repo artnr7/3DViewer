@@ -17,8 +17,10 @@ void ObjectViewerWidget::OnFrontUpdateTimer() {
 
   if (file_uploaded_) {
     emit ActionGetGLVertices();
+    emit EdgeColorUpdate();
+    emit LineWidthUpdate();
+    emit VerticesSizeUpdate();
   }
 }
-
 
 } // namespace s21

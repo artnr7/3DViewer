@@ -1,6 +1,7 @@
 #include "object_viewer_widget.h"
 #include <GL/gl.h>
 #include <iostream>
+#include <qlogging.h>
 
 namespace s21 {
 void ObjectViewerWidget::ObjectInit() {
@@ -31,8 +32,6 @@ void ObjectViewerWidget::SetEBO(std::vector<uint> &vert_indx) {
   }
 
   ebo_qty_ = vert_indx.size();
-  verts_point_sz_ = 4.0f;
-  line_w_ = 0.5f;
 
   makeCurrent();
   m_ebo_->bind();
@@ -42,9 +41,45 @@ void ObjectViewerWidget::SetEBO(std::vector<uint> &vert_indx) {
 }
 
 void ObjectViewerWidget::SetBackgroundColor(int r, int g, int b) {
-  // Lg::Log()->Info("ObjectViewerWidget::" + std::string(__func__));
+  Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
+
+  bckg_clr_.setRgb(r, g, b);
+
   makeCurrent();
-  glClearColor(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
+  glClearColor(bckg_clr_.redF(), bckg_clr_.greenF(), bckg_clr_.blueF(),
+               bckg_clr_.alphaF());
+  doneCurrent();
+}
+
+void ObjectViewerWidget::SetEdgeColor(int r, int g, int b) {
+  Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
+
+  uColor_.setRgb(r, g, b);
+
+  makeCurrent();
+  m_shader_program_->bind();
+  m_shader_program_->setUniformValue(
+      "uColor", QVector4D{uColor_.redF(), uColor_.greenF(), uColor_.blueF(),
+                          uColor_.alphaF()});
+
+  m_shader_program_->release();
+  doneCurrent();
+}
+
+void ObjectViewerWidget::SetVerticesSize(float x) {
+  Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
+  verts_point_sz_ = x;
+
+  makeCurrent();
+  glPointSize(verts_point_sz_);
+  doneCurrent();
+}
+void ObjectViewerWidget::SetLinesWidth(float x) {
+  Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
+  line_w_ = x;
+
+  makeCurrent();
+  glLineWidth(line_w_);
   doneCurrent();
 }
 

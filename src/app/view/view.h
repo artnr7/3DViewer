@@ -23,7 +23,11 @@ private slots:
   void OnActionTriggered(SceneAction action, ActionData data);
   void OnGetGLVertices();
   void OnMenuWidgetTimerUpdated();
-  void OnObjectViewerBackgroundUpdated();
+  void OnObjectViewerBackgroundColorUpdated();
+  void OnObjectViewerEdgeColorUpdated();
+
+  void OnObjectViewerVerticesSizeUpdated();
+  void OnObjectViewerLineWidthUpdated();
 
 private:
   void OnObjectStartBuild();
