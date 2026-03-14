@@ -1,4 +1,5 @@
 #include "object_viewer_widget.h"
+#include <qvectornd.h>
 
 void s21::ObjectViewerWidget::LoadShaders() {
   const char *vertex_shader_source = R"(
@@ -16,9 +17,10 @@ void s21::ObjectViewerWidget::LoadShaders() {
       // #version 440 core
       // #version 450 core
       out vec4 FragColor;
+      uniform vec4 uColor;
 
       void main() {
-        FragColor = vec4(1.0f, 0.0f, 0.2f, 1.0f);
+        FragColor = uColor;
       }
     )";
 
@@ -39,6 +41,7 @@ void s21::ObjectViewerWidget::LoadShaders() {
     qWarning() << "Shader program link failed:" << m_shader_program_->log();
   }
 
-  // projLoc = glGetUniformLocation(m_shader_program_, "projection");
-  // m_shader_program_->bind();
+  m_shader_program_->bind();
+  m_shader_program_->setUniformValue("uColor", uColor_);
+  m_shader_program_->release();
 }

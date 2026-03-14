@@ -9,6 +9,8 @@
 #include <QtGui>
 #include <QtOpenGL>
 #include <cstddef>
+#include <qnamespace.h>
+#include <qvectornd.h>
 #include <vector>
 
 namespace s21 {
@@ -25,7 +27,14 @@ protected:
   void paintGL() override;
 
 signals:
+  // Color
   void BackgroundColorUpdate();
+  void EdgeColorUpdate();
+
+  // Size / Thickness
+  void VerticesSizeUpdate();
+  void LineWidthUpdate();
+
   void ActionGetGLVertices();
   void UpdateFront();
   void MouseUpdateY(float y);
@@ -49,8 +58,11 @@ private:
   QOpenGLVertexArrayObject *m_vao_;
   QOpenGLShaderProgram *m_shader_program_;
 
-  float verts_point_sz_ = 0.0f;
-  float line_w_ = 0.0f;
+  QColor uColor_ = Qt::darkCyan;
+  QColor bckg_clr_ = Qt::gray;
+
+  float verts_point_sz_ = 4.0f;
+  float line_w_ = 0.5f;
 
   // Model →
   // std::string obj_filename_;
@@ -72,9 +84,13 @@ public:
   // void initGL();
   void ObjectInit();
 
+  // Setters
   void SetVBO(std::vector<float> &vert_attrs);
   void SetEBO(std::vector<uint> &vert_indx);
   void SetBackgroundColor(int r, int g, int);
+  void SetEdgeColor(int r, int g, int);
+  void SetVerticesSize(float x);
+  void SetLinesWidth(float x);
 };
 } // namespace s21
 

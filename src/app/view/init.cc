@@ -44,8 +44,18 @@ void View::SetupConnections() {
           &View::OnGetGLVertices);
 
   connect(pobj_v_wid_, &ObjectViewerWidget::BackgroundColorUpdate, this,
-          &View::OnObjectViewerBackgroundUpdated);
+          &View::OnObjectViewerBackgroundColorUpdated);
 
+  connect(pobj_v_wid_, &ObjectViewerWidget::EdgeColorUpdate, this,
+          &View::OnObjectViewerEdgeColorUpdated);
+
+  connect(pobj_v_wid_, &ObjectViewerWidget::VerticesSizeUpdate, this,
+          &View::OnObjectViewerVerticesSizeUpdated);
+
+  connect(pobj_v_wid_, &ObjectViewerWidget::LineWidthUpdate, this,
+          &View::OnObjectViewerLineWidthUpdated);
+
+  // Mouse
   connect(pobj_v_wid_, &ObjectViewerWidget::MouseUpdateY, this,
           &View::OnTranslateOnY);
 
@@ -106,11 +116,13 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
             break;
           /* Vertexes */
           case SceneAction::kVertexSize:
-            std::cout << "Vertex size to: " << arg << "\n";
+            // std::cout << "Vertex size to: " << arg << "\n";
+            pcontroller_->SetVertexSize(arg);
             break;
           /* Edges */
           case SceneAction::kEdgeThickness:
-            std::cout << "Edge thickness to: " << arg << "\n";
+            // std::cout << "Edge thickness to: " << arg << "\n";
+            pcontroller_->SetEdgeThickness(arg);
             break;
 
           default:
@@ -126,8 +138,11 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
             break;
           /* Edges */
           case SceneAction::kEdgeColor:
-            std::cout << "Edge color to: (" << arg.red() << ", " << arg.green()
-                      << ", " << arg.blue() << ")\n";
+            // std::cout << "Edge color to: (" << arg.red() << ", " <<
+            // arg.green()
+            //           << ", " << arg.blue() << ")\n";
+            //
+            pcontroller_->SetEdgeColor(arg.red(), arg.green(), arg.blue());
             break;
           case SceneAction::kBackgroundColor:
             // std::cout << "Background color to: (" << arg.red() << ", "

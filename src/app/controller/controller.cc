@@ -32,12 +32,18 @@ void Controller::RotateOnZ(float x) { model_->RotateOnZ(x); }
 
 void Controller::ScaleObject(float x) { model_->ScaleObject(x); }
 
-void Controller::SetVertexSize() {}
+void Controller::SetVertexSize(float x) { testdata_.vertex_size = x; }
 void Controller::SetVertexStyle() {}
 void Controller::SetVertexColor() {}
-void Controller::SetVertexThickness() {}
+
+void Controller::SetEdgeThickness(float x) { testdata_.edge_thickness = x; }
 void Controller::SetEdgeStyle() {}
-void Controller::SetEdgeColor() {}
+void Controller::SetEdgeColor(int r, int g, int b) {
+  testdata_.edge_color.r = r;
+  testdata_.edge_color.g = g;
+  testdata_.edge_color.b = b;
+}
+
 void Controller::SetBackgroundColor(int r, int g, int b) {
   testdata_.background_color.r = r;
   testdata_.background_color.g = g;
