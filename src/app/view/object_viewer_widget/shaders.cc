@@ -3,6 +3,7 @@
 void s21::ObjectViewerWidget::LoadShaders() {
   const char *vertex_shader_source = R"(
       #version 330 core
+      // #version 440 core
       // #version 450 core
       layout (location = 0) in vec3 aPos;
       void main() {
@@ -12,6 +13,7 @@ void s21::ObjectViewerWidget::LoadShaders() {
 
   const char *fragment_shader_source = R"(
       #version 330 core
+      // #version 440 core
       // #version 450 core
       out vec4 FragColor;
 

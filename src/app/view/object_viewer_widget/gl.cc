@@ -58,7 +58,11 @@ void s21::ObjectViewerWidget::paintGL() {
   m_vao_->bind();
   m_ebo_->bind();
   glDrawElements(GL_LINES, ebo_qty_, GL_UNSIGNED_INT, (void *)0);
+  // glDrawElements(GL_LINE_STRIP, ebo_qty_, GL_UNSIGNED_INT, (void *)0);
   glLineWidth(line_w_);
+  glPushAttrib(GL_ENABLE_BIT);
+  glLineStipple(1, 0x0F0F);
+  glEnable(GL_LINE_STIPPLE);
 
   // points
   glPointSize(verts_point_sz_);
