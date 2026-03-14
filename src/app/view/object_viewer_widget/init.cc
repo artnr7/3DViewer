@@ -1,4 +1,4 @@
-#include "object_viewer_widget.h"
+#include "obj_v_wid.h"
 #include <QSurfaceFormat>
 #include <qopenglbuffer.h>
 #include <qopenglfunctions.h>
@@ -34,6 +34,16 @@ ObjectViewerWidget::ObjectViewerWidget(int x_offset, int y_offset, int width,
   QSurfaceFormat::setDefaultFormat(format);
 
   SetupConnections();
+}
+
+void ObjectViewerWidget::ObjectInit() {
+  if (file_uploaded_) { // если файл уже загружен
+    vertices_ready_ = false;
+    ebo_ready_ = false;
+    ebo_qty_ = 0;
+    points_qty_ = 0;
+  }
+  file_uploaded_ = true;
 }
 
 } // namespace s21

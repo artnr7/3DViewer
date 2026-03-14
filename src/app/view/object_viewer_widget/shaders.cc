@@ -1,25 +1,47 @@
-#include "object_viewer_widget.h"
+#include "obj_v_wid.h"
 #include <qvectornd.h>
 
 void s21::ObjectViewerWidget::LoadShaders() {
   const char *vertex_shader_source = R"(
-      #version 330 core
+      #version 440 core
       // #version 440 core
       // #version 450 core
+
       layout (location = 0) in vec3 aPos;
+
+      flat out vec3 startPos;
+      out vec3 vertPos;
+
       void main() {
-        gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+        vec4 pos = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+        gl_Position = pos;
+        vertPos = pos.xyz / pos.w;
+        startPos = vertPos;
       }
     )";
 
   const char *fragment_shader_source = R"(
-      #version 330 core
+      #version 440 core
       // #version 440 core
       // #version 450 core
+      
+      flat in vec3 startPos;
+      in vec3 vertPos;
+
       out vec4 FragColor;
+
       uniform vec4 uColor;
 
+      uniform vec2 u_resolution;
+      uniform float u_dashSize;
+      uniform float u_gapSize;
+
       void main() {
+        vec2 dir = (vertPos.xy-startPos.xy) * u_resolution/2.0;
+        float dist = length(dir);
+
+        if (fract(dist / (u_dashSize + u_gapSize)) > u_dashSize / (u_dashSize + u_gapSize))
+          discard;
         FragColor = uColor;
       }
     )";
@@ -43,5 +65,8 @@ void s21::ObjectViewerWidget::LoadShaders() {
 
   m_shader_program_->bind();
   m_shader_program_->setUniformValue("uColor", uColor_);
+  m_shader_program_->setUniformValue("u_resolution", resolution_);
+  m_shader_program_->setUniformValue("u_dashSize", dashsize);
+  m_shader_program_->setUniformValue("u_gapSize", gapsize);
   m_shader_program_->release();
 }

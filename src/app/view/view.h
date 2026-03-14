@@ -7,7 +7,7 @@
 
 #include "controller.h"
 #include "menu_widget/menu_widget.h"
-#include "object_viewer_widget/object_viewer_widget.h"
+#include "object_viewer_widget/obj_v_wid.h"
 
 #include "../../utils/logger.h"
 
@@ -28,6 +28,7 @@ private slots:
 
   void OnObjectViewerVerticesSizeUpdated();
   void OnObjectViewerLineWidthUpdated();
+  void OnObjectViewerContinuityLineUpdate();
 
 private:
   void OnObjectStartBuild();

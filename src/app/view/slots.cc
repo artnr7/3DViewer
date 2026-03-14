@@ -49,4 +49,11 @@ void View::OnObjectViewerLineWidthUpdated() {
   pobj_v_wid_->SetLinesWidth(cmodel_data.edge_thickness);
 }
 
+void View::OnObjectViewerContinuityLineUpdate() {
+  Lg::Log()->Trace("View::" + std::string(__func__));
+
+  auto cmodel_data = pcontroller_->GetCModelData();
+  pobj_v_wid_->Set(cmodel_data.edge_thickness);
+}
+
 } // namespace s21

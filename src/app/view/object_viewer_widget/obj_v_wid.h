@@ -35,6 +35,9 @@ signals:
   void VerticesSizeUpdate();
   void LineWidthUpdate();
 
+  // Line
+  void ContinuityLineUpdate();
+
   void ActionGetGLVertices();
   void UpdateFront();
   void MouseUpdateY(float y);
@@ -64,6 +67,15 @@ private:
   float verts_point_sz_ = 4.0f;
   float line_w_ = 0.5f;
 
+#define DEF_DOTLINE_DASH_SIZE 5.0f
+#define DEF_DOTLINE_GAP_SIZE 15.0f
+
+#define DEF_SOLID_DASH_SIZE 0.0f
+#define DEF_SOLID_GAP_SIZE 0.0f
+
+  float dashsize = 0.0f; // расстояние между чёрточками
+  float gapsize = 0.0f;  // длина чёрточки
+
   // Model →
   // std::string obj_filename_;
   bool file_uploaded_ = false;
@@ -80,6 +92,15 @@ private:
   bool rb_clicked_ = false;
   void RightButton(QMouseEvent &m_e, int m_y, int m_x);
 
+  // Resolution
+  int width_ = 1280;
+  int height_ = 720;
+  QVector2D resolution_ =
+      QVector2D(static_cast<float>(width_), static_cast<float>(height_));
+
+  // GL Context
+  void MakeInGLContext(std::function<void()>);
+
 public:
   // void initGL();
   void ObjectInit();
@@ -91,6 +112,12 @@ public:
   void SetEdgeColor(int r, int g, int);
   void SetVerticesSize(float x);
   void SetLinesWidth(float x);
+
+  void SetContinuityLine();
+  void SetDottedLine();
+  void SetSolidLine();
+  void SetDashSize(float);
+  void SetGapSize(float);
 };
 } // namespace s21
 

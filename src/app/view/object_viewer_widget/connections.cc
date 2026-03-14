@@ -1,4 +1,4 @@
-#include "object_viewer_widget.h"
+#include "obj_v_wid.h"
 
 #include <QTimer>
 #include <QtWidgets/QWidget>

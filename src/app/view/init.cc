@@ -67,6 +67,9 @@ void View::SetupConnections() {
 
   connect(pobj_v_wid_, &ObjectViewerWidget::MouseRotateX, this,
           &View::OnRotateOnY);
+
+  // Line
+  connect(pobj_v_wid_, &ObjectViewerWidget::ContinuityLineUpdate, this, &View::OnContinuityLineUpdate);
 }
 
 // void View::OnMouseUpdated() { OnActionTriggered(SceneAction::kRotateX, pos) }

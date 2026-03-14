@@ -1,5 +1,5 @@
 #include "iostream"
-#include "object_viewer_widget.h"
+#include "obj_v_wid.h"
 #include <qlogging.h>
 #include <qnamespace.h>
 #include <qpoint.h>

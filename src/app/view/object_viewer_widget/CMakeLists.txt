@@ -4,11 +4,11 @@ set(OBJECT_VIEWER_WIDGET_FILES
     gl.cc
     connections.cc
     init.cc
-    object_viewer_widget.cc
+    setters.cc
     shaders.cc
     slots.cc
     events.cc
-    object_viewer_widget.h)
+    obj_v_wid.h)
 register_format_sources(${OBJECT_VIEWER_WIDGET_FILES})
 
 add_library(object_viewer_widget_lib STATIC ${OBJECT_VIEWER_WIDGET_FILES})
