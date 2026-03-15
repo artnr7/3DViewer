@@ -14,6 +14,9 @@
 #include <vector>
 
 namespace s21 {
+enum class VerticeStyle { Square, Circle };
+enum class LineStyle { Solid, Dot };
+
 class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   Q_OBJECT
 public:
@@ -37,6 +40,8 @@ signals:
 
   // Line
   void ContinuityLineUpdate();
+
+  void VerticeStyleUpdate();
 
   void ActionGetGLVertices();
   void UpdateFront();
@@ -66,6 +71,9 @@ private:
 
   float verts_point_sz_ = 4.0f;
   float line_w_ = 0.5f;
+
+  VerticeStyle vertex_style_ = VerticeStyle::Square;
+  LineStyle line_style_ = LineStyle::Solid;
 
 #define DEF_DOTLINE_DASH_SIZE 5.0f
 #define DEF_DOTLINE_GAP_SIZE 15.0f
@@ -113,7 +121,9 @@ public:
   void SetVerticesSize(float x);
   void SetLinesWidth(float x);
 
-  void SetContinuityLine();
+  void SetVerticeStyle(VerticeStyle style);
+
+  void SetContinuityLine(LineStyle style);
   void SetDottedLine();
   void SetSolidLine();
   void SetDashSize(float);

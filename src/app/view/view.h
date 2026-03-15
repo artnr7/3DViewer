@@ -29,6 +29,7 @@ private slots:
   void OnObjectViewerVerticesSizeUpdated();
   void OnObjectViewerLineWidthUpdated();
   void OnObjectViewerContinuityLineUpdate();
+  void OnObjectViewerVerticeStyleUpdate();
 
 private:
   void OnObjectStartBuild();

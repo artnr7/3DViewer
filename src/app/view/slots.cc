@@ -3,6 +3,8 @@
 
 namespace s21 {
 
+// Может имеет смысл кешировать данные из модели ???
+
 void View::OnGetGLVertices() {
   Lg::Log()->Trace("View:" + std::string(__func__));
 
@@ -53,7 +55,16 @@ void View::OnObjectViewerContinuityLineUpdate() {
   Lg::Log()->Trace("View::" + std::string(__func__));
 
   auto cmodel_data = pcontroller_->GetCModelData();
-  pobj_v_wid_->Set(cmodel_data.edge_thickness);
+  pobj_v_wid_->SetContinuityLine(
+      static_cast<LineStyle>(cmodel_data.edge_style));
+}
+
+void View::OnObjectViewerVerticeStyleUpdate() {
+  Lg::Log()->Trace("View::" + std::string(__func__));
+
+  auto cmodel_data = pcontroller_->GetCModelData();
+  pobj_v_wid_->SetVerticeStyle(
+      static_cast<VerticeStyle>(cmodel_data.vertex_style));
 }
 
 } // namespace s21

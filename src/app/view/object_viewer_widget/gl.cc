@@ -11,12 +11,13 @@ void s21::ObjectViewerWidget::initializeGL() {
 
   initializeOpenGLFunctions();
 
-  Lg::Log()->Info("glClearColor");
+  // Lg::Log()->Info("glClearColor");
   glClearColor(bckg_clr_.redF(), bckg_clr_.greenF(), bckg_clr_.blueF(),
                bckg_clr_.alphaF());
-  glEnable(GL_DEPTH_TEST);
   // установить цвет фона, который будет
   // храниться в GL_COLOR_BUFFER_BIT
+  glEnable(GL_DEPTH_TEST);
+  // glEnable(GL_POINT_SMOOTH);
 
   m_shader_program_ = new QOpenGLShaderProgram(this);
   LoadShaders();
@@ -60,17 +61,15 @@ void s21::ObjectViewerWidget::paintGL() {
   m_vao_->bind();
   m_ebo_->bind();
   glDrawElements(GL_LINES, ebo_qty_, GL_UNSIGNED_INT, (void *)0);
-  // glDrawElements(GL_LINE_STRIP, ebo_qty_, GL_UNSIGNED_INT, (void *)0);
   glLineWidth(line_w_);
-
-  // glPushAttrib(GL_ENABLE_BIT);
-  // glLineStipple(1, 0x0F0F);
-  // glEnable(GL_LINE_STIPPLE);
 
   // points
   glPointSize(verts_point_sz_);
-  // glDrawArrays(GL_POINTS, 0, points_qty_ / 3);
-  glDrawArrays(GL_POINT_SPRITE, 0, points_qty_ / 3);
+  glDrawArrays(GL_POINTS, 0, points_qty_ / 3);
+  // glEnable(GL_BLEND);
+  // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  // glEnable(GL_POINT_SMOOTH);
+  // glDisable(GL_POINT_SMOOTH);
   m_vao_->release();
   m_ebo_->release();
   m_shader_program_->release();

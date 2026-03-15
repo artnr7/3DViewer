@@ -45,6 +45,9 @@ void s21::ObjectViewerWidget::LoadShaders() {
         FragColor = uColor;
       }
     )";
+  // if (length(gl_PointCoord - vec2(0.5)) > 0.5)
+  //     discard;
+  //   для кругов через шейдер
 
   QOpenGLShader vertex_shader(QOpenGLShader::Vertex);
   if (!vertex_shader.compileSourceCode(vertex_shader_source)) {

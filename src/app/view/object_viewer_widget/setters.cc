@@ -2,6 +2,7 @@
 #include <GL/gl.h>
 #include <iostream>
 #include <qlogging.h>
+#include <qvariant.h>
 
 namespace s21 {
 
@@ -79,6 +80,36 @@ void ObjectViewerWidget::SetLinesWidth(float x) {
   line_w_ = x;
 
   MakeInGLContext([&] { glLineWidth(line_w_); });
+}
+
+void ObjectViewerWidget::SetVerticeStyle(VerticeStyle style) {
+  Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
+  vertex_style_ = style;
+
+  switch (vertex_style_) {
+  case VerticeStyle::Square:
+    // qDebug() << "SQUARE";
+    MakeInGLContext([&] { glDisable(GL_POINT_SMOOTH); });
+    break;
+  case VerticeStyle::Circle:
+    // qDebug() << "CIRCLE";
+    MakeInGLContext([&] { glEnable(GL_POINT_SMOOTH); });
+    break;
+  }
+}
+
+void ObjectViewerWidget::SetContinuityLine(LineStyle style) {
+  Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
+  line_style_ = style;
+
+  switch (line_style_) {
+  case LineStyle::Solid:
+    SetSolidLine();
+    break;
+  case LineStyle::Dot:
+    SetDottedLine();
+    break;
+  }
 }
 
 void ObjectViewerWidget::SetDashSize(float x) {

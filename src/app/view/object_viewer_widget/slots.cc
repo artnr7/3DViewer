@@ -20,6 +20,8 @@ void ObjectViewerWidget::OnFrontUpdateTimer() {
     emit EdgeColorUpdate();
     emit LineWidthUpdate();
     emit VerticesSizeUpdate();
+    emit VerticeStyleUpdate();
+    emit ContinuityLineUpdate();
   }
 }
 

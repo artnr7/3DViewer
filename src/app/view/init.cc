@@ -1,6 +1,7 @@
 #include "action_types.h"
 #include "view.h"
 
+#include <qlogging.h>
 #include <string>
 #include <vector>
 
@@ -69,7 +70,11 @@ void View::SetupConnections() {
           &View::OnRotateOnY);
 
   // Line
-  connect(pobj_v_wid_, &ObjectViewerWidget::ContinuityLineUpdate, this, &View::OnContinuityLineUpdate);
+  connect(pobj_v_wid_, &ObjectViewerWidget::ContinuityLineUpdate, this,
+          &View::OnObjectViewerContinuityLineUpdate);
+
+  connect(pobj_v_wid_, &ObjectViewerWidget::VerticeStyleUpdate, this,
+          &View::OnObjectViewerVerticeStyleUpdate);
 }
 
 // void View::OnMouseUpdated() { OnActionTriggered(SceneAction::kRotateX, pos) }
@@ -173,14 +178,17 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
           }
         } else if constexpr (std::is_same_v<T, VertexStyle> ||
                              std::is_same_v<T, EdgeStyle>) {
+          qDebug() << static_cast<int>(action);
           switch (action) {
           /* Vertexes */
           case SceneAction::kVertexStyle:
             std::cout << "Vertex style to: " << static_cast<int>(arg) << "\n";
+            pcontroller_->SetVertexStyle(static_cast<int>(arg));
             break;
           /* Edges */
           case SceneAction::kEdgeStyle:
             std::cout << "Edge style to: " << static_cast<int>(arg) << "\n";
+            pcontroller_->SetEdgeStyle(static_cast<int>(arg));
             break;
 
           default:
