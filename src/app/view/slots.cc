@@ -33,7 +33,7 @@ void View::OnObjectViewerBackgroundColorUpdated() {
   auto cmodel_data = pcontroller_->GetCModelData();
   auto col = cmodel_data.background_color;
   // std::cout << col.r << " " << col.g << " " << col.b << std ::endl;
-  pobj_v_wid_->SetBackgroundColor(col.r, col.g, col.b);
+  pobj_v_wid_->SetBckgClr(col.r, col.g, col.b);
 }
 
 void View::OnObjectViewerEdgeColorUpdated() {

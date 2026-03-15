@@ -5,13 +5,13 @@
 #include <GL/glext.h>
 #include <qtclasshelpermacros.h>
 
-#define TR_QTY 1
-void s21::ObjectViewerWidget::initializeGL() {
-  Lg::Log()->Info("initializeOpenGLFunctions");
+namespace s21 {
 
+void ObjectViewerWidget::initializeGL() {
+  Lg::Log()->Info("ObjectViewerWidget::" + std::string(__func__));
+  Lg::Log()->Info("initializeOpenGLFunctions");
   initializeOpenGLFunctions();
 
-  // Lg::Log()->Info("glClearColor");
   glClearColor(bckg_clr_.redF(), bckg_clr_.greenF(), bckg_clr_.blueF(),
                bckg_clr_.alphaF());
   // установить цвет фона, который будет
@@ -39,7 +39,7 @@ void s21::ObjectViewerWidget::initializeGL() {
   m_vao_->release();
 }
 
-void s21::ObjectViewerWidget::resizeGL(int w, int h) {
+void ObjectViewerWidget::resizeGL(int w, int h) {
   Lg::Log()->Info("ObjectViewerWidget::" + std::string(__func__));
 
   if (!vertices_ready_ || !ebo_ready_) {
@@ -48,7 +48,7 @@ void s21::ObjectViewerWidget::resizeGL(int w, int h) {
   glViewport(0, 0, w, h);
 }
 
-void s21::ObjectViewerWidget::paintGL() {
+void ObjectViewerWidget::paintGL() {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -62,18 +62,18 @@ void s21::ObjectViewerWidget::paintGL() {
   m_ebo_->bind();
 
   glDrawElements(GL_LINES, ebo_qty_, GL_UNSIGNED_INT, (void *)0);
-  glLineWidth(edge_w_);
 
   // points
   m_shader_program_->setUniformValue(uEdgeColorName, uVertexClr_);
-  glPointSize(verts_point_sz_);
+  // glPointSize(verts_point_sz_);
   glDrawArrays(GL_POINTS, 0, points_qty_ / 3);
   m_shader_program_->setUniformValue(uEdgeColorName, uEdgeClr_);
 
   // glEnable(GL_BLEND);
   // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  
+
   m_vao_->release();
   m_ebo_->release();
   m_shader_program_->release();
 }
+} // namespace s21

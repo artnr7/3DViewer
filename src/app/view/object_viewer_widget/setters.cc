@@ -42,7 +42,7 @@ void ObjectViewerWidget::SetEBO(std::vector<uint> &vert_indx) {
   ebo_ready_ = true;
 }
 
-void ObjectViewerWidget::SetBackgroundColor(int r, int g, int b) {
+void ObjectViewerWidget::SetBckgClr(int r, int g, int b) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
 
   bckg_clr_.setRgb(r, g, b);
@@ -68,8 +68,8 @@ void ObjectViewerWidget::SetEdgeColor(int r, int g, int b) {
   });
 }
 
-void ObjectViewerWidget::SetVertexClr(int r,int g, int b){
-uVertexClr_.setRgb(r,g,b);
+void ObjectViewerWidget::SetVertexClr(int r, int g, int b) {
+  uVertexClr_.setRgb(r, g, b);
 }
 
 void ObjectViewerWidget::SetVertexSz(float x) {

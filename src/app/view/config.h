@@ -1,6 +1,7 @@
 // Resolution 16:9
 
 #define PIXEL_BLOCK_SIZE 100 // HD
+
 #define W 16
 #define H 9
 #define OBJECTW_W_TO_MENUW_W_RATIO 4

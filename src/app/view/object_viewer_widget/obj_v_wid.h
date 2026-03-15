@@ -52,16 +52,42 @@ signals:
   void MouseRotateX(float x);
 
 private slots:
-  void OnFrontUpdateTimer();
+  void OnFrontUpdateTimer() {
+
+    Lg::Log()->Trace(std::string(__func__));
+    update();
+
+    emit BackgroundColorUpdate();
+
+    if (file_uploaded_) {
+      emit ActionGetGLVertices();
+      emit EdgeColorUpdate();
+      emit LineWidthUpdate();
+      emit VerticesSizeUpdate();
+      emit VerticeStyleUpdate();
+      emit ContinuityLineUpdate();
+      emit VertexClrUpd();
+    }
+  }
   bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
   // Methods ----------------------------------------→
   void LoadShaders();
-  void SetupConnections();
+  void SetupConnections() {
+
+    Lg::Log()->Info(std::string(__func__));
+
+    connect(front_update_timer_, &QTimer::timeout, this,
+            &s21::ObjectViewerWidget::OnFrontUpdateTimer);
+  }
 
   // GL Context
   void MakeInGLContext(std::function<void()>);
+
+  inline bool IsGLBuffersReady(){
+    return vertices_ready_ && ebo_ready_;
+  };
 
   // Variables ----------------------------------------→
 
@@ -115,7 +141,7 @@ private:
   QPoint start_pos_{0, 0};
   bool lb_clicked_ = false;
   bool rb_clicked_ = false;
-  void RightButton(QMouseEvent &m_e, int m_y, int m_x);
+  void MouseClickFilter(QMouseEvent &m_e, int m_y, int m_x);
 
 public:
   void ObjectInit();
@@ -126,14 +152,15 @@ public:
   void SetEBO(std::vector<uint> &vert_indx);
 
   // Color
-  void SetBackgroundColor(int r, int g, int);
+  void SetBckgClr(int r, int g, int);
   void SetEdgeColor(int r, int g, int b);
   void SetVertexClr(int r, int g, int b);
-  
+
   // Measures
   void SetEdgeW(float x);
   void SetVertexSz(float x);
 
+  // Style
   void SetVertexStyle(VerticeStyle style);
 
   void SetEdgeStyle(EdgesStyle style);

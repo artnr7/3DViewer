@@ -33,7 +33,7 @@ void View::OnObjectStartBuild() {
   Lg::Log()->Info("View:" + std::string(__func__));
 
   // menu
-  menu_wid_update_timer_->start(15);
+  menu_wid_update_timer_->start(16);
   // obj_widget
   pobj_v_wid_->ObjectInit();
 }
@@ -192,7 +192,6 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
           }
         } else if constexpr (std::is_same_v<T, VertexStyle> ||
                              std::is_same_v<T, EdgeStyle>) {
-          qDebug() << static_cast<int>(action);
           switch (action) {
           /* Vertexes */
           case SceneAction::kVertexStyle:

@@ -2,11 +2,9 @@ register_format_cmake_file()
 
 set(OBJECT_VIEWER_WIDGET_FILES
     gl.cc
-    connections.cc
     init.cc
     setters.cc
     shaders.cc
-    slots.cc
     events.cc
     obj_v_wid.h)
 register_format_sources(${OBJECT_VIEWER_WIDGET_FILES})

@@ -3,6 +3,7 @@
 #include <qlogging.h>
 #include <qnamespace.h>
 #include <qpoint.h>
+#include <qtimezone.h>
 
 namespace s21 {
 bool ObjectViewerWidget::eventFilter(QObject *obj, QEvent *event) {
@@ -19,98 +20,69 @@ bool ObjectViewerWidget::eventFilter(QObject *obj, QEvent *event) {
 
 #define MULT 0.001
   static int i = 0;
-  if (e == QEvent::MouseMove) {
-    // qDebug() << vertices_ready_ << ebo_ready_ << lb_clicked_ << "\n";
-    if (!vertices_ready_ || !ebo_ready_ || !rb_clicked_) {
-    } else {
-
-      if (!(i++ % 5)) {
-        start_pos_.setY(my);
-        start_pos_.setX(mx);
-        if (i == 5) {
-          i = 0;
-        }
+  if (e == QEvent::MouseMove && IsGLBuffersReady()) {
+    if (!(i++ % 5)) {
+      start_pos_.setY(my);
+      start_pos_.setX(mx);
+      if (i == 5) {
+        i = 0;
       }
+    }
 
-      auto shift_y = MULT * (-static_cast<float>(my - start_pos_.y()));
-      auto shift_x = MULT * (static_cast<float>(mx - start_pos_.x()));
+    auto shift_y = MULT * (-static_cast<float>(my - start_pos_.y()));
+    auto shift_x = MULT * (static_cast<float>(mx - start_pos_.x()));
 
+    if (lb_clicked_) {
+      emit MouseRotateY(shift_y * 10);
+      emit MouseRotateX(shift_x * 10);
+    }
+
+    if (rb_clicked_) {
       emit MouseUpdateY(shift_y);
       emit MouseUpdateX(shift_x);
-
-      // qDebug() << "Mouse move Y " << shift_y;
-      // qDebug() << "Mouse move X " << shift_x;
     }
+
+    // qDebug() << "Mouse move Y " << shift_y;
+    // qDebug() << "Mouse move X " << shift_x;
   }
 
-  // if (e != QEvent::Paint) {
-  //   qDebug() << "++++++++++++++++" << e << vertices_ready_ << ebo_ready_
-  //            << lb_clicked_ << "\n";
-  // }
-  if (e == QEvent::MouseMove) {
-    // qDebug() << "++++++++++++++++" << vertices_ready_ << ebo_ready_
-    //          << lb_clicked_ << "\n";
-    if (!vertices_ready_ || !ebo_ready_ || !lb_clicked_) {
-    } else {
-      if (!(i++ % 5)) {
-        start_pos_.setY(my);
-        start_pos_.setX(mx);
-        if (i == 5) {
-          i = 0;
-        }
-      }
-
-      auto shift_y = MULT * 10 * (-static_cast<float>(my - start_pos_.y()));
-      auto shift_x = MULT * 10 * (static_cast<float>(mx - start_pos_.x()));
-
-      emit MouseRotateY(shift_y);
-      emit MouseRotateX(shift_x);
-      // qDebug() << "Mouse move Y " << shift_y;
-      // qDebug() << "Mouse move X " << shift_x;
-    }
-  }
-
-  RightButton(*m_e, my, mx);
+  MouseClickFilter(*m_e, my, mx);
 
   return false;
 }
 
-void ObjectViewerWidget::RightButton(QMouseEvent &m_e, int m_y, int m_x) {
-  if (!vertices_ready_ || !ebo_ready_) {
+void ObjectViewerWidget::MouseClickFilter(QMouseEvent &m_e, int m_y, int m_x) {
+  if (!IsGLBuffersReady()) {
     return;
   }
 
-  if (m_e.button() == Qt::RightButton) {
-    if (m_e.type() == QEvent::MouseButtonPress) {
-      rb_clicked_ = true;
-      start_pos_.setY(m_y);
-      start_pos_.setX(m_x);
-      // qDebug() << "Mouse CLICK!!!" << start_pos_.y() << " " <<
-      // start_pos_.x();
-    }
-    if (m_e.type() == QEvent::MouseButtonRelease) {
-      rb_clicked_ = false;
-      start_pos_.setY(0);
-      start_pos_.setX(0);
-      // qDebug() << "Mouse Release..." << start_pos_.y() << " " <<
-      // start_pos_.x();
-    }
-  }
-  if (m_e.button() == Qt::LeftButton) {
-    if (m_e.type() == QEvent::MouseButtonPress) {
+  if (m_e.type() == QEvent::MouseButtonPress) {
+
+    switch (m_e.button()) {
+    case Qt::LeftButton:
       lb_clicked_ = true;
-      start_pos_.setY(m_y);
-      start_pos_.setX(m_x);
-      // qDebug() << "Mouse CLICK!!!" << start_pos_.y() << " " <<
-      // start_pos_.x();
+    case Qt::RightButton:
+      rb_clicked_ = true;
+    default:
+      break;
     }
-    if (m_e.type() == QEvent::MouseButtonRelease) {
+    start_pos_.setY(m_y);
+    start_pos_.setX(m_x);
+    // qDebug() << "Mouse CLICK" << start_pos_.y() << start_pos_.x();
+  }
+
+  if (m_e.type() == QEvent::MouseButtonRelease) {
+    switch (m_e.button()) {
+    case Qt::LeftButton:
       lb_clicked_ = false;
-      start_pos_.setY(0);
-      start_pos_.setX(0);
-      // qDebug() << "Mouse Release..." << start_pos_.y() << " " <<
-      // start_pos_.x();
+    case Qt::RightButton:
+      rb_clicked_ = false;
+    default:
+      break;
     }
+    start_pos_.setY(0);
+    start_pos_.setX(0);
+    // qDebug() << "Mouse Release" << start_pos_.y() << start_pos_.x();
   }
 }
 
