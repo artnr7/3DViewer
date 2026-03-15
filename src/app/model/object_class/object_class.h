@@ -79,9 +79,7 @@ private:
     mat4 mat_trans_{};
     mat4 mat_scale_{};
 
-    using angle = float;
-
-    angle x_{}, y_{}, z_{};
+    float x_{}, y_{}, z_{};
 
     mat4 mat_rot_{};
 

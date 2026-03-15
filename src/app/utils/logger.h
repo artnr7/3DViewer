@@ -52,51 +52,19 @@ public:
     return false;
   }
 
-  void Trace(const std::string &m) {
-    if (Throw(LogLevel::TRACE)) {
+  void LogT(LogLevel lvl, const std::string &mark, const std::string &m) {
+    if (Throw(lvl)) {
       return;
     };
 
-    OutWithAttr("TRACE: ", m);
+    OutWithAttr(mark + ": ", m);
   }
-  void Debug(const std::string &m) {
-    if (Throw(LogLevel::DEBUG)) {
-      return;
-    };
-
-    OutWithAttr("DEBUG: ", m);
-  }
-
-  void Info(const std::string &m) {
-    if (Throw(LogLevel::INFO)) {
-      return;
-    };
-
-    OutWithAttr("INFO: ", m);
-  }
-  void Warn(const std::string &m) {
-    if (Throw(LogLevel::WARN)) {
-      return;
-    };
-
-    OutWithAttr("WARN: ", m);
-  }
-
-  void Err(const std::string &m) {
-    if (Throw(LogLevel::WARN)) {
-      return;
-    };
-
-    OutWithAttr("ERROR: ", m);
-  }
-
-  void Fatal(const std::string &m) {
-    if (Throw(LogLevel::FATAL)) {
-      return;
-    };
-
-    OutWithAttr("FATAL: ", m);
-  }
+  void Trace(const std::string &m) { LogT(LogLevel::TRACE, "TRACE", m); }
+  void Debug(const std::string &m) { LogT(LogLevel::DEBUG, "DEBUG", m); }
+  void Info(const std::string &m) { LogT(LogLevel::INFO, "INFO", m); }
+  void Warn(const std::string &m) { LogT(LogLevel::WARN, "WARN", m); }
+  void Err(const std::string &m) { LogT(LogLevel::ERR, "ERR", m); }
+  void Fatal(const std::string &m) { LogT(LogLevel::FATAL, "FATAL", m); }
 };
 
 } // namespace s21

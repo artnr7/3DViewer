@@ -30,7 +30,7 @@ public:
 private:
   CModelData testdata_;
   // DATA -------------------------
-  std::unique_ptr<IModel> model_;
+  IModel *model_;
 
   // METHODS ------------------------
   void BuildObject(const std::string &filename) override;

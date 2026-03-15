@@ -34,7 +34,7 @@ bool ObjectViewerWidget::eventFilter(QObject *obj, QEvent *event) {
 
     if (lb_clicked_) {
       emit MouseRotateY(shift_y * 10);
-      emit MouseRotateX(shift_x * 10);
+      emit MouseRotateX(-shift_x * 10);
     }
 
     if (rb_clicked_) {
@@ -61,9 +61,9 @@ void ObjectViewerWidget::MouseClickFilter(QMouseEvent &m_e, int m_y, int m_x) {
     switch (m_e.button()) {
     case Qt::LeftButton:
       lb_clicked_ = true;
+      break;
     case Qt::RightButton:
       rb_clicked_ = true;
-    default:
       break;
     }
     start_pos_.setY(m_y);
@@ -75,9 +75,9 @@ void ObjectViewerWidget::MouseClickFilter(QMouseEvent &m_e, int m_y, int m_x) {
     switch (m_e.button()) {
     case Qt::LeftButton:
       lb_clicked_ = false;
+      break;
     case Qt::RightButton:
       rb_clicked_ = false;
-    default:
       break;
     }
     start_pos_.setY(0);
