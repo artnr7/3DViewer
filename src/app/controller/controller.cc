@@ -34,7 +34,11 @@ void Controller::ScaleObject(float x) { model_->ScaleObject(x); }
 
 void Controller::SetVertexSize(float x) { testdata_.vertex_size = x; }
 void Controller::SetVertexStyle(int x) { testdata_.vertex_style = x; }
-void Controller::SetVertexColor() {}
+void Controller::SetVertexColor(int r, int g, int b) {
+  testdata_.vertex_color.r = r;
+  testdata_.vertex_color.g = g;
+  testdata_.vertex_color.b = b;
+}
 
 void Controller::SetEdgeThickness(float x) { testdata_.edge_thickness = x; }
 void Controller::SetEdgeStyle(int x) { testdata_.edge_style = x; }

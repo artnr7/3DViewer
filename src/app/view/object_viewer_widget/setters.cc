@@ -56,33 +56,37 @@ void ObjectViewerWidget::SetBackgroundColor(int r, int g, int b) {
 void ObjectViewerWidget::SetEdgeColor(int r, int g, int b) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
 
-  uColor_.setRgb(r, g, b);
+  uEdgeClr_.setRgb(r, g, b);
 
   MakeInGLContext([&] {
     m_shader_program_->bind();
     m_shader_program_->setUniformValue(
-        "uColor", QVector4D{uColor_.redF(), uColor_.greenF(), uColor_.blueF(),
-                            uColor_.alphaF()});
+        uEdgeColorName, QVector4D{uEdgeClr_.redF(), uEdgeClr_.greenF(),
+                                  uEdgeClr_.blueF(), uEdgeClr_.alphaF()});
 
     m_shader_program_->release();
   });
 }
 
-void ObjectViewerWidget::SetVerticesSize(float x) {
+void ObjectViewerWidget::SetVertexClr(int r,int g, int b){
+uVertexClr_.setRgb(r,g,b);
+}
+
+void ObjectViewerWidget::SetVertexSz(float x) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
   verts_point_sz_ = x;
 
   MakeInGLContext([&] { glPointSize(verts_point_sz_); });
 }
 
-void ObjectViewerWidget::SetLinesWidth(float x) {
+void ObjectViewerWidget::SetEdgeW(float x) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
-  line_w_ = x;
+  edge_w_ = x;
 
-  MakeInGLContext([&] { glLineWidth(line_w_); });
+  MakeInGLContext([&] { glLineWidth(edge_w_); });
 }
 
-void ObjectViewerWidget::SetVerticeStyle(VerticeStyle style) {
+void ObjectViewerWidget::SetVertexStyle(VerticeStyle style) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
   vertex_style_ = style;
 
@@ -98,15 +102,15 @@ void ObjectViewerWidget::SetVerticeStyle(VerticeStyle style) {
   }
 }
 
-void ObjectViewerWidget::SetContinuityLine(LineStyle style) {
+void ObjectViewerWidget::SetEdgeStyle(EdgesStyle style) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
-  line_style_ = style;
+  edge_style_ = style;
 
-  switch (line_style_) {
-  case LineStyle::Solid:
+  switch (edge_style_) {
+  case EdgesStyle::Solid:
     SetSolidLine();
     break;
-  case LineStyle::Dot:
+  case EdgesStyle::Dot:
     SetDottedLine();
     break;
   }
@@ -115,11 +119,11 @@ void ObjectViewerWidget::SetContinuityLine(LineStyle style) {
 void ObjectViewerWidget::SetDashSize(float x) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
 
-  dashsize = x;
+  dash_sz_ = x;
 
   MakeInGLContext([&] {
     m_shader_program_->bind();
-    m_shader_program_->setUniformValue("u_dashSize", dashsize);
+    m_shader_program_->setUniformValue("u_dashSize", dash_sz_);
     m_shader_program_->release();
   });
 }
@@ -127,11 +131,11 @@ void ObjectViewerWidget::SetDashSize(float x) {
 void ObjectViewerWidget::SetGapSize(float x) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
 
-  gapsize = x;
+  gap_sz_ = x;
 
   MakeInGLContext([&] {
     m_shader_program_->bind();
-    m_shader_program_->setUniformValue("u_gapSize", gapsize);
+    m_shader_program_->setUniformValue("u_gapSize", gap_sz_);
     m_shader_program_->release();
   });
 }

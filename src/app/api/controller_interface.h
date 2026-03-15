@@ -65,7 +65,7 @@ public:
 
   virtual void SetVertexSize(float) = 0;
   virtual void SetVertexStyle(int x) = 0;
-  virtual void SetVertexColor() = 0;
+  virtual void SetVertexColor(int r, int g, int b) = 0;
 
   virtual void SetEdgeThickness(float) = 0;
   virtual void SetEdgeStyle(int x) = 0;

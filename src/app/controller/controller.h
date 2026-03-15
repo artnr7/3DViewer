@@ -15,6 +15,7 @@ public:
   Controller(IModel *model) : model_(model) {
     testdata_ = CModelData();
     testdata_.background_color = RGBColor(128, 128, 128);
+    testdata_.vertex_color = RGBColor(2, 255, 255);
 
     testdata_.edge_color = RGBColor(255, 255, 128);
     testdata_.edge_thickness = 0.5f;
@@ -55,7 +56,7 @@ private:
 
   void SetVertexSize(float) override;
   void SetVertexStyle(int x) override;
-  void SetVertexColor() override;
+  void SetVertexColor(int r, int g, int b) override;
 
   void SetEdgeThickness(float) override;
   void SetEdgeStyle(int x) override;

@@ -22,6 +22,7 @@ void ObjectViewerWidget::OnFrontUpdateTimer() {
     emit VerticesSizeUpdate();
     emit VerticeStyleUpdate();
     emit ContinuityLineUpdate();
+    emit VertexClrUpd();
   }
 }
 

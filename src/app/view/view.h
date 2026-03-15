@@ -29,11 +29,8 @@ private slots:
   void OnObjectViewerVerticesSizeUpdated();
   void OnObjectViewerLineWidthUpdated();
   void OnObjectViewerContinuityLineUpdate();
+  void OnObjectViewerVertexClrUpd();
   void OnObjectViewerVerticeStyleUpdate();
-
-private:
-  void OnObjectStartBuild();
-  void SetupConnections();
 
   void OnTranslateOnX(float x);
   void OnTranslateOnY(float y);
@@ -42,6 +39,10 @@ private:
   void OnRotateOnX(float x);
   void OnRotateOnY(float y);
   void OnRotateOnZ(float z);
+
+private:
+  void OnObjectStartBuild();
+  void SetupConnections();
 
   /* Fields */
   MenuWidget *pmenu_wid_;

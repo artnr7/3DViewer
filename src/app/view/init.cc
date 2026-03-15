@@ -27,6 +27,16 @@ View::View(Controller *controller, QWidget *parent)
   menu_wid_update_timer_ = new QTimer(this);
   SetupConnections();
 }
+void View::OnObjectStartBuild() {
+  // по сути это надо вызывать, когда есть уверенность, что файл в модели
+  // загружен
+  Lg::Log()->Info("View:" + std::string(__func__));
+
+  // menu
+  menu_wid_update_timer_->start(15);
+  // obj_widget
+  pobj_v_wid_->ObjectInit();
+}
 
 void View::SetupConnections() {
   Lg::Log()->Info("View::" + std::string(__func__));
@@ -75,6 +85,9 @@ void View::SetupConnections() {
 
   connect(pobj_v_wid_, &ObjectViewerWidget::VerticeStyleUpdate, this,
           &View::OnObjectViewerVerticeStyleUpdate);
+
+  connect(pobj_v_wid_, &ObjectViewerWidget::VertexClrUpd, this,
+          &View::OnObjectViewerVertexClrUpd);
 }
 
 // void View::OnMouseUpdated() { OnActionTriggered(SceneAction::kRotateX, pos) }
@@ -141,8 +154,9 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
           switch (action) {
           /* Vertexes */
           case SceneAction::kVertexColor:
-            std::cout << "Vertex color to: (" << arg.red() << ", "
-                      << arg.green() << ", " << arg.blue() << ")\n";
+            // std::cout << "Vertex color to: (" << arg.red() << ", "
+            //           << arg.green() << ", " << arg.blue() << ")\n";
+            pcontroller_->SetVertexColor(arg.red(), arg.green(), arg.blue());
             break;
           /* Edges */
           case SceneAction::kEdgeColor:
@@ -182,12 +196,13 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
           switch (action) {
           /* Vertexes */
           case SceneAction::kVertexStyle:
-            std::cout << "Vertex style to: " << static_cast<int>(arg) << "\n";
+            // std::cout << "Vertex style to: " << static_cast<int>(arg) <<
+            // "\n";
             pcontroller_->SetVertexStyle(static_cast<int>(arg));
             break;
           /* Edges */
           case SceneAction::kEdgeStyle:
-            std::cout << "Edge style to: " << static_cast<int>(arg) << "\n";
+            // std::cout << "Edge style to: " << static_cast<int>(arg) << "\n";
             pcontroller_->SetEdgeStyle(static_cast<int>(arg));
             break;
 

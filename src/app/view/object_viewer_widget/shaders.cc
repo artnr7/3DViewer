@@ -30,7 +30,7 @@ void s21::ObjectViewerWidget::LoadShaders() {
 
       out vec4 FragColor;
 
-      uniform vec4 uColor;
+      uniform vec4 uEdgeClr;
 
       uniform vec2 u_resolution;
       uniform float u_dashSize;
@@ -42,7 +42,7 @@ void s21::ObjectViewerWidget::LoadShaders() {
 
         if (fract(dist / (u_dashSize + u_gapSize)) > u_dashSize / (u_dashSize + u_gapSize))
           discard;
-        FragColor = uColor;
+        FragColor = uEdgeClr;
       }
     )";
   // if (length(gl_PointCoord - vec2(0.5)) > 0.5)
@@ -67,9 +67,9 @@ void s21::ObjectViewerWidget::LoadShaders() {
   }
 
   m_shader_program_->bind();
-  m_shader_program_->setUniformValue("uColor", uColor_);
+  m_shader_program_->setUniformValue(uEdgeColorName, uEdgeClr_);
   m_shader_program_->setUniformValue("u_resolution", resolution_);
-  m_shader_program_->setUniformValue("u_dashSize", dashsize);
-  m_shader_program_->setUniformValue("u_gapSize", gapsize);
+  m_shader_program_->setUniformValue("u_dashSize", dash_sz_);
+  m_shader_program_->setUniformValue("u_gapSize", gap_sz_);
   m_shader_program_->release();
 }

@@ -15,7 +15,7 @@
 
 namespace s21 {
 enum class VerticeStyle { Square, Circle };
-enum class LineStyle { Solid, Dot };
+enum class EdgesStyle { Solid, Dot };
 
 class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   Q_OBJECT
@@ -33,6 +33,7 @@ signals:
   // Color
   void BackgroundColorUpdate();
   void EdgeColorUpdate();
+  void VertexClrUpd();
 
   // Size / Thickness
   void VerticesSizeUpdate();
@@ -55,25 +56,35 @@ private slots:
   bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
+  // Methods ----------------------------------------→
   void LoadShaders();
   void SetupConnections();
 
-  // Variables -------------------→
+  // GL Context
+  void MakeInGLContext(std::function<void()>);
 
-  // Graphics →
+  // Variables ----------------------------------------→
+
+  // Buffers / shader program
   QOpenGLBuffer *m_vbo_;
   QOpenGLBuffer *m_ebo_;
   QOpenGLVertexArrayObject *m_vao_;
   QOpenGLShaderProgram *m_shader_program_;
 
-  QColor uColor_ = Qt::darkCyan;
+  // Colors
+  QColor uEdgeClr_ = Qt::darkCyan;
+  const char uEdgeColorName[9] = "uEdgeClr";
+  QColor uVertexClr_ = Qt::darkCyan;
+  const char uVertexColorName[11] = "uVertexClr";
+
   QColor bckg_clr_ = Qt::gray;
 
+  // Measures
   float verts_point_sz_ = 4.0f;
-  float line_w_ = 0.5f;
+  float edge_w_ = 0.5f;
 
   VerticeStyle vertex_style_ = VerticeStyle::Square;
-  LineStyle line_style_ = LineStyle::Solid;
+  EdgesStyle edge_style_ = EdgesStyle::Solid;
 
 #define DEF_DOTLINE_DASH_SIZE 5.0f
 #define DEF_DOTLINE_GAP_SIZE 15.0f
@@ -81,17 +92,23 @@ private:
 #define DEF_SOLID_DASH_SIZE 0.0f
 #define DEF_SOLID_GAP_SIZE 0.0f
 
-  float dashsize = 0.0f; // расстояние между чёрточками
-  float gapsize = 0.0f;  // длина чёрточки
+  float dash_sz_ = 0.0f; // расстояние между чёрточками
+  float gap_sz_ = 0.0f;  // длина чёрточки
 
-  // Model →
-  // std::string obj_filename_;
+  // Resolution
+  int width_ = 1280;
+  int height_ = 720;
+  QVector2D resolution_ =
+      QVector2D(static_cast<float>(width_), static_cast<float>(height_));
+
+  // Model desc
   bool file_uploaded_ = false;
   bool vertices_ready_ = false;
   bool ebo_ready_ = false;
   size_t ebo_qty_ = 0;
   size_t points_qty_ = 0;
 
+  // Update timer
   QTimer *front_update_timer_;
 
   // Mouse
@@ -100,30 +117,26 @@ private:
   bool rb_clicked_ = false;
   void RightButton(QMouseEvent &m_e, int m_y, int m_x);
 
-  // Resolution
-  int width_ = 1280;
-  int height_ = 720;
-  QVector2D resolution_ =
-      QVector2D(static_cast<float>(width_), static_cast<float>(height_));
-
-  // GL Context
-  void MakeInGLContext(std::function<void()>);
-
 public:
-  // void initGL();
   void ObjectInit();
 
   // Setters
+  // Buffers
   void SetVBO(std::vector<float> &vert_attrs);
   void SetEBO(std::vector<uint> &vert_indx);
+
+  // Color
   void SetBackgroundColor(int r, int g, int);
-  void SetEdgeColor(int r, int g, int);
-  void SetVerticesSize(float x);
-  void SetLinesWidth(float x);
+  void SetEdgeColor(int r, int g, int b);
+  void SetVertexClr(int r, int g, int b);
+  
+  // Measures
+  void SetEdgeW(float x);
+  void SetVertexSz(float x);
 
-  void SetVerticeStyle(VerticeStyle style);
+  void SetVertexStyle(VerticeStyle style);
 
-  void SetContinuityLine(LineStyle style);
+  void SetEdgeStyle(EdgesStyle style);
   void SetDottedLine();
   void SetSolidLine();
   void SetDashSize(float);
