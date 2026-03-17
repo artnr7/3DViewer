@@ -3,6 +3,7 @@
 
 #include "../api/model_interface.h"
 #include "object_class.h"
+#include "settings_controller/base.h"
 #include <memory>
 
 namespace s21 {
@@ -10,13 +11,15 @@ namespace s21 {
 class Model : public IModel {
 
 public:
-  Model() = default;
+  Model() { set = new SettingsParser(); };
   ~Model() = default;
 
 private:
   // DATA -------------------------
   std::unique_ptr<Object> obj_;
   std::string obj_filename_;
+  SettingsParser *set;
+
   // affine_trans at_;
 
   // METHODS ------------------------

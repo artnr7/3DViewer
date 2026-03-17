@@ -2,6 +2,7 @@
 register_format_cmake_file()
 
 add_subdirectory(object_class)
+add_subdirectory(settings_controller)
 
 #* model library *#
 set(MODEL_FILES
