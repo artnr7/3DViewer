@@ -1,6 +1,8 @@
 #ifndef SETTINGS_PARSER_H_
 #define SETTINGS_PARSER_H_
 
+#include <cmath>
+#include <iomanip>
 #include <iostream>
 #include <numeric>
 #include <qvariant.h>
@@ -9,7 +11,7 @@
 #include <fstream>
 #include <stack>
 #include <string>
-#include <unordered_map>
+#include <type_traits>
 #include <utility>
 #include <variant>
 #include <vector>
@@ -20,159 +22,202 @@ namespace s21 {
 
 class SettingsParser {
 private:
-  enum class Settings {
-    RotAngleX = 0, // const
-    RotAngleY,
-    RotAngleZ,
-
-    TransFactorX,
-    TransFactorY,
-    TransFactorZ,
-
-    ScaleFactorX,
-    ScaleFactorY,
-    ScaleFactorZ,
-
-    VertexSz,
-    VertexStyle,
-
-    VertexClrR,
-    VertexClrG,
-    VertexClrB,
-
-    EdgeSz,
-    EdgeStyle,
-
-    EdgeClrR,
-    EdgeClrG,
-    EdgeClrB,
-
-    BckgClrR,
-    BckgClrG,
-    BckgClrB,
-
-    Proj,
-
-    Render,
-
-    Filename,
-  };
-
-  using type = uint16_t;
-  using val = float;
-  using JsonVal = std::variant<val, type, std::string>;
-  using foreign_key = const std::string;
-
-  struct Arcana {
-    foreign_key key;
-    JsonVal json_val;
-  };
-
-  std::unordered_map<const Settings, Arcana> settings_{
-      {Settings::RotAngleX, {"rotationAngleX", val()}},
-      {Settings::RotAngleY, {"rotationAngleY", val()}},
-      {Settings::RotAngleZ, {"rotationAngleZ", val()}},
-
-      {Settings::TransFactorX, {"translationFactorX", val()}},
-      {Settings::TransFactorY, {"translationFactorY", val()}},
-      {Settings::TransFactorZ, {"translationFactorZ", val()}},
-
-      {Settings::ScaleFactorX, {"scaleFactorX", val()}},
-      {Settings::ScaleFactorY, {"scaleFactorY", val()}},
-      {Settings::ScaleFactorZ, {"scaleFactorZ", val()}},
-
-      {Settings::VertexSz, {"vertexSize", val()}},
-      {Settings::VertexStyle, {"vertexStyle", type()}},
-
-      {Settings::VertexClrR, {"vertexClrR", val()}},
-      {Settings::VertexClrG, {"vertexClrG", val()}},
-      {Settings::VertexClrB, {"vertexClrB", val()}},
-
-      {Settings::EdgeSz, {"edgeSize", val()}},
-      {Settings::EdgeStyle, {"edgeStyle", type()}},
-      {Settings::EdgeClrR, {"edgeColorR", val()}},
-      {Settings::EdgeClrG, {"edgeColorG", val()}},
-      {Settings::EdgeClrB, {"edgeColorB", val()}},
-
-      {Settings::BckgClrR, {"backgroundColorR", val()}},
-      {Settings::BckgClrG, {"backgroundColorG", val()}},
-      {Settings::BckgClrB, {"backgroundColorB", val()}},
-
-      {Settings::Proj, {"projectionType", type()}},
-      {Settings::Render, {"renderType", type()}},
-
-      {Settings::Filename, {"filename", std::string()}},
-  };
-
-  // std::fstream settfile_ = std::fstream(SETTINGS_FILE);
-  std::fstream settfile_;
   using Str = std::string;
-  using StrIt = std::string::iterator;
-  using CStrIt = std::string::const_iterator;
 
-  // void FindLine(foreign_key key) {
-  //   Str str;
-  //   while (std::getline(settfile_, str)) {
-  //     if (str == key){
-  //
-  //     }
-  //   }
-  // }
+  using Key = const Str;
 
-  void UpdateSetting() {
-    std::cout << " greogjergergij" << std::endl;
-    Str str;
-    if (settfile_.is_open()) {
-      std::cout << "==========================" << std::endl;
-    } else {
-      std::cout << "------------------------------------------------"
-                << std::endl;
+  using Type = uint16_t;
+  using Rate = float;
+  using Val = std::variant<Rate, Type, std::string>;
+
+  std::map<Key, Val> settings_{
+      {"rotationAngleX", Rate()},
+      {"rotationAngleY", Rate()},
+      {"rotationAngleZ", Rate()},
+
+      {"translationFactorX", Rate()},
+      {"translationFactorY", Rate()},
+      {"translationFactorZ", Rate()},
+
+      {"scaleFactorX", Rate()},
+      {"scaleFactorY", Rate()},
+      {"scaleFactorZ", Rate()},
+
+      // Vertex
+      {"vertexSize", Rate()},
+      {"vertexStyle", Type()},
+
+      {"vertexColorR", Rate()},
+      {"vertexColorG", Rate()},
+      {"vertexColorB", Rate()},
+
+      // Edge
+      {"edgeSize", Rate()},
+      {"edgeStyle", Type()},
+
+      {"edgeColorR", Rate()},
+      {"edgeColorG", Rate()},
+      {"edgeColorB", Rate()},
+
+      // Background
+      {"backgroundColorR", Rate()},
+      {"backgroundColorG", Rate()},
+      {"backgroundColorB", Rate()},
+
+      {"projectionType", Type()},
+      {"renderType", Type()},
+
+      {"filename", Str()},
+  };
+
+  std::fstream settfile_ = std::fstream(SETTINGS_FILE, std::ios::in);
+
+  void ParseSettings() {
+    Str str{};
+    Str key_s{};
+    Str val_s{};
+
+    while (std::getline(settfile_, str)) {
+      size_t eq = str.find('=');
+      size_t end = str.size() - 1;
+
+      // std::cout << eq << "  " << end << std::endl;
+
+      Str key_s = str.substr(0, eq);
+      Str val_s = str.substr(eq + 1, end);
+      // std::cout << key_s << " " << val_s << std::endl;
+
+      auto it = settings_.find(key_s);
+      if (it == settings_.end()) {
+        continue;
+      }
+
+      auto &[key, val] = *it;
+
+      std::visit(
+          [&](auto &val) {
+            using T = std::decay_t<decltype(val)>;
+
+            if constexpr (std::is_same_v<T, Rate>) {
+              val = std::stof(val_s); // float
+              // std::cout << val << " ";
+            } else if constexpr (std::is_same_v<T, Type>) {
+              val = std::stoi(val_s); // uint16_t
+              // std::cout << val << " ";
+            } else if constexpr (std::is_same_v<T, Str>) {
+              val = val_s;
+              // std::cout << val << " ";
+            }
+          },
+          val);
+
+      // std::visit([&](auto &&it) { std::cout << it << std::endl; },
+      // it->second);
     }
-    for (const auto &[inner, arcana] : settings_) {
-      auto [key, secret] = arcana;
+    settfile_.clear();
+    settfile_.seekg(0);
+    settfile_.close();
+  }
+
+  void UpdateSettings() {
+    settfile_.open(SETTINGS_FILE, std::ios::out | std::ios::trunc);
+    if (!settfile_.is_open()) {
+      return;
+    }
+
+    for (const auto &[key, val] : settings_) {
       settfile_ << key << "=";
-      std::cout << key << "=";
-      // std::visit([&](auto &&value) { settfile_ << value; }, secret);
-      // auto print_val = [&](const auto &value) { settfile_ << value; };
-      // std::visit(print_val, secret);
+      // std::cout << key << "=";
+      std::visit(
+          [&](auto &&val) {
+            settfile_ << val;
+            // std::cout << value;
+          },
+          val);
       settfile_ << "\n";
-      std::cout << "\n";
+      // std::cout << "\n";
     }
-    // std::cout << "=== ДИАГНОСТИКА ===" << std::endl;
-    // std::cout << "1. Настроек: " << settings_.size() << std::endl;
-    // std::cout << "2. Файл открыт: " << (settfile_.is_open() ? "ДА" : "НЕТ")
-    //           << std::endl;
-    // std::cout << "3. Ошибок в потоке: " << (settfile_.fail() ? "ДА" : "НЕТ")
-    //           << std::endl;
-    // std::cout << "4. Размер файла: "
-    //           << std::filesystem::file_size(SETTINGS_FILE) << " байт"
-    //           << std::endl;
-    // std::cout << "5. После close: " <<
-    // std::filesystem::file_size(SETTINGS_FILE)
-    //           << std::endl;
     settfile_.flush();
     settfile_.close();
   }
 
-  void SetEdgeSz(val edge_sz) {
-    auto it = settings_.find(Settings::EdgeSz);
-    auto [inner, arcana] = *it;
-    arcana.json_val = edge_sz;
+  void Print() {
+    std::cout << "\n\nSettings Print\n--------------------------\n";
+    for (auto &it : settings_) {
+      auto [k, v] = it;
+      std::cout << std::left << std::setw(25) << k;
+      std::visit([&](auto &&v) { std::cout << std::setw(7) << v; }, v);
+      std::cout << "\n";
+    }
   }
+
+  void Tmp(Key key, Val val) {
+    auto it = settings_.find(key);
+    auto [k, v] = *it;
+    std::visit([&](auto &&val) { v = val; }, val);
+  }
+
+  void SetRotAngles(Rate x, Rate y, Rate z) {
+    Tmp("rotationAngleX", x);
+    Tmp("rotationAngleY", y);
+    Tmp("rotationAngleZ", z);
+  }
+
+  void SetTransFactors(Rate x, Rate y, Rate z) {
+    Tmp("translationFactorX", x);
+    Tmp("translationFactorY", y);
+    Tmp("translationFactorZ", z);
+  }
+
+  void SetScaleFactors(Rate x, Rate y, Rate z) {
+    Tmp("scaleFactorX", x);
+    Tmp("scaleFactorY", y);
+    Tmp("scaleFactorZ", z);
+  }
+
+  // Vertex
+  void SetVertexSz(Rate vertex_sz) { Tmp("vertexSize", vertex_sz); }
+  void SetVertexStyle(Type vertex_style) { Tmp("vertexStyle", vertex_style); }
+
+  void SetVertexClr(Rate r, Rate g, Rate b) {
+    Tmp("vertexColorR", r);
+    Tmp("vertexColorG", g);
+    Tmp("vertexColorB", b);
+  }
+
+  // Edge
+  void SetEdgeSz(Rate edge_sz) { Tmp("edgeSize", edge_sz); }
+  void SetEdgeStyle(Type edge_style) { Tmp("edgeStyle", edge_style); }
+
+  void SetEdgeClr(Rate r, Rate g, Rate b) {
+    Tmp("edgeColorR", r);
+    Tmp("edgeColorG", g);
+    Tmp("edgeColorB", b);
+  }
+
+  void SetBckgClr(Rate r, Rate g, Rate b) {
+    Tmp("backgroundColorR", r);
+    Tmp("backgroundColorG", g);
+    Tmp("backgroundColorB", b);
+  }
+
+  void SetProj(Type proj) { Tmp("projectionType", proj); }
+
+  void SetRender(Type render) { Tmp("renderType", render); }
+
+  void SetFilename(const std::string &filename) { Tmp("filename", filename); }
 
 public:
   SettingsParser() {
-    // settfile_.flush();
-    // settfile_.close();
-
-    settfile_.open(SETTINGS_FILE, std::ios::out | std::ios::trunc);
-    UpdateSetting();
+    ParseSettings();
+    Print();
+    UpdateSettings();
   }
 
-  // ~SettingsParser() {
-  //   settfile_.flush();
-  //   settfile_.close();
-  // }
+  ~SettingsParser() {
+    // settfile_.flush();
+    settfile_.close();
+  }
 };
 
 } // namespace s21
