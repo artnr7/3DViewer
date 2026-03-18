@@ -29,44 +29,45 @@ private:
 
   using Type = uint16_t;
   using Rate = float;
+  using Color = uint8_t;
   using Val = std::variant<Rate, Type, std::string>;
 
   std::map<Key, Val> settings_{
-      {"rotationAngleX", Rate()},
-      {"rotationAngleY", Rate()},
-      {"rotationAngleZ", Rate()},
+      {"rotationAngleX", Rate(0.0f)},
+      {"rotationAngleY", Rate(0.0f)},
+      {"rotationAngleZ", Rate(0.0f)},
 
-      {"translationFactorX", Rate()},
-      {"translationFactorY", Rate()},
-      {"translationFactorZ", Rate()},
+      {"translationFactorX", Rate(0.0f)},
+      {"translationFactorY", Rate(0.0f)},
+      {"translationFactorZ", Rate(0.0f)},
 
-      {"scaleFactor", Rate()},
+      {"scaleFactor", Rate(1.0f)},
 
       // Vertex
-      {"vertexSize", Rate()},
-      {"vertexStyle", Type()},
+      {"vertexSize", Rate(10.0f)},
+      {"vertexStyle", Type(0)},
 
-      {"vertexColorR", Rate()},
-      {"vertexColorG", Rate()},
-      {"vertexColorB", Rate()},
+      {"vertexColorR", Type(0)},
+      {"vertexColorG", Type(49)},
+      {"vertexColorB", Type(83)},
 
       // Edge
-      {"edgeSize", Rate()},
-      {"edgeStyle", Type()},
+      {"edgeSize", Rate(10.0f)},
+      {"edgeStyle", Type(0)},
 
-      {"edgeColorR", Rate()},
-      {"edgeColorG", Rate()},
-      {"edgeColorB", Rate()},
+      {"edgeColorR", Type(255)},
+      {"edgeColorG", Type(36)},
+      {"edgeColorB", Type(0)},
 
       // Background
-      {"backgroundColorR", Rate()},
-      {"backgroundColorG", Rate()},
-      {"backgroundColorB", Rate()},
+      {"backgroundColorR", Type(197)},
+      {"backgroundColorG", Type(208)},
+      {"backgroundColorB", Type(230)},
 
-      {"projectionType", Type()},
-      {"renderType", Type()},
+      {"projectionType", Type(0)},
+      {"renderType", Type(0)},
 
-      {"filename", Str()},
+      {"filename", Str("")},
   };
 
   std::fstream settfile_ = std::fstream(SETTINGS_FILE, std::ios::in);
@@ -176,7 +177,7 @@ public:
   void SetVertexSz(Rate vertex_sz) { Tmp("vertexSize", vertex_sz); }
   void SetVertexStyle(Type vertex_style) { Tmp("vertexStyle", vertex_style); }
 
-  void SetVertexClr(Rate r, Rate g, Rate b) {
+  void SetVertexClr(Type r, Type g, Type b) {
     Tmp("vertexColorR", r);
     Tmp("vertexColorG", g);
     Tmp("vertexColorB", b);
@@ -186,21 +187,21 @@ public:
   void SetEdgeSz(Rate edge_sz) { Tmp("edgeSize", edge_sz); }
   void SetEdgeStyle(Type edge_style) { Tmp("edgeStyle", edge_style); }
 
-  void SetEdgeClr(Rate r, Rate g, Rate b) {
+  void SetEdgeClr(Type r, Type g, Type b) {
     Tmp("edgeColorR", r);
     Tmp("edgeColorG", g);
     Tmp("edgeColorB", b);
   }
 
-  void SetBckgClr(Rate r, Rate g, Rate b) {
+  void SetBckgClr(Type r, Type g, Type b) {
     Tmp("backgroundColorR", r);
     Tmp("backgroundColorG", g);
     Tmp("backgroundColorB", b);
   }
 
-  void SetProj(Type proj) { Tmp("projectionType", proj); }
+  void SetProjType(Type proj) { Tmp("projectionType", proj); }
 
-  void SetRender(Type render) { Tmp("renderType", render); }
+  void SetRenderType(Type render) { Tmp("renderType", render); }
 
   void SetFilename(const std::string &filename) { Tmp("filename", filename); }
 
@@ -230,20 +231,20 @@ public:
   Rate GetVertexSz() { return Tme<Rate>("vertexSize"); }
   Type GetVertexStyle() { return Tme<Type>("vertexStyle"); }
 
-  Rate GetVertexClrR() { return Tme<Rate>("vertexColorR"); }
-  Rate GetVertexClrG() { return Tme<Rate>("vertexColorG"); }
-  Rate GetVertexClrB() { return Tme<Rate>("vertexColorB"); }
+  Rate GetVertexClrR() { return Tme<Type>("vertexColorR"); }
+  Rate GetVertexClrG() { return Tme<Type>("vertexColorG"); }
+  Rate GetVertexClrB() { return Tme<Type>("vertexColorB"); }
 
   Rate GetEdgeSz() { return Tme<Rate>("edgeSize"); }
   Type GetEdgeStyle() { return Tme<Type>("edgeStyle"); }
 
-  Rate GetEdgeClrR() { return Tme<Rate>("edgeColorR"); }
-  Rate GetEdgeClrG() { return Tme<Rate>("edgeColorG"); }
-  Rate GetEdgeClrB() { return Tme<Rate>("edgeColorB"); }
+  Rate GetEdgeClrR() { return Tme<Type>("edgeColorR"); }
+  Rate GetEdgeClrG() { return Tme<Type>("edgeColorG"); }
+  Rate GetEdgeClrB() { return Tme<Type>("edgeColorB"); }
 
-  Rate GetBckgClrR() { return Tme<Rate>("backgroundColorR"); }
-  Rate GetBckgClrG() { return Tme<Rate>("backgroundColorG"); }
-  Rate GetBckgClrB() { return Tme<Rate>("backgroundColorB"); }
+  Rate GetBckgClrR() { return Tme<Type>("backgroundColorR"); }
+  Rate GetBckgClrG() { return Tme<Type>("backgroundColorG"); }
+  Rate GetBckgClrB() { return Tme<Type>("backgroundColorB"); }
 
   Type GetProjType() { return Tme<Type>("projectionType"); }
   Type GetRenderType() { return Tme<Type>("renderType"); }
@@ -254,7 +255,7 @@ public:
   SettingsParser() {
     ParseSettings();
     // Print();
-    UpdateSettings();
+    // UpdateSettings();
   }
 
   ~SettingsParser() {

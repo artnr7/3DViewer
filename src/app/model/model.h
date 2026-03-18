@@ -4,6 +4,7 @@
 #include "../api/model_interface.h"
 #include "object_class.h"
 #include "settings_controller/base.h"
+#include <cstdint>
 #include <memory>
 
 namespace s21 {
@@ -11,14 +12,37 @@ namespace s21 {
 class Model : public IModel {
 
 public:
-  Model() { settings_controller_ = std::make_unique<SettingsParser>(); };
+  Model() { sett_control_ = std::make_unique<SettingsParser>(); };
   ~Model() = default;
 
 private:
   // DATA -------------------------
   std::unique_ptr<Object> obj_;
-  std::unique_ptr<SettingsParser> settings_controller_;
+  std::unique_ptr<SettingsParser> sett_control_;
 
+private:
+  struct RGB {
+    uint8_t r, g, b;
+  };
+
+  struct Settings {
+    float vertex_sz_ = 1.0f;
+    uint16_t vertex_style_ = 0;
+
+    RGB vertex_clr = {};
+
+    float edge_sz_ = 1.0f;
+    uint16_t edge_style_ = 0;
+
+    RGB edge_clr = {};
+
+    RGB bckg_clr = {};
+
+    uint16_t proj_type = 0;
+    uint16_t render_type = 0;
+  };
+
+  Settings settings_;
   std::string obj_filename_;
 
   // METHODS ------------------------

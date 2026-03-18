@@ -56,6 +56,11 @@ void Object::Affine::RotMat() {
   mat_rot_ = mat_rot_x_ * mat_rot_y_ * mat_rot_z_;
 }
 
+void Object::Affine::UpdateGLVertices() {
+  RTS();
+  Multiply();
+}
+
 void Object::Affine::RTS() {
   rts_.SetZero();
 

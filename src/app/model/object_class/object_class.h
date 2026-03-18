@@ -44,10 +44,6 @@ private:
   // AFFINE ---------------------------------------------------→
   class Affine {
   public:
-    // void TranslateX(float x);
-    // void TranslateY(float y);
-    // void TranslateZ(float z);
-
     // Translate
     void TranslateToX(float);
     void TranslateToY(float);
@@ -67,7 +63,7 @@ private:
     void RotateOnY(float);
     void RotateOnZ(float);
 
-    // void SetTranslate(vec4);
+    void UpdateGLVertices();
     void RTS();
     void RotMat();
 

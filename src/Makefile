@@ -26,6 +26,11 @@ run: build
 
 r: run
 
+rr:
+	mkdir -p logs
+	rm -f logs/3dviewer.log
+	$(PROTOCOL) ./$(BIN_DIR)/$(EXECUTABLE)
+
 test: build
 	@ctest --test-dir build --parallel $(NPROC) --output-on-failure
 
