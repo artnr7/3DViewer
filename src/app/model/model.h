@@ -11,16 +11,15 @@ namespace s21 {
 class Model : public IModel {
 
 public:
-  Model() { set = new SettingsParser(); };
+  Model() { settings_controller_ = std::make_unique<SettingsParser>(); };
   ~Model() = default;
 
 private:
   // DATA -------------------------
   std::unique_ptr<Object> obj_;
-  std::string obj_filename_;
-  SettingsParser *set;
+  std::unique_ptr<SettingsParser> settings_controller_;
 
-  // affine_trans at_;
+  std::string obj_filename_;
 
   // METHODS ------------------------
   // create/build
@@ -31,13 +30,13 @@ private:
   std::vector<uint> &GetEBO() override;
 
   // update data
-  void TranslateToX(float x) override;
-  void TranslateToY(float x) override;
-  void TranslateToZ(float x) override;
+  void TranslateToX(float) override;
+  void TranslateToY(float) override;
+  void TranslateToZ(float) override;
 
-  void TranslateOnX(float x) override;
-  void TranslateOnY(float x) override;
-  void TranslateOnZ(float x) override;
+  void TranslateOnX(float) override;
+  void TranslateOnY(float) override;
+  void TranslateOnZ(float) override;
 
   void RotateToX(float) override;
   void RotateToY(float) override;

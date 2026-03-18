@@ -2,6 +2,7 @@
 #define SETTINGS_PARSER_H_
 
 #include <cmath>
+#include <cstdint>
 #include <iomanip>
 #include <iostream>
 #include <numeric>
@@ -16,7 +17,7 @@
 #include <variant>
 #include <vector>
 
-#define SETTINGS_FILE "ttt.txt"
+#define SETTINGS_FILE "build/bin/settings.txt"
 
 namespace s21 {
 
@@ -39,9 +40,7 @@ private:
       {"translationFactorY", Rate()},
       {"translationFactorZ", Rate()},
 
-      {"scaleFactorX", Rate()},
-      {"scaleFactorY", Rate()},
-      {"scaleFactorZ", Rate()},
+      {"scaleFactor", Rate()},
 
       // Vertex
       {"vertexSize", Rate()},
@@ -151,9 +150,11 @@ private:
     }
   }
 
+public:
+  // Setters
   void Tmp(Key key, Val val) {
     auto it = settings_.find(key);
-    auto [k, v] = *it;
+    auto &[k, v] = *it;
     std::visit([&](auto &&val) { v = val; }, val);
   }
 
@@ -169,11 +170,7 @@ private:
     Tmp("translationFactorZ", z);
   }
 
-  void SetScaleFactors(Rate x, Rate y, Rate z) {
-    Tmp("scaleFactorX", x);
-    Tmp("scaleFactorY", y);
-    Tmp("scaleFactorZ", z);
-  }
+  void SetScaleFactors(Rate sc_fct) { Tmp("scaleFactor", sc_fct); }
 
   // Vertex
   void SetVertexSz(Rate vertex_sz) { Tmp("vertexSize", vertex_sz); }
@@ -207,10 +204,56 @@ private:
 
   void SetFilename(const std::string &filename) { Tmp("filename", filename); }
 
-public:
+  // Getters
+  template <typename Type> Type Tme(Key key) {
+    auto it = settings_.find(key);
+    if (it == settings_.end()) {
+      return Type{};
+    }
+    auto [k, v] = *it;
+    if (auto *f = std::get_if<Type>(&v)) {
+      return *f;
+    }
+    return Type{};
+  }
+
+  Rate GetRotAngleX() { return Tme<Rate>("rotationAngleX"); }
+  Rate GetRotAngleY() { return Tme<Rate>("rotationAngleY"); }
+  Rate GetRotAngleZ() { return Tme<Rate>("rotationAngleZ"); }
+
+  Rate GetTransFactorX() { return Tme<Rate>("translationFactorX"); }
+  Rate GetTransFactorY() { return Tme<Rate>("translationFactorY"); }
+  Rate GetTransFactorZ() { return Tme<Rate>("translationFactorZ"); }
+
+  Rate GetScaleFactor() { return Tme<Rate>("scaleFactor"); }
+
+  Rate GetVertexSz() { return Tme<Rate>("vertexSize"); }
+  Type GetVertexStyle() { return Tme<Type>("vertexStyle"); }
+
+  Rate GetVertexClrR() { return Tme<Rate>("vertexColorR"); }
+  Rate GetVertexClrG() { return Tme<Rate>("vertexColorG"); }
+  Rate GetVertexClrB() { return Tme<Rate>("vertexColorB"); }
+
+  Rate GetEdgeSz() { return Tme<Rate>("edgeSize"); }
+  Type GetEdgeStyle() { return Tme<Type>("edgeStyle"); }
+
+  Rate GetEdgeClrR() { return Tme<Rate>("edgeColorR"); }
+  Rate GetEdgeClrG() { return Tme<Rate>("edgeColorG"); }
+  Rate GetEdgeClrB() { return Tme<Rate>("edgeColorB"); }
+
+  Rate GetBckgClrR() { return Tme<Rate>("backgroundColorR"); }
+  Rate GetBckgClrG() { return Tme<Rate>("backgroundColorG"); }
+  Rate GetBckgClrB() { return Tme<Rate>("backgroundColorB"); }
+
+  Type GetProjType() { return Tme<Type>("projectionType"); }
+  Type GetRenderType() { return Tme<Type>("renderType"); }
+
+  Str GetFilename() { return Tme<Str>("filename"); }
+
+  // Constructors
   SettingsParser() {
     ParseSettings();
-    Print();
+    // Print();
     UpdateSettings();
   }
 
