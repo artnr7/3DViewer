@@ -25,7 +25,10 @@ View::View(Controller *controller, QWidget *parent)
                              INIT_W_OBJECT_WIDGET, INIT_H_OBJECT_WIDGET, this);
 
   menu_wid_update_timer_ = new QTimer(this);
+
   SetupConnections();
+  // TODO:(sundaeka) надо считать настройки до состояния когда можно уже
+  // загружать файл
 }
 void View::OnObjectStartBuild() {
   // по сути это надо вызывать, когда есть уверенность, что файл в модели

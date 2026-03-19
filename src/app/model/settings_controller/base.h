@@ -37,6 +37,7 @@ private:
   using Settings = std::map<Key, Val>;
 
   Settings settings_{
+      // default
       {"rotationAngles", Angles{.x = 0.0f, .y = 0.0f, .z = 0.0f}},
       {"translationRates", Rates{.x = 0.0f, .y = 0.0f, .z = 0.0f}},
 
@@ -68,6 +69,11 @@ private:
   inline bool IsStrNpos(size_t pos) { return pos == Str::npos; }
 
   void ParseSettings() {
+    settfile_.open(SETTINGS_FILE, std::ios::in);
+    if (!settfile_.is_open()) {
+      return;
+    }
+
     Str str{}, key_s{};
 
     size_t eq{}, end{}, f_spc{}, s_spc{};
@@ -262,6 +268,7 @@ public:
     return *f;
   }
 
+  // Affine
   const Angles &GetRotAngles() { return Get<Angles>("rotationAngles"); }
   const Rates &GetTransRates() { return Get<Rates>("translationFactorX"); }
   const Rate &GetScaleRate() { return Get<Rate>("scaleRate"); }
@@ -282,7 +289,7 @@ public:
   const Enum &GetRenderType() { return Get<Enum>("renderType"); }
   const Str &GetFilename() { return Get<Str>("filename"); }
 
-  const Settings &GetSettings() { return settings_; }
+  // const Settings &GetSettings() { return settings_; }
 
   // Constructors
   SettingsParser() {
