@@ -42,10 +42,10 @@ void ObjectViewerWidget::SetEBO(std::vector<uint> &vert_indx) {
   ebo_ready_ = true;
 }
 
-void ObjectViewerWidget::SetBckgClr(int r, int g, int b) {
+void ObjectViewerWidget::SetBckgClr(Color clr) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
 
-  bckg_clr_.setRgb(r, g, b);
+  bckg_clr_.setRgb(clr.x, clr.y, clr.z);
 
   MakeInGLContext([&] {
     glClearColor(bckg_clr_.redF(), bckg_clr_.greenF(), bckg_clr_.blueF(),
@@ -53,10 +53,10 @@ void ObjectViewerWidget::SetBckgClr(int r, int g, int b) {
   });
 }
 
-void ObjectViewerWidget::SetEdgeColor(int r, int g, int b) {
+void ObjectViewerWidget::SetEdgeColor(Color clr) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
 
-  uEdgeClr_.setRgb(r, g, b);
+  uEdgeClr_.setRgb(clr.x, clr.y, clr.z);
 
   MakeInGLContext([&] {
     m_shader_program_->bind();
@@ -68,8 +68,8 @@ void ObjectViewerWidget::SetEdgeColor(int r, int g, int b) {
   });
 }
 
-void ObjectViewerWidget::SetVertexClr(int r, int g, int b) {
-  uVertexClr_.setRgb(r, g, b);
+void ObjectViewerWidget::SetVertexClr(Color clr) {
+  uVertexClr_.setRgb(clr.x, clr.y, clr.z);
 }
 
 void ObjectViewerWidget::SetVertexSz(float x) {

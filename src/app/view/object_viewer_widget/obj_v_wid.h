@@ -13,6 +13,8 @@
 #include <qvectornd.h>
 #include <vector>
 
+#include "../../api/primitives.h"
+
 namespace s21 {
 enum class VerticeStyle { Square, Circle };
 enum class EdgesStyle { Solid, Dot };
@@ -85,9 +87,7 @@ private:
   // GL Context
   void MakeInGLContext(std::function<void()>);
 
-  inline bool IsGLBuffersReady(){
-    return vertices_ready_ && ebo_ready_;
-  };
+  inline bool IsGLBuffersReady() { return vertices_ready_ && ebo_ready_; };
 
   // Variables ----------------------------------------→
 
@@ -152,9 +152,9 @@ public:
   void SetEBO(std::vector<uint> &vert_indx);
 
   // Color
-  void SetBckgClr(int r, int g, int);
-  void SetEdgeColor(int r, int g, int b);
-  void SetVertexClr(int r, int g, int b);
+  void SetBckgClr(Color);
+  void SetEdgeColor(Color);
+  void SetVertexClr(Color);
 
   // Measures
   void SetEdgeW(float x);

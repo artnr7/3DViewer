@@ -13,11 +13,7 @@ public:
   // create/build
   virtual void BuildObject(const std::string &filename) = 0;
 
-  // get glvertices
-  virtual std::vector<float> &GetGLVertices() = 0;
-  virtual std::vector<uint> &GetEBO() = 0;
-
-  // Setters
+  // SETTERS -------------------------------
   virtual void TranslateToX(float x) = 0;
   virtual void TranslateToY(float x) = 0;
   virtual void TranslateToZ(float x) = 0;
@@ -36,26 +32,30 @@ public:
 
   virtual void ScaleObject(float) = 0;
 
-  // Getters
+  // GETTERS -------------------------------
+  // get glvertices
+  virtual std::vector<float> &GetGLVertices() = 0;
+  virtual std::vector<uint> &GetEBO() = 0;
+
+  // Affine
   virtual const Angles &GetRotAngles() = 0;
   virtual const Rates &GetTransRates() = 0;
   virtual const float &GetScaleRate() = 0;
 
+  // Vert
   virtual const float &GetVertSz() = 0;
   virtual const uint16_t &GetVertStyle() = 0;
-
   virtual const Color &GetVertClr() = 0;
 
+  // Edge
   virtual const float &GetEdgeSz() = 0;
   virtual const uint16_t &GetEdgeStyle() = 0;
-
   virtual const Color &GetEdgeClr() = 0;
 
+  // Misc
   virtual const Color &GetBckgClr() = 0;
-
   virtual const uint16_t &GetProjType() = 0;
   virtual const uint16_t &GetRenderType() = 0;
-
   virtual const Str &GetFilename() = 0;
 };
 

@@ -10,6 +10,7 @@
 #include "object_viewer_widget/obj_v_wid.h"
 
 #include "../../utils/logger.h"
+#include "../api/primitives.h"
 
 namespace s21 {
 

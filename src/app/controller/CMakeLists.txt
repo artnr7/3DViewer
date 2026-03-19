@@ -1,7 +1,10 @@
 register_format_cmake_file()
 
 #* controller library *#
-set(CONTROLLER_FILES controller.cc controller.h)
+set(CONTROLLER_FILES 
+  controller.cc 
+  controller.h
+  getters.cc)
 register_format_sources(${CONTROLLER_FILES})
 
 add_library(controller_lib STATIC ${CONTROLLER_FILES})

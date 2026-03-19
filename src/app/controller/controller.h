@@ -2,6 +2,7 @@
 #define CONTROLLER_H_
 
 #include "../api/controller_interface.h"
+#include "../utils/logger.h"
 #include <../api/model_interface.h>
 #include <memory>
 #include <qpixelformat.h>
@@ -10,74 +11,72 @@
 namespace s21 {
 
 class Controller : public IController {
-
 public:
-  Controller(IModel *model) : model_(model) {
-    testdata_ = CModelData();
-    testdata_.background_color = RGBColor(128, 128, 128);
-    testdata_.vertex_color = RGBColor(2, 255, 255);
+  Controller(IModel *model) : model_(model) {}
 
-    testdata_.edge_color = RGBColor(255, 255, 128);
-    testdata_.edge_thickness = 0.5f;
-
-    testdata_.vertex_size = 4.0f;
-
-    testdata_.edge_style = 0;
-    testdata_.vertex_style = 0;
-  }
+  Controller() = delete;
   ~Controller() = default;
 
 private:
-  CModelData testdata_;
-  // DATA -------------------------
   IModel *model_;
 
   // METHODS ------------------------
-  void BuildObject(const std::string &filename) override;
+  void BuildObject(const std::string &filename) override {
+    Lg::Log()->Info("Controller::" + std::string(__func__));
+    model_->BuildObject(filename);
+  }
 
   // SETTERS -------------------------------
-  void TranslateToX(float x) override;
-  void TranslateToY(float x) override;
-  void TranslateToZ(float x) override;
+  void SetRotAngleX(float) override;
+  void SetRotAngleY(float) override;
+  void SetRotAngleZ(float) override;
 
-  void TranslateOnX(float x) override;
-  void TranslateOnY(float x) override;
-  void TranslateOnZ(float x) override;
+  void AddRotAngle(Angles) override;
 
-  void RotateToX(float) override;
-  void RotateToY(float) override;
-  void RotateToZ(float) override;
+  void SetTransRateX(float) override;
+  void SetTransRateY(float) override;
+  void SetTransRateZ(float) override;
 
-  void RotateOnX(float) override;
-  void RotateOnY(float) override;
-  void RotateOnZ(float) override;
+  void AddTransRates(Rates) override;
 
-  void ScaleObject(float) override;
+  void SetScaleRate(float) override;
 
-  void SetVertexSize(float) override;
-  void SetVertexStyle(int x) override;
-  void SetVertexColor(int r, int g, int b) override;
+  void SetVertSz(float) override;
+  void SetVertStyle(uint16_t) override;
+  void SetVertClr(Color) override;
 
-  void SetEdgeThickness(float) override;
-  void SetEdgeStyle(int x) override;
-  void SetEdgeColor(int r, int g, int b) override;
-  void SetBackgroundColor(int r, int g, int b) override;
+  void SetEdgeSz(float) override;
+  void SetEdgeStyle(uint16_t) override;
+  void SetEdgeClr(Color) override;
+  void SetBckgClr(Color) override;
 
   // GETTERS -------------------------------
   // get glvertices
   std::vector<float> &GetGLVertices() override;
   std::vector<uint> &GetEBO() override;
 
-  //
-  void GetVertexSize() override;
-  void GetVertexStyle() override;
-  void GetVertexColor() override;
-  void GetVertexThickness() override;
-  void GetEdgeStyle() override;
-  void GetEdgeColor() override;
-  void GetBackgroundColor() override;
+  // Affine
+  const Angles &GetRotAngles() override;
+  const Rates &GetTransRates() override;
+  const float &GetScaleRate() override;
 
-  CModelData &GetCModelData() override;
+  // Vert
+  const float &GetVertSz() override;
+  const uint16_t &GetVertStyle() override;
+  const Color &GetVertClr() override;
+
+  // Edge
+  const float &GetEdgeSz() override;
+  const uint16_t &GetEdgeStyle() override;
+  const Color &GetEdgeClr() override;
+
+  // Misc
+  const Color &GetBckgClr() override;
+  const uint16_t &GetProjType() override;
+  const uint16_t &GetRenderType() override;
+  const Str &GetFilename() override;
+
+  // CModelData &GetCModelData() override;
 };
 
 } // namespace s21
