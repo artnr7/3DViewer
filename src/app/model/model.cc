@@ -19,15 +19,17 @@ void Model::BuildObject(const std::string &filename) {
 
   return;
   // Settings upload
-  obj_->a_.RotateToX(sett_control_->GetRotAngleX());
-  obj_->a_.RotateToY(sett_control_->GetRotAngleY());
-  obj_->a_.RotateToZ(sett_control_->GetRotAngleZ());
+  auto &angles = sett_control_->GetRotAngles();
+  obj_->a_.RotateToX(angles.x);
+  obj_->a_.RotateToY(angles.y);
+  obj_->a_.RotateToY(angles.z);
 
-  obj_->a_.TranslateToX(sett_control_->GetTransFactorX());
-  obj_->a_.TranslateToY(sett_control_->GetTransFactorY());
-  obj_->a_.TranslateToZ(sett_control_->GetTransFactorZ());
+  auto &rates = sett_control_->GetRotAngles();
+  obj_->a_.TranslateToX(rates.x);
+  obj_->a_.TranslateToY(rates.y);
+  obj_->a_.TranslateToZ(rates.z);
 
-  obj_->a_.Scale(sett_control_->GetScaleFactor());
+  obj_->a_.Scale(sett_control_->GetScaleRate());
 }
 
 std::vector<float> &Model::GetGLVertices() {
@@ -51,28 +53,33 @@ std::vector<uint> &Model::GetEBO() {
 
 void Model::TranslateToX(float x) {
   Lg::Log()->Trace("Model::" + std::string(__func__));
+
   obj_->a_.TranslateToX(x);
   obj_->a_.UpdateGLVertices();
 }
 void Model::TranslateToY(float x) {
   Lg::Log()->Trace("Model::" + std::string(__func__));
+
   obj_->a_.TranslateToY(x);
   obj_->a_.UpdateGLVertices();
 }
 void Model::TranslateToZ(float x) {
   Lg::Log()->Trace("Model::" + std::string(__func__));
+
   obj_->a_.TranslateToZ(x);
   obj_->a_.UpdateGLVertices();
 }
 
 void Model::TranslateOnX(float x) {
   Lg::Log()->Trace("Model::" + std::string(__func__));
+
   obj_->a_.TranslateOnX(x);
   obj_->a_.UpdateGLVertices();
 }
 
 void Model::TranslateOnY(float x) {
   Lg::Log()->Trace("Model::" + std::string(__func__));
+
   obj_->a_.TranslateOnY(x);
   obj_->a_.UpdateGLVertices();
 }

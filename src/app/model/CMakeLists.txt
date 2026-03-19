@@ -8,6 +8,7 @@ add_subdirectory(settings_controller)
 set(MODEL_FILES
     model.cc
     model.h
+    getters.cc
 )
 register_format_sources(${MODEL_FILES})
 

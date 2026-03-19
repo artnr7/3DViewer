@@ -27,19 +27,19 @@ private:
   //
   // struct Settings {
   //   float vertex_sz_ = 1.0f;
-  //   uint16_t vertex_style_ = 0;
+  //   uint16_t vertex_style_ override;
   //
   //   RGB vertex_clr = {};
   //
   //   float edge_sz_ = 1.0f;
-  //   uint16_t edge_style_ = 0;
+  //   uint16_t edge_style_ override;
   //
   //   RGB edge_clr = {};
   //
   //   RGB bckg_clr = {};
   //
-  //   uint16_t proj_type = 0;
-  //   uint16_t render_type = 0;
+  //   uint16_t proj_type override;
+  //   uint16_t render_type override;
   // };
   //
   // Settings settings_;
@@ -72,19 +72,27 @@ private:
 
   void ScaleObject(float) override;
 
-  // Settings Getters
-  float GetRotAngleX();
-  float GetRotAngleY();
-  float GetRotAngleZ();
+  //  Getters
+  const Angles &GetRotAngles() override;
+  const Rates &GetTransRates() override;
+  const float &GetScaleRate() override;
 
-  float GetTransRateX();
-  float GetTransRateY();
-  float GetTransRateZ();
+  const float &GetVertSz() override;
+  const uint16_t &GetVertStyle() override;
 
-  float GetScaleRate();
+  const Color &GetVertClr() override;
 
-  float GetVertexSz();
-  uint16_t GetVertexStyle();
+  const float &GetEdgeSz() override;
+  const uint16_t &GetEdgeStyle() override;
+
+  const Color &GetEdgeClr() override;
+
+  const Color &GetBckgClr() override;
+
+  const uint16_t &GetProjType() override;
+  const uint16_t &GetRenderType() override;
+
+  const Str &GetFilename() override;
 };
 
 } // namespace s21
