@@ -21,28 +21,28 @@ private:
   std::unique_ptr<SettingsParser> sett_control_;
 
 private:
-  struct RGB {
-    uint8_t r, g, b;
-  };
-
-  struct Settings {
-    float vertex_sz_ = 1.0f;
-    uint16_t vertex_style_ = 0;
-
-    RGB vertex_clr = {};
-
-    float edge_sz_ = 1.0f;
-    uint16_t edge_style_ = 0;
-
-    RGB edge_clr = {};
-
-    RGB bckg_clr = {};
-
-    uint16_t proj_type = 0;
-    uint16_t render_type = 0;
-  };
-
-  Settings settings_;
+  // struct RGB {
+  //   uint8_t r, g, b;
+  // };
+  //
+  // struct Settings {
+  //   float vertex_sz_ = 1.0f;
+  //   uint16_t vertex_style_ = 0;
+  //
+  //   RGB vertex_clr = {};
+  //
+  //   float edge_sz_ = 1.0f;
+  //   uint16_t edge_style_ = 0;
+  //
+  //   RGB edge_clr = {};
+  //
+  //   RGB bckg_clr = {};
+  //
+  //   uint16_t proj_type = 0;
+  //   uint16_t render_type = 0;
+  // };
+  //
+  // Settings settings_;
   std::string obj_filename_;
 
   // METHODS ------------------------
@@ -71,6 +71,20 @@ private:
   void RotateOnZ(float) override;
 
   void ScaleObject(float) override;
+
+  // Settings Getters
+  float GetRotAngleX();
+  float GetRotAngleY();
+  float GetRotAngleZ();
+
+  float GetTransRateX();
+  float GetTransRateY();
+  float GetTransRateZ();
+
+  float GetScaleRate();
+
+  float GetVertexSz();
+  uint16_t GetVertexStyle();
 };
 
 } // namespace s21

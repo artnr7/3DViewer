@@ -30,9 +30,12 @@ private:
   using Type = uint16_t;
   using Rate = float;
   using Color = uint8_t;
-  using Val = std::variant<Rate, Type, std::string>;
 
-  std::map<Key, Val> settings_{
+  using Val = std::variant<Rate, Type, std::string>;
+  using Settings = std::map<Key, Val>;
+
+private:
+  Settings settings_{
       {"rotationAngleX", Rate(0.0f)},
       {"rotationAngleY", Rate(0.0f)},
       {"rotationAngleZ", Rate(0.0f)},
@@ -47,22 +50,22 @@ private:
       {"vertexSize", Rate(10.0f)},
       {"vertexStyle", Type(0)},
 
-      {"vertexColorR", Type(0)},
-      {"vertexColorG", Type(49)},
-      {"vertexColorB", Type(83)},
+      {"vertexColorR", Color(0)},
+      {"vertexColorG", Color(49)},
+      {"vertexColorB", Color(83)},
 
       // Edge
       {"edgeSize", Rate(10.0f)},
       {"edgeStyle", Type(0)},
 
-      {"edgeColorR", Type(255)},
-      {"edgeColorG", Type(36)},
-      {"edgeColorB", Type(0)},
+      {"edgeColorR", Color(255)},
+      {"edgeColorG", Color(36)},
+      {"edgeColorB", Color(0)},
 
       // Background
-      {"backgroundColorR", Type(197)},
-      {"backgroundColorG", Type(208)},
-      {"backgroundColorB", Type(230)},
+      {"backgroundColorR", Color(197)},
+      {"backgroundColorG", Color(208)},
+      {"backgroundColorB", Color(230)},
 
       {"projectionType", Type(0)},
       {"renderType", Type(0)},
@@ -250,6 +253,8 @@ public:
   Type GetRenderType() { return Tme<Type>("renderType"); }
 
   Str GetFilename() { return Tme<Str>("filename"); }
+
+  Settings &GetSettings() { return settings_; }
 
   // Constructors
   SettingsParser() {
