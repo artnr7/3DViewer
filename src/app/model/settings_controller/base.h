@@ -58,19 +58,23 @@ class SettingsParser {
 
   std::fstream settfile_ = std::fstream(SETTINGS_FILE);
 
-  inline bool IsStrNpos(size_t pos) { return pos == Str::npos; }
+  inline static bool IsStrNpos(size_t pos) { return pos == Str::npos; }
 
   void ParseSettings() {
     settfile_.open(SETTINGS_FILE, std::ios::in);
+    // а почему без этих 2 строк не работает???????
+    settfile_.clear();
+    settfile_.seekg(0);
     if (!settfile_.is_open()) {
       return;
     }
 
-    Str str{}, key_s{};
+    Str str, key_s{};
 
     size_t eq{}, end{}, f_spc{}, s_spc{};
 
     while (std::getline(settfile_, str)) {
+      // std::cout << "\n\nParseSettings\n\n" << std::endl;
       eq = str.find('=');
       end = str.size() - 1;
       f_spc = str.find(' ');
@@ -84,7 +88,8 @@ class SettingsParser {
         continue;
       }
 
-      // std::cout << eq << "  " << end << std::endl;
+      // std::cout << eq << "  " << end << " " << f_spc << " " << s_spc
+      //           << std::endl;
       if (IsStrNpos(f_spc) && IsStrNpos(s_spc)) {
         ParseSimple(str, it, eq, end);
       }
@@ -99,9 +104,11 @@ class SettingsParser {
 
   void ParseSimple(const Str& str, const Settings::iterator& it,
                    const size_t eq, const size_t end) {
+    std::cout << "ParseSimple" << std::endl;
     Str val = str.substr(eq + 1, end);
     // std::cout << key_s << " " << val_s << std::endl;
 
+    std::cout << eq << "  " << end << std::endl;
     auto& [k, v] = *it;
 
     std::visit(
@@ -127,10 +134,12 @@ class SettingsParser {
   void ParseTriple(const Str& str, const Settings::iterator& it,
                    const size_t eq, const size_t f_spc, const size_t s_spc,
                    const size_t end) {
+    std::cout << "ParseTriple" << std::endl;
     Str val_1 = str.substr(eq + 1, f_spc);
     Str val_2 = str.substr(f_spc + 1, s_spc);
     Str val_3 = str.substr(s_spc + 1, end);
     // std::cout << key_s << " " << val_s << std::endl;
+    std::cout << eq << "  " << end << " " << f_spc << " " << s_spc << std::endl;
 
     auto& [k, v] = *it;
 
@@ -153,6 +162,7 @@ class SettingsParser {
   }
 
   void UpdateSettings() {
+    // std::cout << "fewfewfwefwe" << std::endl;
     settfile_.open(SETTINGS_FILE, std::ios::out | std::ios::trunc);
     if (!settfile_.is_open()) {
       return;
@@ -160,7 +170,7 @@ class SettingsParser {
 
     for (const auto& [k, v] : settings_) {
       settfile_ << k << "=";
-      // std::cout << key << "=";
+      std::cout << k << "=";
       std::visit(
           [&](auto&& v) {
             using T = std::decay_t<decltype(v)>;
@@ -168,16 +178,23 @@ class SettingsParser {
             if constexpr (std::is_same_v<T, Angles> ||
                           std::is_same_v<T, Rates> ||
                           std::is_same_v<T, Color>) {
-              settfile_ << v.x << " " << v.y << " " << v.z;
+              settfile_ << static_cast<float>(v.x) << " "
+                        << static_cast<float>(v.y) << " "
+                        << static_cast<float>(v.z);
+
+              std::cout << static_cast<float>(v.x) << " "
+                        << static_cast<float>(v.y) << " "
+                        << static_cast<float>(v.z);
             } else if constexpr (std::is_same_v<T, Rate> ||
                                  std::is_same_v<T, Enum> ||
                                  std::is_same_v<T, Str>) {
               settfile_ << v;
+              std::cout << v;
             }
           },
           v);
       settfile_ << "\n";
-      // std::cout << "\n";
+      std::cout << "\n";
     }
     settfile_.flush();
     settfile_.close();
@@ -194,7 +211,9 @@ class SettingsParser {
             if constexpr (std::is_same_v<T, Angles> ||
                           std::is_same_v<T, Rates> ||
                           std::is_same_v<T, Color>) {
-              std::cout << v.x << " " << v.y << " " << v.z;
+              std::cout << static_cast<float>(v.x) << " "
+                        << static_cast<float>(v.y) << " "
+                        << static_cast<float>(v.z);
             } else if constexpr (std::is_same_v<T, Rate> ||
                                  std::is_same_v<T, Enum> ||
                                  std::is_same_v<T, Str>) {
@@ -293,6 +312,7 @@ class SettingsParser {
 
   ~SettingsParser() {
     // settfile_.flush();
+    UpdateSettings();
     settfile_.close();
   }
 };

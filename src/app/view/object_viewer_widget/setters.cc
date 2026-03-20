@@ -48,48 +48,17 @@ void ObjectViewerWidget::SetEBO(std::vector<uint>& vert_indx) {
   ebo_ready_ = true;
 }
 
-void ObjectViewerWidget::SetBckgClr(Color clr) {
-  Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
-
-  bckg_clr_.setRgb(clr.x, clr.y, clr.z);
-
-  MakeInGLContext([&] {
-    glClearColor(bckg_clr_.redF(), bckg_clr_.greenF(), bckg_clr_.blueF(),
-                 bckg_clr_.alphaF());
-  });
-}
-
-void ObjectViewerWidget::SetEdgeClr(Color clr) {
-  Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
-
-  uEdgeClr_.setRgb(clr.x, clr.y, clr.z);
-
-  MakeInGLContext([&] {
-    m_shader_program_->bind();
-    m_shader_program_->setUniformValue(
-        uEdgeClrName_, QVector4D{uEdgeClr_.redF(), uEdgeClr_.greenF(),
-                                 uEdgeClr_.blueF(), uEdgeClr_.alphaF()});
-
-    m_shader_program_->release();
-  });
-}
-
-void ObjectViewerWidget::SetVertClr(Color clr) {
-  uVertClr_.setRgb(clr.x, clr.y, clr.z);
-}
-
+// Vert
 void ObjectViewerWidget::SetVertSz(float x) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
   vert_sz_ = x;
 
   MakeInGLContext([&] { glPointSize(vert_sz_); });
 }
-
-void ObjectViewerWidget::SetEdgeSz(float x) {
-  Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
-  edge_sz_ = x;
-
-  MakeInGLContext([&] { glLineWidth(edge_sz_); });
+void ObjectViewerWidget::SetVertClr(Color clr) {
+  uVertClr_.setRgb(clr.x, clr.y, clr.z);
+  // std::cout << uVertClr_.red() << " " << uVertClr_.green() << " "
+  //           << uVertClr_.blue() << std::endl;
 }
 
 void ObjectViewerWidget::SetVertStyle(VertsStyle style) {
@@ -108,6 +77,14 @@ void ObjectViewerWidget::SetVertStyle(VertsStyle style) {
   }
 }
 
+// Edge
+void ObjectViewerWidget::SetEdgeSz(float x) {
+  Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
+  edge_sz_ = x;
+
+  MakeInGLContext([&] { glLineWidth(edge_sz_); });
+}
+
 void ObjectViewerWidget::SetEdgeStyle(EdgesStyle style) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
   edge_style_ = style;
@@ -120,6 +97,23 @@ void ObjectViewerWidget::SetEdgeStyle(EdgesStyle style) {
       SetDottedEdgeStyle();
       break;
   }
+}
+
+void ObjectViewerWidget::SetEdgeClr(Color clr) {
+  Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
+
+  uEdgeClr_.setRgb(clr.x, clr.y, clr.z);
+  // std::cout << uEdgeClr_.red() << " " << uEdgeClr_.green() << " "
+  //           << uEdgeClr_.blue() << std::endl;
+
+  MakeInGLContext([&] {
+    m_shader_program_->bind();
+    m_shader_program_->setUniformValue(
+        uMeshClrName_, QVector4D{uEdgeClr_.redF(), uEdgeClr_.greenF(),
+                                 uEdgeClr_.blueF(), uEdgeClr_.alphaF()});
+
+    m_shader_program_->release();
+  });
 }
 
 void ObjectViewerWidget::SetDashSz(float dash_sz) {
@@ -158,6 +152,18 @@ void ObjectViewerWidget::SetSolidEdgeStyle() {
 
   SetDashSz(DEF_SOLID_DASH_SIZE);
   SetGapSz(DEF_SOLID_GAP_SIZE);
+}
+
+// Misc
+void ObjectViewerWidget::SetBckgClr(Color clr) {
+  Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
+
+  bckg_clr_.setRgb(clr.x, clr.y, clr.z);
+
+  MakeInGLContext([&] {
+    glClearColor(bckg_clr_.redF(), bckg_clr_.greenF(), bckg_clr_.blueF(),
+                 bckg_clr_.alphaF());
+  });
 }
 
 }  // namespace s21

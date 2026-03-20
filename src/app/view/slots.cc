@@ -28,7 +28,7 @@ void View::updRotX(float x) { pcontroller_->AddRotAngleX(x); }
 void View::updRotY(float y) { pcontroller_->AddRotAngleY(y); }
 void View::updRotZ(float z) { pcontroller_->AddRotAngleZ(z); }
 
-// Edge
+// Vert
 void View::updVertSz() {
   Lg::Log()->Trace("View::" + std::string(__func__));
 
@@ -44,6 +44,7 @@ void View::updVertStyle() {
 
 void View::updVertClr() {
   Lg::Log()->Trace("View::" + std::string(__func__));
+  // std::cout << "fefwefA" << std::endl;
 
   pobj_v_wid_->SetVertClr(pcontroller_->GetVertClr());
 }

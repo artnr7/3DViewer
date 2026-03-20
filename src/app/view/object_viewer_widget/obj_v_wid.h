@@ -55,7 +55,6 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   void updBckgClrRequested();
 
   void updGLVertRequested();
-  // void UpdateFront();
 
  private slots:
   void OnFrontUpdateTimerTimeout() {
@@ -106,10 +105,9 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   QOpenGLShaderProgram* m_shader_program_;
 
   // Colors
-  const char uEdgeClrName_[9] = "uEdgeClr";
+  const char uMeshClrName_[9] = "uMeshClr";
   QColor uEdgeClr_ = Qt::darkCyan;
-  const char uVertClrName_[9] = "uVertClr";
-  QColor uVertClr_ = Qt::darkCyan;
+  QColor uVertClr_ = Qt::darkYellow;
 
   QColor bckg_clr_ = Qt::gray;
 

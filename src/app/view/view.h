@@ -51,7 +51,7 @@ class View : public QWidget {
   void updGLVert();
 
  private:
-  void OnObjectStartBuild();
+  void RunViewUpdAgents();
   void SetupConnections();
 
   /* Fields */

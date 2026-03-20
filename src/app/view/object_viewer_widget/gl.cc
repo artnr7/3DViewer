@@ -62,13 +62,12 @@ void ObjectViewerWidget::paintGL() {
   m_vao_->bind();
   m_ebo_->bind();
 
+  m_shader_program_->setUniformValue(uMeshClrName_, uVertClr_);
   glDrawElements(GL_LINES, ebo_qty_, GL_UNSIGNED_INT, (void*)0);
 
   // points
-  m_shader_program_->setUniformValue(uEdgeClrName_, uVertClr_);
-  // glPointSize(verts_point_sz_);
+  m_shader_program_->setUniformValue(uMeshClrName_, uEdgeClr_);
   glDrawArrays(GL_POINTS, 0, vbo_points_qty_ / 3);
-  m_shader_program_->setUniformValue(uEdgeClrName_, uEdgeClr_);
 
   // glEnable(GL_BLEND);
   // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

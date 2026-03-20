@@ -10,7 +10,10 @@ const float& Model::GetScaleRate() { return sett_control_->GetScaleRate(); }
 // Vert
 const float& Model::GetVertSz() { return sett_control_->GetVertSz(); }
 const uint16_t& Model::GetVertStyle() { return sett_control_->GetVertStyle(); }
-const Color& Model::GetVertClr() { return sett_control_->GetVertClr(); }
+const Color& Model::GetVertClr() {
+  // sett_control_->GetVertClr().Print();
+  return sett_control_->GetVertClr();
+}
 
 // Edge
 const float& Model::GetEdgeSz() { return sett_control_->GetEdgeSz(); }
