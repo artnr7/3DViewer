@@ -1,32 +1,38 @@
-#include "obj_v_wid.h"
 #include <GL/gl.h>
-#include <iostream>
 #include <qlogging.h>
 #include <qvariant.h>
 
+#include "obj_v_wid.h"
+
 namespace s21 {
 
-void ObjectViewerWidget::MakeInGLContext(std::function<void()> f) {
+void ObjectViewerWidget::MakeInGLContext(const std::function<void()> f) {
   makeCurrent();
   f();
   doneCurrent();
 }
 
-void ObjectViewerWidget::SetVBO(std::vector<float> &vert_attrs) {
+void ObjectViewerWidget::MakeInGLShader(const std::function<void()> f) {
+  m_shader_program_->bind();
+  f();
+  m_shader_program_->release();
+}
+
+void ObjectViewerWidget::SetVBO(std::vector<float>& vert_attrs) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
 
-  points_qty_ = vert_attrs.size();
+  vbo_points_qty = vert_attrs.size();
 
   MakeInGLContext([&] {
     m_vbo_->bind();
     // size - это размер в байтах всех элементов
-    m_vbo_->allocate(vert_attrs.data(), points_qty_ * sizeof(GLfloat));
+    m_vbo_->allocate(vert_attrs.data(), vbo_points_qty * sizeof(GLfloat));
     m_vbo_->release();
   });
   vertices_ready_ = true;
 }
 
-void ObjectViewerWidget::SetEBO(std::vector<uint> &vert_indx) {
+void ObjectViewerWidget::SetEBO(std::vector<uint>& vert_indx) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
 
   if (ebo_ready_) {
@@ -53,7 +59,7 @@ void ObjectViewerWidget::SetBckgClr(Color clr) {
   });
 }
 
-void ObjectViewerWidget::SetEdgeColor(Color clr) {
+void ObjectViewerWidget::SetEdgeClr(Color clr) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
 
   uEdgeClr_.setRgb(clr.x, clr.y, clr.z);
@@ -61,65 +67,65 @@ void ObjectViewerWidget::SetEdgeColor(Color clr) {
   MakeInGLContext([&] {
     m_shader_program_->bind();
     m_shader_program_->setUniformValue(
-        uEdgeColorName, QVector4D{uEdgeClr_.redF(), uEdgeClr_.greenF(),
-                                  uEdgeClr_.blueF(), uEdgeClr_.alphaF()});
+        uEdgeColorName_, QVector4D{uEdgeClr_.redF(), uEdgeClr_.greenF(),
+                                   uEdgeClr_.blueF(), uEdgeClr_.alphaF()});
 
     m_shader_program_->release();
   });
 }
 
-void ObjectViewerWidget::SetVertexClr(Color clr) {
-  uVertexClr_.setRgb(clr.x, clr.y, clr.z);
+void ObjectViewerWidget::SetVertClr(Color clr) {
+  uVertClr_.setRgb(clr.x, clr.y, clr.z);
 }
 
-void ObjectViewerWidget::SetVertexSz(float x) {
+void ObjectViewerWidget::SetVertSz(float x) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
-  verts_point_sz_ = x;
+  vert_sz_ = x;
 
-  MakeInGLContext([&] { glPointSize(verts_point_sz_); });
+  MakeInGLContext([&] { glPointSize(vert_sz_); });
 }
 
-void ObjectViewerWidget::SetEdgeW(float x) {
+void ObjectViewerWidget::SetEdgeSz(float x) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
-  edge_w_ = x;
+  edge_sz_ = x;
 
-  MakeInGLContext([&] { glLineWidth(edge_w_); });
+  MakeInGLContext([&] { glLineWidth(edge_sz_); });
 }
 
-void ObjectViewerWidget::SetVertexStyle(VerticeStyle style) {
+void ObjectViewerWidget::SetVertStyle(VertStyle style) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
   vertex_style_ = style;
 
   switch (vertex_style_) {
-  case VerticeStyle::Square:
-    // qDebug() << "SQUARE";
-    MakeInGLContext([&] { glDisable(GL_POINT_SMOOTH); });
-    break;
-  case VerticeStyle::Circle:
-    // qDebug() << "CIRCLE";
-    MakeInGLContext([&] { glEnable(GL_POINT_SMOOTH); });
-    break;
+    case VertStyle::Square:
+      // qDebug() << "SQUARE";
+      MakeInGLContext([&] { glDisable(GL_POINT_SMOOTH); });
+      break;
+    case VertStyle::Circle:
+      // qDebug() << "CIRCLE";
+      MakeInGLContext([&] { glEnable(GL_POINT_SMOOTH); });
+      break;
   }
 }
 
-void ObjectViewerWidget::SetEdgeStyle(EdgesStyle style) {
+void ObjectViewerWidget::SetEdgeStyle(EdgeStyle style) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
   edge_style_ = style;
 
   switch (edge_style_) {
-  case EdgesStyle::Solid:
-    SetSolidLine();
-    break;
-  case EdgesStyle::Dot:
-    SetDottedLine();
-    break;
+    case EdgeStyle::Solid:
+      SetSolidEdgeStyle();
+      break;
+    case EdgeStyle::Dot:
+      SetDottedEdgeStyle();
+      break;
   }
 }
 
-void ObjectViewerWidget::SetDashSize(float x) {
+void ObjectViewerWidget::SetDashSz(float dash_sz) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
 
-  dash_sz_ = x;
+  dash_sz_ = dash_sz;
 
   MakeInGLContext([&] {
     m_shader_program_->bind();
@@ -128,10 +134,10 @@ void ObjectViewerWidget::SetDashSize(float x) {
   });
 }
 
-void ObjectViewerWidget::SetGapSize(float x) {
+void ObjectViewerWidget::SetGapSz(float gap_sz) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
 
-  gap_sz_ = x;
+  gap_sz_ = gap_sz;
 
   MakeInGLContext([&] {
     m_shader_program_->bind();
@@ -140,18 +146,18 @@ void ObjectViewerWidget::SetGapSize(float x) {
   });
 }
 
-void ObjectViewerWidget::SetDottedLine() {
+void ObjectViewerWidget::SetDottedEdgeStyle() {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
 
-  SetDashSize(DEF_DOTLINE_DASH_SIZE);
-  SetGapSize(DEF_DOTLINE_GAP_SIZE);
+  SetDashSz(DEF_DOTLINE_DASH_SIZE);
+  SetGapSz(DEF_DOTLINE_GAP_SIZE);
 }
 
-void ObjectViewerWidget::SetSolidLine() {
+void ObjectViewerWidget::SetSolidEdgeStyle() {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
 
-  SetDashSize(DEF_SOLID_DASH_SIZE);
-  SetGapSize(DEF_SOLID_GAP_SIZE);
+  SetDashSz(DEF_SOLID_DASH_SIZE);
+  SetGapSz(DEF_SOLID_GAP_SIZE);
 }
 
-} // namespace s21
+}  // namespace s21

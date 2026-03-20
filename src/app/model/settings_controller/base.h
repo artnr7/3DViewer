@@ -1,24 +1,16 @@
 #ifndef SETTINGS_PARSER_H_
 #define SETTINGS_PARSER_H_
 
-#include <cmath>
-#include <cstdint>
-#include <functional>
-#include <iomanip>
-#include <iostream>
-#include <iterator>
-#include <numeric>
 #include <qvariant.h>
 
-#include <filesystem>
+#include <cstdint>
 #include <fstream>
-#include <stack>
-#include <stdexcept>
+#include <iomanip>
+#include <iostream>
 #include <string>
 #include <type_traits>
 #include <utility>
 #include <variant>
-#include <vector>
 
 #include "../../api/primitives.h"
 
@@ -27,7 +19,7 @@
 namespace s21 {
 
 class SettingsParser {
-private:
+ private:
   using Key = const Str;
 
   using Enum = uint16_t;
@@ -38,8 +30,8 @@ private:
 
   Settings settings_{
       // default
-      {"rotationAngles", Angles{.x = 0.0f, .y = 0.0f, .z = 0.0f}},
       {"translationRates", Rates{.x = 0.0f, .y = 0.0f, .z = 0.0f}},
+      {"rotationAngles", Angles{.x = 0.0f, .y = 0.0f, .z = 0.0f}},
 
       {"scaleRate", Rate(1.0f)},
 
@@ -47,16 +39,16 @@ private:
       {"vertexSize", Rate(10.0f)},
       {"vertexStyle", Enum(0)},
 
-      {"vertexColor", Color{.x = 0, .y = 49, .z = 83}}, // default
+      {"vertexColor", Color{.x = 0, .y = 49, .z = 83}},  // default
 
       // Edge
       {"edgeSize", Rate(10.0f)},
       {"edgeStyle", Enum(0)},
 
-      {"edgeColor", Color{.x = 255, .y = 36, .z = 0}}, // default
+      {"edgeColor", Color{.x = 255, .y = 36, .z = 0}},  // default
 
       // Background
-      {"backgroundColor", Color{.x = 197, .y = 208, .z = 230}}, // default
+      {"backgroundColor", Color{.x = 197, .y = 208, .z = 230}},  // default
 
       {"projectionType", Enum(0)},
       {"renderType", Enum(0)},
@@ -105,22 +97,22 @@ private:
     settfile_.close();
   }
 
-  void ParseSimple(const Str &str, const Settings::iterator &it,
+  void ParseSimple(const Str& str, const Settings::iterator& it,
                    const size_t eq, const size_t end) {
     Str val = str.substr(eq + 1, end);
     // std::cout << key_s << " " << val_s << std::endl;
 
-    auto &[k, v] = *it;
+    auto& [k, v] = *it;
 
     std::visit(
-        [&](auto &v) {
+        [&](auto& v) {
           using T = std::decay_t<decltype(v)>;
 
           if constexpr (std::is_same_v<T, Rate>) {
-            v = std::stof(val); // float
+            v = std::stof(val);  // float
             // std::cout << val << " ";
           } else if constexpr (std::is_same_v<T, Enum>) {
-            v = std::stoi(val); // uint16_t
+            v = std::stoi(val);  // uint16_t
             // std::cout << val << " ";
           } else if constexpr (std::is_same_v<T, Str>) {
             v = val;
@@ -132,7 +124,7 @@ private:
     // std::visit([&](auto &&it) { std::cout << it << std::endl; },
     // it->second);
   }
-  void ParseTriple(const Str &str, const Settings::iterator &it,
+  void ParseTriple(const Str& str, const Settings::iterator& it,
                    const size_t eq, const size_t f_spc, const size_t s_spc,
                    const size_t end) {
     Str val_1 = str.substr(eq + 1, f_spc);
@@ -140,10 +132,10 @@ private:
     Str val_3 = str.substr(s_spc + 1, end);
     // std::cout << key_s << " " << val_s << std::endl;
 
-    auto &[k, v] = *it;
+    auto& [k, v] = *it;
 
     std::visit(
-        [&](auto &v) {
+        [&](auto& v) {
           using T = std::decay_t<decltype(v)>;
 
           if constexpr (std::is_same_v<T, Angles> || std::is_same_v<T, Rates> ||
@@ -166,11 +158,11 @@ private:
       return;
     }
 
-    for (const auto &[k, v] : settings_) {
+    for (const auto& [k, v] : settings_) {
       settfile_ << k << "=";
       // std::cout << key << "=";
       std::visit(
-          [&](auto &&v) {
+          [&](auto&& v) {
             using T = std::decay_t<decltype(v)>;
 
             if constexpr (std::is_same_v<T, Angles> ||
@@ -193,10 +185,10 @@ private:
 
   void Print() {
     std::cout << "\n\nSettings Print\n--------------------------\n";
-    for (const auto &[k, v] : settings_) {
+    for (const auto& [k, v] : settings_) {
       std::cout << std::left << std::setw(25) << k;
       std::visit(
-          [&](auto &&v) {
+          [&](auto&& v) {
             using T = std::decay_t<decltype(v)>;
 
             if constexpr (std::is_same_v<T, Angles> ||
@@ -214,17 +206,17 @@ private:
     }
   }
 
-public:
+ public:
   // Setters
   void Set(Key key, Val val) {
     auto it = settings_.find(key);
-    auto &[k, v] = *it;
+    auto& [k, v] = *it;
 
     std::visit(
-        [&](auto &&v) {
+        [&](auto&& v) {
           using T = std::decay_t<decltype(v)>;
 
-          if (auto *f = std::get_if<T>(&val)) {
+          if (auto* f = std::get_if<T>(&val)) {
             v = *f;
           }
         },
@@ -250,17 +242,18 @@ public:
   void SetBckgClr(Color clr) { Set("backgroundColor", clr); }
   void SetProjType(Enum proj) { Set("projectionType", proj); }
   void SetRenderType(Enum render) { Set("renderType", render); }
-  void SetFilename(Str &filename) { Set("filename", filename); }
+  void SetFilename(Str& filename) { Set("filename", filename); }
 
   // Getters
-  template <typename Type> const Type &Get(Key key) {
+  template <typename Type>
+  const Type& Get(Key key) {
     auto it = settings_.find(key);
     if (it == settings_.end()) {
       throw std::runtime_error("wrong setting file");
     }
 
     auto [k, v] = *it;
-    auto *f = std::get_if<Type>(&v);
+    auto* f = std::get_if<Type>(&v);
     if (f == nullptr) {
       throw std::runtime_error("wrong setting file");
     }
@@ -269,25 +262,25 @@ public:
   }
 
   // Affine
-  const Angles &GetRotAngles() { return Get<Angles>("rotationAngles"); }
-  const Rates &GetTransRates() { return Get<Rates>("translationFactorX"); }
-  const Rate &GetScaleRate() { return Get<Rate>("scaleRate"); }
+  const Angles& GetRotAngles() { return Get<Angles>("rotationAngles"); }
+  const Rates& GetTransRates() { return Get<Rates>("translationFactorX"); }
+  const Rate& GetScaleRate() { return Get<Rate>("scaleRate"); }
 
   // Vertex
-  const Rate &GetVertexSz() { return Get<Rate>("vertexSize"); }
-  const Enum &GetVertexStyle() { return Get<Enum>("vertexStyle"); }
-  const Color &GetVertexClr() { return Get<Color>("vertexColor"); }
+  const Rate& GetVertexSz() { return Get<Rate>("vertexSize"); }
+  const Enum& GetVertexStyle() { return Get<Enum>("vertexStyle"); }
+  const Color& GetVertexClr() { return Get<Color>("vertexColor"); }
 
   // Edge
-  const Rate &GetEdgeSz() { return Get<Rate>("edgeSize"); }
-  const Enum &GetEdgeStyle() { return Get<Enum>("edgeStyle"); }
-  const Color &GetEdgeClr() { return Get<Color>("edgeColor"); }
+  const Rate& GetEdgeSz() { return Get<Rate>("edgeSize"); }
+  const Enum& GetEdgeStyle() { return Get<Enum>("edgeStyle"); }
+  const Color& GetEdgeClr() { return Get<Color>("edgeColor"); }
 
   // Misc
-  const Color &GetBckgClr() { return Get<Color>("backgroundColor"); }
-  const Enum &GetProjType() { return Get<Enum>("projectionType"); }
-  const Enum &GetRenderType() { return Get<Enum>("renderType"); }
-  const Str &GetFilename() { return Get<Str>("filename"); }
+  const Color& GetBckgClr() { return Get<Color>("backgroundColor"); }
+  const Enum& GetProjType() { return Get<Enum>("projectionType"); }
+  const Enum& GetRenderType() { return Get<Enum>("renderType"); }
+  const Str& GetFilename() { return Get<Str>("filename"); }
 
   // const Settings &GetSettings() { return settings_; }
 
@@ -304,6 +297,6 @@ public:
   }
 };
 
-} // namespace s21
+}  // namespace s21
 
-#endif // !SETTINGS_PARSER_H_
+#endif  // !SETTINGS_PARSER_H_

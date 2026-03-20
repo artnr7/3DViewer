@@ -41,7 +41,7 @@ void ObjectViewerWidget::ObjectInit() {
     vertices_ready_ = false;
     ebo_ready_ = false;
     ebo_qty_ = 0;
-    points_qty_ = 0;
+    vbo_points_qty = 0;
   }
   file_uploaded_ = true;
 }

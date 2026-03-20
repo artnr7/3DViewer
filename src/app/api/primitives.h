@@ -9,7 +9,6 @@ namespace s21 {
 using Str = std::string;
 
 struct Angles {
-
   float x, y, z;
 };
 
@@ -21,5 +20,5 @@ struct Color {
   uint8_t x, y, z;
 };
 
-} // namespace s21
+}  // namespace s21
 #endif

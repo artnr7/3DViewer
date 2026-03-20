@@ -1,8 +1,9 @@
-#include "obj_v_wid.h"
 #include <qvectornd.h>
 
+#include "obj_v_wid.h"
+
 void s21::ObjectViewerWidget::LoadShaders() {
-  const char *vertex_shader_source = R"(
+  const char* vertex_shader_source = R"(
       #version 440 core
       // #version 440 core
       // #version 450 core
@@ -20,7 +21,7 @@ void s21::ObjectViewerWidget::LoadShaders() {
       }
     )";
 
-  const char *fragment_shader_source = R"(
+  const char* fragment_shader_source = R"(
       #version 440 core
       // #version 440 core
       // #version 450 core
@@ -30,7 +31,7 @@ void s21::ObjectViewerWidget::LoadShaders() {
 
       out vec4 FragColor;
 
-      uniform vec4 uEdgeClr;
+      uniform vec4 uEdgeClr_;
 
       uniform vec2 u_resolution;
       uniform float u_dashSize;
@@ -42,7 +43,7 @@ void s21::ObjectViewerWidget::LoadShaders() {
 
         if (fract(dist / (u_dashSize + u_gapSize)) > u_dashSize / (u_dashSize + u_gapSize))
           discard;
-        FragColor = uEdgeClr;
+        FragColor = uEdgeClr_;
       }
     )";
   // if (length(gl_PointCoord - vec2(0.5)) > 0.5)
@@ -67,7 +68,7 @@ void s21::ObjectViewerWidget::LoadShaders() {
   }
 
   m_shader_program_->bind();
-  m_shader_program_->setUniformValue(uEdgeColorName, uEdgeClr_);
+  m_shader_program_->setUniformValue(uEdgeClrName_, uEdgeClr_);
   m_shader_program_->setUniformValue("u_resolution", resolution_);
   m_shader_program_->setUniformValue("u_dashSize", dash_sz_);
   m_shader_program_->setUniformValue("u_gapSize", gap_sz_);

@@ -1,17 +1,16 @@
-#include "action_types.h"
-#include "view.h"
-
 #include <qlogging.h>
-#include <string>
-#include <vector>
 
+#include <string>
+
+#include "action_types.h"
 #include "config.h"
 #include "enum.h"
 #include "logger.h"
+#include "view.h"
 
 namespace s21 {
 
-View::View(Controller *controller, QWidget *parent)
+View::View(Controller* controller, QWidget* parent)
     : QWidget(parent), pcontroller_(controller) {
   Lg::Log()->Info(std::string(__func__) + " constuctor");
   setWindowTitle("3DViewer");
@@ -49,48 +48,48 @@ void View::SetupConnections() {
   // connect(pmenu_wid_, &MenuWidget::ActionTriggered, this,
   //         &View::OnActionTriggered);
 
-  // это когда уже запущенный таймер менюшки хочет данные обновить
-  connect(menu_wid_update_timer_, &QTimer::timeout, this,
-          &View::OnMenuWidgetTimerUpdated);
+  // // это когда уже запущенный таймер менюшки хочет данные обновить
+  // connect(menu_wid_update_timer_, &QTimer::timeout, this,
+  //         &View::OnMenuWidgetTimerUpdated);
+  //
 
-  // obj_wid
-  connect(pobj_v_wid_, &ObjectViewerWidget::ActionGetGLVertices, this,
-          &View::OnGetGLVertices);
+  // Affine
+  connect(pobj_v_wid_, &ObjectViewerWidget::updGLVertRequested, this,
+          &View::updGLVert);
 
-  connect(pobj_v_wid_, &ObjectViewerWidget::BackgroundColorUpdate, this,
-          &View::OnObjectViewerBackgroundColorUpdated);
+  connect(pobj_v_wid_, &ObjectViewerWidget::MouseTransYChanged, this,
+          &View::updTransY);
+  connect(pobj_v_wid_, &ObjectViewerWidget::MouseTransXChanged, this,
+          &View::updTransX);
 
-  connect(pobj_v_wid_, &ObjectViewerWidget::EdgeColorUpdate, this,
-          &View::OnObjectViewerEdgeColorUpdated);
+  connect(pobj_v_wid_, &ObjectViewerWidget::MouseRotYChanged, this,
+          &View::updRotY);
+  connect(pobj_v_wid_, &ObjectViewerWidget::MouseRotXChanged, this,
+          &View::updRotX);
 
-  connect(pobj_v_wid_, &ObjectViewerWidget::VerticesSizeUpdate, this,
-          &View::OnObjectViewerVerticesSizeUpdated);
+  // Vert
+  connect(pobj_v_wid_, &ObjectViewerWidget::updVertSzRequested, this,
+          &View::updVertSz);
 
-  connect(pobj_v_wid_, &ObjectViewerWidget::LineWidthUpdate, this,
-          &View::OnObjectViewerLineWidthUpdated);
+  connect(pobj_v_wid_, &ObjectViewerWidget::updVertStyleRequested, this,
+          &View::updVertStyle);
 
-  // Mouse
-  connect(pobj_v_wid_, &ObjectViewerWidget::MouseUpdateY, this,
-          &View::OnTranslateOnY);
+  connect(pobj_v_wid_, &ObjectViewerWidget::updVertClrRequested, this,
+          &View::updVertClr);
 
-  connect(pobj_v_wid_, &ObjectViewerWidget::MouseUpdateX, this,
-          &View::OnTranslateOnX);
+  // Edge
+  connect(pobj_v_wid_, &ObjectViewerWidget::updEdgeSzRequested, this,
+          &View::updEdgeSz);
 
-  connect(pobj_v_wid_, &ObjectViewerWidget::MouseRotateY, this,
-          &View::OnRotateOnX);
+  connect(pobj_v_wid_, &ObjectViewerWidget::updEdgeStyleRequested, this,
+          &View::updEdgeStyle);
 
-  connect(pobj_v_wid_, &ObjectViewerWidget::MouseRotateX, this,
-          &View::OnRotateOnY);
+  connect(pobj_v_wid_, &ObjectViewerWidget::updEdgeClrRequested, this,
+          &View::updEdgeClr);
 
-  // Line
-  connect(pobj_v_wid_, &ObjectViewerWidget::ContinuityLineUpdate, this,
-          &View::OnObjectViewerContinuityLineUpdate);
-
-  connect(pobj_v_wid_, &ObjectViewerWidget::VerticeStyleUpdate, this,
-          &View::OnObjectViewerVerticeStyleUpdate);
-
-  connect(pobj_v_wid_, &ObjectViewerWidget::VertexClrUpd, this,
-          &View::OnObjectViewerVertexClrUpd);
+  // Misc
+  connect(pobj_v_wid_, &ObjectViewerWidget::updBckgClrRequested, this,
+          &View::updBckgClr);
 }
 
 // void View::OnMouseUpdated() { OnActionTriggered(SceneAction::kRotateX, pos) }
@@ -218,4 +217,4 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
   //     data);
 }
 
-} // namespace s21
+}  // namespace s21
