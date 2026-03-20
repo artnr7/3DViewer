@@ -267,9 +267,9 @@ class SettingsParser {
   const Rate& GetScaleRate() { return Get<Rate>("scaleRate"); }
 
   // Vertex
-  const Rate& GetVertexSz() { return Get<Rate>("vertexSize"); }
-  const Enum& GetVertexStyle() { return Get<Enum>("vertexStyle"); }
-  const Color& GetVertexClr() { return Get<Color>("vertexColor"); }
+  const Rate& GetVertSz() { return Get<Rate>("vertexSize"); }
+  const Enum& GetVertStyle() { return Get<Enum>("vertexStyle"); }
+  const Color& GetVertClr() { return Get<Color>("vertexColor"); }
 
   // Edge
   const Rate& GetEdgeSz() { return Get<Rate>("edgeSize"); }

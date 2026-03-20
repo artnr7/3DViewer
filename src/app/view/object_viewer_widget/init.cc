@@ -1,15 +1,16 @@
-#include "obj_v_wid.h"
-#include <QSurfaceFormat>
 #include <qopenglbuffer.h>
 #include <qopenglfunctions.h>
 #include <qopenglvertexarrayobject.h>
 
+#include <QSurfaceFormat>
+
 #include "../../utils/logger.h"
+#include "obj_v_wid.h"
 
 namespace s21 {
 
 ObjectViewerWidget::ObjectViewerWidget(int x_offset, int y_offset, int width,
-                                       int height, QWidget *parent)
+                                       int height, QWidget* parent)
     : QOpenGLWidget(parent) {
   Lg::Log()->Info(std::string(__func__) + " constuctor");
 
@@ -37,13 +38,13 @@ ObjectViewerWidget::ObjectViewerWidget(int x_offset, int y_offset, int width,
 }
 
 void ObjectViewerWidget::ObjectInit() {
-  if (file_uploaded_) { // если файл уже загружен
+  if (file_uploaded_) {  // если файл уже загружен
     vertices_ready_ = false;
     ebo_ready_ = false;
     ebo_qty_ = 0;
-    vbo_points_qty = 0;
+    vbo_points_qty_ = 0;
   }
   file_uploaded_ = true;
 }
 
-} // namespace s21
+}  // namespace s21

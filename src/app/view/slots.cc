@@ -39,7 +39,7 @@ void View::updVertStyle() {
   Lg::Log()->Trace("View::" + std::string(__func__));
 
   pobj_v_wid_->SetVertStyle(
-      static_cast<VertStyle>(pcontroller_->GetVertStyle()));
+      static_cast<VertsStyle>(pcontroller_->GetVertStyle()));
 }
 
 void View::updVertClr() {
@@ -59,7 +59,7 @@ void View::updEdgeStyle() {
   Lg::Log()->Trace("View::" + std::string(__func__));
 
   pobj_v_wid_->SetEdgeStyle(
-      static_cast<EdgeStyle>(pcontroller_->GetEdgeStyle()));
+      static_cast<EdgesStyle>(pcontroller_->GetEdgeStyle()));
 }
 
 void View::updEdgeClr() {

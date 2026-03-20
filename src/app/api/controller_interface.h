@@ -10,25 +10,6 @@
 #include "primitives.h"
 
 namespace s21 {
-// enum class ObjectAction {
-//   /* Transform */
-//   kTranslateX,
-//   kTranslateY,
-//   kTranslateZ,
-//   kRotateX,
-//   kRotateY,
-//   kRotateZ,
-//   kScale,
-//
-//   /* Shading */
-//   // kVertexSize,
-//   // kVertexStyle,
-//   // kVertexColor,
-//   // kEdgeThickness,
-//   // kEdgeStyle,
-//   // kEdgeColor,
-//   // kBackgroundColor,
-// };
 
 class IController {
  public:
@@ -36,6 +17,7 @@ class IController {
   virtual void BuildObject(const std::string& filename) = 0;
 
   // SETTERS -------------------------------
+  // Affine
   virtual void SetTransRateX(float) = 0;
   virtual void SetTransRateY(float) = 0;
   virtual void SetTransRateZ(float) = 0;
@@ -54,10 +36,12 @@ class IController {
 
   virtual void SetScaleRate(float) = 0;
 
+  // Vert
   virtual void SetVertSz(float) = 0;
   virtual void SetVertStyle(uint16_t) = 0;
   virtual void SetVertClr(Color) = 0;
 
+  // Edge
   virtual void SetEdgeSz(float) = 0;
   virtual void SetEdgeStyle(uint16_t) = 0;
   virtual void SetEdgeClr(Color) = 0;

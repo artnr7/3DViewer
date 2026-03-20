@@ -1,9 +1,10 @@
-#include "../../utils/logger.h"
-#include "iostream"
-#include "obj_v_wid.h"
 #include <GL/gl.h>
 #include <GL/glext.h>
 #include <qtclasshelpermacros.h>
+
+#include "../../utils/logger.h"
+#include "iostream"
+#include "obj_v_wid.h"
 
 namespace s21 {
 
@@ -61,13 +62,13 @@ void ObjectViewerWidget::paintGL() {
   m_vao_->bind();
   m_ebo_->bind();
 
-  glDrawElements(GL_LINES, ebo_qty_, GL_UNSIGNED_INT, (void *)0);
+  glDrawElements(GL_LINES, ebo_qty_, GL_UNSIGNED_INT, (void*)0);
 
   // points
-  m_shader_program_->setUniformValue(uEdgeColorName_, uVertClr_);
+  m_shader_program_->setUniformValue(uEdgeClrName_, uVertClr_);
   // glPointSize(verts_point_sz_);
-  glDrawArrays(GL_POINTS, 0, vbo_points_qty / 3);
-  m_shader_program_->setUniformValue(uEdgeColorName_, uEdgeClr_);
+  glDrawArrays(GL_POINTS, 0, vbo_points_qty_ / 3);
+  m_shader_program_->setUniformValue(uEdgeClrName_, uEdgeClr_);
 
   // glEnable(GL_BLEND);
   // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -76,4 +77,4 @@ void ObjectViewerWidget::paintGL() {
   m_ebo_->release();
   m_shader_program_->release();
 }
-} // namespace s21
+}  // namespace s21

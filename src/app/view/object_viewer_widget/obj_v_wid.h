@@ -18,8 +18,8 @@
 #include "../config.h"
 
 namespace s21 {
-enum class VertStyle { None, Square, Circle };
-enum class EdgeStyle { Solid, Dot };
+enum class VertsStyle { None, Square, Circle };
+enum class EdgesStyle { Solid, Dot };
 
 class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   Q_OBJECT
@@ -117,8 +117,8 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   float vert_sz_ = 4.0f;
   float edge_sz_ = 0.5f;
 
-  VertStyle vertex_style_ = VertStyle::Square;
-  EdgeStyle edge_style_ = EdgeStyle::Solid;
+  VertsStyle vertex_style_ = VertsStyle::Square;
+  EdgesStyle edge_style_ = EdgesStyle::Solid;
 
 #define DEF_DOTLINE_DASH_SIZE 5.0f
 #define DEF_DOTLINE_GAP_SIZE 15.0f
@@ -157,11 +157,11 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
 
   // Setters
   void SetVertSz(float);
-  void SetVertStyle(VertStyle style);
+  void SetVertStyle(VertsStyle style);
   void SetVertClr(Color);
 
   void SetEdgeSz(float x);
-  void SetEdgeStyle(EdgeStyle style);
+  void SetEdgeStyle(EdgesStyle style);
   void SetEdgeClr(Color);
 
   // clang-format off

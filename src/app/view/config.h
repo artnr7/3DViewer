@@ -1,9 +1,12 @@
 // Resolution 16:9
+#ifndef CONFIG_H_
+#define CONFIG_H_
 
-#define PIXEL_BLOCK_SIZE 100 // HD
+#include <cstdint>
+#define PIXEL_BLOCK_SIZE 100  // HD
 
 #define W 16
-#define H 9
+inline constexpr uint16_t H = 9;
 #define OBJECTW_W_TO_MENUW_W_RATIO 4
 
 // Main Window ---------------→
@@ -15,7 +18,7 @@
 // Object Widget ----------→
 #define INIT_AX_OBJECT_WIDGET (OBJECTW_W_TO_MENUW_W_RATIO * PIXEL_BLOCK_SIZE)
 #define INIT_AY_OBJECT_WIDGET 0
-#define INIT_W_OBJECT_WIDGET                                                   \
+#define INIT_W_OBJECT_WIDGET \
   ((W - OBJECTW_W_TO_MENUW_W_RATIO) * PIXEL_BLOCK_SIZE)
 #define INIT_H_OBJECT_WIDGET (H * PIXEL_BLOCK_SIZE)
 
@@ -24,3 +27,5 @@
 #define INIT_AY_MENU_WIDGET 0
 #define INIT_W_MENU_WIDGET (OBJECTW_W_TO_MENUW_W_RATIO * PIXEL_BLOCK_SIZE)
 #define INIT_H_MENU_WIDGET (H * PIXEL_BLOCK_SIZE)
+
+#endif

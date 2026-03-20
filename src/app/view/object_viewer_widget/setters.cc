@@ -21,12 +21,12 @@ void ObjectViewerWidget::MakeInGLShader(const std::function<void()> f) {
 void ObjectViewerWidget::SetVBO(std::vector<float>& vert_attrs) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
 
-  vbo_points_qty = vert_attrs.size();
+  vbo_points_qty_ = vert_attrs.size();
 
   MakeInGLContext([&] {
     m_vbo_->bind();
     // size - это размер в байтах всех элементов
-    m_vbo_->allocate(vert_attrs.data(), vbo_points_qty * sizeof(GLfloat));
+    m_vbo_->allocate(vert_attrs.data(), vbo_points_qty_ * sizeof(GLfloat));
     m_vbo_->release();
   });
   vertices_ready_ = true;
@@ -67,8 +67,8 @@ void ObjectViewerWidget::SetEdgeClr(Color clr) {
   MakeInGLContext([&] {
     m_shader_program_->bind();
     m_shader_program_->setUniformValue(
-        uEdgeColorName_, QVector4D{uEdgeClr_.redF(), uEdgeClr_.greenF(),
-                                   uEdgeClr_.blueF(), uEdgeClr_.alphaF()});
+        uEdgeClrName_, QVector4D{uEdgeClr_.redF(), uEdgeClr_.greenF(),
+                                 uEdgeClr_.blueF(), uEdgeClr_.alphaF()});
 
     m_shader_program_->release();
   });
@@ -92,31 +92,31 @@ void ObjectViewerWidget::SetEdgeSz(float x) {
   MakeInGLContext([&] { glLineWidth(edge_sz_); });
 }
 
-void ObjectViewerWidget::SetVertStyle(VertStyle style) {
+void ObjectViewerWidget::SetVertStyle(VertsStyle style) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
   vertex_style_ = style;
 
   switch (vertex_style_) {
-    case VertStyle::Square:
+    case VertsStyle::Square:
       // qDebug() << "SQUARE";
       MakeInGLContext([&] { glDisable(GL_POINT_SMOOTH); });
       break;
-    case VertStyle::Circle:
+    case VertsStyle::Circle:
       // qDebug() << "CIRCLE";
       MakeInGLContext([&] { glEnable(GL_POINT_SMOOTH); });
       break;
   }
 }
 
-void ObjectViewerWidget::SetEdgeStyle(EdgeStyle style) {
+void ObjectViewerWidget::SetEdgeStyle(EdgesStyle style) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
   edge_style_ = style;
 
   switch (edge_style_) {
-    case EdgeStyle::Solid:
+    case EdgesStyle::Solid:
       SetSolidEdgeStyle();
       break;
-    case EdgeStyle::Dot:
+    case EdgesStyle::Dot:
       SetDottedEdgeStyle();
       break;
   }

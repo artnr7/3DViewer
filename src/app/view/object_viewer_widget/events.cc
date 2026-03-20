@@ -34,11 +34,13 @@ bool ObjectViewerWidget::eventFilter(QObject* obj, QEvent* event) {
     float shift_x = MULT * (static_cast<float>(mx - start_pos_.x()));
 
     if (lb_clicked_) {
-      emit MouseRotChanged(shift_y * 10, -shift_x * 10);
+      emit MouseRotYChanged(shift_y * 10);
+      emit MouseRotXChanged(-shift_x * 10);
     }
 
     if (rb_clicked_) {
-      emit MouseTransChanged(shift_y, shift_x);
+      emit MouseTransYChanged(shift_y);
+      emit MouseTransXChanged(shift_x);
     }
 
     // qDebug() << "Mouse move Y " << shift_y;
