@@ -35,6 +35,7 @@ class IController {
   virtual void AddRotAngleZ(float) = 0;
 
   virtual void SetScaleRate(float) = 0;
+  virtual void AddScaleRate(float) = 0;
 
   // Vert
   virtual void SetVertSz(float) = 0;

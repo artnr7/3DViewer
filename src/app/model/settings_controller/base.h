@@ -104,11 +104,11 @@ class SettingsParser {
 
   void ParseSimple(const Str& str, const Settings::iterator& it,
                    const size_t eq, const size_t end) {
-    std::cout << "ParseSimple" << std::endl;
+    // std::cout << "ParseSimple" << std::endl;
     Str val = str.substr(eq + 1, end);
     // std::cout << key_s << " " << val_s << std::endl;
 
-    std::cout << eq << "  " << end << std::endl;
+    // std::cout << eq << "  " << end << std::endl;
     auto& [k, v] = *it;
 
     std::visit(
@@ -134,12 +134,13 @@ class SettingsParser {
   void ParseTriple(const Str& str, const Settings::iterator& it,
                    const size_t eq, const size_t f_spc, const size_t s_spc,
                    const size_t end) {
-    std::cout << "ParseTriple" << std::endl;
+    // std::cout << "ParseTriple" << std::endl;
     Str val_1 = str.substr(eq + 1, f_spc);
     Str val_2 = str.substr(f_spc + 1, s_spc);
     Str val_3 = str.substr(s_spc + 1, end);
     // std::cout << key_s << " " << val_s << std::endl;
-    std::cout << eq << "  " << end << " " << f_spc << " " << s_spc << std::endl;
+    // std::cout << eq << "  " << end << " " << f_spc << " " << s_spc <<
+    // std::endl;
 
     auto& [k, v] = *it;
 
@@ -170,7 +171,7 @@ class SettingsParser {
 
     for (const auto& [k, v] : settings_) {
       settfile_ << k << "=";
-      std::cout << k << "=";
+      // std::cout << k << "=";
       std::visit(
           [&](auto&& v) {
             using T = std::decay_t<decltype(v)>;
@@ -182,19 +183,19 @@ class SettingsParser {
                         << static_cast<float>(v.y) << " "
                         << static_cast<float>(v.z);
 
-              std::cout << static_cast<float>(v.x) << " "
-                        << static_cast<float>(v.y) << " "
-                        << static_cast<float>(v.z);
+              // std::cout << static_cast<float>(v.x) << " "
+              //           << static_cast<float>(v.y) << " "
+              //           << static_cast<float>(v.z);
             } else if constexpr (std::is_same_v<T, Rate> ||
                                  std::is_same_v<T, Enum> ||
                                  std::is_same_v<T, Str>) {
               settfile_ << v;
-              std::cout << v;
+              // std::cout << v;
             }
           },
           v);
       settfile_ << "\n";
-      std::cout << "\n";
+      // std::cout << "\n";
     }
     settfile_.flush();
     settfile_.close();

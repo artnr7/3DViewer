@@ -46,6 +46,7 @@ class Controller : public IController {
   void AddTransRateZ(float) override;
 
   void SetScaleRate(float) override;
+  void AddScaleRate(float) override;
 
   // Vert
   void SetVertSz(float) override;

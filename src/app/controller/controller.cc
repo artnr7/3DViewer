@@ -11,7 +11,7 @@ namespace s21 {
 // Affine
 void Controller::SetTransRateX(float x) {}
 void Controller::SetTransRateY(float y) {}
-void Controller::SetTransRateZ(float z) {}
+void Controller::SetTransRateZ(float z) { model_->SetTransRateZ(z); }
 
 void Controller::AddTransRateX(float x) { model_->AddTransRateX(x); }
 void Controller::AddTransRateY(float y) { model_->AddTransRateY(y); }
@@ -25,7 +25,8 @@ void Controller::AddRotAngleX(float x) { model_->AddRotAngleX(x); }
 void Controller::AddRotAngleY(float y) { model_->AddRotAngleY(y); }
 void Controller::AddRotAngleZ(float z) { model_->AddRotAngleZ(z); }
 
-void Controller::SetScaleRate(float) {}
+void Controller::SetScaleRate(float scl_rt) { model_->SetScaleRate(scl_rt); }
+void Controller::AddScaleRate(float scl_rt) { model_->AddScaleRate(scl_rt); }
 
 // Vert
 void Controller::SetVertSz(float vert_sz) { model_->SetVertSz(vert_sz); }

@@ -1,12 +1,14 @@
-#include "iostream"
+#include <sys/types.h>
+
 #include <array>
 #include <cmath>
 #include <cstdint>
 #include <stdexcept>
 #include <string>
-#include <sys/types.h>
 #include <utility>
 #include <vector>
+
+#include "iostream"
 
 namespace s21 {
 
@@ -30,23 +32,23 @@ struct vec4 {
     w = 0.0f;
   }
 
-  CoordT &operator[](size_t i) {
+  CoordT& operator[](size_t i) {
     switch (i) {
-    case 0:
-      return x;
-      break;
-    case 1:
-      return y;
-      break;
-    case 2:
-      return z;
-      break;
-    case 3:
-      return w;
-      break;
-    default:
-      throw std::invalid_argument("You can't use this index");
-      break;
+      case 0:
+        return x;
+        break;
+      case 1:
+        return y;
+        break;
+      case 2:
+        return z;
+        break;
+      case 3:
+        return w;
+        break;
+      default:
+        throw std::invalid_argument("You can't use this index");
+        break;
     }
   }
 
@@ -75,6 +77,12 @@ struct mat4 {
     data[0][0] = x;
     data[1][1] = x;
     data[2][2] = x;
+  }
+
+  void ScaleOn(float x) {
+    data[0][0] += x;
+    data[1][1] += x;
+    data[2][2] += x;
   }
 
   void RotateX(float x) {
@@ -110,7 +118,7 @@ struct mat4 {
     data[3] = {0.0f, 0.0f, 0.0f, 1.0f};
   }
 
-  mat4 operator*(mat4 &m) {
+  mat4 operator*(mat4& m) {
     mat4 res{};
     res.SetZero();
 
@@ -118,7 +126,7 @@ struct mat4 {
     return res;
   }
 
-  vec4 operator*(vec4 &v) {
+  vec4 operator*(vec4& v) {
     vec4 res{};
     res.SetZero();
 
@@ -126,10 +134,10 @@ struct mat4 {
     return res;
   }
 
-private:
-  std::array<CoordT, 4> &operator[](size_t i) { return data[i]; }
+ private:
+  std::array<CoordT, 4>& operator[](size_t i) { return data[i]; }
 
-  void Multiply(mat4 &m1, mat4 &m2, mat4 &res) {
+  void Multiply(mat4& m1, mat4& m2, mat4& res) {
     for (int i = 0; i < 4; ++i) {
       for (int j = 0; j < 4; ++j) {
         for (int k = 0; k < 4; ++k) {
@@ -139,7 +147,7 @@ private:
     }
   }
 
-  void Multiply(mat4 &m, vec4 &v, vec4 &res) {
+  void Multiply(mat4& m, vec4& v, vec4& res) {
     for (int i = 0; i < 4; ++i) {
       for (int j = 0; j < 4; ++j) {
         res[i] += m[i][j] * v[j];
@@ -147,7 +155,7 @@ private:
     }
   }
 
-public:
+ public:
   void SetIdentity() {
     for (uint8_t i = 0; i < 4; ++i) {
       data[i][i] = 1.0f;
@@ -216,4 +224,4 @@ using FaceMap = std::vector<MapEl>;
 
 using Faces = std::vector<FaceMap>;
 
-}; // namespace s21
+};  // namespace s21

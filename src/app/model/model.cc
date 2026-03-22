@@ -87,6 +87,9 @@ void Model::AddTransRateY(float x) {
 
 void Model::AddTransRateZ(float x) {
   Lg::Log()->Trace("Model::" + std::string(__func__));
+
+  obj_->a_.TranslateOnZ(x);
+  obj_->a_.UpdateGLVertices();
 }
 
 void Model::SetRotAngleX(float x) {
@@ -129,6 +132,12 @@ void Model::AddRotAngleZ(float x) {
 void Model::SetScaleRate(float x) {
   Lg::Log()->Info("Model::" + std::string(__func__));
   obj_->a_.Scale(x);
+  obj_->a_.UpdateGLVertices();
+}
+
+void Model::AddScaleRate(float x) {
+  Lg::Log()->Info("Model::" + std::string(__func__));
+  obj_->a_.AddScale(x);
   obj_->a_.UpdateGLVertices();
 }
 

@@ -28,6 +28,8 @@ void View::updRotX(float x) { pcontroller_->AddRotAngleX(x); }
 void View::updRotY(float y) { pcontroller_->AddRotAngleY(y); }
 void View::updRotZ(float z) { pcontroller_->AddRotAngleZ(z); }
 
+void View::updScaleRate(float scl_rt) { pcontroller_->AddScaleRate(scl_rt); }
+
 // Vert
 void View::updVertSz() {
   Lg::Log()->Trace("View::" + std::string(__func__));

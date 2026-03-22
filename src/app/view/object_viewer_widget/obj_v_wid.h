@@ -37,6 +37,7 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   // Affine
   void MouseTransYChanged(float y);
   void MouseTransXChanged(float x);
+  void MouseTransZChanged(float z);
 
   void MouseRotYChanged(float y);
   void MouseRotXChanged(float x);
@@ -128,8 +129,8 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   float gap_sz_ = 0.0f;   // длина чёрточки
 
   // Resolution
-  int width_ = INIT_W_MAIN_WINDOW;
-  int height_ = INIT_H_MAIN_WINDOW;
+  int width_ = INIT_W_MAIN_WIN;
+  int height_ = INIT_H_MAIN_WIN;
   QVector2D resolution_ =
       QVector2D(static_cast<float>(width_), static_cast<float>(height_));
 

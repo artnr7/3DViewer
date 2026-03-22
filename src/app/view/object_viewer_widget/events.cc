@@ -1,3 +1,4 @@
+#include <qevent.h>
 #include <qlogging.h>
 #include <qnamespace.h>
 #include <qpoint.h>
@@ -19,7 +20,7 @@ bool ObjectViewerWidget::eventFilter(QObject* obj, QEvent* event) {
     mx = m_e->pos().x();
   }
 
-#define MULT 0.001
+#define MULT 1e-3
   static int i = 0;
   if (e == QEvent::MouseMove && IsGLBuffersReady()) {
     if (!(i++ % 5)) {
@@ -43,9 +44,17 @@ bool ObjectViewerWidget::eventFilter(QObject* obj, QEvent* event) {
       emit MouseTransXChanged(shift_x);
     }
 
-    // qDebug() << "Mouse move Y " << shift_y;
-    // qDebug() << "Mouse move X " << shift_x;
+    // qDebug() << "Mouse move Y" << shift_y << "Mouse move X " << shift_x;
   }
+
+  if (e == QEvent::Wheel) {
+    auto* w_e = static_cast<QWheelEvent*>(event);
+    emit MouseTransZChanged(MULT * w_e->angleDelta().ry());
+    qDebug() << w_e->position() << w_e->angleDelta();
+  }
+  // if (e != QEvent::Paint) {
+  //   qDebug() << e;
+  // }
 
   MouseClickFilter(*m_e, my, mx);
 

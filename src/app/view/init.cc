@@ -16,14 +16,14 @@ View::View(Controller* controller, QWidget* parent)
     : QWidget(parent), pcontroller_(controller) {
   Lg::Log()->Info(std::string(__func__) + " constuctor");
   setWindowTitle("3DViewer");
-  setGeometry(INIT_AX_MAIN_WINDOW, INIT_AY_MAIN_WINDOW, INIT_W_MAIN_WINDOW,
-              INIT_H_MAIN_WINDOW);
+  setGeometry(INIT_AX_MAIN_WIN, INIT_AY_MAIN_WIN, INIT_W_MAIN_WIN,
+              INIT_H_MAIN_WIN);
 
-  pmenu_wid_ = new MenuWidget(INIT_W_MENU_WIDGET, INIT_H_MENU_WIDGET, this);
+  pmenu_wid_ = new MenuWidget(INIT_W_MENU_WID, INIT_H_MENU_WIDGET, this);
 
   pobj_v_wid_ =
-      new ObjectViewerWidget(INIT_AX_OBJECT_WIDGET, INIT_AY_OBJECT_WIDGET,
-                             INIT_W_OBJECT_WIDGET, INIT_H_OBJECT_WIDGET, this);
+      new ObjectViewerWidget(INIT_AX_OBJECT_WIDGET, INIT_AY_OBJECT_WID,
+                             INIT_W_OBJECT_WID, INIT_H_OBJECT_WIDGET, this);
 
   menu_wid_update_timer_ = new QTimer(this);
 
@@ -63,11 +63,14 @@ void View::SetupConnections() {
           &View::updTransY);
   connect(pobj_v_wid_, &ObjectViewerWidget::MouseTransXChanged, this,
           &View::updTransX);
+  connect(pobj_v_wid_, &ObjectViewerWidget::MouseTransZChanged, this,
+          &View::updScaleRate);
 
+  // инверсия осей специально
   connect(pobj_v_wid_, &ObjectViewerWidget::MouseRotYChanged, this,
-          &View::updRotY);
-  connect(pobj_v_wid_, &ObjectViewerWidget::MouseRotXChanged, this,
           &View::updRotX);
+  connect(pobj_v_wid_, &ObjectViewerWidget::MouseRotXChanged, this,
+          &View::updRotY);
 
   // Vert
   connect(pobj_v_wid_, &ObjectViewerWidget::updVertSzRequested, this,

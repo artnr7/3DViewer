@@ -34,6 +34,8 @@ class View : public QWidget {
   void updRotY(float y);
   void updRotZ(float z);
 
+  void updScaleRate(float);
+
   // Vert
   void updVertSz();
   void updVertStyle();

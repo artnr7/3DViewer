@@ -48,6 +48,7 @@ class Model : public IModel {
   void AddRotAngleZ(float) override;
 
   void SetScaleRate(float) override;
+  void AddScaleRate(float) override;
 
   // Vert
   void SetVertSz(float) override;
