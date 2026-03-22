@@ -54,7 +54,8 @@ class View : public QWidget {
 
  private:
   void RunViewUpdAgents();
-  void SetupConnections();
+  void MenuWidgetSetupConnections();
+  void ObjViewerWidgetSetupConnections();
 
   /* Fields */
   MenuWidget* pmenu_wid_;

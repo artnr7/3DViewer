@@ -19,17 +19,25 @@ View::View(Controller* controller, QWidget* parent)
   setGeometry(INIT_AX_MAIN_WIN, INIT_AY_MAIN_WIN, INIT_W_MAIN_WIN,
               INIT_H_MAIN_WIN);
 
-  pmenu_wid_ = new MenuWidget(INIT_W_MENU_WID, INIT_H_MENU_WIDGET, this);
+  pmenu_wid_ = new MenuWidget(INIT_W_MENU_WID, INIT_H_MENU_WID, this);
 
   pobj_v_wid_ =
       new ObjectViewerWidget(INIT_AX_OBJECT_WIDGET, INIT_AY_OBJECT_WID,
-                             INIT_W_OBJECT_WID, INIT_H_OBJECT_WIDGET, this);
+                             INIT_W_OBJECT_WID, INIT_H_OBJ_WID, this);
 
   menu_wid_update_timer_ = new QTimer(this);
 
-  SetupConnections();
+  ObjViewerWidgetSetupConnections();
+  MenuWidgetSetupConnections();
   // TODO:(sundaeka) надо считать настройки до состояния когда можно уже
   // загружать файл
+
+  // auto fileName = ":bwgif.gif";
+
+  // QMovie* movie = new QMovie(fileName);
+  // QLabel* processLabel = new QLabel(this);
+  // processLabel->setMovie(movie);
+  // movie->start();
 }
 void View::RunViewUpdAgents() {
   // по сути это надо вызывать, когда есть уверенность, что файл в модели
@@ -42,18 +50,8 @@ void View::RunViewUpdAgents() {
   pobj_v_wid_->ObjectInit();
 }
 
-void View::SetupConnections() {
+void View::ObjViewerWidgetSetupConnections() {
   Lg::Log()->Info("View::" + std::string(__func__));
-
-  // menu_wid
-  // эт когда меню данны в модель посылает
-  connect(pmenu_wid_, &MenuWidget::ActionTriggered, this,
-          &View::OnActionTriggered);
-
-  // // это когда уже запущенный таймер менюшки хочет данные обновить
-  // connect(menu_wid_update_timer_, &QTimer::timeout, this,
-  //         &View::OnMenuWidgetTimerUpdated);
-  //
 
   // Affine
   connect(pobj_v_wid_, &ObjectViewerWidget::updGLVertRequested, this,
@@ -97,7 +95,16 @@ void View::SetupConnections() {
           &View::updBckgClr);
 }
 
-// void View::OnMouseUpdated() { OnActionTriggered(SceneAction::kRotateX, pos) }
+void View::MenuWidgetSetupConnections() {
+  // эт когда меню данны в модель посылает
+  connect(pmenu_wid_, &MenuWidget::ActionTriggered, this,
+          &View::OnActionTriggered);
+
+  // // это когда уже запущенный таймер менюшки хочет данные обновить
+  // connect(menu_wid_update_timer_, &QTimer::timeout, this,
+  //         &View::OnMenuWidgetTimerUpdated);
+  //
+}
 
 void View::OnActionTriggered(SceneAction action, ActionData data) {
   Lg::Log()->Trace("View::" + std::string(__func__));
