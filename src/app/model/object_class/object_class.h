@@ -5,7 +5,6 @@
 #include <cstdint>
 #include <fstream>
 #include <iostream>
-
 #include <memory>
 
 #include "../../utils/logger.h"
@@ -18,8 +17,7 @@
 namespace s21 {
 
 class Object {
-
-private:
+ private:
   // Variables ----------→
   Vertices vertices_;
   Faces faces_;
@@ -37,17 +35,13 @@ private:
 
   // Object methods -------------→
   void ObjectCentering();
-  void FindCenterAxis(CoordT &center_axis, CoordT min, CoordT max);
+  void FindCenterAxis(CoordT& center_axis, CoordT min, CoordT max);
   // Normalization
   void Normalization();
 
   // AFFINE ---------------------------------------------------→
   class Affine {
-  public:
-    // void TranslateX(float x);
-    // void TranslateY(float y);
-    // void TranslateZ(float z);
-
+   public:
     // Translate
     void TranslateToX(float);
     void TranslateToY(float);
@@ -58,6 +52,7 @@ private:
     void TranslateOnZ(float);
 
     void Scale(float);
+    void AddScale(float);
 
     void RotateToX(float);
     void RotateToY(float);
@@ -67,21 +62,19 @@ private:
     void RotateOnY(float);
     void RotateOnZ(float);
 
-    // void SetTranslate(vec4);
+    void UpdateGLVertices();
     void RTS();
     void RotMat();
 
     void Multiply();
 
-  private: // VARIABLES
-    Object &obj_;
+   private:  // VARIABLES
+    Object& obj_;
     //
     mat4 mat_trans_{};
     mat4 mat_scale_{};
 
-    using angle = float;
-
-    angle x_{}, y_{}, z_{};
+    float x_{}, y_{}, z_{};
 
     mat4 mat_rot_{};
 
@@ -91,8 +84,8 @@ private:
 
     mat4 rts_{};
 
-  public:
-    Affine(Object &obj) : obj_(obj) {}
+   public:
+    Affine(Object& obj) : obj_(obj) {}
   };
 
   class Parser {
@@ -115,33 +108,33 @@ private:
     using VertIter = VertMaps::iterator;
     using FaceIter = Faces::iterator;
 
-  private:
-    Object &obj_;
+   private:
+    Object& obj_;
     //
     StrIter ofl_it_{};
     StrIter eofl_it_{};
     ParseStatus parse_status_ = ParseStatus::None;
     bool parser_once_f_ = true;
 
-  public:
+   public:
     Parser() = delete;
-    Parser(Object &obj) : obj_(obj) {}
+    Parser(Object& obj) : obj_(obj) {}
 
     void Parse();
 
-  private:
+   private:
     // VLine ----------------------------------------------------→
-    void ParseVLine(IndT &vert_i, std::string &obj_file_line);
-    void ParseVLineNums(VertIter &v_it);
-    void ParseNum(CoordT &coord);
-    void FindMinMax(VertIter &v_it);
+    void ParseVLine(IndT& vert_i, std::string& obj_file_line);
+    void ParseVLineNums(VertIter& v_it);
+    void ParseNum(CoordT& coord);
+    void FindMinMax(VertIter& v_it);
 
     // FLine
-    void ParseFLine(IndT &face_i, std::string &obj_file_line);
-    void ParseFMap(IndT &face_i);
-    void ParseFMapEls(std::vector<MapEl> &map);
-    void ParseFMapEl(MapEl &map_el);
-    void ParseFMapElTok(MapEl &map_el, int &token_i);
+    void ParseFLine(IndT& face_i, std::string& obj_file_line);
+    void ParseFMap(IndT& face_i);
+    void ParseFMapEls(std::vector<MapEl>& map);
+    void ParseFMapEl(MapEl& map_el);
+    void ParseFMapElTok(MapEl& map_el, int& token_i);
 
     // Parser Utils --------------→
     bool IsFLine();
@@ -155,14 +148,14 @@ private:
 
   Parser p_;
 
-public:
+ public:
   Affine a_;
   // Constructors --------------------→
   Object() = delete;
-  Object(const std::string &file_name);
+  Object(const std::string& file_name);
 
-  std::vector<float> &GetGLVertices() { return glvertices_; }
-  std::vector<uint> &GetEBO() { return ebo_; }
+  std::vector<float>& GetGLVertices() { return glvertices_; }
+  std::vector<uint>& GetEBO() { return ebo_; }
 
   // utils
   void PrintVertMinMax();
@@ -173,6 +166,6 @@ public:
 
   void MakeEBO();
 };
-} // namespace s21
+}  // namespace s21
 
 #endif

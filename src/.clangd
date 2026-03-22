@@ -1,0 +1,9 @@
+CompileFlags:
+  Remove: [ -mno-direct-extern-access ]
+  Add: [ -std=c++20 ]
+# Diagnostics:
+#   UnusedIncludes:
+#     StrictMode: true  # Строгий режим
+# Include:
+#   Insert:
+#     After: "^#include <"

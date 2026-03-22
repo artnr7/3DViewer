@@ -123,6 +123,11 @@ PIValueController::PIValueController(const QString &name, int width, int height,
     SetRange(st.rot_min_val, st.rot_max_val);
     SetStepSize(st.rot_step_size);
   }
+  if (name == "thickness" || name == "size") {
+    SetCurrentValue(st.thickness_cur_val);
+    SetRange(st.thickness_min_val, st.thickness_max_val);
+    SetStepSize(st.thickness_step_size);
+  }
 }
 
 /* Value Management Accessors */

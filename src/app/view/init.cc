@@ -1,188 +1,234 @@
-#include "action_types.h"
-#include "view.h"
+#include <qlogging.h>
 
+#include <cstdint>
+#include <stdexcept>
 #include <string>
-#include <vector>
 
+#include "action_types.h"
 #include "config.h"
 #include "enum.h"
 #include "logger.h"
+#include "view.h"
 
 namespace s21 {
 
-View::View(Controller *controller, QWidget *parent)
+View::View(Controller* controller, QWidget* parent)
     : QWidget(parent), pcontroller_(controller) {
   Lg::Log()->Info(std::string(__func__) + " constuctor");
   setWindowTitle("3DViewer");
-  setGeometry(INIT_AX_MAIN_WINDOW, INIT_AY_MAIN_WINDOW, INIT_W_MAIN_WINDOW,
-              INIT_H_MAIN_WINDOW);
+  setGeometry(INIT_AX_MAIN_WIN, INIT_AY_MAIN_WIN, INIT_W_MAIN_WIN,
+              INIT_H_MAIN_WIN);
 
-  pmenu_wid_ = new MenuWidget(INIT_W_MENU_WIDGET, INIT_H_MENU_WIDGET, this);
+  pmenu_wid_ = new MenuWidget(INIT_W_MENU_WID, INIT_H_MENU_WID, this);
 
   pobj_v_wid_ =
-      new ObjectViewerWidget(INIT_AX_OBJECT_WIDGET, INIT_AY_OBJECT_WIDGET,
-                             INIT_W_OBJECT_WIDGET, INIT_H_OBJECT_WIDGET, this);
+      new ObjectViewerWidget(INIT_AX_OBJECT_WIDGET, INIT_AY_OBJECT_WID,
+                             INIT_W_OBJECT_WID, INIT_H_OBJ_WID, this);
 
   menu_wid_update_timer_ = new QTimer(this);
-  SetupConnections();
+
+  ObjViewerWidgetSetupConnections();
+  MenuWidgetSetupConnections();
+  // TODO:(sundaeka) надо считать настройки до состояния когда можно уже
+  // загружать файл
+
+  // auto fileName = ":bwgif.gif";
+
+  // QMovie* movie = new QMovie(fileName);
+  // QLabel* processLabel = new QLabel(this);
+  // processLabel->setMovie(movie);
+  // movie->start();
+}
+void View::RunViewUpdAgents() {
+  // по сути это надо вызывать, когда есть уверенность, что файл в модели
+  // загружен
+  Lg::Log()->Info("View:" + std::string(__func__));
+
+  // menu
+  menu_wid_update_timer_->start(16);
+  // obj_widget
+  pobj_v_wid_->ObjectInit();
 }
 
-void View::SetupConnections() {
+void View::ObjViewerWidgetSetupConnections() {
   Lg::Log()->Info("View::" + std::string(__func__));
 
-  // menu_wid
+  // Affine
+  connect(pobj_v_wid_, &ObjectViewerWidget::updGLVertRequested, this,
+          &View::updGLVert);
+
+  connect(pobj_v_wid_, &ObjectViewerWidget::MouseTransYChanged, this,
+          &View::updTransY);
+  connect(pobj_v_wid_, &ObjectViewerWidget::MouseTransXChanged, this,
+          &View::updTransX);
+  connect(pobj_v_wid_, &ObjectViewerWidget::MouseTransZChanged, this,
+          &View::updScaleRate);
+
+  // инверсия осей специально
+  connect(pobj_v_wid_, &ObjectViewerWidget::MouseRotYChanged, this,
+          &View::updRotX);
+  connect(pobj_v_wid_, &ObjectViewerWidget::MouseRotXChanged, this,
+          &View::updRotY);
+
+  // Vert
+  connect(pobj_v_wid_, &ObjectViewerWidget::updVertSzRequested, this,
+          &View::updVertSz);
+
+  connect(pobj_v_wid_, &ObjectViewerWidget::updVertStyleRequested, this,
+          &View::updVertStyle);
+
+  connect(pobj_v_wid_, &ObjectViewerWidget::updVertClrRequested, this,
+          &View::updVertClr);
+
+  // Edge
+  connect(pobj_v_wid_, &ObjectViewerWidget::updEdgeSzRequested, this,
+          &View::updEdgeSz);
+
+  connect(pobj_v_wid_, &ObjectViewerWidget::updEdgeStyleRequested, this,
+          &View::updEdgeStyle);
+
+  connect(pobj_v_wid_, &ObjectViewerWidget::updEdgeClrRequested, this,
+          &View::updEdgeClr);
+
+  // Misc
+  connect(pobj_v_wid_, &ObjectViewerWidget::updBckgClrRequested, this,
+          &View::updBckgClr);
+}
+
+void View::MenuWidgetSetupConnections() {
   // эт когда меню данны в модель посылает
   connect(pmenu_wid_, &MenuWidget::ActionTriggered, this,
           &View::OnActionTriggered);
 
-  // это когда уже запущенный таймер менюшки хочет данные обновить
-  connect(menu_wid_update_timer_, &QTimer::timeout, this,
-          &View::OnMenuWidgetTimerUpdated);
-
-  // obj_wid
-  connect(pobj_v_wid_, &ObjectViewerWidget::ActionGetGLVertices, this,
-          &View::OnGetGLVertices);
-
-  connect(pobj_v_wid_, &ObjectViewerWidget::BackgroundColorUpdate, this,
-          &View::OnObjectViewerBackgroundColorUpdated);
-
-  connect(pobj_v_wid_, &ObjectViewerWidget::EdgeColorUpdate, this,
-          &View::OnObjectViewerEdgeColorUpdated);
-
-  connect(pobj_v_wid_, &ObjectViewerWidget::VerticesSizeUpdate, this,
-          &View::OnObjectViewerVerticesSizeUpdated);
-
-  connect(pobj_v_wid_, &ObjectViewerWidget::LineWidthUpdate, this,
-          &View::OnObjectViewerLineWidthUpdated);
-
-  // Mouse
-  connect(pobj_v_wid_, &ObjectViewerWidget::MouseUpdateY, this,
-          &View::OnTranslateOnY);
-
-  connect(pobj_v_wid_, &ObjectViewerWidget::MouseUpdateX, this,
-          &View::OnTranslateOnX);
-
-  connect(pobj_v_wid_, &ObjectViewerWidget::MouseRotateY, this,
-          &View::OnRotateOnX);
-
-  connect(pobj_v_wid_, &ObjectViewerWidget::MouseRotateX, this,
-          &View::OnRotateOnY);
+  // // это когда уже запущенный таймер менюшки хочет данные обновить
+  // connect(menu_wid_update_timer_, &QTimer::timeout, this,
+  //         &View::OnMenuWidgetTimerUpdated);
+  //
 }
-
-// void View::OnMouseUpdated() { OnActionTriggered(SceneAction::kRotateX, pos) }
 
 void View::OnActionTriggered(SceneAction action, ActionData data) {
   Lg::Log()->Trace("View::" + std::string(__func__));
 
   std::visit(
-      [this, action](auto &&arg) {
+      [this, action](auto&& arg) {
         using T = std::decay_t<decltype(arg)>;
 
         if constexpr (std::is_same_v<T, float>) {
           switch (action) {
-          /* Translate */
-          case SceneAction::kTranslateX:
-            Lg::Log()->Trace("Model move X to: " + std::to_string(arg) + "\n");
-            pcontroller_->TranslateToX(arg);
-            break;
-          case SceneAction::kTranslateY:
-            Lg::Log()->Trace("Model move Y to: " + std::to_string(arg) + "\n");
-            pcontroller_->TranslateToY(arg);
-            break;
-          case SceneAction::kTranslateZ:
-            Lg::Log()->Trace("Model move Z to: " + std::to_string(arg) + "\n");
-            pcontroller_->TranslateToZ(arg);
-            break;
-          /* Rotate */
-          case SceneAction::kRotateX:
-            Lg::Log()->Trace("Model rotate X to: " + std::to_string(arg) +
-                             "\n");
-            pcontroller_->RotateToX(arg);
-            break;
-          case SceneAction::kRotateY:
-            Lg::Log()->Trace("Model rotate Y to: " + std::to_string(arg) +
-                             "\n");
-            pcontroller_->RotateToY(arg);
-            break;
-          case SceneAction::kRotateZ:
-            Lg::Log()->Trace("Model rotate Z to: " + std::to_string(arg) +
-                             "\n");
-            pcontroller_->RotateToZ(arg);
-            break;
-          /* Scale */
-          case SceneAction::kScale:
-            Lg::Log()->Trace("Model scale to: " + std::to_string(arg) + "\n");
-            pcontroller_->ScaleObject(arg);
-            break;
-          /* Vertexes */
-          case SceneAction::kVertexSize:
-            // std::cout << "Vertex size to: " << arg << "\n";
-            pcontroller_->SetVertexSize(arg);
-            break;
-          /* Edges */
-          case SceneAction::kEdgeThickness:
-            // std::cout << "Edge thickness to: " << arg << "\n";
-            pcontroller_->SetEdgeThickness(arg);
-            break;
+            /* Translate */
+            case SceneAction::kTranslateX:
+              Lg::Log()->Trace("Model move X to: " + std::to_string(arg));
+              pcontroller_->SetTransRateX(arg);
+              break;
+            case SceneAction::kTranslateY:
+              Lg::Log()->Trace("Model move Y to: " + std::to_string(arg));
+              pcontroller_->SetTransRateY(arg);
+              break;
+            case SceneAction::kTranslateZ:
+              Lg::Log()->Trace("Model move Z to: " + std::to_string(arg));
+              pcontroller_->SetTransRateZ(arg);
+              break;
+            /* Rotate */
+            case SceneAction::kRotateX:
+              Lg::Log()->Trace("Model rotate X to: " + std::to_string(arg));
+              pcontroller_->SetRotAngleX(arg);
+              break;
+            case SceneAction::kRotateY:
+              Lg::Log()->Trace("Model rotate Y to: " + std::to_string(arg));
+              pcontroller_->SetRotAngleY(arg);
+              break;
+            case SceneAction::kRotateZ:
+              Lg::Log()->Trace("Model rotate Z to: " + std::to_string(arg));
+              pcontroller_->SetRotAngleZ(arg);
+              break;
+            /* Scale */
+            case SceneAction::kScale:
+              Lg::Log()->Trace("Model scale to: " + std::to_string(arg));
+              pcontroller_->SetScaleRate(arg);
+              break;
+            /* Vertexes */
+            case SceneAction::kVertexSize:
+              Lg::Log()->Trace("Vertex Size to: " + std::to_string(arg));
+              pcontroller_->SetVertSz(arg);
+              break;
+            /* Edges */
+            case SceneAction::kEdgeThickness:
+              Lg::Log()->Trace("Edge thickness to: " + std::to_string(arg));
+              pcontroller_->SetEdgeSz(arg);
+              break;
 
-          default:
-            /* Write Error to log */
-            break;
+            default:
+              /* Write Error to log */
+              break;
           }
         } else if constexpr (std::is_same_v<T, QColor>) {
           switch (action) {
-          /* Vertexes */
-          case SceneAction::kVertexColor:
-            std::cout << "Vertex color to: (" << arg.red() << ", "
-                      << arg.green() << ", " << arg.blue() << ")\n";
-            break;
-          /* Edges */
-          case SceneAction::kEdgeColor:
-            // std::cout << "Edge color to: (" << arg.red() << ", " <<
-            // arg.green()
-            //           << ", " << arg.blue() << ")\n";
-            //
-            pcontroller_->SetEdgeColor(arg.red(), arg.green(), arg.blue());
-            break;
-          case SceneAction::kBackgroundColor:
-            // std::cout << "Background color to: (" << arg.red() << ", "
-            //           << arg.green() << ", " << arg.blue() << ")\n";
-            pcontroller_->SetBackgroundColor(arg.red(), arg.green(),
-                                             arg.blue());
-            break;
-          default:
-            /* Write Error to log */
-            break;
+            /* Vertexes */
+            case SceneAction::kVertexColor: {
+              // std::cout << "Vertex color to: (" << arg.red() << ", "
+              //           << arg.green() << ", " << arg.blue() << ")\n";
+              auto r = static_cast<uint8_t>(arg.red()),
+                   g = static_cast<uint8_t>(arg.green()),
+                   b = static_cast<uint8_t>(arg.blue());
+              pcontroller_->SetVertClr(Color{r, g, b});
+            } break;
+            /* Edges */
+            case SceneAction::kEdgeColor: {
+              // std::cout << "Edge color to: (" << arg.red() << ", " <<
+              // arg.green()
+              //           << ", " << arg.blue() << ")\n";
+              //
+              auto r = static_cast<uint8_t>(arg.red()),
+                   g = static_cast<uint8_t>(arg.green()),
+                   b = static_cast<uint8_t>(arg.blue());
+              pcontroller_->SetEdgeClr(Color{r, g, b});
+              break;
+            }
+            case SceneAction::kBackgroundColor: {
+              // std::cout << "Background color to: (" << arg.red() << ", "
+              //           << arg.green() << ", " << arg.blue() << ")\n";
+              auto r = static_cast<uint8_t>(arg.red()),
+                   g = static_cast<uint8_t>(arg.green()),
+                   b = static_cast<uint8_t>(arg.blue());
+              pcontroller_->SetBckgClr(Color{r, g, b});
+            } break;
+            default:
+              /* Write Error to log */
+              break;
           }
         } else if constexpr (std::is_same_v<T, QString>) {
           switch (action) {
-          /* Open file */
-          case SceneAction::kOpenFile:
-            Lg::Log()->Info("Попытка открытия файла: " + arg.toStdString());
+            /* Open file */
+            case SceneAction::kOpenFile:
+              Lg::Log()->Info("Попытка открытия файла: " + arg.toStdString());
 
-            pcontroller_->BuildObject(arg.toStdString());
-            OnObjectStartBuild();
-            break;
+              pcontroller_->BuildObject(arg.toStdString());
+              RunViewUpdAgents();
+              break;
 
-          default:
-            /* Write Error to log */
-            break;
+            default:
+              throw std::runtime_error("wrond menu_widget header enum");
+              break;
           }
         } else if constexpr (std::is_same_v<T, VertexStyle> ||
                              std::is_same_v<T, EdgeStyle>) {
           switch (action) {
-          /* Vertexes */
-          case SceneAction::kVertexStyle:
-            std::cout << "Vertex style to: " << static_cast<int>(arg) << "\n";
-            break;
-          /* Edges */
-          case SceneAction::kEdgeStyle:
-            std::cout << "Edge style to: " << static_cast<int>(arg) << "\n";
-            break;
+            /* Vertexes */
+            case SceneAction::kVertexStyle:
+              // std::cout << "Vertex style to: " << static_cast<int>(arg) <<
+              // "\n";
+              pcontroller_->SetVertStyle(static_cast<int>(arg));
+              break;
+            /* Edges */
+            case SceneAction::kEdgeStyle:
+              // std::cout << "Edge style to: " << static_cast<int>(arg) <<
+              "\n";
+              pcontroller_->SetEdgeStyle(static_cast<int>(arg));
+              break;
 
-          default:
-            /* Write Error to log */
-            break;
+            default:
+              /* Write Error to log */
+              break;
           }
         } else if constexpr (std::is_same_v<T, ProjectionType>) {
           std::cout << GetEnumName<SceneAction::kProjection>()
@@ -195,4 +241,4 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
       data);
 }
 
-} // namespace s21
+}  // namespace s21

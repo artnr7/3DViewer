@@ -116,7 +116,7 @@ void MenuWidget::SetupShadingPanel(IBuilder *builder) {
                               Qt::Vertical)
       .Add<PIComboBox>("style",
                        GetComboBoxConnection<VertexStyle>(
-                           SceneAction::kEdgeStyle,
+                           SceneAction::kVertexStyle,
                            {{"assets/icons/square.png",
                              static_cast<int>(VertexStyle::kEmpty)},
                             {"assets/icons/square.png",

@@ -1,0 +1,12 @@
+---
+BasedOnStyle: Google
+# IndentWidth: 4
+# ColumnLimit: 120
+CommentPragmas: '// cff, // cfn'
+
+# SortIncludes: true
+# SortUsingDeclarations: true
+
+# ВКЛЮЧАЕМ поддержку комментариев
+DisableFormat: false
+# SortIncludes: CaseSensitive

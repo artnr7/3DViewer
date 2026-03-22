@@ -3,50 +3,79 @@
 
 namespace s21 {
 
-void View::OnGetGLVertices() {
+// Может имеет смысл кешировать данные из модели ???
+
+// Inner
+void View::OnMenuWidgetTimerUpdated() {
+  Lg::Log()->Trace("View::" + std::string(__func__));
+
+  pmenu_wid_->OnUpdateObjectInfo();
+}
+
+// Inner Setters
+void View::updGLVert() {
   Lg::Log()->Trace("View:" + std::string(__func__));
 
   pobj_v_wid_->SetEBO(pcontroller_->GetEBO());
   pobj_v_wid_->SetVBO(pcontroller_->GetGLVertices());
 }
 
-void View::OnMenuWidgetTimerUpdated() {
+void View::updTransX(float x) { pcontroller_->AddTransRateX(x); }
+void View::updTransY(float y) { pcontroller_->AddTransRateY(y); }
+void View::updTransZ(float z) { pcontroller_->AddTransRateZ(z); }
+
+void View::updRotX(float x) { pcontroller_->AddRotAngleX(x); }
+void View::updRotY(float y) { pcontroller_->AddRotAngleY(y); }
+void View::updRotZ(float z) { pcontroller_->AddRotAngleZ(z); }
+
+void View::updScaleRate(float scl_rt) { pcontroller_->AddScaleRate(scl_rt); }
+
+// Vert
+void View::updVertSz() {
   Lg::Log()->Trace("View::" + std::string(__func__));
 
-  auto cmodel_data = pcontroller_->GetCModelData();
-  pmenu_wid_->OnUpdateObjectInfo();
+  pobj_v_wid_->SetVertSz(pcontroller_->GetVertSz());
 }
 
-void View::OnObjectViewerBackgroundColorUpdated() {
+void View::updVertStyle() {
   Lg::Log()->Trace("View::" + std::string(__func__));
 
-  auto cmodel_data = pcontroller_->GetCModelData();
-  auto col = cmodel_data.background_color;
-  // std::cout << col.r << " " << col.g << " " << col.b << std ::endl;
-  pobj_v_wid_->SetBackgroundColor(col.r, col.g, col.b);
+  pobj_v_wid_->SetVertStyle(
+      static_cast<VertsStyle>(pcontroller_->GetVertStyle()));
 }
 
-void View::OnObjectViewerEdgeColorUpdated() {
+void View::updVertClr() {
+  Lg::Log()->Trace("View::" + std::string(__func__));
+  // std::cout << "fefwefA" << std::endl;
+
+  pobj_v_wid_->SetVertClr(pcontroller_->GetVertClr());
+}
+
+// Edge
+void View::updEdgeSz() {
   Lg::Log()->Trace("View::" + std::string(__func__));
 
-  auto cmodel_data = pcontroller_->GetCModelData();
-  auto col = cmodel_data.edge_color;
-  // std::cout << col.r << " " << col.g << " " << col.b << std ::endl;
-  pobj_v_wid_->SetEdgeColor(col.r, col.g, col.b);
+  pobj_v_wid_->SetEdgeSz(pcontroller_->GetEdgeSz());
 }
 
-void View::OnObjectViewerVerticesSizeUpdated() {
+void View::updEdgeStyle() {
   Lg::Log()->Trace("View::" + std::string(__func__));
 
-  auto cmodel_data = pcontroller_->GetCModelData();
-  pobj_v_wid_->SetVerticesSize(cmodel_data.vertex_size);
+  pobj_v_wid_->SetEdgeStyle(
+      static_cast<EdgesStyle>(pcontroller_->GetEdgeStyle()));
 }
 
-void View::OnObjectViewerLineWidthUpdated() {
+void View::updEdgeClr() {
   Lg::Log()->Trace("View::" + std::string(__func__));
 
-  auto cmodel_data = pcontroller_->GetCModelData();
-  pobj_v_wid_->SetLinesWidth(cmodel_data.edge_thickness);
+  pobj_v_wid_->SetEdgeClr(pcontroller_->GetEdgeClr());
 }
 
-} // namespace s21
+// Misc
+void View::updBckgClr() {
+  Lg::Log()->Trace("View::" + std::string(__func__));
+
+  pobj_v_wid_->SetBckgClr(pcontroller_->GetBckgClr());
+}
+
+}  // namespace s21

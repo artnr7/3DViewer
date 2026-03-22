@@ -38,6 +38,12 @@ struct ValueControllerStyle {
   float scale_min_val = 0.01f;
   float scale_max_val = 10.0f;
 
+  // Scale
+  float thickness_cur_val = 1.0f;
+  float thickness_step_size = 0.05f;
+  float thickness_min_val = 0.01f;
+  float thickness_max_val = 50.0f;
+
   // Colors
   QString container_background = "#545454";
   QString button_hover_background = "#484848";

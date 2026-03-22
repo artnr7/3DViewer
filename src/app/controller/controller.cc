@@ -1,71 +1,59 @@
 #include "controller.h"
+
+#include <string>
+
 #include "../utils/logger.h"
 #include "iostream"
-#include <string>
 
 namespace s21 {
 
-void Controller::BuildObject(const std::string &filename) {
-  Lg::Log()->Info("Controller::" + std::string(__func__));
-  model_->BuildObject(filename);
-}
-
 // SETTERS -------------------------------
-void Controller::TranslateToX(float x) {
-  // std::cout << "\n\n\n\n\n" << x << "\n\n\n\n";
-  model_->TranslateToX(x);
+// Affine
+void Controller::SetTransRateX(float x) {}
+void Controller::SetTransRateY(float y) {}
+void Controller::SetTransRateZ(float z) { model_->SetTransRateZ(z); }
+
+void Controller::AddTransRateX(float x) { model_->AddTransRateX(x); }
+void Controller::AddTransRateY(float y) { model_->AddTransRateY(y); }
+void Controller::AddTransRateZ(float z) { model_->AddTransRateZ(z); }
+
+void Controller::SetRotAngleX(float x) {}
+void Controller::SetRotAngleY(float y) {}
+void Controller::SetRotAngleZ(float z) {}
+
+void Controller::AddRotAngleX(float x) { model_->AddRotAngleX(x); }
+void Controller::AddRotAngleY(float y) { model_->AddRotAngleY(y); }
+void Controller::AddRotAngleZ(float z) { model_->AddRotAngleZ(z); }
+
+void Controller::SetScaleRate(float scl_rt) { model_->SetScaleRate(scl_rt); }
+void Controller::AddScaleRate(float scl_rt) { model_->AddScaleRate(scl_rt); }
+
+// Vert
+void Controller::SetVertSz(float vert_sz) { model_->SetVertSz(vert_sz); }
+void Controller::SetVertStyle(uint16_t vert_style) {
+  model_->SetVertStyle(vert_style);
 }
-void Controller::TranslateToY(float x) { model_->TranslateToY(x); }
-void Controller::TranslateToZ(float x) { model_->TranslateToZ(x); }
+void Controller::SetVertClr(Color vert_clr) { model_->SetVertClr(vert_clr); }
 
-void Controller::TranslateOnX(float x) { model_->TranslateOnX(x); }
-void Controller::TranslateOnY(float x) { model_->TranslateOnY(x); }
-void Controller::TranslateOnZ(float x) {}
-
-void Controller::RotateToX(float x) { model_->RotateToX(x); }
-void Controller::RotateToY(float x) { model_->RotateToY(x); }
-void Controller::RotateToZ(float x) { model_->RotateToZ(x); }
-
-void Controller::RotateOnX(float x) { model_->RotateOnX(x); }
-void Controller::RotateOnY(float x) { model_->RotateOnY(x); }
-void Controller::RotateOnZ(float x) { model_->RotateOnZ(x); }
-
-void Controller::ScaleObject(float x) { model_->ScaleObject(x); }
-
-void Controller::SetVertexSize(float x) { testdata_.vertex_size = x; }
-void Controller::SetVertexStyle() {}
-void Controller::SetVertexColor() {}
-
-void Controller::SetEdgeThickness(float x) { testdata_.edge_thickness = x; }
-void Controller::SetEdgeStyle() {}
-void Controller::SetEdgeColor(int r, int g, int b) {
-  testdata_.edge_color.r = r;
-  testdata_.edge_color.g = g;
-  testdata_.edge_color.b = b;
+// Edge
+void Controller::SetEdgeSz(float edge_sz) { model_->SetEdgeSz(edge_sz); }
+void Controller::SetEdgeStyle(uint16_t edge_style) {
+  model_->SetEdgeStyle(edge_style);
 }
+void Controller::SetEdgeClr(Color edge_clr) { model_->SetEdgeClr(edge_clr); }
 
-void Controller::SetBackgroundColor(int r, int g, int b) {
-  testdata_.background_color.r = r;
-  testdata_.background_color.g = g;
-  testdata_.background_color.b = b;
-}
+// Misc
+void Controller::SetBckgClr(Color bckg_clr) { model_->SetBckgClr(bckg_clr); }
 
 // GETTERS -------------------------------
-std::vector<float> &Controller::GetGLVertices() {
+std::vector<float>& Controller::GetGLVertices() {
   return model_->GetGLVertices();
 }
-std::vector<uint> &Controller::GetEBO() { return model_->GetEBO(); }
+std::vector<uint>& Controller::GetEBO() { return model_->GetEBO(); }
 //
-void Controller::GetVertexSize() {}
-void Controller::GetVertexStyle() {}
-void Controller::GetVertexColor() {}
-void Controller::GetVertexThickness() {}
-void Controller::GetEdgeStyle() {}
-void Controller::GetEdgeColor() {}
-void Controller::GetBackgroundColor() {}
 
-Controller::CModelData &Controller::GetCModelData() {
-  // Lg::Log()->Info("Controller::" + std::string(__func__));
-  return testdata_;
-}
-} // namespace s21
+// Controller::CModelData &Controller::GetCModelData() {
+//   // Lg::Log()->Info("Controller::" + std::string(__func__));
+//   return testdata_;
+// }
+}  // namespace s21
