@@ -31,13 +31,6 @@ View::View(Controller* controller, QWidget* parent)
   MenuWidgetSetupConnections();
   // TODO:(sundaeka) надо считать настройки до состояния когда можно уже
   // загружать файл
-
-  // auto fileName = ":bwgif.gif";
-
-  // QMovie* movie = new QMovie(fileName);
-  // QLabel* processLabel = new QLabel(this);
-  // processLabel->setMovie(movie);
-  // movie->start();
 }
 void View::RunViewUpdAgents() {
   // по сути это надо вызывать, когда есть уверенность, что файл в модели
@@ -236,6 +229,14 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
         } else if constexpr (std::is_same_v<T, RenderType>) {
           std::cout << GetEnumName<SceneAction::kRender>()
                     << " to: " << static_cast<int>(arg) << "\n";
+          switch (static_cast<int>(arg)) {
+            case 0:
+              pobj_v_wid_->MakeGIF();
+              break;
+            case 1:
+              pobj_v_wid_->MakeImage();
+              break;
+          }
         }
       },
       data);

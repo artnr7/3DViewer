@@ -11,6 +11,7 @@
 #include <QtGui>
 #include <QtOpenGL>
 #include <cstddef>
+#include <cstdint>
 #include <vector>
 
 #include "../../api/primitives.h"
@@ -63,9 +64,10 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
     update();
 
     emit updBckgClrRequested();
-    QPixmap pixmap = grab();
-    QImage image = pixmap.toImage();
-    image.save("gg.png");
+
+    // QPixmap pixmap = grab();
+    // QImage image = pixmap.toImage();
+    // image.save("gg.png");
 
     if (!file_uploaded_) {
       return;
@@ -92,6 +94,8 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
 
     connect(front_update_timer_, &QTimer::timeout, this,
             &s21::ObjectViewerWidget::OnFrontUpdateTimerTimeout);
+
+    connect(gif_timer_, &QTimer::timeout, this, &s21::ObjectViewerWidget::MGIF);
   }
 
   // GL Context
@@ -146,7 +150,16 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   size_t vbo_points_qty_ = 0;
 
   // Update timer
-  QTimer* front_update_timer_;
+  QTimer* front_update_timer_ = new QTimer(this);
+  // GIF
+  QTimer* gif_timer_ = new QTimer(this);
+  bool gif_status = false;
+  bool img_status = false;
+  std::vector<QImage> images_{};
+
+  uint16_t gif_w_ = 640;
+  uint16_t gif_h_ = 480;
+  uint16_t delay_ = 10;  // 1 delay == 10 msc
 
   // Mouse
   QPoint start_pos_{0, 0};
@@ -179,6 +192,11 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   // Buffers
   void SetVBO(std::vector<float>& vert_attrs);
   void SetEBO(std::vector<uint>& vert_indx);
+
+  void MakeGIF();
+  void MakeImage();
+  void MGIF();
+  Str GetTimeStamp();
 };
 }  // namespace s21
 

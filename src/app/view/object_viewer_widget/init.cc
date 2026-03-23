@@ -20,8 +20,11 @@ ObjectViewerWidget::ObjectViewerWidget(int x_offset, int y_offset, int width,
 
   installEventFilter(this);
 
-  front_update_timer_ = new QTimer(this);
   front_update_timer_->start(16);
+
+  // GIF
+  //
+  images_.reserve(50);  // около 50 кадров
 
   // GUI
   setGeometry(x_offset, y_offset, width, height);
