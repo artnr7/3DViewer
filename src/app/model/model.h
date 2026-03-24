@@ -5,32 +5,47 @@
 #include <memory>
 
 #include "../api/model_interface.h"
-#include "object_class/object_class.h"
-#include "settings_controller/base.h"
+#include "object/object.h"
+#include "settings_controller/settings_controller.h"
 
 namespace s21 {
 
 class Model : public IModel {
  public:
-  Model() { sett_control_ = std::make_unique<SettingsParser>(); };
+  Model() {
+    sett_control_ = std::make_unique<SettingsController>();
+    obj_ = std::make_unique<Object>();
+  };
   ~Model() = default;
 
  private:
   // DATA -------------------------
   std::unique_ptr<Object> obj_;
-  std::unique_ptr<SettingsParser> sett_control_;
+  std::unique_ptr<SettingsController> sett_control_;
 
   std::string obj_filename_;
 
   // METHODS ------------------------
-  void BuildObject(const std::string& filename) override;
+  void BuildObject(const std::string& filename) override {
+    Lg::Log()->Info("Model::" + std::string(__func__));
 
-  // get glvertices
-  std::vector<float>& GetGLVertices() override;
-  std::vector<uint>& GetEBO() override;
+    if (obj_ != nullptr) {
+      obj_.reset();
+    }
+
+    obj_filename_ = filename;
+
+    obj_ = std::make_unique<Object>(obj_filename_);
+  }
 
   // SETTERS -------------------------------
   // Affine
+  std::vector<float>& GetGLVertices() override;
+  std::vector<uint>& GetEBO() override;
+
+  template <typename F>
+  void AddSet(F f, const char* fn);
+
   void SetTransRateX(float) override;
   void SetTransRateY(float) override;
   void SetTransRateZ(float) override;

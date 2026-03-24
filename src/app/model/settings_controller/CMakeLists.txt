@@ -2,9 +2,7 @@ register_format_cmake_file()
 
 # set (PARSER_LIB_NAME parser_lib)
 
-set(SETTINGS_PARSER_FILES
-  base.h
-)
+set(SETTINGS_PARSER_FILES settings_controller.h)
 
 register_format_sources(${SETTINGS_PARSER_FILES})
 

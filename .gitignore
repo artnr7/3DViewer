@@ -58,5 +58,7 @@ build
 *.o
 src/.idea
 src/cmake-build-debug
-*.png
+*.jpeg
+*.jpg
 *.gif
+*.bmp

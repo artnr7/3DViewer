@@ -5,8 +5,6 @@
 #include <QTimer>
 #include <QWidget>
 
-#include "../../utils/logger.h"
-#include "../api/primitives.h"
 #include "controller.h"
 #include "menu_widget/menu_widget.h"
 #include "object_viewer_widget/obj_v_wid.h"
@@ -17,7 +15,18 @@ class View : public QWidget {
   Q_OBJECT
 
  public:
-  View(Controller* controller, QWidget* parent = nullptr);
+  View(Controller* controller, QWidget* parent = nullptr)
+      : QWidget(parent), pcontroller_(controller) {
+    Lg::Log()->Info(std::string(__func__) + " constuctor");
+    setWindowTitle("3DViewer");
+    setGeometry(INIT_AX_MAIN_WIN, INIT_AY_MAIN_WIN, INIT_W_MAIN_WIN,
+                INIT_H_MAIN_WIN);
+
+    ObjViewerWidgetSetupConnections();
+    MenuWidgetSetupConnections();
+    // TODO:(sundaeka) надо считать настройки до состояния когда можно уже
+    // загружать файл
+  }
 
  private slots:
   // MenuWidget
@@ -58,11 +67,14 @@ class View : public QWidget {
   void ObjViewerWidgetSetupConnections();
 
   /* Fields */
-  MenuWidget* pmenu_wid_;
-  ObjectViewerWidget* pobj_v_wid_;
+  MenuWidget* pmenu_wid_ =
+      new MenuWidget(INIT_W_MENU_WID, INIT_H_MENU_WID, this);
+  ObjectViewerWidget* pobj_v_wid_ =
+      new ObjectViewerWidget(INIT_AX_OBJECT_WIDGET, INIT_AY_OBJECT_WID,
+                             INIT_W_OBJECT_WID, INIT_H_OBJ_WID, this);
   IController* pcontroller_;
 
-  QTimer* menu_wid_update_timer_;
+  QTimer* menu_wid_update_timer_ = new QTimer(this);
 };
 
 }  // namespace s21

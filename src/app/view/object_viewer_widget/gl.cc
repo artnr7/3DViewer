@@ -43,7 +43,7 @@ void ObjectViewerWidget::initializeGL() {
 void ObjectViewerWidget::resizeGL(int w, int h) {
   Lg::Log()->Info("ObjectViewerWidget::" + std::string(__func__));
 
-  if (!vertices_ready_ || !ebo_ready_) {
+  if (!IsGLBuffersReady()) {
     return;
   }
   glViewport(0, 0, w, h);
@@ -54,7 +54,7 @@ void ObjectViewerWidget::paintGL() {
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  if (!vertices_ready_ || !ebo_ready_) {
+  if (!IsGLBuffersReady()) {
     return;
   }
 

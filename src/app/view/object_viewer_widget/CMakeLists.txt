@@ -1,6 +1,6 @@
 register_format_cmake_file()
 
-set(OBJECT_VIEWER_WIDGET_FILES gl.cc init.cc setters.cc shaders.cc events.cc
+set(OBJECT_VIEWER_WIDGET_FILES gl.cc gif.cc init.cc setters.cc shaders.cc events.cc
                                obj_v_wid.h)
 register_format_sources(${OBJECT_VIEWER_WIDGET_FILES})
 
