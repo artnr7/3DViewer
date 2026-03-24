@@ -103,9 +103,9 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   // Variables ----------------------------------------→
 
   // Buffers / shader program
-  QOpenGLBuffer* m_vbo_;
-  QOpenGLBuffer* m_ebo_;
-  QOpenGLVertexArrayObject* m_vao_;
+  QOpenGLBuffer* m_vbo_ = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
+  QOpenGLBuffer* m_ebo_ = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
+  QOpenGLVertexArrayObject* m_vao_ = new QOpenGLVertexArrayObject();
   QOpenGLShaderProgram* m_shader_program_;
 
   // Colors
@@ -119,7 +119,7 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
   float vert_sz_ = 4.0f;
   float edge_sz_ = 0.5f;
 
-  VertsStyle vertex_style_ = VertsStyle::Square;
+  VertsStyle vert_style_ = VertsStyle::Square;
   EdgesStyle edge_style_ = EdgesStyle::Solid;
 
 #define DEF_DOTLINE_DASH_SIZE 5.0f

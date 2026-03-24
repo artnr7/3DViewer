@@ -4,97 +4,66 @@ namespace s21 {
 
 // Affine
 // Translate
-void Model::SetTransRateX(float x) {  // X
-  Lg::Log()->Trace("Model::" + std::string(__func__));
-
-  obj_->a_.SetTransX(x);
+//
+template <typename F>
+void Model::AddSet(F f, const char* fn) {
+  Lg::Log()->Trace("Model::" + std::string(fn));
+  f();
   obj_->a_.UpdGLVertices();
 }
-void Model::SetTransRateY(float y) {  // Y
-  Lg::Log()->Trace("Model::" + std::string(__func__));
 
-  obj_->a_.SetTransX(y);
-  obj_->a_.UpdGLVertices();
+void Model::SetTransRateX(float x) {  // X
+  AddSet([&] { obj_->a_.SetTransX(x); }, __func__);
+}
+
+void Model::SetTransRateY(float y) {  // Y
+  AddSet([&] { obj_->a_.SetTransY(y); }, __func__);
 }
 void Model::SetTransRateZ(float z) {  // Z
-  Lg::Log()->Trace("Model::" + std::string(__func__));
-
-  obj_->a_.SetTransZ(z);
-  obj_->a_.UpdGLVertices();
+  AddSet([&] { obj_->a_.SetTransZ(z); }, __func__);
 }
 
 void Model::AddTransRateX(float x) {  // X
-  Lg::Log()->Trace("Model::" + std::string(__func__));
-
-  obj_->a_.AddTransX(x);
-  obj_->a_.UpdGLVertices();
+  AddSet([&] { obj_->a_.AddTransX(x); }, __func__);
 }
 
 void Model::AddTransRateY(float y) {  // Y
-  Lg::Log()->Trace("Model::" + std::string(__func__));
-
-  obj_->a_.AddTransY(y);
-  obj_->a_.UpdGLVertices();
+  AddSet([&] { obj_->a_.AddTransY(y); }, __func__);
 }
 
 void Model::AddTransRateZ(float z) {  // Z
-  Lg::Log()->Trace("Model::" + std::string(__func__));
-
-  obj_->a_.AddTransZ(z);
-  obj_->a_.UpdGLVertices();
+  AddSet([&] { obj_->a_.AddTransZ(z); }, __func__);
 }
 
 // Rotate
 void Model::SetRotAngleX(float x) {  // X
-  Lg::Log()->Trace("Model::" + std::string(__func__));
-
-  obj_->a_.SetRotX(x);
-  obj_->a_.UpdGLVertices();
+  AddSet([&] { obj_->a_.SetRotX(x); }, __func__);
 }
 
 void Model::SetRotAngleY(float y) {  // Y
-  Lg::Log()->Trace("Model::" + std::string(__func__));
-
-  obj_->a_.SetRotY(y);
-  obj_->a_.UpdGLVertices();
+  AddSet([&] { obj_->a_.SetRotY(y); }, __func__);
 }
 
 void Model::SetRotAngleZ(float z) {  // Z
-  Lg::Log()->Trace("Model::" + std::string(__func__));
-
-  obj_->a_.SetRotZ(z);
-  obj_->a_.UpdGLVertices();
+  AddSet([&] { obj_->a_.SetRotZ(z); }, __func__);
 }
-void Model::AddRotAngleX(float x) {
-  Lg::Log()->Trace("Model::" + std::string(__func__));
-
-  obj_->a_.AddRotX(x);
-  obj_->a_.UpdGLVertices();
+void Model::AddRotAngleX(float x) {  // X
+  AddSet([&] { obj_->a_.AddRotX(x); }, __func__);
 }
-void Model::AddRotAngleY(float x) {
-  Lg::Log()->Trace("Model::" + std::string(__func__));
-
-  obj_->a_.AddRotY(x);
-  obj_->a_.UpdGLVertices();
+void Model::AddRotAngleY(float y) {  // Y
+  AddSet([&] { obj_->a_.AddRotY(y); }, __func__);
 }
-void Model::AddRotAngleZ(float x) {
-  Lg::Log()->Trace("Model::" + std::string(__func__));
-
-  obj_->a_.AddRotZ(x);
-  obj_->a_.UpdGLVertices();
+void Model::AddRotAngleZ(float z) {  // Z
+  AddSet([&] { obj_->a_.AddRotZ(z); }, __func__);
 }
 
 // Scale
 void Model::SetScaleRate(float scl_rt) {
-  Lg::Log()->Info("Model::" + std::string(__func__));
-  obj_->a_.SetScale(scl_rt);
-  obj_->a_.UpdGLVertices();
+  AddSet([&] { obj_->a_.SetScale(scl_rt); }, __func__);
 }
 
 void Model::AddScaleRate(float scl_rt) {
-  Lg::Log()->Info("Model::" + std::string(__func__));
-  obj_->a_.AddScale(scl_rt);
-  obj_->a_.UpdGLVertices();
+  AddSet([&] { obj_->a_.AddScale(scl_rt); }, __func__);
 }
 
 // Vert

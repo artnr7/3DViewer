@@ -12,26 +12,6 @@
 
 namespace s21 {
 
-View::View(Controller* controller, QWidget* parent)
-    : QWidget(parent), pcontroller_(controller) {
-  Lg::Log()->Info(std::string(__func__) + " constuctor");
-  setWindowTitle("3DViewer");
-  setGeometry(INIT_AX_MAIN_WIN, INIT_AY_MAIN_WIN, INIT_W_MAIN_WIN,
-              INIT_H_MAIN_WIN);
-
-  pmenu_wid_ = new MenuWidget(INIT_W_MENU_WID, INIT_H_MENU_WID, this);
-
-  pobj_v_wid_ =
-      new ObjectViewerWidget(INIT_AX_OBJECT_WIDGET, INIT_AY_OBJECT_WID,
-                             INIT_W_OBJECT_WID, INIT_H_OBJ_WID, this);
-
-  menu_wid_update_timer_ = new QTimer(this);
-
-  ObjViewerWidgetSetupConnections();
-  MenuWidgetSetupConnections();
-  // TODO:(sundaeka) надо считать настройки до состояния когда можно уже
-  // загружать файл
-}
 void View::RunViewUpdAgents() {
   // по сути это надо вызывать, когда есть уверенность, что файл в модели
   // загружен

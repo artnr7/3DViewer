@@ -43,8 +43,6 @@ void Affine::RotMat() { mat_rot_ = mat_rot_x_ * mat_rot_y_ * mat_rot_z_; }
 void Affine::RTS() {
   rts_.SetZero();
 
-  mat_proj_.SetPerspective(fov_, aspect_, near_, far_);
-
   RotMat();
   rts_ = mat_proj_ * mat_trans_ * mat_scale_ * mat_rot_;
   // rts_.Print();

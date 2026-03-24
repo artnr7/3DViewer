@@ -6,7 +6,7 @@
 
 #include "../api/model_interface.h"
 #include "object/object.h"
-#include "settings_controller/base.h"
+#include "settings_controller/settings_controller.h"
 
 namespace s21 {
 
@@ -38,11 +38,13 @@ class Model : public IModel {
     obj_ = std::make_unique<Object>(obj_filename_);
   }
 
-
   // SETTERS -------------------------------
   // Affine
   std::vector<float>& GetGLVertices() override;
   std::vector<uint>& GetEBO() override;
+
+  template <typename F>
+  void AddSet(F f, const char* fn);
 
   void SetTransRateX(float) override;
   void SetTransRateY(float) override;

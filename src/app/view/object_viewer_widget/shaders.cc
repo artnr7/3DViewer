@@ -4,7 +4,7 @@
 
 void s21::ObjectViewerWidget::LoadShaders() {
   const char* vertex_shader_source = R"(
-      #version 440 core
+      #version 450 core
       // #version 440 core
       // #version 450 core
 
@@ -22,7 +22,7 @@ void s21::ObjectViewerWidget::LoadShaders() {
     )";
 
   const char* fragment_shader_source = R"(
-      #version 440 core
+      #version 450 core
       // #version 440 core
       // #version 450 core
       

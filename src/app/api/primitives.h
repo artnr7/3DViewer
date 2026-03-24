@@ -74,16 +74,16 @@ struct mat4 {
     data[2][3] += v.z;
   }
 
-  void SetScale(float x) {
-    data[0][0] = x;
-    data[1][1] = x;
-    data[2][2] = x;
+  void SetScale(float scl_rt) {
+    data[0][0] = scl_rt;
+    data[1][1] = scl_rt;
+    data[2][2] = scl_rt;
   }
 
-  void AddScale(float x) {
-    data[0][0] += x;
-    data[1][1] += x;
-    data[2][2] += x;
+  void AddScale(float scl_rt) {
+    data[0][0] += scl_rt;
+    data[1][1] += scl_rt;
+    data[2][2] += scl_rt;
   }
 
  private:

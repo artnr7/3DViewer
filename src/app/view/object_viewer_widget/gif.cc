@@ -73,7 +73,7 @@ void ObjectViewerWidget::MGIF() {
 
     GifWriter writer;
     GifBegin(&writer, time_stamp_gif.toUtf8().constData(), gif_w_, gif_h_,
-             delay_);  // 100ms delay
+             delay_);
 
     for (const QImage& frame : images_) {
       GifWriteFrame(&writer, frame.bits(), gif_w_, gif_h_, delay_);

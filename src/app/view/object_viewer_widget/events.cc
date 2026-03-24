@@ -10,7 +10,7 @@ namespace s21 {
 bool ObjectViewerWidget::eventFilter(QObject* obj, QEvent* event) {
   // Y then X
   auto e = event->type();
-  auto* m_e = dynamic_cast<QMouseEvent*>(event);
+  auto* m_e = static_cast<QMouseEvent*>(event);
   int my = 0, mx = 0;
 
   if (e == QEvent::MouseMove || e == QEvent::MouseButtonPress ||
@@ -65,9 +65,15 @@ void ObjectViewerWidget::MouseClickFilter(QMouseEvent& m_e, int m_y, int m_x) {
   if (m_e.type() == QEvent::MouseButtonPress) {
     switch (m_e.button()) {
       case Qt::LeftButton:
+        if (rb_clicked_) {
+          break;
+        }
         lb_clicked_ = true;
         break;
       case Qt::RightButton:
+        if (lb_clicked_) {
+          break;
+        }
         rb_clicked_ = true;
         break;
     }

@@ -59,7 +59,9 @@ class Affine {
 
  public:
   Affine() = delete;
-  explicit Affine(Object& obj) : obj_(obj) {}
+  explicit Affine(Object& obj) : obj_(obj) {
+    mat_proj_.SetPerspective(fov_, aspect_, near_, far_);
+  }
 };
 
 }  // namespace s21
