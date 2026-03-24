@@ -21,7 +21,7 @@ ObjectViewerWidget::ObjectViewerWidget(int x_offset, int y_offset, int width,
   format.setDepthBufferSize(24);
   format.setStencilBufferSize(8);
 
-  format.setVersion(4, 5);
+  format.setVersion(3, 3);
   format.setProfile(QSurfaceFormat::CoreProfile);
   QSurfaceFormat::setDefaultFormat(format);
 
