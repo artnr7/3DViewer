@@ -1,7 +1,7 @@
-#include "object_class.h"
+#include "object.h"
 namespace s21 {
 
-void Object::Parser::ParseFLine(IndT &face_i, std::string &obj_file_line) {
+void Parser::ParseFLine(IndT& face_i, std::string& obj_file_line) {
   ofl_it_ = obj_file_line.begin();
 
   if (!IsFLine()) {
@@ -16,7 +16,7 @@ void Object::Parser::ParseFLine(IndT &face_i, std::string &obj_file_line) {
   ParseFMap(face_i);
 }
 
-void s21::Object::Parser::ParseFMap(IndT &face_i) {
+void Parser::ParseFMap(IndT& face_i) {
   obj_.faces_.push_back({});
 
   // while (!IsEndOfLine()) {
@@ -24,7 +24,7 @@ void s21::Object::Parser::ParseFMap(IndT &face_i) {
   // }
 }
 
-void s21::Object::Parser::ParseFMapEls(std::vector<MapEl> &map) {
+void Parser::ParseFMapEls(std::vector<MapEl>& map) {
   int map_el_i = 0;
   while (!IsEndOfLine()) {
     map.push_back({});
@@ -36,7 +36,7 @@ void s21::Object::Parser::ParseFMapEls(std::vector<MapEl> &map) {
   }
 }
 
-void Object::Parser::ParseFMapEl(MapEl &map_el) {
+void Parser::ParseFMapEl(MapEl& map_el) {
   int token_i = 0;
   while (token_i < obj_.dim_qty_ && *ofl_it_ != ' ' && !IsEndOfLine()) {
     // надо как-то выше выкидывать
@@ -50,7 +50,7 @@ void Object::Parser::ParseFMapEl(MapEl &map_el) {
   }
 }
 
-void Object::Parser::ParseFMapElTok(MapEl &map_el, int &token_i) {
+void Parser::ParseFMapElTok(MapEl& map_el, int& token_i) {
   if (IsSlash() && IsNextSlash()) {
     ++token_i;
     ofl_it_ += 2;
@@ -58,17 +58,17 @@ void Object::Parser::ParseFMapElTok(MapEl &map_el, int &token_i) {
     ofl_it_ += 1;
   }
 
-  IndT *token = nullptr;
+  IndT* token = nullptr;
   switch (token_i) {
-  case TokenID::VerticeID:
-    token = &map_el.vert_i;
-    break;
-  case TokenID::TextureID:
-    token = &map_el.txr_i;
-    break;
-  case TokenID::NormalID:
-    token = &map_el.norl_i;
-    break;
+    case TokenID::VerticeID:
+      token = &map_el.vert_i;
+      break;
+    case TokenID::TextureID:
+      token = &map_el.txr_i;
+      break;
+    case TokenID::NormalID:
+      token = &map_el.norl_i;
+      break;
   }
 
   std::string num{};
@@ -77,7 +77,7 @@ void Object::Parser::ParseFMapElTok(MapEl &map_el, int &token_i) {
     ++ofl_it_;
   }
 
-  char **endptr{};
+  char** endptr{};
   *token = std::strtol(num.c_str(), endptr, 10);
 
   if (*token == 0) {
@@ -88,4 +88,4 @@ void Object::Parser::ParseFMapElTok(MapEl &map_el, int &token_i) {
   ++token_i;
 }
 
-} // namespace s21
+}  // namespace s21

@@ -5,8 +5,6 @@
 #include <QTimer>
 #include <QWidget>
 
-#include "../../utils/logger.h"
-#include "../api/primitives.h"
 #include "controller.h"
 #include "menu_widget/menu_widget.h"
 #include "object_viewer_widget/obj_v_wid.h"

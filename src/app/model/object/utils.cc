@@ -1,8 +1,7 @@
 #include <iomanip>
 
-#include "object_class.h"
-
 #include "iostream"
+#include "object.h"
 
 namespace s21 {
 
@@ -25,7 +24,7 @@ void Object::PrintArray() {
 }
 
 void Object::PrintVertMinMax() {
-  auto print = [](const std::string &s, CoordT &mnx) {
+  auto print = [](const std::string& s, CoordT& mnx) {
     std::cout << s << mnx << std::endl;
   };
   std::cout << std::endl << "MIN MAX\n---------------\n" << std::endl;
@@ -61,7 +60,6 @@ void Object::PrintFaces() {
 }
 
 void Object::PrintEBO() {
-
   for (auto el : ebo_) {
     std::cout << el << " ";
   }
@@ -103,4 +101,4 @@ void Object::MakeEBO() {
   }
 }
 
-} // namespace s21
+}  // namespace s21

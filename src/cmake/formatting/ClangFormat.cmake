@@ -20,10 +20,12 @@ function(create_clang_format_target)
 
     add_custom_target(
       fix-clang-format
-      COMMAND ${CLANG_FORMAT} -i --style=Google ${ALL_PROJECT_SOURCES}
+      COMMAND
+        ${CLANG_FORMAT} -i
+        --style="{BasedOnStyle: Google, DisableFormat: false}"
+        ${ALL_PROJECT_SOURCES}
       COMMENT "Formatting ${ALL_PROJECT_SOURCES}"
       VERBATIM)
-
     add_custom_target(
       check-clang-format
       COMMAND ${CLANG_FORMAT} --dry-run --Werror --style=Google

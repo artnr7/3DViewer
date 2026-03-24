@@ -6,6 +6,11 @@
 
 namespace s21 {
 
+std::vector<float>& Controller::GetGLVertices() {
+  return model_->GetGLVertices();
+}
+std::vector<uint>& Controller::GetEBO() { return model_->GetEBO(); }
+
 // Affine
 const Angles& Controller::GetRotAngles() { return model_->GetRotAngles(); }
 const Rates& Controller::GetTransRates() { return model_->GetTransRates(); }

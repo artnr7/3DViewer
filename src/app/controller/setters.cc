@@ -1,25 +1,21 @@
 #include "controller.h"
 
-#include <string>
-
 #include "../utils/logger.h"
-#include "iostream"
 
 namespace s21 {
 
-// SETTERS -------------------------------
 // Affine
-void Controller::SetTransRateX(float x) {}
-void Controller::SetTransRateY(float y) {}
+void Controller::SetTransRateX(float x) { model_->SetTransRateX(x); }
+void Controller::SetTransRateY(float y) { model_->SetTransRateY(y); }
 void Controller::SetTransRateZ(float z) { model_->SetTransRateZ(z); }
 
 void Controller::AddTransRateX(float x) { model_->AddTransRateX(x); }
 void Controller::AddTransRateY(float y) { model_->AddTransRateY(y); }
 void Controller::AddTransRateZ(float z) { model_->AddTransRateZ(z); }
 
-void Controller::SetRotAngleX(float x) {}
-void Controller::SetRotAngleY(float y) {}
-void Controller::SetRotAngleZ(float z) {}
+void Controller::SetRotAngleX(float x) { model_->SetRotAngleX(x); }
+void Controller::SetRotAngleY(float y) { model_->SetRotAngleY(y); }
+void Controller::SetRotAngleZ(float z) { model_->SetRotAngleZ(z); }
 
 void Controller::AddRotAngleX(float x) { model_->AddRotAngleX(x); }
 void Controller::AddRotAngleY(float y) { model_->AddRotAngleY(y); }
@@ -45,15 +41,4 @@ void Controller::SetEdgeClr(Color edge_clr) { model_->SetEdgeClr(edge_clr); }
 // Misc
 void Controller::SetBckgClr(Color bckg_clr) { model_->SetBckgClr(bckg_clr); }
 
-// GETTERS -------------------------------
-std::vector<float>& Controller::GetGLVertices() {
-  return model_->GetGLVertices();
-}
-std::vector<uint>& Controller::GetEBO() { return model_->GetEBO(); }
-//
-
-// Controller::CModelData &Controller::GetCModelData() {
-//   // Lg::Log()->Info("Controller::" + std::string(__func__));
-//   return testdata_;
-// }
 }  // namespace s21
