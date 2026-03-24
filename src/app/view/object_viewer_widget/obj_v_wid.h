@@ -65,10 +65,6 @@ class ObjectViewerWidget : public QOpenGLWidget, protected QOpenGLFunctions {
 
     emit updBckgClrRequested();
 
-    // QPixmap pixmap = grab();
-    // QImage image = pixmap.toImage();
-    // image.save("gg.png");
-
     if (!file_uploaded_) {
       return;
     }

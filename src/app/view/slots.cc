@@ -5,21 +5,7 @@ namespace s21 {
 
 // Может имеет смысл кешировать данные из модели ???
 
-// Inner
-void View::OnMenuWidgetTimerUpdated() {
-  Lg::Log()->Trace("View::" + std::string(__func__));
-
-  pmenu_wid_->OnUpdateObjectInfo();
-}
-
-// Inner Setters
-void View::updGLVert() {
-  Lg::Log()->Trace("View:" + std::string(__func__));
-
-  pobj_v_wid_->SetEBO(pcontroller_->GetEBO());
-  pobj_v_wid_->SetVBO(pcontroller_->GetGLVertices());
-}
-
+// Outer
 void View::updTransX(float x) { pcontroller_->AddTransRateX(x); }
 void View::updTransY(float y) { pcontroller_->AddTransRateY(y); }
 void View::updTransZ(float z) { pcontroller_->AddTransRateZ(z); }
@@ -29,6 +15,20 @@ void View::updRotY(float y) { pcontroller_->AddRotAngleY(y); }
 void View::updRotZ(float z) { pcontroller_->AddRotAngleZ(z); }
 
 void View::updScaleRate(float scl_rt) { pcontroller_->AddScaleRate(scl_rt); }
+
+// Inner
+void View::OnMenuWidgetTimerUpdated() {
+  Lg::Log()->Trace("View::" + std::string(__func__));
+
+  pmenu_wid_->OnUpdateObjectInfo();
+}
+
+void View::updGLVert() {
+  Lg::Log()->Trace("View:" + std::string(__func__));
+
+  pobj_v_wid_->SetEBO(pcontroller_->GetEBO());
+  pobj_v_wid_->SetVBO(pcontroller_->GetGLVertices());
+}
 
 // Vert
 void View::updVertSz() {
@@ -46,7 +46,6 @@ void View::updVertStyle() {
 
 void View::updVertClr() {
   Lg::Log()->Trace("View::" + std::string(__func__));
-  // std::cout << "fefwefA" << std::endl;
 
   pobj_v_wid_->SetVertClr(pcontroller_->GetVertClr());
 }

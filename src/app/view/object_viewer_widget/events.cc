@@ -4,14 +4,13 @@
 #include <qpoint.h>
 #include <qtimezone.h>
 
-#include "iostream"
 #include "obj_v_wid.h"
 
 namespace s21 {
 bool ObjectViewerWidget::eventFilter(QObject* obj, QEvent* event) {
   // Y then X
   auto e = event->type();
-  auto* m_e = static_cast<QMouseEvent*>(event);
+  auto* m_e = dynamic_cast<QMouseEvent*>(event);
   int my = 0, mx = 0;
 
   if (e == QEvent::MouseMove || e == QEvent::MouseButtonPress ||
@@ -50,11 +49,8 @@ bool ObjectViewerWidget::eventFilter(QObject* obj, QEvent* event) {
   if (e == QEvent::Wheel) {
     auto* w_e = static_cast<QWheelEvent*>(event);
     emit MouseTransZChanged(MULT * w_e->angleDelta().ry());
-    qDebug() << w_e->position() << w_e->angleDelta();
+    // qDebug() << w_e->position() << w_e->angleDelta();
   }
-  // if (e != QEvent::Paint) {
-  //   qDebug() << e;
-  // }
 
   MouseClickFilter(*m_e, my, mx);
 

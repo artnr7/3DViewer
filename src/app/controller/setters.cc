@@ -1,6 +1,5 @@
-#include "controller.h"
-
 #include "../utils/logger.h"
+#include "controller.h"
 
 namespace s21 {
 

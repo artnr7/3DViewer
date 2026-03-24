@@ -37,9 +37,7 @@ void View::RunViewUpdAgents() {
   // загружен
   Lg::Log()->Info("View:" + std::string(__func__));
 
-  // menu
   menu_wid_update_timer_->start(16);
-  // obj_widget
   pobj_v_wid_->ObjectInit();
 }
 
