@@ -102,68 +102,101 @@ Qt::Orientation PIBase::GetOrientation() { return orientation_; }
 
 //// PIBase
 
-/* PIValueController */
-PIValueController::PIValueController(const QString &name, int width, int height,
-                                     Qt::Orientation orientation,
-                                     QWidget *parent)
+/* PIValueControllerFloat */
+PIValueControllerFloat::PIValueControllerFloat(const QString &name, int width,
+                                               int height,
+                                               Qt::Orientation orientation,
+                                               QWidget *parent)
     : PIBase(name, orientation, parent) {
   Initialize(width, height);
-  // sundaeka
-  // Может быть нужно передавать тип ползунка чтобы была возможность точечной
-  // настройки
-  // типо enum ValueControllerType
-  auto &st = valcontroll_->style_;
-  if (name == "value") {
-    SetCurrentValue(st.scale_cur_val);
-    SetRange(st.scale_min_val, st.scale_max_val);
-    SetStepSize(st.scale_step_size);
-  }
-  if (name == "xr" || name == "yr" || name == "zr") {
-    SetCurrentValue(st.rot_cur_val);
-    SetRange(st.rot_min_val, st.rot_max_val);
-    SetStepSize(st.rot_step_size);
-  }
-  if (name == "thickness" || name == "size") {
-    SetCurrentValue(st.thickness_cur_val);
-    SetRange(st.thickness_min_val, st.thickness_max_val);
-    SetStepSize(st.thickness_step_size);
-  }
+  // auto &st = valcontroll_->style_;
+  // if (name == "value") {
+  //   SetCurrentValue(st.scale_cur_val);
+  //   SetRange(st.scale_min_val, st.scale_max_val);
+  //   SetStepSize(st.scale_step_size);
+  // }
+  // if (name == "xr" || name == "yr" || name == "zr") {
+  //   SetCurrentValue(st.rot_cur_val);
+  //   SetRange(st.rot_min_val, st.rot_max_val);
+  //   SetStepSize(st.rot_step_size);
+  // }
+  // if (name == "thickness" || name == "size") {
+  //   SetCurrentValue(st.thickness_cur_val);
+  //   SetRange(st.thickness_min_val, st.thickness_max_val);
+  //   SetStepSize(st.thickness_step_size);
+  // }
 }
 
 /* Value Management Accessors */
-int PIValueController::GetCurrentValue() const {
+float PIValueControllerFloat::GetCurrentValue() const {
   return valcontroll_->GetCurrentValue();
 }
-// Value Management Accessors
 
 /* Value Management Mutators */
-void PIValueController::SetCurrentValue(float value) {
+void PIValueControllerFloat::SetCurrentValue(float value) {
   valcontroll_->SetCurrentValue(value);
 }
 
-void PIValueController::SetRange(float min_value, float max_value) {
+void PIValueControllerFloat::SetRange(float min_value, float max_value) {
   valcontroll_->SetMinValue(min_value);
   valcontroll_->SetMaxValue(max_value);
 }
 
-// sundaeka
-void PIValueController::SetStepSize(float step_size) {
+void PIValueControllerFloat::SetStepSize(float step_size) {
   valcontroll_->SetStepSize(step_size);
 }
-// Value Management Mutators
 
 /* Setup */
-QWidget *PIValueController::CreateContentWidget(int width, int height) {
-  valcontroll_ = new ValueController(width, height);
+QWidget *PIValueControllerFloat::CreateContentWidget(int width, int height) {
+  valcontroll_ = new ValueControllerFloat(width, height);
   return valcontroll_;
 }
 
-void PIValueController::SetupContentConnections() {
-  connect(valcontroll_, &ValueController::CurrentValueChanged, this,
-          &PIValueController::CurrentValueChanged);
+void PIValueControllerFloat::SetupContentConnections() {
+  connect(valcontroll_, &ValueControllerFloat::CurrentValueChanged, this,
+          &PIValueControllerFloat::CurrentValueChanged);
 }
-// Setup
-//// PIValueController
+//// PIValueControllerFloat
+
+/* PIValueControllerInt */
+PIValueControllerInt::PIValueControllerInt(const QString &name, int width,
+                                           int height,
+                                           Qt::Orientation orientation,
+                                           QWidget *parent)
+    : PIBase(name, orientation, parent) {
+  Initialize(width, height);
+}
+
+/* Value Management Accessors */
+int PIValueControllerInt::GetCurrentValue() const {
+  return valcontroll_->GetCurrentValue();
+}
+
+/* Value Management Mutators */
+void PIValueControllerInt::SetCurrentValue(int value) {
+  valcontroll_->SetCurrentValue(value);
+}
+
+void PIValueControllerInt::SetRange(int min_value, int max_value) {
+  valcontroll_->SetMinValue(min_value);
+  valcontroll_->SetMaxValue(max_value);
+}
+
+void PIValueControllerInt::SetStepSize(int step_size) {
+  valcontroll_->SetStepSize(step_size);
+}
+
+/* Setup */
+QWidget *PIValueControllerInt::CreateContentWidget(int width, int height) {
+  valcontroll_ = new ValueControllerInt(width, height);
+  return valcontroll_;
+}
+
+void PIValueControllerInt::SetupContentConnections() {
+  connect(valcontroll_, &ValueControllerInt::CurrentValueChanged, this,
+          &PIValueControllerInt::CurrentValueChanged);
+}
+//// PIValueControllerInt
 
 /* PIComboBox */
 PIComboBox::PIComboBox(const QString &name, int width, int height,

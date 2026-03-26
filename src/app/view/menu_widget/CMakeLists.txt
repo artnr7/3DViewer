@@ -15,7 +15,6 @@ set(MENU_WIDGET_FILES
     menu_builder/builder_contexts.cc
     panel/panel.cc
     panel/panel_items.cc
-    value_controller/value_controller.cc
     buttons/double_button_base.cc
     buttons/exclusive_double_button.cc
     buttons/independent_double_button.cc
@@ -34,6 +33,7 @@ set(MENU_WIDGET_FILES
     panel/panel.h
     panel/panel_items.h
     value_controller/value_controller.h
+    value_controller/value_controller_base.h
     buttons/double_button_base.h
     buttons/exclusive_double_button.h
     buttons/independent_double_button.h

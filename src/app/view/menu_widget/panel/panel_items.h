@@ -44,37 +44,63 @@ protected:
 };
 //// PIBase
 
-/* PIValueController */
-class PIValueController : public PIBase {
+/* PIValueControllerFloat */
+class PIValueControllerFloat : public PIBase {
   Q_OBJECT
 
-public:
-  explicit PIValueController(const QString &name, int width, int height,
-                             Qt::Orientation orientation,
-                             QWidget *parent = nullptr);
+ public:
+  explicit PIValueControllerFloat(const QString &name, int width, int height,
+                                  Qt::Orientation orientation,
+                                  QWidget *parent = nullptr);
+
   /* Value Management Accessors */
-  int GetCurrentValue() const;
+  float GetCurrentValue() const;
 
   /* Value Management Mutators */
   void SetCurrentValue(float value);
   void SetRange(float min_value, float max_value);
   void SetStepSize(float step_size);
 
-signals:
-  /* Signals */
-  // sundaeka // нужен ли? типо и так переопределяется?
+ signals:
   void CurrentValueChanged(float value);
 
-protected:
+ protected:
   /* Setup */
   QWidget *CreateContentWidget(int width, int height) override;
   void SetupContentConnections() override;
 
-private:
-  /* Fields */
-  ValueController *valcontroll_ = nullptr;
+ private:
+  ValueControllerFloat *valcontroll_ = nullptr;
 };
-//// PIValueController
+
+/* PIValueControllerInt */
+class PIValueControllerInt : public PIBase {
+  Q_OBJECT
+
+ public:
+  explicit PIValueControllerInt(const QString &name, int width, int height,
+                                Qt::Orientation orientation,
+                                QWidget *parent = nullptr);
+
+  /* Value Management Accessors */
+  int GetCurrentValue() const;
+
+  /* Value Management Mutators */
+  void SetCurrentValue(int value);
+  void SetRange(int min_value, int max_value);
+  void SetStepSize(int step_size);
+
+ signals:
+  void CurrentValueChanged(int value);
+
+ protected:
+  /* Setup */
+  QWidget *CreateContentWidget(int width, int height) override;
+  void SetupContentConnections() override;
+
+ private:
+  ValueControllerInt *valcontroll_ = nullptr;
+};
 
 /* PIComboBox */
 class PIComboBox : public PIBase {

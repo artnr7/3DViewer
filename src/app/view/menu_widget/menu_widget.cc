@@ -74,35 +74,35 @@ void MenuWidget::SetupToolBar(IBuilder *builder, int buttons_menu_width,
 void MenuWidget::SetupTransformPanel(IBuilder *builder) {
   builder->AddPanel("Transform")
       .AddSubPanel("Translation")
-      .Add<PIValueController>("x",
+      .Add<PIValueControllerFloat>("x",
                               Connect(SceneAction::kTranslateX,
-                                      &PIValueController::CurrentValueChanged),
+                                      &PIValueControllerFloat::CurrentValueChanged),
                               Qt::Vertical)
-      .Add<PIValueController>("y",
+      .Add<PIValueControllerFloat>("y",
                               Connect(SceneAction::kTranslateY,
-                                      &PIValueController::CurrentValueChanged),
+                                      &PIValueControllerFloat::CurrentValueChanged),
                               Qt::Vertical)
-      .Add<PIValueController>("z",
+      .Add<PIValueControllerFloat>("z",
                               Connect(SceneAction::kTranslateZ,
-                                      &PIValueController::CurrentValueChanged),
+                                      &PIValueControllerFloat::CurrentValueChanged),
                               Qt::Vertical)
       .AddSubPanel("Rotation")
-      .Add<PIValueController>("xr",
+      .Add<PIValueControllerFloat>("xr",
                               Connect(SceneAction::kRotateX,
-                                      &PIValueController::CurrentValueChanged),
+                                      &PIValueControllerFloat::CurrentValueChanged),
                               Qt::Vertical)
-      .Add<PIValueController>("yr",
+      .Add<PIValueControllerFloat>("yr",
                               Connect(SceneAction::kRotateY,
-                                      &PIValueController::CurrentValueChanged),
+                                      &PIValueControllerFloat::CurrentValueChanged),
                               Qt::Vertical)
-      .Add<PIValueController>("zr",
+      .Add<PIValueControllerFloat>("zr",
                               Connect(SceneAction::kRotateZ,
-                                      &PIValueController::CurrentValueChanged),
+                                      &PIValueControllerFloat::CurrentValueChanged),
                               Qt::Vertical)
       .AddSubPanel("Scale")
-      .Add<PIValueController>(
+      .Add<PIValueControllerFloat>(
           "value",
-          Connect(SceneAction::kScale, &PIValueController::CurrentValueChanged),
+          Connect(SceneAction::kScale, &PIValueControllerFloat::CurrentValueChanged),
           Qt::Horizontal);
 }
 
@@ -110,9 +110,9 @@ void MenuWidget::SetupTransformPanel(IBuilder *builder) {
 void MenuWidget::SetupShadingPanel(IBuilder *builder) {
   builder->AddPanel("Shading")
       .AddSubPanel("Vertices")
-      .Add<PIValueController>("size",
+      .Add<PIValueControllerFloat>("size",
                               Connect(SceneAction::kVertexSize,
-                                      &PIValueController::CurrentValueChanged),
+                                      &PIValueControllerFloat::CurrentValueChanged),
                               Qt::Vertical)
       .Add<PIComboBox>("style",
                        GetComboBoxConnection<VertexStyle>(
@@ -129,9 +129,9 @@ void MenuWidget::SetupShadingPanel(IBuilder *builder) {
           Connect(SceneAction::kVertexColor, &PIColorPicker::ColorChanged),
           Qt::Vertical)
       .AddSubPanel("Edges")
-      .Add<PIValueController>("thickness",
+      .Add<PIValueControllerFloat>("thickness",
                               Connect(SceneAction::kEdgeThickness,
-                                      &PIValueController::CurrentValueChanged),
+                                      &PIValueControllerFloat::CurrentValueChanged),
                               Qt::Vertical)
       .Add<PIComboBox>(
           "style",
