@@ -26,6 +26,53 @@ struct MenuWidgetStyle {
   int buttons_edge_margin_in_panel = 10;
   int item_height = 44;
   double item_width_ratio = 0.3;
+
+  // Transform values
+  float trnsfrm_min_value = -3.0f;
+  float trnsfrmmax_value = 3.0f;
+  float trnsfrm_center_value = 0.0f;
+  float trnsfrm_step_size = 0.001f;
+
+  // Rotate values
+  float rot_cur_val = 0.0f;
+  float rot_step_size = 0.05f;
+  float rot_min_val = -1080.0f;
+  float rot_max_val = 1080.0f;
+
+  // Scale values
+  float scale_cur_val = 1.0f;
+  float scale_step_size = 0.01f;
+  float scale_min_val = 0.01f;
+  float scale_max_val = 10.0f;
+
+  // Thickness & Size values
+  float thick_size_cur_val = 1.0f;
+  float thick_size_step_size = 0.05f;
+  float thick_size_min_val = 0.01f;
+  float thick_size_max_val = 50.0f;
+
+  template <typename T>
+  struct Config {
+    T current, min, max, step;
+  };
+
+  Config<float> GetTransformConfig() const {
+    return {trnsfrm_center_value, trnsfrm_min_value,
+            trnsfrmmax_value, trnsfrm_step_size};
+  }
+
+  Config<float> GetRotationConfig() const {
+    return {rot_cur_val, rot_min_val, rot_max_val, rot_step_size};
+  }
+
+  Config<float> GetScaleConfig() const {
+    return {scale_cur_val, scale_min_val, scale_max_val, scale_step_size};
+  }
+
+  Config<float> GetThicknessSizeConfig() const {
+    return {thick_size_cur_val, thick_size_min_val,
+            thick_size_max_val, thick_size_step_size};
+  }
 };
 
 class MenuWidget : public QWidget {
@@ -62,6 +109,8 @@ private:
 
   template <typename Item, typename DataType>
   auto Connect(SceneAction action, void (Item::*signal)(DataType));
+
+  auto ConnectControllerWithConfig(const MenuWidgetStyle::Config<float>& config, SceneAction action);
 
   template <typename EnumType, typename Item, typename DataType>
   auto ConnectEnum(SceneAction action, void (Item::*signal)(DataType));
