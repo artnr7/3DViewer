@@ -7,3 +7,8 @@ CompileFlags:
 # Include:
 #   Insert:
 #     After: "^#include <"
+
+InlayHints:
+  Designators: false
+  ParameterNames: false
+  DeducedTypes: false
