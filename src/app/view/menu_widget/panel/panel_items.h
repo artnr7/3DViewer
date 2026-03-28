@@ -54,12 +54,10 @@ class PIValueControllerFloat : public PIBase {
                                   QWidget *parent = nullptr);
 
   /* Value Management Accessors */
-  float GetCurrentValue() const;
+  [[nodiscard]] float GetCurrentValue() const;
 
   /* Value Management Mutators */
-  void SetCurrentValue(float value);
-  void SetRange(float min_value, float max_value);
-  void SetStepSize(float step_size);
+  void Configure(float value, float min_value, float max_value, float step_size);
 
  signals:
   void CurrentValueChanged(float value);
@@ -83,12 +81,12 @@ class PIValueControllerInt : public PIBase {
                                 QWidget *parent = nullptr);
 
   /* Value Management Accessors */
-  int GetCurrentValue() const;
+  [[nodiscard]] int GetCurrentValue() const;
 
   /* Value Management Mutators */
+  void Configure(int value, int min_value, int max_value, int step_size);
   void SetCurrentValue(int value);
   void SetRange(int min_value, int max_value);
-  void SetStepSize(int step_size);
 
  signals:
   void CurrentValueChanged(int value);

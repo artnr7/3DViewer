@@ -14,7 +14,7 @@
 
 namespace s21 {
 
-//** PI Base **//
+/* PIBase */
 PIBase::PIBase(const QString &name, Qt::Orientation orientation,
                QWidget *parent)
     : QWidget(parent), orientation_(orientation), style_{} {
@@ -24,7 +24,6 @@ PIBase::PIBase(const QString &name, Qt::Orientation orientation,
 }
 
 /* Setup */
-// sundaeka
 void PIBase::Initialize(int width, int height) {
   /* FOR DEBUG */
   int total_width = orientation_ == Qt::Horizontal ? 1.5 * width : width;
@@ -109,22 +108,6 @@ PIValueControllerFloat::PIValueControllerFloat(const QString &name, int width,
                                                QWidget *parent)
     : PIBase(name, orientation, parent) {
   Initialize(width, height);
-  // auto &st = valcontroll_->style_;
-  // if (name == "value") {
-  //   SetCurrentValue(st.scale_cur_val);
-  //   SetRange(st.scale_min_val, st.scale_max_val);
-  //   SetStepSize(st.scale_step_size);
-  // }
-  // if (name == "xr" || name == "yr" || name == "zr") {
-  //   SetCurrentValue(st.rot_cur_val);
-  //   SetRange(st.rot_min_val, st.rot_max_val);
-  //   SetStepSize(st.rot_step_size);
-  // }
-  // if (name == "thickness" || name == "size") {
-  //   SetCurrentValue(st.thickness_cur_val);
-  //   SetRange(st.thickness_min_val, st.thickness_max_val);
-  //   SetStepSize(st.thickness_step_size);
-  // }
 }
 
 /* Value Management Accessors */
@@ -133,16 +116,10 @@ float PIValueControllerFloat::GetCurrentValue() const {
 }
 
 /* Value Management Mutators */
-void PIValueControllerFloat::SetCurrentValue(float value) {
+void PIValueControllerFloat::Configure(float value, float min_value, float max_value, float step_size) {
   valcontroll_->SetCurrentValue(value);
-}
-
-void PIValueControllerFloat::SetRange(float min_value, float max_value) {
   valcontroll_->SetMinValue(min_value);
   valcontroll_->SetMaxValue(max_value);
-}
-
-void PIValueControllerFloat::SetStepSize(float step_size) {
   valcontroll_->SetStepSize(step_size);
 }
 
@@ -173,6 +150,13 @@ int PIValueControllerInt::GetCurrentValue() const {
 }
 
 /* Value Management Mutators */
+void PIValueControllerInt::Configure(int value, int min_value, int max_value, int step_size) {
+  valcontroll_->SetCurrentValue(value);
+  valcontroll_->SetMinValue(min_value);
+  valcontroll_->SetMaxValue(max_value);
+  valcontroll_->SetStepSize(step_size);
+}
+
 void PIValueControllerInt::SetCurrentValue(int value) {
   valcontroll_->SetCurrentValue(value);
 }
@@ -180,10 +164,6 @@ void PIValueControllerInt::SetCurrentValue(int value) {
 void PIValueControllerInt::SetRange(int min_value, int max_value) {
   valcontroll_->SetMinValue(min_value);
   valcontroll_->SetMaxValue(max_value);
-}
-
-void PIValueControllerInt::SetStepSize(int step_size) {
-  valcontroll_->SetStepSize(step_size);
 }
 
 /* Setup */
