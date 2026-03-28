@@ -20,6 +20,10 @@ class ValueControllerFloat : public ValueControllerBase<float> {
   void OnValueChanged(float value) override {
     emit CurrentValueChanged(value);
   }
+
+  void UpdateValueField() override {
+    value_field_->setText(QString::number(current_value_, 'f', 3));
+  }
 };
 
 class ValueControllerInt : public ValueControllerBase<int> {

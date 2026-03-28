@@ -65,14 +65,14 @@ private:
   bool FocusOutEvent();
   void EditFinished();
 
+ protected:
   /* Value Management Update */
-  void UpdateValueField();
+  virtual void UpdateValueField();
 
-private:
   /* Fields */
+ private:
   ValueControllerStyle style_;
   QSize widget_size_;
-  T current_value_;
   T min_value_;
   T max_value_;
   T step_size_;
@@ -85,18 +85,21 @@ private:
   QHBoxLayout *main_layout_;
   QPushButton *left_button_;
   QPushButton *right_button_;
+
+ protected:
+  T current_value_;
   QLineEdit *value_field_;
 };
 
 template <Numeric T>
 ValueControllerBase<T>::ValueControllerBase(int width, int height, QWidget *parent)
     : QWidget(parent), style_{}, widget_size_(width, height),
-      current_value_(style_.default_center_value),
       min_value_(style_.default_min_value),
       max_value_(style_.default_max_value),
       step_size_(style_.default_step_size),
       step_speed_(style_.default_step_speed),
-      is_dragging_(style_.default_dragging) {
+      is_dragging_(style_.default_dragging),
+      current_value_(style_.default_center_value) {
   SetupUI();
   SetupConnections();
   value_field_->setText(QString::number(current_value_));
