@@ -54,12 +54,6 @@ void MenuWidget::SetupUI() {
   SetupToolBar(&tool_builder, buttons_menu_width, item_height);
   SetupStatusBar(status_bar);
 
-  // ;
-  // pcmb1->AddItems("assets/icons/square.png", "assets/icons/circle.png");
-  // pcmb2->SetArrows("assets/icons/open_arrow.png",
-  // "assets/icons/close_arrow.png"); pcmb2->AddItems("assets/icons/line.png",
-  // "assets/icons/line_dash.png");
-
   main_layout->addWidget(tool_bar);
   main_layout->addWidget(status_bar);
 }
@@ -134,12 +128,12 @@ void MenuWidget::SetupShadingPanel(IBuilder *builder) {
       .Add<PIComboBox>("style",
                        GetComboBoxConnection<VertexStyle>(
                            SceneAction::kVertexStyle,
-                           {{"assets/icons/square.png",
+                           {{"assets/icons/circle_empty.png",
                              static_cast<int>(VertexStyle::kEmpty)},
-                            {"assets/icons/square.png",
-                             static_cast<int>(VertexStyle::kSquare)},
                             {"assets/icons/circle.png",
-                             static_cast<int>(VertexStyle::kCircle)}}),
+                             static_cast<int>(VertexStyle::kCircle)},
+                             {"assets/icons/square.png",
+                             static_cast<int>(VertexStyle::kSquare)}}),
                        Qt::Vertical)
       .Add<PIColorPicker>(
           "color",
