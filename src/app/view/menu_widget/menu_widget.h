@@ -18,7 +18,7 @@ struct MenuWidgetStyle {
   int zero_spacing = 0;
 
   /* StatuBar */
-  double status_bar_height_ratio = 0.03;
+  double status_bar_height_ratio = 0.04;
   double tool_bar_height_ratio = 1.0 - status_bar_height_ratio;
 
   /* ToolBar */
@@ -86,9 +86,6 @@ public slots:
 
 signals:
   void ActionTriggered(SceneAction action, ActionData data);
-
-private:
-signals:
   void UpdateInfo(int vertices_count, int edges_count);
   void ShowError(const QString &msg);
 
@@ -96,7 +93,7 @@ private:
   void SetupUI();
   void SetupToolBar(IBuilder *builder, int buttons_menu_width,
                     int buttons_menu_height);
-  void SetupStatusBar(StatusBar *status_bar);
+  void SetupStatusBar(StatusBar *status_bar, StatusInfo *status_info);
   void SetupTransformPanel(IBuilder *builder);
   void SetupShadingPanel(IBuilder *builder);
   void SetupButtonsPanel(IBuilder *builder, int buttons_menu_width,

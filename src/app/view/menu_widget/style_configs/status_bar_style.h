@@ -9,8 +9,6 @@ namespace s21 {
 
 struct StatusBarStyle {
   /* Colors */
-  QString background_color = "#3D3D3D";
-  QString background_border = "none";
   QString status_text_color = "#A8A6A6";
   QColor error_text_color = QColor(255, 68, 68);
 

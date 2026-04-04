@@ -11,7 +11,7 @@
 #include "colordialog/color_picker.h"
 #include "combobox/combo_box.h"
 #include "filedialog/file_dialog_panel.h"
-#include "status_bar/status_bar.h"
+#include "status_info/status_info.h"
 #include "style_configs/panel_items_style.h"
 #include "value_controller/value_controller.h"
 

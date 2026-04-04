@@ -35,7 +35,10 @@ enum class SceneAction {
   kRender,
 
   /* Files */
-  kOpenFile
+  kOpenFile,
+
+  /* Scene */
+  kClearScene
 };
 
 enum class VertexStyle { kEmpty, kSquare, kCircle };

@@ -12,10 +12,11 @@
 #include <type_traits>
 
 #include "action_types.h"
+#include "buttons/trash_button.h"
 #include "menu_builder/menu_builder.h"
 #include "panel/panel.h"
 #include "panel/panel_items.h"
-#include "status_bar/status_bar.h"
+#include "status_info/status_info.h"
 
 #include "../../utils/logger.h"
 
@@ -48,11 +49,12 @@ void MenuWidget::SetupUI() {
 
   ToolBar *tool_bar = new ToolBar(tool_bar_width, tool_bar_height);
   StatusBar *status_bar = new StatusBar(status_bar_width, status_bar_height);
+  StatusInfo *status_info = new StatusInfo(status_bar_width, status_bar_height);
 
   /* TODO: FIX SIGNALS */
-  MenuBuilder tool_builder(tool_bar, item_width, item_height);
+  MenuBuilder<ToolBar> tool_builder(tool_bar, item_width, item_height);
   SetupToolBar(&tool_builder, buttons_menu_width, item_height);
-  SetupStatusBar(status_bar);
+  SetupStatusBar(status_bar, status_info);
 
   main_layout->addWidget(tool_bar);
   main_layout->addWidget(status_bar);
@@ -191,10 +193,20 @@ void MenuWidget::SetupButtonsPanel(IBuilder *builder, int buttons_menu_width,
           "Open", "File name:");
 }
 
-void MenuWidget::SetupStatusBar(StatusBar *status_bar) {
-  connect(this, &MenuWidget::UpdateInfo, status_bar, &StatusBar::OnUpdateInfo);
-  connect(this, &MenuWidget::ShowError, status_bar, &StatusBar::OnShowError);
+void MenuWidget::SetupStatusBar(StatusBar *status_bar, StatusInfo *status_info) {
+  TrashButton *trash_button = new TrashButton(30, status_bar->height() - 4);
+  trash_button->AddIcon("assets/icons/trash.png");
+  connect(trash_button, &QPushButton::clicked, this, [this]() {
+    emit ActionTriggered(SceneAction::kClearScene, 0);
+  });
+
+  status_bar->AddWidget(trash_button);
+  status_bar->AddWidget(status_info);
+
+  connect(this, &MenuWidget::UpdateInfo, status_info, &StatusInfo::OnUpdateInfo);
+  connect(this, &MenuWidget::ShowError, status_info, &StatusInfo::OnShowError);
 }
+
 void MenuWidget::OnUpdateObjectInfo() {}
 
 // void MenuWidget::OnUpdateObjectInfo(ModelUpdateData data) {
