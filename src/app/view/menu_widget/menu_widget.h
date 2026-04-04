@@ -8,14 +8,19 @@
 
 #include "action_types.h"
 #include "menu_builder/builder_contexts.h"
+#include "menu_builder/status_bar_builder.h"
 #include "panel/panel_items.h"
-// #include "model_types.h"
 
 namespace s21 {
 
 struct MenuWidgetStyle {
   QMargins zero_margins = QMargins(0, 0, 0, 0);
   int zero_spacing = 0;
+
+  /* StatusInfo */
+  double status_info_width_ratio = 0.9;
+  double trash_button_width_ratio = 1.0 - status_info_width_ratio;
+  int trash_button_height_padding = 4;
 
   /* StatuBar */
   double status_bar_height_ratio = 0.04;
@@ -93,7 +98,7 @@ private:
   void SetupUI();
   void SetupToolBar(IBuilder *builder, int buttons_menu_width,
                     int buttons_menu_height);
-  void SetupStatusBar(StatusBar *status_bar, StatusInfo *status_info);
+  void SetupStatusBar(StatusBarBuilder *builder, int status_bar_height, int status_bar_width);
   void SetupTransformPanel(IBuilder *builder);
   void SetupShadingPanel(IBuilder *builder);
   void SetupButtonsPanel(IBuilder *builder, int buttons_menu_width,

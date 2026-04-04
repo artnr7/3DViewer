@@ -13,6 +13,7 @@ target_include_directories(action_types INTERFACE
 set(MENU_WIDGET_FILES
     menu_widget.cc
     menu_builder/builder_contexts.cc
+    menu_builder/status_bar_builder.cc
     panel/panel.cc
     panel/panel_items.cc
     buttons/double_button_base.cc
@@ -31,6 +32,7 @@ set(MENU_WIDGET_FILES
     menu_widget.h
     menu_builder/builder_contexts.h
     menu_builder/menu_builder.h
+    menu_builder/status_bar_builder.h
     panel/panel.h
     panel/panel_items.h
     value_controller/value_controller.h

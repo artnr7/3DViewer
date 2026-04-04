@@ -1,23 +1,19 @@
-#include "menu_widget.h"
-
-#include <qnamespace.h>
-#include <qstringview.h>
-
 #include <QDebug>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QVBoxLayout>
+
 #include <type_traits>
 
+#include "menu_widget.h"
 #include "action_types.h"
-#include "buttons/trash_button.h"
 #include "menu_builder/menu_builder.h"
 #include "panel/panel.h"
 #include "panel/panel_items.h"
+#include "buttons/trash_button.h"
 #include "status_info/status_info.h"
-
 #include "../../utils/logger.h"
 
 namespace s21 {
@@ -49,12 +45,13 @@ void MenuWidget::SetupUI() {
 
   ToolBar *tool_bar = new ToolBar(tool_bar_width, tool_bar_height);
   StatusBar *status_bar = new StatusBar(status_bar_width, status_bar_height);
-  StatusInfo *status_info = new StatusInfo(status_bar_width, status_bar_height);
 
   /* TODO: FIX SIGNALS */
-  MenuBuilder<ToolBar> tool_builder(tool_bar, item_width, item_height);
+  MenuBuilder tool_builder(tool_bar, item_width, item_height);
   SetupToolBar(&tool_builder, buttons_menu_width, item_height);
-  SetupStatusBar(status_bar, status_info);
+
+  StatusBarBuilder status_builder(status_bar);
+  SetupStatusBar(&status_builder, status_bar_width, status_bar_height);
 
   main_layout->addWidget(tool_bar);
   main_layout->addWidget(status_bar);
@@ -193,18 +190,21 @@ void MenuWidget::SetupButtonsPanel(IBuilder *builder, int buttons_menu_width,
           "Open", "File name:");
 }
 
-void MenuWidget::SetupStatusBar(StatusBar *status_bar, StatusInfo *status_info) {
-  TrashButton *trash_button = new TrashButton(30, status_bar->height() - 4);
-  trash_button->AddIcon("assets/icons/trash.png");
-  connect(trash_button, &QPushButton::clicked, this, [this]() {
-    emit ActionTriggered(SceneAction::kClearScene, 0);
-  });
+void MenuWidget::SetupStatusBar(StatusBarBuilder *builder, int status_bar_width, int status_bar_height) {
+  int status_info_width = status_bar_width * style_.status_info_width_ratio;
+  int trash_button_width = status_bar_width * style_.trash_button_width_ratio;
+  int trash_button_height = status_bar_height - style_.trash_button_height_padding;
 
-  status_bar->AddWidget(trash_button);
-  status_bar->AddWidget(status_info);
+  builder->Add<TrashButton>( [this](TrashButton* btn) {
+      btn->AddIcon("assets/icons/trash.png");
+      connect(btn, &QPushButton::clicked, this, [this]() {
+        emit ActionTriggered(SceneAction::kClearConfig, std::monostate{});
+      });
+    }, trash_button_width, trash_button_height)
+  .Add<StatusInfo>(nullptr, status_info_width, status_bar_height);
 
-  connect(this, &MenuWidget::UpdateInfo, status_info, &StatusInfo::OnUpdateInfo);
-  connect(this, &MenuWidget::ShowError, status_info, &StatusInfo::OnShowError);
+  // connect(this, &MenuWidget::UpdateInfo, status_info, &StatusInfo::OnUpdateInfo);
+  // connect(this, &MenuWidget::ShowError, status_info, &StatusInfo::OnShowError);
 }
 
 void MenuWidget::OnUpdateObjectInfo() {}
