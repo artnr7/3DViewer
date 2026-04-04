@@ -17,7 +17,7 @@ class ValueControllerFloat : public ValueControllerBase<float> {
   void CurrentValueChanged(float value);
 
  protected:
-  void OnValueChanged(float value) override {
+  void ValueChanged(float value) override {
     emit CurrentValueChanged(value);
   }
 
@@ -38,7 +38,7 @@ class ValueControllerInt : public ValueControllerBase<int> {
   void CurrentValueChanged(int value);
 
  protected:
-  void OnValueChanged(int value) override {
+  void ValueChanged(int value) override {
     emit CurrentValueChanged(value);
   }
 };

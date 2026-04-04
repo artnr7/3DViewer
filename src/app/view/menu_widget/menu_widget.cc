@@ -60,8 +60,81 @@ void MenuWidget::SetupUI() {
 auto MenuWidget::ConnectControllerWithConfig(const MenuWidgetStyle::Config<float>& config, SceneAction action) {
   return [this, config, action](PIValueControllerFloat* controller) {
     controller->Configure(config.current, config.min, config.max, config.step);
+
+    connect(this, &MenuWidget::SetFloatValue,
+            controller, [controller, action](SceneAction target, float val) {
+      if (target == action) {
+        controller->SetCurrentValue(val);
+      }
+    });
+
     Connect(action, &PIValueControllerFloat::CurrentValueChanged)(controller);
   };
+}
+
+auto MenuWidget::ConnectColorPicker(SceneAction action) {
+  return [this, action](PIColorPicker* picker) {
+    connect(this, &MenuWidget::SetColorValue,
+            picker, [picker, action](SceneAction target, const QColor& color) {
+      if (target == action) {
+        picker->SetColor(color);
+      }
+    });
+    Connect(action, &PIColorPicker::ColorChanged)(picker);
+  };
+}
+
+auto MenuWidget::ConnectFileManagement(SceneAction action) {
+  return [this, action](PIFileManagement* file_mgmt) {
+    connect(this, &MenuWidget::SetFilenameValue,
+            file_mgmt, [file_mgmt, action](SceneAction target, const QString& filename) {
+      if (target == action) {
+        file_mgmt->SetFilename(filename);
+      }
+    });
+    Connect(action, &PIFileManagement::FileSelected)(file_mgmt);
+  };
+}
+
+auto MenuWidget::ConnectStatusInfo() {
+  return [this](StatusInfo* info) {
+    connect(this, &MenuWidget::SetStatusInfoValue,
+            info, &StatusInfo::OnUpdateInfo);
+    connect(this, &MenuWidget::SetStatusErrorValue,
+            info, &StatusInfo::OnShowError);
+  };
+}
+
+void MenuWidget::OnActionTriggered(SceneAction action, ActionData data) {
+  std::visit([this, action](auto&& value) {
+    using T = std::decay_t<decltype(value)>;
+
+    if constexpr (std::is_same_v<T, float>) {
+      emit SetFloatValue(action, value);
+    } else if constexpr (std::is_same_v<T, QColor>) {
+      emit SetColorValue(action, value);
+    } else if constexpr (std::is_same_v<T, int>) {
+      emit SetIntValue(action, value);
+    } else if constexpr (std::is_same_v<T, VertexStyle>) {
+      emit SetIntValue(action, static_cast<int>(value));
+    } else if constexpr (std::is_same_v<T, EdgeStyle>) {
+      emit SetIntValue(action, static_cast<int>(value));
+    } else if constexpr (std::is_same_v<T, ProjectionType>) {
+      emit SetButtonSide(action, value == ProjectionType::kPerspective
+                                     ? ButtonSide::kLeft
+                                     : ButtonSide::kRight);
+    } else if constexpr (std::is_same_v<T, QString>) {
+      if (action == SceneAction::kShowError) {
+        emit SetStatusErrorValue(value);
+      } else {
+        emit SetFilenameValue(action, value);
+      }
+    } else if constexpr (std::is_same_v<T, std::pair<int, int>>) {
+      emit SetStatusInfoValue(value.first, value.second);
+    } else if constexpr (std::is_same_v<T, std::monostate>) {
+      // For config clean
+    }
+  }, data);
 }
 
 void MenuWidget::SetupToolBar(IBuilder *builder, int buttons_menu_width,
@@ -114,7 +187,6 @@ void MenuWidget::SetupTransformPanel(IBuilder *builder) {
           Qt::Horizontal);
 }
 
-/* TODO: Add new icon for empty-vertex */
 void MenuWidget::SetupShadingPanel(IBuilder *builder) {
   builder->AddPanel("Shading")
       .AddSubPanel("Vertices")
@@ -125,8 +197,7 @@ void MenuWidget::SetupShadingPanel(IBuilder *builder) {
           SceneAction::kVertexSize),
         Qt::Vertical)
       .Add<PIComboBox>("style",
-                       GetComboBoxConnection<VertexStyle>(
-                           SceneAction::kVertexStyle,
+                      ConnectComboBox<VertexStyle>(SceneAction::kVertexStyle,
                            {{"assets/icons/circle_empty.png",
                              static_cast<int>(VertexStyle::kEmpty)},
                             {"assets/icons/circle.png",
@@ -136,7 +207,7 @@ void MenuWidget::SetupShadingPanel(IBuilder *builder) {
                        Qt::Vertical)
       .Add<PIColorPicker>(
           "color",
-          Connect(SceneAction::kVertexColor, &PIColorPicker::ColorChanged),
+          ConnectColorPicker(SceneAction::kVertexColor),
           Qt::Vertical)
       .AddSubPanel("Edges")
       .Add<PIValueControllerFloat>(
@@ -147,7 +218,7 @@ void MenuWidget::SetupShadingPanel(IBuilder *builder) {
         Qt::Vertical)
       .Add<PIComboBox>(
           "style",
-          GetComboBoxConnection<EdgeStyle>(
+          ConnectComboBox<EdgeStyle>(
               SceneAction::kEdgeStyle,
               {{"assets/icons/line.png", static_cast<int>(EdgeStyle::kLine)},
                {"assets/icons/line_dash.png",
@@ -155,12 +226,12 @@ void MenuWidget::SetupShadingPanel(IBuilder *builder) {
           Qt::Vertical)
       .Add<PIColorPicker>(
           "color",
-          Connect(SceneAction::kEdgeColor, &PIColorPicker::ColorChanged),
+          ConnectColorPicker(SceneAction::kEdgeColor),
           Qt::Vertical)
       .AddSubPanel("Background")
       .Add<PIColorPicker>(
           "color",
-          Connect(SceneAction::kBackgroundColor, &PIColorPicker::ColorChanged),
+          ConnectColorPicker(SceneAction::kBackgroundColor),
           Qt::Horizontal);
 }
 
@@ -171,8 +242,7 @@ void MenuWidget::SetupButtonsPanel(IBuilder *builder, int buttons_menu_width,
       .SetSize(buttons_menu_width, buttons_menu_height)
       .Add<PIDoubleButton>(
           "",
-          ConnectEnum<ProjectionType>(SceneAction::kProjection,
-                                      &PIDoubleButton::ButtonToggled),
+          ConnectDoubleButton<ProjectionType>(SceneAction::kProjection),
           "perspective", "ortography", true)
       .AddPanel("Render")
       .AddSubPanel("")
@@ -186,7 +256,7 @@ void MenuWidget::SetupButtonsPanel(IBuilder *builder, int buttons_menu_width,
       .AddSubPanel("")
       .SetSize(buttons_menu_width, buttons_menu_height)
       .Add<PIFileManagement>(
-          "", Connect(SceneAction::kOpenFile, &PIFileManagement::FileSelected),
+          "", ConnectFileManagement(SceneAction::kOpenFile),
           "Open", "File name:");
 }
 
@@ -201,26 +271,7 @@ void MenuWidget::SetupStatusBar(StatusBarBuilder *builder, int status_bar_width,
         emit ActionTriggered(SceneAction::kClearConfig, std::monostate{});
       });
     }, trash_button_width, trash_button_height)
-  .Add<StatusInfo>(nullptr, status_info_width, status_bar_height);
-
-  // connect(this, &MenuWidget::UpdateInfo, status_info, &StatusInfo::OnUpdateInfo);
-  // connect(this, &MenuWidget::ShowError, status_info, &StatusInfo::OnShowError);
+  .Add<StatusInfo>(ConnectStatusInfo(), status_info_width, status_bar_height);
 }
-
-void MenuWidget::OnUpdateObjectInfo() {}
-
-// void MenuWidget::OnUpdateObjectInfo(ModelUpdateData data) {
-//   std::visit(
-//       [this](auto&& arg) {
-//         using T = std::decay_t<decltype(arg)>;
-//
-//         if constexpr (std::is_same_v<T, ObjectInfo>) {
-//           emit UpdateInfo(arg.vertices, arg.edges);
-//         } else if constexpr (std::is_same_v<T, QString>) {
-//           emit ShowError(arg);
-//         }
-//       },
-//       data);
-// }
 
 } // namespace s21

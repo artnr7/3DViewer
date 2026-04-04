@@ -58,6 +58,7 @@ class PIValueControllerFloat : public PIBase {
 
   /* Value Management Mutators */
   void Configure(float value, float min_value, float max_value, float step_size);
+  void SetCurrentValue(float value);
 
  signals:
   void CurrentValueChanged(float value);
@@ -114,6 +115,7 @@ public:
   void AddItem(const QString &icon_path, int value);
 
   void SetArrows(const QString &up_icon_path, const QString &down_icon_path);
+  void SetCurrentIndex(int index);
 
 signals:
   /* Signals */
@@ -145,6 +147,7 @@ public:
                          QWidget *parent = nullptr);
   /* Value Management Accessors */
   /* Value Management Mutators */
+  void SetColor(const QColor &color);
 
 signals:
   /* Signals */
@@ -172,6 +175,7 @@ public:
 
   /* Value Management Accessors */
   /* Value Management Mutators */
+  void SetButtonSide(ButtonSide side);
 
 signals:
   /* Signals for ExclusiveDoubleButton */
@@ -205,6 +209,7 @@ public:
 
   /* Value Management Accessors */
   /* Value Management Mutators */
+  void SetFilename(const QString &filename);
 
   // TODO: Fix signals
 signals:

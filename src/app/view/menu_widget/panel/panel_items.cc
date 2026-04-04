@@ -123,6 +123,10 @@ void PIValueControllerFloat::Configure(float value, float min_value, float max_v
   valcontroll_->SetStepSize(step_size);
 }
 
+void PIValueControllerFloat::SetCurrentValue(float value) {
+  valcontroll_->SetCurrentValue(value);
+}
+
 /* Setup */
 QWidget *PIValueControllerFloat::CreateContentWidget(int width, int height) {
   valcontroll_ = new ValueControllerFloat(width, height);
@@ -211,6 +215,10 @@ void PIComboBox::SetupContentConnections() {
   connect(combo_box_, &CustomComboBox::CurrentIndexChanged, this,
           &PIComboBox::CurrentIndexChanged);
 }
+
+void PIComboBox::SetCurrentIndex(int index) {
+  combo_box_->SetCurrentIndex(index);
+}
 // Setup
 //// PIComboBox
 
@@ -230,6 +238,10 @@ QWidget *PIColorPicker::CreateContentWidget(int width, int height) {
 void PIColorPicker::SetupContentConnections() {
   connect(color_picker_, &ColorPicker::ColorChanged, this,
           &PIColorPicker::ColorChanged);
+}
+
+void PIColorPicker::SetColor(const QColor &color) {
+  color_picker_->SetColor(color);
 }
 // Setup
 //// PIColorPicker
@@ -270,6 +282,14 @@ void PIDoubleButton::SetupContentConnections() {
             &PIDoubleButton::ButtonClicked);
   }
 }
+
+void PIDoubleButton::SetButtonSide(ButtonSide side) {
+  auto *exclusive_button =
+      qobject_cast<ExclusiveDoubleButton *>(double_button_);
+  if (exclusive_button) {
+    exclusive_button->SetButtonSide(side);
+  }
+}
 // Setup
 
 //// PIDoubleButton
@@ -294,6 +314,10 @@ QWidget *PIFileManagement::CreateContentWidget(int width, int height) {
 void PIFileManagement::SetupContentConnections() {
   connect(file_panel_, &FileDialogPanel::FileSelected, this,
           &PIFileManagement::FileSelected);
+}
+
+void PIFileManagement::SetFilename(const QString &filename) {
+  file_panel_->SetFilename(filename);
 }
 // Setup
 //// PIFileManagement

@@ -9,7 +9,7 @@ namespace s21 {
 void View::OnMenuWidgetTimerUpdated() {
   Lg::Log()->Trace("View::" + std::string(__func__));
 
-  pmenu_wid_->OnUpdateObjectInfo();
+  // pmenu_wid_->OnUpdateObjectInfo();
 }
 
 // Inner Setters

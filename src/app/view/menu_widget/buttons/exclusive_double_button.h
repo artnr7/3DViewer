@@ -21,6 +21,9 @@ class ExclusiveDoubleButton : public DoubleButtonBase {
  signals:
   void ButtonToggled(ButtonSide side);
 
+ public:
+  void SetButtonSide(ButtonSide side);
+
  private:
   void SetupStyles() override;
 

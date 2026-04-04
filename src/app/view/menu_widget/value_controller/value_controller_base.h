@@ -31,14 +31,16 @@ public:
   QSize GetSize() const;
 
   /* Value Management Mutators */
-  void SetCurrentValue(T value);
+  [[maybe_unused]] bool SetCurrentValue(T value);
+  void SetCurrentValueWithSignal(T value);
+
   void SetMinValue(T value);
   void SetMaxValue(T value);
   void SetStepSize(T step_size);
 
 protected:
   /* Callback for sending a signal (redefined in the heirs) */
-  virtual void OnValueChanged(T value);
+  virtual void ValueChanged(T value) = 0;
 
 private:
   /* Setup */
@@ -129,11 +131,20 @@ QSize ValueControllerBase<T>::GetSize() const {
 
 /* Value Management Mutators */
 template <Numeric T>
-void ValueControllerBase<T>::SetCurrentValue(T value) {
+bool ValueControllerBase<T>::SetCurrentValue(T value) {
   if (current_value_ != value) {
     current_value_ = qBound(min_value_, value, max_value_);
     UpdateValueField();
-    OnValueChanged(current_value_);
+    return true;
+  }
+
+  return false;
+}
+
+template <Numeric T>
+void ValueControllerBase<T>::SetCurrentValueWithSignal(T value) {
+  if (SetCurrentValue(value)) {
+    ValueChanged(current_value_);
   }
 }
 
@@ -204,10 +215,10 @@ void ValueControllerBase<T>::SetupUI() {
 template <Numeric T>
 void ValueControllerBase<T>::SetupConnections() {
   connect(left_button_, &QPushButton::clicked, this,
-          [this]() { SetCurrentValue(current_value_ - step_size_); });
+          [this]() { SetCurrentValueWithSignal(current_value_ - step_size_); });
 
   connect(right_button_, &QPushButton::clicked, this,
-          [this]() { SetCurrentValue(current_value_ + step_size_); });
+          [this]() { SetCurrentValueWithSignal(current_value_ + step_size_); });
 }
 // Setup
 
@@ -339,7 +350,7 @@ bool ValueControllerBase<T>::MouseMoveEvent(QEvent *event) {
     int delta_x = mouse_pos.x() - drag_start_pos_.x();
     T new_value = drag_start_value_ + (delta_x / step_speed_) * step_size_;
 
-    SetCurrentValue(new_value);
+    SetCurrentValueWithSignal(new_value);
   }
   return true;
 }
@@ -391,7 +402,7 @@ void ValueControllerBase<T>::EditFinished() {
     new_value = value_field_->text().toFloat(&status);
   }
   if (status) {
-    SetCurrentValue(new_value);
+    SetCurrentValueWithSignal(new_value);
   } else {
     UpdateValueField();
   }
@@ -406,11 +417,6 @@ void ValueControllerBase<T>::UpdateValueField() {
   value_field_->setText(QString::number(current_value_));
 }
 // Value Management Update
-
-template <Numeric T>
-void ValueControllerBase<T>::OnValueChanged(T /*value*/) {
-  // Переопределяется в наследниках для отправки сигнала
-}
 
 } // namespace s21
 

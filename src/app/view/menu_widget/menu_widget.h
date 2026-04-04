@@ -86,13 +86,18 @@ public:
   MenuWidget(int width, int height, QWidget *parent = nullptr);
 
 public slots:
-  // void OnUpdateObjectInfo(ModelUpdateData data);
-  void OnUpdateObjectInfo(); // TODO: надо исправить тип
+  void OnActionTriggered(SceneAction action, ActionData data);
 
 signals:
   void ActionTriggered(SceneAction action, ActionData data);
-  void UpdateInfo(int vertices_count, int edges_count);
-  void ShowError(const QString &msg);
+
+  void SetIntValue(SceneAction action, int value);
+  void SetFloatValue(SceneAction action, float value);
+  void SetColorValue(SceneAction action, const QColor& color);
+  void SetButtonSide(SceneAction action, ButtonSide side);
+  void SetFilenameValue(SceneAction action, const QString& filename);
+  void SetStatusInfoValue(int vertices, int edges);
+  void SetStatusErrorValue(const QString& msg);
 
 private:
   void SetupUI();
@@ -113,9 +118,20 @@ private:
   auto Connect(SceneAction action, void (Item::*signal)(DataType));
 
   auto ConnectControllerWithConfig(const MenuWidgetStyle::Config<float>& config, SceneAction action);
+  auto ConnectColorPicker(SceneAction action);
+
+  template <typename EnumType>
+  auto ConnectComboBox(SceneAction action, std::initializer_list<std::pair<QString, int>> items);
 
   template <typename EnumType, typename Item, typename DataType>
   auto ConnectEnum(SceneAction action, void (Item::*signal)(DataType));
+
+  template <typename EnumType>
+  auto ConnectDoubleButton(SceneAction action);
+  auto ConnectFileManagement(SceneAction action);
+  auto ConnectStatusInfo();
+
+  void SetValueForControllers(SceneAction action, const ActionData& data);
 
   /* Fields */
   MenuWidgetStyle style_;
@@ -143,6 +159,19 @@ auto MenuWidget::ConnectEnum(SceneAction action,
 }
 
 template <typename EnumType>
+auto MenuWidget::ConnectDoubleButton(SceneAction action) {
+  return [this, action](PIDoubleButton* button) {
+    connect(this, &MenuWidget::SetButtonSide,
+            button, [button, action](SceneAction target, ButtonSide side) {
+      if (target == action) {
+        button->SetButtonSide(side);
+      }
+    });
+    ConnectEnum<EnumType>(action, &PIDoubleButton::ButtonToggled)(button);
+  };
+}
+
+template <typename EnumType>
 auto MenuWidget::GetComboBoxConnection(
     SceneAction action, std::initializer_list<std::pair<QString, int>> items) {
   return [this, action, items](PIComboBox *combo) {
@@ -151,6 +180,19 @@ auto MenuWidget::GetComboBoxConnection(
     combo->SetArrows("assets/icons/open_arrow.png",
                      "assets/icons/close_arrow.png");
     combo->AddItems(items);
+  };
+}
+
+template <typename EnumType>
+auto MenuWidget::ConnectComboBox(SceneAction action, std::initializer_list<std::pair<QString, int>> items) {
+  return [this, action, items](PIComboBox* combo) {
+    connect(this, &MenuWidget::SetIntValue,
+            combo, [combo, action](SceneAction target, int index) {
+      if (target == action) {
+        combo->SetCurrentIndex(index);
+      }
+    });
+    GetComboBoxConnection<EnumType>(action, items)(combo);
   };
 }
 

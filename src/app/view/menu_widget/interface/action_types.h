@@ -1,6 +1,7 @@
 #ifndef ACTION_TYPES_H_
 #define ACTION_TYPES_H_
 
+#include <utility>
 #include <variant>
 
 #include <qmainwindow.h>
@@ -40,7 +41,11 @@ enum class SceneAction {
   kOpenFile,
 
   /* Config */
-  kClearConfig
+  kClearConfig,
+
+  /* Status */
+  kShowObjectInfo,
+  kShowError
 };
 
 enum class VertexStyle { kEmpty, kSquare, kCircle };
@@ -49,7 +54,7 @@ enum class ProjectionType { kPerspective, kOrthographic };
 enum class RenderType { kGif, kImage };
 
 using ActionData = std::variant<std::monostate, float, QString, QColor, VertexStyle, EdgeStyle,
-                                ProjectionType, RenderType>;
+                                ProjectionType, RenderType, std::pair<int, int>>;
 
 } // namespace s21
 
