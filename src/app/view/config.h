@@ -6,15 +6,15 @@
 
 #include <cstdint>
 
-inline constexpr uint16_t PIXEL_BLOCK_SZ = 100;  // HD
+inline constexpr uint16_t PIXEL_BLOCK_SZ = 110;  // HD
 
 inline constexpr uint16_t W = 16;
 inline constexpr uint16_t H = 9;
 inline constexpr uint16_t OBJW_W_TO_MENUW_W_RATIO = 4;
 
 // Main Window ---------------→
-inline constexpr uint16_t INIT_AX_MAIN_WIN = 50;
-inline constexpr uint16_t INIT_AY_MAIN_WIN = 50;
+inline constexpr uint16_t INIT_AX_MAIN_WIN = 0;
+inline constexpr uint16_t INIT_AY_MAIN_WIN = 0;
 inline constexpr uint16_t INIT_W_MAIN_WIN = W * PIXEL_BLOCK_SZ;
 inline constexpr uint16_t INIT_H_MAIN_WIN = H * PIXEL_BLOCK_SZ;
 

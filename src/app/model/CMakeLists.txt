@@ -1,11 +1,11 @@
 # set(MODEL_LIB_NAME model_lib)
 register_format_cmake_file()
 
-add_subdirectory(object_class)
+add_subdirectory(object)
 add_subdirectory(settings_controller)
 
 # * model library *
-set(MODEL_FILES model.cc model.h getters.cc setters.cc)
+set(MODEL_FILES model.h getters.cc setters.cc)
 register_format_sources(${MODEL_FILES})
 
 add_library(model_lib STATIC ${MODEL_FILES})

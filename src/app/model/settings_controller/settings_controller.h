@@ -1,12 +1,11 @@
 #ifndef SETTINGS_PARSER_H_
 #define SETTINGS_PARSER_H_
 
-#include <qvariant.h>
-
 #include <cstdint>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <map>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -18,7 +17,7 @@
 
 namespace s21 {
 
-class SettingsParser {
+class SettingsController {
  private:
   using Key = const Str;
 
@@ -228,7 +227,7 @@ class SettingsParser {
 
  public:
   // Setters
-  void Set(Key key, Val val) {
+  void Set(Key& key, Val val) {
     auto it = settings_.find(key);
     auto& [k, v] = *it;
 
@@ -305,13 +304,13 @@ class SettingsParser {
   // const Settings &GetSettings() { return settings_; }
 
   // Constructors
-  SettingsParser() {
+  SettingsController() {
     ParseSettings();
     // Print();
     // UpdateSettings();
   }
 
-  ~SettingsParser() {
+  ~SettingsController() {
     // settfile_.flush();
     UpdateSettings();
     settfile_.close();

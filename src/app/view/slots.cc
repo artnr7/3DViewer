@@ -20,6 +20,7 @@ void View::updGLVert() {
   pobj_v_wid_->SetVBO(pcontroller_->GetGLVertices());
 }
 
+// Outer
 void View::updTransX(float x) { pcontroller_->AddTransRateX(x); }
 void View::updTransY(float y) { pcontroller_->AddTransRateY(y); }
 void View::updTransZ(float z) { pcontroller_->AddTransRateZ(z); }
@@ -46,7 +47,6 @@ void View::updVertStyle() {
 
 void View::updVertClr() {
   Lg::Log()->Trace("View::" + std::string(__func__));
-  // std::cout << "fefwefA" << std::endl;
 
   pobj_v_wid_->SetVertClr(pcontroller_->GetVertClr());
 }

@@ -1,9 +1,11 @@
 // #include "logger.h"
-#include "object_class.h"
+
+#include "../../utils/logger.h"
+#include "../object.h"
 
 namespace s21 {
 
-void Object::Parser::Parse() {
+void Parser::Parse() {
   Lg::Log()->Info("Object::" + std::string(__func__));
 
   std::ifstream obj_file_stream(obj_.filename_);
@@ -25,4 +27,4 @@ void Object::Parser::Parse() {
   }
 }
 
-} // namespace s21
+}  // namespace s21

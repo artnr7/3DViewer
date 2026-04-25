@@ -21,7 +21,9 @@ void ObjectViewerWidget::MakeInGLShader(const std::function<void()> f) {
 void ObjectViewerWidget::SetVBO(std::vector<float>& vert_attrs) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
 
-  vbo_points_qty_ = vert_attrs.size();
+  if (!vertices_ready_) {
+    vbo_points_qty_ = vert_attrs.size();
+  }
 
   MakeInGLContext([&] {
     m_vbo_->bind();
@@ -39,7 +41,9 @@ void ObjectViewerWidget::SetEBO(std::vector<uint>& vert_indx) {
     return;
   }
 
-  ebo_qty_ = vert_indx.size();
+  if (!ebo_qty_) {
+    ebo_qty_ = vert_indx.size();
+  }
 
   MakeInGLContext([&] {
     m_ebo_->bind();
@@ -63,17 +67,14 @@ void ObjectViewerWidget::SetVertClr(Color clr) {
 
 void ObjectViewerWidget::SetVertStyle(VertsStyle style) {
   Lg::Log()->Trace("ObjectViewerWidget::" + std::string(__func__));
-  vertex_style_ = style;
+  vert_style_ = style;
 
-  switch (vertex_style_) {
-    case VertsStyle::Square:
-      // qDebug() << "SQUARE";
-      MakeInGLContext([&] { glDisable(GL_POINT_SMOOTH); });
-      break;
-    case VertsStyle::Circle:
-      // qDebug() << "CIRCLE";
-      MakeInGLContext([&] { glEnable(GL_POINT_SMOOTH); });
-      break;
+  if (vert_style_ == VertsStyle::None || vert_style_ == VertsStyle::Square) {
+    // qDebug() << "SQUARE";
+    MakeInGLContext([&] { glDisable(GL_POINT_SMOOTH); });
+  } else if (vert_style_ == VertsStyle::Circle) {
+    // qDebug() << "CIRCLE";
+    MakeInGLContext([&] { glEnable(GL_POINT_SMOOTH); });
   }
 }
 

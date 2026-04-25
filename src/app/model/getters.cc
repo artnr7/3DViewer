@@ -3,6 +3,26 @@
 namespace s21 {
 
 // Affine
+std::vector<float>& Model::GetGLVertices() {
+  Lg::Log()->Trace("Model::" + std::string(__func__));
+
+  if (obj_ == nullptr) {
+    throw std::runtime_error("obj is not initialized");
+  }
+
+  return obj_->GetGLVertices();
+}
+
+std::vector<uint>& Model::GetEBO() {
+  Lg::Log()->Trace("Model::" + std::string(__func__));
+
+  if (obj_ == nullptr) {
+    throw std::runtime_error("obj is not initialized");
+  }
+
+  return obj_->GetEBO();
+}
+
 const Angles& Model::GetRotAngles() { return sett_control_->GetRotAngles(); }
 const Rates& Model::GetTransRates() { return sett_control_->GetTransRates(); }
 const float& Model::GetScaleRate() { return sett_control_->GetScaleRate(); }
@@ -10,10 +30,7 @@ const float& Model::GetScaleRate() { return sett_control_->GetScaleRate(); }
 // Vert
 const float& Model::GetVertSz() { return sett_control_->GetVertSz(); }
 const uint16_t& Model::GetVertStyle() { return sett_control_->GetVertStyle(); }
-const Color& Model::GetVertClr() {
-  // sett_control_->GetVertClr().Print();
-  return sett_control_->GetVertClr();
-}
+const Color& Model::GetVertClr() { return sett_control_->GetVertClr(); }
 
 // Edge
 const float& Model::GetEdgeSz() { return sett_control_->GetEdgeSz(); }

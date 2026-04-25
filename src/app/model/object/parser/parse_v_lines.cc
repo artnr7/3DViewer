@@ -1,10 +1,8 @@
-#include <iostream>
-
-#include "object_class.h"
+#include "object.h"
 
 namespace s21 {
 
-void Object::Parser::ParseVLine(IndT &v_ind, std::string &obj_file_line) {
+void Parser::ParseVLine(IndT& v_ind, std::string& obj_file_line) {
   ofl_it_ = obj_file_line.begin();
 
   if (!IsVLine()) {
@@ -25,7 +23,7 @@ void Object::Parser::ParseVLine(IndT &v_ind, std::string &obj_file_line) {
   ParseVLineNums(v_it);
 }
 
-void Object::Parser::ParseVLineNums(VertIter &v_it) {
+void Parser::ParseVLineNums(VertIter& v_it) {
   ParseNum(v_it->x);
   ParseNum(v_it->y);
   ParseNum(v_it->z);
@@ -35,12 +33,12 @@ void Object::Parser::ParseVLineNums(VertIter &v_it) {
   FindMinMax(v_it);
 }
 
-void Object::Parser::ParseNum(CoordT &coord) {
+void Parser::ParseNum(CoordT& coord) {
   std::string num{};
   while (!IsSpace() && !IsEndOfLine()) {
     num += *ofl_it_++;
   }
-  char **endptr{};
+  char** endptr{};
   coord = std::strtold(num.c_str(), endptr);
 
   while (*ofl_it_ == ' ') {
@@ -48,8 +46,8 @@ void Object::Parser::ParseNum(CoordT &coord) {
   }
 }
 
-void Object::Parser::FindMinMax(VertIter &v_it) {
-  auto &mnx = obj_.vertices_.mnx;
+void Parser::FindMinMax(VertIter& v_it) {
+  auto& mnx = obj_.vertices_.mnx;
 
   if (parser_once_f_) {
     mnx.min_x = v_it->x;
@@ -63,13 +61,11 @@ void Object::Parser::FindMinMax(VertIter &v_it) {
     return;
   }
 
-  auto min = [](CoordT coord, CoordT &min) {
-    if (coord < min)
-      min = coord;
+  auto min = [](CoordT coord, CoordT& min) {
+    if (coord < min) min = coord;
   };
-  auto max = [](CoordT coord, CoordT &max) {
-    if (coord > max)
-      max = coord;
+  auto max = [](CoordT coord, CoordT& max) {
+    if (coord > max) max = coord;
   };
 
   min(v_it->x, mnx.min_x);
@@ -82,4 +78,4 @@ void Object::Parser::FindMinMax(VertIter &v_it) {
   max(v_it->z, mnx.max_z);
 }
 
-} // namespace s21
+}  // namespace s21

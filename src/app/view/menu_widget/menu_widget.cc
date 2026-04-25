@@ -18,7 +18,7 @@
 
 namespace s21 {
 
-MenuWidget::MenuWidget(int width, int height, QWidget *parent)
+MenuWidget::MenuWidget(int width, int height, QWidget* parent)
     : QWidget(parent), width_(width), height_(height), style_{} {
   Lg::Log()->Info(std::string(__func__) + " constuctor");
   setFixedSize(width_, height_);
@@ -27,7 +27,7 @@ MenuWidget::MenuWidget(int width, int height, QWidget *parent)
 }
 
 void MenuWidget::SetupUI() {
-  QVBoxLayout *main_layout = new QVBoxLayout(this);
+  QVBoxLayout* main_layout = new QVBoxLayout(this);
   main_layout->setSpacing(style_.zero_spacing);
   main_layout->setContentsMargins(style_.zero_margins);
 
@@ -43,8 +43,8 @@ void MenuWidget::SetupUI() {
   const int item_width = panel_width * style_.item_width_ratio;
   const int item_height = style_.item_height;
 
-  ToolBar *tool_bar = new ToolBar(tool_bar_width, tool_bar_height);
-  StatusBar *status_bar = new StatusBar(status_bar_width, status_bar_height);
+  ToolBar* tool_bar = new ToolBar(tool_bar_width, tool_bar_height);
+  StatusBar* status_bar = new StatusBar(status_bar_width, status_bar_height);
 
   /* TODO: FIX SIGNALS */
   MenuBuilder tool_builder(tool_bar, item_width, item_height);
@@ -144,7 +144,7 @@ void MenuWidget::SetupToolBar(IBuilder *builder, int buttons_menu_width,
   SetupButtonsPanel(builder, buttons_menu_width, buttons_menu_height);
 }
 
-void MenuWidget::SetupTransformPanel(IBuilder *builder) {
+void MenuWidget::SetupTransformPanel(IBuilder* builder) {
   builder->AddPanel("Transform")
       .AddSubPanel("Translation")
       .Add<PIValueControllerFloat>("x",
@@ -187,7 +187,7 @@ void MenuWidget::SetupTransformPanel(IBuilder *builder) {
           Qt::Horizontal);
 }
 
-void MenuWidget::SetupShadingPanel(IBuilder *builder) {
+void MenuWidget::SetupShadingPanel(IBuilder* builder) {
   builder->AddPanel("Shading")
       .AddSubPanel("Vertices")
       .Add<PIValueControllerFloat>(
@@ -235,7 +235,7 @@ void MenuWidget::SetupShadingPanel(IBuilder *builder) {
           Qt::Horizontal);
 }
 
-void MenuWidget::SetupButtonsPanel(IBuilder *builder, int buttons_menu_width,
+void MenuWidget::SetupButtonsPanel(IBuilder* builder, int buttons_menu_width,
                                    int buttons_menu_height) {
   builder->AddPanel("Projection")
       .AddSubPanel("")
@@ -274,4 +274,4 @@ void MenuWidget::SetupStatusBar(StatusBarBuilder *builder, int status_bar_width,
   .Add<StatusInfo>(ConnectStatusInfo(), status_info_width, status_bar_height);
 }
 
-} // namespace s21
+}  // namespace s21

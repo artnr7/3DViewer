@@ -1,6 +1,6 @@
 register_format_cmake_file()
 
-set(VIEW_FILES slots.cc init.cc view.h config.h)
+set(VIEW_FILES slots.cc connections.cc view.h config.h)
 register_format_sources(${VIEW_FILES})
 
 add_library(view_lib STATIC ${VIEW_FILES})

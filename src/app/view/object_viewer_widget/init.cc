@@ -14,15 +14,6 @@ ObjectViewerWidget::ObjectViewerWidget(int x_offset, int y_offset, int width,
     : QOpenGLWidget(parent) {
   Lg::Log()->Info(std::string(__func__) + " constuctor");
 
-  m_vao_ = new QOpenGLVertexArrayObject();
-  m_vbo_ = new QOpenGLBuffer(QOpenGLBuffer::VertexBuffer);
-  m_ebo_ = new QOpenGLBuffer(QOpenGLBuffer::IndexBuffer);
-
-  installEventFilter(this);
-
-  front_update_timer_ = new QTimer(this);
-  front_update_timer_->start(16);
-
   // GUI
   setGeometry(x_offset, y_offset, width, height);
   //
@@ -30,9 +21,16 @@ ObjectViewerWidget::ObjectViewerWidget(int x_offset, int y_offset, int width,
   format.setDepthBufferSize(24);
   format.setStencilBufferSize(8);
 
-  format.setVersion(3, 3);
+  format.setVersion(4, 5);
   format.setProfile(QSurfaceFormat::CoreProfile);
   QSurfaceFormat::setDefaultFormat(format);
+
+  installEventFilter(this);
+
+  front_update_timer_->start(16);
+
+  // GIF
+  images_.reserve(50);
 
   SetupConnections();
 }
