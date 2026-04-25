@@ -20,6 +20,9 @@ class FileDialogPanel : public QWidget {
   /* File Management Accessors */
   QString GetSelectedFile() const;
 
+  /* File Management Mutators */
+  void SetFilename(const QString &filename);
+
  signals:
   void FileSelected(const QString& filePath);
 

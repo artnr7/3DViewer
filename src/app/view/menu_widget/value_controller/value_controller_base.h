@@ -1,61 +1,172 @@
-#include "value_controller.h"
+#ifndef VALUE_CONTROLLER_BASE_H_
+#define VALUE_CONTROLLER_BASE_H_
 
-#include "iostream"
-#include <QApplication>
-#include <QKeyEvent>
+#include <QEvent>
+#include <QHBoxLayout>
+#include <QLineEdit>
 #include <QMouseEvent>
-#include <cmath>
-#include <qlogging.h>
+#include <QPushButton>
+#include <QWidget>
+
+#include <concepts>
+
+#include "style_configs/value_controller_style.h"
 
 namespace s21 {
 
-ValueController::ValueController(int width, int height, QWidget *parent)
-    : QWidget(parent), widget_size_(width, height), style_{},
-      current_value_(style_.default_center_value),
+template <typename T>
+concept Numeric = std::is_arithmetic_v<T>;
+
+template <Numeric T = float>
+class ValueControllerBase : public QWidget {
+
+public:
+  explicit ValueControllerBase(int width = 100, int height = 40,
+                               QWidget *parent = nullptr);
+
+  /* Value & Size Management Accessors */
+  T GetCurrentValue() const;
+  int GetWidth() const;
+  int GetHeight() const;
+  QSize GetSize() const;
+
+  /* Value Management Mutators */
+  [[maybe_unused]] bool SetCurrentValue(T value);
+  void SetCurrentValueWithSignal(T value);
+
+  void SetMinValue(T value);
+  void SetMaxValue(T value);
+  void SetStepSize(T step_size);
+
+protected:
+  /* Callback for sending a signal (redefined in the heirs) */
+  virtual void ValueChanged(T value) = 0;
+
+private:
+  /* Setup */
+  void SetupUI();
+  void SetupConnections();
+
+  /* Style Management */
+  QString CreateContainerStyle() const;
+  QString CreateButtonStyle(int font_size, int radius_tl, int radius_tr,
+                            int radius_bl, int radius_br) const;
+  QString CreateValueFieldStyle(int font_size) const;
+
+protected:
+  /* Event Handlers */
+  bool eventFilter(QObject *obj, QEvent *event) override;
+
+private:
+  /* Internal Helpers */
+  bool MouseButtonDblClickEvent(QEvent *event);
+  bool MouseButtonPressEvent(QEvent *event);
+  bool MouseMoveEvent(QEvent *event);
+  bool MouseButtonReleaseEvent();
+  bool KeyPressEvent(QEvent *event);
+  bool FocusOutEvent();
+  void EditFinished();
+
+ protected:
+  /* Value Management Update */
+  virtual void UpdateValueField();
+
+  /* Fields */
+ private:
+  ValueControllerStyle style_;
+  QSize widget_size_;
+  T min_value_;
+  T max_value_;
+  T step_size_;
+  T step_speed_;
+
+  bool is_dragging_;
+  QPoint drag_start_pos_;
+  T drag_start_value_;
+
+  QHBoxLayout *main_layout_;
+  QPushButton *left_button_;
+  QPushButton *right_button_;
+
+ protected:
+  T current_value_;
+  QLineEdit *value_field_;
+};
+
+template <Numeric T>
+ValueControllerBase<T>::ValueControllerBase(int width, int height, QWidget *parent)
+    : QWidget(parent), style_{}, widget_size_(width, height),
       min_value_(style_.default_min_value),
       max_value_(style_.default_max_value),
       step_size_(style_.default_step_size),
       step_speed_(style_.default_step_speed),
-      is_dragging_(style_.default_dragging) {
-  // std::cout << "\n\n\n" << is_dragging_ << "\n\n\n\n";
+      is_dragging_(style_.default_dragging),
+      current_value_(style_.default_center_value) {
   SetupUI();
   SetupConnections();
-
-  // sundaeka
-  // надо как-то округлять величины для вывода на экран
   value_field_->setText(QString::number(current_value_));
-  // UpdateValueField(); // (sundaeka -> majorswe) Временно, убери, нужно
-  // обновлять value_field_ сразу
 }
 
-/* Value & Size Management Accessors*/
-int ValueController::GetCurrentValue() const { return current_value_; }
+/* Value & Size Management Accessors */
+template <Numeric T>
+T ValueControllerBase<T>::GetCurrentValue() const {
+  return current_value_;
+}
 
-int ValueController::GetWidth() const { return widget_size_.width(); }
+template <Numeric T>
+int ValueControllerBase<T>::GetWidth() const {
+  return widget_size_.width();
+}
 
-int ValueController::GetHeight() const { return widget_size_.height(); }
+template <Numeric T>
+int ValueControllerBase<T>::GetHeight() const {
+  return widget_size_.height();
+}
 
-QSize ValueController::GetSize() const { return widget_size_; }
+template <Numeric T>
+QSize ValueControllerBase<T>::GetSize() const {
+  return widget_size_;
+}
 // Value & Size Management Accessors
 
 /* Value Management Mutators */
-void ValueController::SetCurrentValue(float value) {
+template <Numeric T>
+bool ValueControllerBase<T>::SetCurrentValue(T value) {
   if (current_value_ != value) {
     current_value_ = qBound(min_value_, value, max_value_);
     UpdateValueField();
-    emit CurrentValueChanged(current_value_);
+    return true;
+  }
+
+  return false;
+}
+
+template <Numeric T>
+void ValueControllerBase<T>::SetCurrentValueWithSignal(T value) {
+  if (SetCurrentValue(value)) {
+    ValueChanged(current_value_);
   }
 }
 
-void ValueController::SetMinValue(float value) { min_value_ = value; }
+template <Numeric T>
+void ValueControllerBase<T>::SetMinValue(T value) {
+  min_value_ = value;
+}
 
-void ValueController::SetMaxValue(float value) { max_value_ = value; }
+template <Numeric T>
+void ValueControllerBase<T>::SetMaxValue(T value) {
+  max_value_ = value;
+}
 
-void ValueController::SetStepSize(float step_size) { step_size_ = step_size; }
+template <Numeric T>
+void ValueControllerBase<T>::SetStepSize(T step_size) {
+  step_size_ = step_size;
+}
 // Value Management Mutators
 
 /* Setup */
-void ValueController::SetupUI() {
+template <Numeric T>
+void ValueControllerBase<T>::SetupUI() {
   setFixedSize(widget_size_);
   setFocusPolicy(Qt::StrongFocus);
 
@@ -101,17 +212,19 @@ void ValueController::SetupUI() {
   main_layout_->addWidget(right_button_);
 }
 
-void ValueController::SetupConnections() {
+template <Numeric T>
+void ValueControllerBase<T>::SetupConnections() {
   connect(left_button_, &QPushButton::clicked, this,
-          [this]() { SetCurrentValue(current_value_ - step_size_); });
+          [this]() { SetCurrentValueWithSignal(current_value_ - step_size_); });
 
   connect(right_button_, &QPushButton::clicked, this,
-          [this]() { SetCurrentValue(current_value_ + step_size_); });
+          [this]() { SetCurrentValueWithSignal(current_value_ + step_size_); });
 }
 // Setup
 
 /* Style Management */
-QString ValueController::CreateContainerStyle() const {
+template <Numeric T>
+QString ValueControllerBase<T>::CreateContainerStyle() const {
   return QString(R"(
     background-color: %1;
     border: none;
@@ -121,7 +234,8 @@ QString ValueController::CreateContainerStyle() const {
       .arg(style_.container_border_radius);
 }
 
-QString ValueController::CreateButtonStyle(int font_size, int radius_tl,
+template <Numeric T>
+QString ValueControllerBase<T>::CreateButtonStyle(int font_size, int radius_tl,
                                            int radius_tr, int radius_bl,
                                            int radius_br) const {
   return QString(R"(
@@ -154,7 +268,8 @@ QString ValueController::CreateButtonStyle(int font_size, int radius_tl,
       .arg(style_.button_pressed_background);
 }
 
-QString ValueController::CreateValueFieldStyle(int font_size) const {
+template <Numeric T>
+QString ValueControllerBase<T>::CreateValueFieldStyle(int font_size) const {
   return QString(R"(
       QLineEdit {
         border: %1;
@@ -173,7 +288,8 @@ QString ValueController::CreateValueFieldStyle(int font_size) const {
 // Style Management
 
 /* Event Handlers */
-bool ValueController::eventFilter(QObject *obj, QEvent *event) {
+template <Numeric T>
+bool ValueControllerBase<T>::eventFilter(QObject *obj, QEvent *event) {
   bool result{false};
   if (obj == value_field_) {
     if (event->type() == QEvent::MouseButtonDblClick) {
@@ -196,7 +312,8 @@ bool ValueController::eventFilter(QObject *obj, QEvent *event) {
 // Event Handlers
 
 /* Internal Helpers */
-bool ValueController::MouseButtonDblClickEvent(QEvent *event) {
+template <Numeric T>
+bool ValueControllerBase<T>::MouseButtonDblClickEvent(QEvent *event) {
   QMouseEvent *mouse_event = static_cast<QMouseEvent *>(event);
   bool result{false};
   if (mouse_event->button() == Qt::LeftButton) {
@@ -209,7 +326,8 @@ bool ValueController::MouseButtonDblClickEvent(QEvent *event) {
   return result;
 }
 
-bool ValueController::MouseButtonPressEvent(QEvent *event) {
+template <Numeric T>
+bool ValueControllerBase<T>::MouseButtonPressEvent(QEvent *event) {
   QMouseEvent *mouse_event = static_cast<QMouseEvent *>(event);
   bool result{false};
   if (mouse_event->button() == Qt::LeftButton && value_field_->isReadOnly()) {
@@ -223,27 +341,29 @@ bool ValueController::MouseButtonPressEvent(QEvent *event) {
   return result;
 }
 
-bool ValueController::MouseMoveEvent(QEvent *event) {
+template <Numeric T>
+bool ValueControllerBase<T>::MouseMoveEvent(QEvent *event) {
   if (is_dragging_) {
     QMouseEvent *mouse_event = static_cast<QMouseEvent *>(event);
     QPoint mouse_pos = mouse_event->globalPosition().toPoint();
 
-    // sundaeka
     int delta_x = mouse_pos.x() - drag_start_pos_.x();
-    float new_value = drag_start_value_ + (delta_x / step_speed_) * step_size_;
+    T new_value = drag_start_value_ + (delta_x / step_speed_) * step_size_;
 
-    SetCurrentValue(new_value);
+    SetCurrentValueWithSignal(new_value);
   }
   return true;
 }
 
-bool ValueController::MouseButtonReleaseEvent() {
+template <Numeric T>
+bool ValueControllerBase<T>::MouseButtonReleaseEvent() {
   is_dragging_ = false;
   value_field_->setCursor(style_.default_cursor);
   return true;
 }
 
-bool ValueController::KeyPressEvent(QEvent *event) {
+template <Numeric T>
+bool ValueControllerBase<T>::KeyPressEvent(QEvent *event) {
   QKeyEvent *key_event = static_cast<QKeyEvent *>(event);
   bool result = false;
   if (key_event->key() == Qt::Key_Escape) {
@@ -262,7 +382,8 @@ bool ValueController::KeyPressEvent(QEvent *event) {
   return result;
 }
 
-bool ValueController::FocusOutEvent() {
+template <Numeric T>
+bool ValueControllerBase<T>::FocusOutEvent() {
   if (!value_field_->isReadOnly()) {
     value_field_->setReadOnly(true);
     value_field_->setCursor(style_.default_cursor);
@@ -271,11 +392,17 @@ bool ValueController::FocusOutEvent() {
   return false;
 }
 
-void ValueController::EditFinished() {
+template <Numeric T>
+void ValueControllerBase<T>::EditFinished() {
   bool status;
-  int new_value = value_field_->text().toInt(&status);
+  T new_value;
+  if constexpr (std::is_integral_v<T>) {
+    new_value = value_field_->text().toInt(&status);
+  } else {
+    new_value = value_field_->text().toFloat(&status);
+  }
   if (status) {
-    SetCurrentValue(new_value);
+    SetCurrentValueWithSignal(new_value);
   } else {
     UpdateValueField();
   }
@@ -285,9 +412,12 @@ void ValueController::EditFinished() {
 // Internal Helpers
 
 /* Value Management Update */
-void ValueController::UpdateValueField() {
+template <Numeric T>
+void ValueControllerBase<T>::UpdateValueField() {
   value_field_->setText(QString::number(current_value_));
 }
 // Value Management Update
 
 } // namespace s21
+
+#endif // VALUE_CONTROLLER_BASE_H_

@@ -94,4 +94,29 @@ ToolBar::ToolBar(int width, int height, QWidget* parent) : QWidget(parent) {
 
 void ToolBar::AddPanel(Panel* panel) { layout_->addWidget(panel); }
 
+StatusBar::StatusBar(int width, int height, QWidget* parent)
+    : QWidget(parent) {
+  setFixedSize(width, height);
+
+  QVBoxLayout* main_layout = new QVBoxLayout(this);
+  main_layout->setContentsMargins(0, 0, 0, 0);
+  main_layout->setSpacing(0);
+
+  background_ = new QWidget(this);
+  background_->setObjectName("StatusBarBackground");
+  background_->setStyleSheet(R"(
+    #StatusBarBackground {
+      background-color: #3D3D3D;
+      border: none;
+    }
+  )");
+  main_layout->addWidget(background_);
+
+  layout_ = new QHBoxLayout(background_);
+  layout_->setContentsMargins(2, 0, 10, 0);
+  layout_->setSpacing(5);
+}
+
+void StatusBar::AddWidget(QWidget* widget) { layout_->addWidget(widget); }
+
 }  // namespace s21

@@ -86,11 +86,11 @@ void ColorSelectionDialog::SetupConnections() {
   connect(brightness_slider_, &BrightnessSlider::BrightnessChanged,
           color_wheel_, &ColorWheel::SetBrightness);
 
-  connect(red_controller_, &PIValueController::CurrentValueChanged, this,
+  connect(red_controller_, &PIValueControllerInt::CurrentValueChanged, this,
           [this](int value) { OnRGBValueChanged(); });
-  connect(green_controller_, &PIValueController::CurrentValueChanged, this,
+  connect(green_controller_, &PIValueControllerInt::CurrentValueChanged, this,
           [this](int value) { OnRGBValueChanged(); });
-  connect(blue_controller_, &PIValueController::CurrentValueChanged, this,
+  connect(blue_controller_, &PIValueControllerInt::CurrentValueChanged, this,
           [this](int value) { OnRGBValueChanged(); });
 }
 
@@ -191,8 +191,8 @@ void ColorSelectionDialog::AddRGBLabel() {
 void ColorSelectionDialog::AddRGBControllers(int width, int height) {
   auto CreateController = [this, width, height](const QString& label,
                                                 int value) {
-    PIValueController* controller =
-        new PIValueController(label, width, height, Qt::Vertical, this);
+    PIValueControllerInt* controller =
+        new PIValueControllerInt(label, width, height, Qt::Vertical, this);
     controller->SetRange(style_.min_rgb_value, style_.max_rgb_value);
     controller->SetCurrentValue(value);
     return controller;

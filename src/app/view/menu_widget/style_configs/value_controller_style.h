@@ -12,37 +12,12 @@ struct ValueControllerStyle {
   const int zero_spacing = 0;
 
   // Values
-  // int default_min_value = -100;
-  // int default_max_value = 100;
-  // int default_center_value = 0;
-  // int default_step_size = 1;
-  // int default_step_speed = 15;
-  // int default_dragging = false;
-
-  float default_min_value = -3.0f;
-  float default_max_value = 3.0f;
-  float default_center_value = 0.0f;
-  float default_step_size = 0.001f;
-  float default_step_speed = 1.0f;
-  float default_dragging = false;
-
-  // Rotate
-  float rot_cur_val = 0.0f;
-  float rot_step_size = 0.05f;
-  float rot_min_val = -1080.0f;
-  float rot_max_val = 1080.0f;
-
-  // Scale
-  float scale_cur_val = 1.0f;
-  float scale_step_size = 0.01f;
-  float scale_min_val = 0.01f;
-  float scale_max_val = 10.0f;
-
-  // Scale
-  float thickness_cur_val = 1.0f;
-  float thickness_step_size = 0.05f;
-  float thickness_min_val = 0.01f;
-  float thickness_max_val = 50.0f;
+  int default_min_value = -100;
+  int default_max_value = 100;
+  int default_center_value = 0;
+  int default_step_size = 1;
+  int default_step_speed = 1;
+  bool default_dragging = false;
 
   // Colors
   QString container_background = "#545454";

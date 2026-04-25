@@ -25,6 +25,14 @@ ExclusiveDoubleButton::ExclusiveDoubleButton(const QString& left_button_name,
           this, &ExclusiveDoubleButton::OnButtonToggled);
 }
 
+void ExclusiveDoubleButton::SetButtonSide(ButtonSide side) {
+  if (side == ButtonSide::kLeft) {
+    left_button_->setChecked(true);
+  } else {
+    right_button_->setChecked(true);
+  }
+}
+
 void ExclusiveDoubleButton::OnButtonToggled(QAbstractButton* button,
                                             bool checked) {
   if (checked) {
