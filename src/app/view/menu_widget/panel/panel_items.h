@@ -11,7 +11,7 @@
 #include "colordialog/color_picker.h"
 #include "combobox/combo_box.h"
 #include "filedialog/file_dialog_panel.h"
-#include "status_bar/status_bar.h"
+#include "status_info/status_info.h"
 #include "style_configs/panel_items_style.h"
 #include "value_controller/value_controller.h"
 
@@ -44,37 +44,62 @@ protected:
 };
 //// PIBase
 
-/* PIValueController */
-class PIValueController : public PIBase {
+/* PIValueControllerFloat */
+class PIValueControllerFloat : public PIBase {
   Q_OBJECT
 
-public:
-  explicit PIValueController(const QString &name, int width, int height,
-                             Qt::Orientation orientation,
-                             QWidget *parent = nullptr);
+ public:
+  explicit PIValueControllerFloat(const QString &name, int width, int height,
+                                  Qt::Orientation orientation,
+                                  QWidget *parent = nullptr);
+
   /* Value Management Accessors */
-  int GetCurrentValue() const;
+  [[nodiscard]] float GetCurrentValue() const;
 
   /* Value Management Mutators */
+  void Configure(float value, float min_value, float max_value, float step_size);
   void SetCurrentValue(float value);
-  void SetRange(float min_value, float max_value);
-  void SetStepSize(float step_size);
 
-signals:
-  /* Signals */
-  // sundaeka // нужен ли? типо и так переопределяется?
+ signals:
   void CurrentValueChanged(float value);
 
-protected:
+ protected:
   /* Setup */
   QWidget *CreateContentWidget(int width, int height) override;
   void SetupContentConnections() override;
 
-private:
-  /* Fields */
-  ValueController *valcontroll_ = nullptr;
+ private:
+  ValueControllerFloat *valcontroll_ = nullptr;
 };
-//// PIValueController
+
+/* PIValueControllerInt */
+class PIValueControllerInt : public PIBase {
+  Q_OBJECT
+
+ public:
+  explicit PIValueControllerInt(const QString &name, int width, int height,
+                                Qt::Orientation orientation,
+                                QWidget *parent = nullptr);
+
+  /* Value Management Accessors */
+  [[nodiscard]] int GetCurrentValue() const;
+
+  /* Value Management Mutators */
+  void Configure(int value, int min_value, int max_value, int step_size);
+  void SetCurrentValue(int value);
+  void SetRange(int min_value, int max_value);
+
+ signals:
+  void CurrentValueChanged(int value);
+
+ protected:
+  /* Setup */
+  QWidget *CreateContentWidget(int width, int height) override;
+  void SetupContentConnections() override;
+
+ private:
+  ValueControllerInt *valcontroll_ = nullptr;
+};
 
 /* PIComboBox */
 class PIComboBox : public PIBase {
@@ -90,6 +115,7 @@ public:
   void AddItem(const QString &icon_path, int value);
 
   void SetArrows(const QString &up_icon_path, const QString &down_icon_path);
+  void SetCurrentIndex(int index);
 
 signals:
   /* Signals */
@@ -121,6 +147,7 @@ public:
                          QWidget *parent = nullptr);
   /* Value Management Accessors */
   /* Value Management Mutators */
+  void SetColor(const QColor &color);
 
 signals:
   /* Signals */
@@ -148,6 +175,7 @@ public:
 
   /* Value Management Accessors */
   /* Value Management Mutators */
+  void SetButtonSide(ButtonSide side);
 
 signals:
   /* Signals for ExclusiveDoubleButton */
@@ -181,6 +209,7 @@ public:
 
   /* Value Management Accessors */
   /* Value Management Mutators */
+  void SetFilename(const QString &filename);
 
   // TODO: Fix signals
 signals:

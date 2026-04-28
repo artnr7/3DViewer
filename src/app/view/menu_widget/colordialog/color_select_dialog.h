@@ -53,9 +53,9 @@ class ColorSelectionDialog : public QDialog {
   ColorWheel* color_wheel_;
   BrightnessSlider* brightness_slider_;
 
-  PIValueController* red_controller_;
-  PIValueController* green_controller_;
-  PIValueController* blue_controller_;
+  PIValueControllerInt* red_controller_;
+  PIValueControllerInt* green_controller_;
+  PIValueControllerInt* blue_controller_;
 };
 
 }  // namespace s21

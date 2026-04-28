@@ -9,7 +9,7 @@
 #include <qnamespace.h>
 
 #include <cstdint>
-#include <glm/common.hpp>
+// #include <glm/common.hpp>
 #include <string>
 
 #include "obj_v_wid.h"

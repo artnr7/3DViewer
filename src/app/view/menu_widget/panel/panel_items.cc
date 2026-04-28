@@ -14,7 +14,7 @@
 
 namespace s21 {
 
-//** PI Base **//
+/* PIBase */
 PIBase::PIBase(const QString &name, Qt::Orientation orientation,
                QWidget *parent)
     : QWidget(parent), orientation_(orientation), style_{} {
@@ -24,7 +24,6 @@ PIBase::PIBase(const QString &name, Qt::Orientation orientation,
 }
 
 /* Setup */
-// sundaeka
 void PIBase::Initialize(int width, int height) {
   /* FOR DEBUG */
   int total_width = orientation_ == Qt::Horizontal ? 1.5 * width : width;
@@ -102,68 +101,86 @@ Qt::Orientation PIBase::GetOrientation() { return orientation_; }
 
 //// PIBase
 
-/* PIValueController */
-PIValueController::PIValueController(const QString &name, int width, int height,
-                                     Qt::Orientation orientation,
-                                     QWidget *parent)
+/* PIValueControllerFloat */
+PIValueControllerFloat::PIValueControllerFloat(const QString &name, int width,
+                                               int height,
+                                               Qt::Orientation orientation,
+                                               QWidget *parent)
     : PIBase(name, orientation, parent) {
   Initialize(width, height);
-  // sundaeka
-  // Может быть нужно передавать тип ползунка чтобы была возможность точечной
-  // настройки
-  // типо enum ValueControllerType
-  auto &st = valcontroll_->style_;
-  if (name == "value") {
-    SetCurrentValue(st.scale_cur_val);
-    SetRange(st.scale_min_val, st.scale_max_val);
-    SetStepSize(st.scale_step_size);
-  }
-  if (name == "xr" || name == "yr" || name == "zr") {
-    SetCurrentValue(st.rot_cur_val);
-    SetRange(st.rot_min_val, st.rot_max_val);
-    SetStepSize(st.rot_step_size);
-  }
-  if (name == "thickness" || name == "size") {
-    SetCurrentValue(st.thickness_cur_val);
-    SetRange(st.thickness_min_val, st.thickness_max_val);
-    SetStepSize(st.thickness_step_size);
-  }
 }
 
 /* Value Management Accessors */
-int PIValueController::GetCurrentValue() const {
+float PIValueControllerFloat::GetCurrentValue() const {
   return valcontroll_->GetCurrentValue();
 }
-// Value Management Accessors
 
 /* Value Management Mutators */
-void PIValueController::SetCurrentValue(float value) {
+void PIValueControllerFloat::Configure(float value, float min_value, float max_value, float step_size) {
+  valcontroll_->SetCurrentValue(value);
+  valcontroll_->SetMinValue(min_value);
+  valcontroll_->SetMaxValue(max_value);
+  valcontroll_->SetStepSize(step_size);
+}
+
+void PIValueControllerFloat::SetCurrentValue(float value) {
   valcontroll_->SetCurrentValue(value);
 }
 
-void PIValueController::SetRange(float min_value, float max_value) {
+/* Setup */
+QWidget *PIValueControllerFloat::CreateContentWidget(int width, int height) {
+  valcontroll_ = new ValueControllerFloat(width, height);
+  return valcontroll_;
+}
+
+void PIValueControllerFloat::SetupContentConnections() {
+  connect(valcontroll_, &ValueControllerFloat::CurrentValueChanged, this,
+          &PIValueControllerFloat::CurrentValueChanged);
+}
+//// PIValueControllerFloat
+
+/* PIValueControllerInt */
+PIValueControllerInt::PIValueControllerInt(const QString &name, int width,
+                                           int height,
+                                           Qt::Orientation orientation,
+                                           QWidget *parent)
+    : PIBase(name, orientation, parent) {
+  Initialize(width, height);
+}
+
+/* Value Management Accessors */
+int PIValueControllerInt::GetCurrentValue() const {
+  return valcontroll_->GetCurrentValue();
+}
+
+/* Value Management Mutators */
+void PIValueControllerInt::Configure(int value, int min_value, int max_value, int step_size) {
+  valcontroll_->SetCurrentValue(value);
+  valcontroll_->SetMinValue(min_value);
+  valcontroll_->SetMaxValue(max_value);
+  valcontroll_->SetStepSize(step_size);
+}
+
+void PIValueControllerInt::SetCurrentValue(int value) {
+  valcontroll_->SetCurrentValue(value);
+}
+
+void PIValueControllerInt::SetRange(int min_value, int max_value) {
   valcontroll_->SetMinValue(min_value);
   valcontroll_->SetMaxValue(max_value);
 }
 
-// sundaeka
-void PIValueController::SetStepSize(float step_size) {
-  valcontroll_->SetStepSize(step_size);
-}
-// Value Management Mutators
-
 /* Setup */
-QWidget *PIValueController::CreateContentWidget(int width, int height) {
-  valcontroll_ = new ValueController(width, height);
+QWidget *PIValueControllerInt::CreateContentWidget(int width, int height) {
+  valcontroll_ = new ValueControllerInt(width, height);
   return valcontroll_;
 }
 
-void PIValueController::SetupContentConnections() {
-  connect(valcontroll_, &ValueController::CurrentValueChanged, this,
-          &PIValueController::CurrentValueChanged);
+void PIValueControllerInt::SetupContentConnections() {
+  connect(valcontroll_, &ValueControllerInt::CurrentValueChanged, this,
+          &PIValueControllerInt::CurrentValueChanged);
 }
-// Setup
-//// PIValueController
+//// PIValueControllerInt
 
 /* PIComboBox */
 PIComboBox::PIComboBox(const QString &name, int width, int height,
@@ -198,6 +215,10 @@ void PIComboBox::SetupContentConnections() {
   connect(combo_box_, &CustomComboBox::CurrentIndexChanged, this,
           &PIComboBox::CurrentIndexChanged);
 }
+
+void PIComboBox::SetCurrentIndex(int index) {
+  combo_box_->SetCurrentIndex(index);
+}
 // Setup
 //// PIComboBox
 
@@ -217,6 +238,10 @@ QWidget *PIColorPicker::CreateContentWidget(int width, int height) {
 void PIColorPicker::SetupContentConnections() {
   connect(color_picker_, &ColorPicker::ColorChanged, this,
           &PIColorPicker::ColorChanged);
+}
+
+void PIColorPicker::SetColor(const QColor &color) {
+  color_picker_->SetColor(color);
 }
 // Setup
 //// PIColorPicker
@@ -257,6 +282,14 @@ void PIDoubleButton::SetupContentConnections() {
             &PIDoubleButton::ButtonClicked);
   }
 }
+
+void PIDoubleButton::SetButtonSide(ButtonSide side) {
+  auto *exclusive_button =
+      qobject_cast<ExclusiveDoubleButton *>(double_button_);
+  if (exclusive_button) {
+    exclusive_button->SetButtonSide(side);
+  }
+}
 // Setup
 
 //// PIDoubleButton
@@ -281,6 +314,10 @@ QWidget *PIFileManagement::CreateContentWidget(int width, int height) {
 void PIFileManagement::SetupContentConnections() {
   connect(file_panel_, &FileDialogPanel::FileSelected, this,
           &PIFileManagement::FileSelected);
+}
+
+void PIFileManagement::SetFilename(const QString &filename) {
+  file_panel_->SetFilename(filename);
 }
 // Setup
 //// PIFileManagement

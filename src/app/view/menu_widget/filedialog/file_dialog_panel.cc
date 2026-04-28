@@ -27,6 +27,10 @@ FileDialogPanel::FileDialogPanel(int width, int height,
 
 /* File Management Accessors */
 QString FileDialogPanel::GetSelectedFile() const { return current_file_; }
+
+void FileDialogPanel::SetFilename(const QString &filename) {
+  OnFileSelected(filename);
+}
 // File Management Accessors
 
 /* Event Handlers */

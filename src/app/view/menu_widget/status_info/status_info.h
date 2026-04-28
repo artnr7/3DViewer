@@ -1,5 +1,5 @@
-#ifndef STATUS_BAR_H_
-#define STATUS_BAR_H_
+#ifndef STATUS_INFO_H_
+#define STATUS_INFO_H_
 
 #include <QLabel>
 #include <QStackedWidget>
@@ -10,11 +10,11 @@
 
 namespace s21 {
 
-class StatusBar : public QWidget {
+class StatusInfo : public QWidget {
   Q_OBJECT
 
  public:
-  StatusBar(int width, int height, QWidget* parrent = nullptr);
+  StatusInfo(int width, int height, QWidget* parrent = nullptr);
 
  public slots:
   /* Slots */
@@ -41,4 +41,4 @@ class StatusBar : public QWidget {
 
 }  // namespace s21
 
-#endif  // STATUS_BAR_H_
+#endif  // STATUS_INFO_H_

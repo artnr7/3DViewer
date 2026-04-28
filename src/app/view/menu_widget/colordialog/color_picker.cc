@@ -9,8 +9,13 @@
 namespace s21 {
 
 ColorPicker::ColorPicker(int widht, int height, QWidget* parent)
-    : QWidget(parent), style_{}, width_(widht), height_(height) {
+    : QWidget(parent), style_{}, current_color_(style_.default_color), width_(widht), height_(height) {
   setFixedSize(widht, height);
+}
+
+void ColorPicker::SetColor(const QColor& color) {
+  current_color_ = color;
+  update();
 }
 
 /* Event Handlers */
@@ -28,7 +33,7 @@ void ColorPicker::paintEvent(QPaintEvent* event) {
                   width_ - 2 * style_.border_thickness,
                   height_ - 2 * style_.border_thickness);
 
-  painter.setBrush(style_.default_color);
+  painter.setBrush(current_color_);
   painter.setPen(Qt::NoPen);
   painter.drawRoundedRect(innerRect, style_.inner_border_radius,
                           style_.inner_border_radius);
@@ -38,7 +43,7 @@ void ColorPicker::mousePressEvent(QMouseEvent* event) {
   if (event->button() == Qt::LeftButton) {
     ColorSelectionDialog dialog(style_.color_selection_dialog_width,
                                 style_.color_selection_dialog_height,
-                                style_.default_color, this);
+                                current_color_, this);
 
     QPoint dialogPos = mapToGlobal(QPoint(0, 0));
     dialogPos.setY(dialogPos.y() - dialog.height() - style_.dialog_offset_y);
@@ -46,9 +51,9 @@ void ColorPicker::mousePressEvent(QMouseEvent* event) {
 
     connect(&dialog, &ColorSelectionDialog::ColorChanged,
             [this](const QColor& color) {
-              style_.default_color = color;
+              current_color_ = color;
               update();
-              emit ColorChanged(style_.default_color);
+              emit ColorChanged(current_color_);
             });
     dialog.exec();
   }

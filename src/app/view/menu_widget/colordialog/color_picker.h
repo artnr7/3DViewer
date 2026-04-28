@@ -30,6 +30,7 @@ class ColorPicker : public QWidget {
  private:
   /* Fields */
   ColorPickerStyle style_;
+  QColor current_color_;
 
   int width_;
   int height_;

@@ -1,10 +1,10 @@
-#include "status_bar.h"
+#include "status_info.h"
 
 #include <QHBoxLayout>
 
 namespace s21 {
 
-StatusBar::StatusBar(int width, int height, QWidget* parrent)
+StatusInfo::StatusInfo(int width, int height, QWidget* parrent)
     : QWidget(parrent), style_{} {
   setFixedSize(width, height);
 
@@ -45,13 +45,8 @@ StatusBar::StatusBar(int width, int height, QWidget* parrent)
 }
 
 /* Setup */
-void StatusBar::SetupStyles() {
-  setStyleSheet(QString(R"(
-    background-color: %1;
-    border: %2;
-  )")
-                    .arg(style_.background_color)
-                    .arg(style_.background_border));
+void StatusInfo::SetupStyles() {
+  setStyleSheet("border: none;");
 
   QString status_labels_style = GetLabelStyle(style_.status_text_color);
   vertices_label_->setStyleSheet(status_labels_style);
@@ -59,7 +54,7 @@ void StatusBar::SetupStyles() {
   error_label_->setStyleSheet(GetLabelStyle(style_.error_text_color.name()));
 }
 
-QString StatusBar::GetLabelStyle(const QString& color) const {
+QString StatusInfo::GetLabelStyle(const QString& color) const {
   return QString(R"(
     color: %1;
     font-size: %2px;
@@ -70,7 +65,7 @@ QString StatusBar::GetLabelStyle(const QString& color) const {
       .arg(style_.text_font_weight);
 }
 
-void StatusBar::SetupAnimation() {
+void StatusInfo::SetupAnimation() {
   blink_anim_ = new QVariantAnimation(this);
   blink_anim_->setDuration(style_.animation_duration);
   blink_anim_->setStartValue(style_.animation_start_value);
@@ -93,7 +88,7 @@ void StatusBar::SetupAnimation() {
 // Setup
 
 /* Slots */
-void StatusBar::OnUpdateInfo(int vertices_count, int edges_count) {
+void StatusInfo::OnUpdateInfo(int vertices_count, int edges_count) {
   if (blink_anim_->state() == QAbstractAnimation::Running) {
     blink_anim_->stop();
   }
@@ -103,7 +98,7 @@ void StatusBar::OnUpdateInfo(int vertices_count, int edges_count) {
   stack_->setCurrentIndex(style_.statistics_page_index);
 }
 
-void StatusBar::OnShowError(const QString& msg) {
+void StatusInfo::OnShowError(const QString& msg) {
   error_label_->setText(style_.error_label + ": " + msg);
   stack_->setCurrentIndex(style_.error_page_index);
   blink_anim_->start();
@@ -111,7 +106,7 @@ void StatusBar::OnShowError(const QString& msg) {
 // Slots
 
 /* Value Management */
-QString StatusBar::GetValueLabel(const QString& label, int value) {
+QString StatusInfo::GetValueLabel(const QString& label, int value) {
   QString formatted_value;
 
   if (value >= style_.millions_threshold) {
