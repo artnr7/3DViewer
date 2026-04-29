@@ -79,13 +79,14 @@ class Model : public IModel {
   void SetBckgClr(Color) override;
 
   // GETTERS -------------------------------
-  // const Rates& GetTransRates() override;
-
   const Rate& GetTransRateX() override;
   const Rate& GetTransRateY() override;
   const Rate& GetTransRateZ() override;
 
-  const Angles& GetRotAngles() override;
+  const Rate& GetRotAngleX() override;
+  const Rate& GetRotAngleY() override;
+  const Rate& GetRotAngleZ() override;
+
   const float& GetScaleRate() override;
 
   const float& GetVertSz() override;

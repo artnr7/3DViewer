@@ -36,7 +36,7 @@ ObjectViewerWidget::ObjectViewerWidget(int x_offset, int y_offset, int width,
 }
 
 void ObjectViewerWidget::ObjectInit() {
-  if (file_uploaded_) {  // если файл уже загружен
+  if (file_uploaded_) {  // если файл уже был загружен ранее
     vertices_ready_ = false;
     ebo_ready_ = false;
     ebo_qty_ = 0;

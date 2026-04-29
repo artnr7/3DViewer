@@ -112,8 +112,6 @@ void MenuWidget::OnActionTriggered(SceneAction action, ActionData data) {
         using T = std::decay_t<decltype(value)>;
 
         if constexpr (std::is_same_v<T, float>) {
-          // std::fprintf(stderr, "hello");
-
           emit SetFloatValue(action, value);
         } else if constexpr (std::is_same_v<T, QColor>) {
           emit SetColorValue(action, value);

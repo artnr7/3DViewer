@@ -72,16 +72,19 @@ class Controller : public IController {
   const Rate& GetTransRateY() override;
   const Rate& GetTransRateZ() override;
 
-  const Angles& GetRotAngles() override;
-  const float& GetScaleRate() override;
+  const Rate& GetRotAngleX() override;
+  const Rate& GetRotAngleY() override;
+  const Rate& GetRotAngleZ() override;
+
+  const Rate& GetScaleRate() override;
 
   // Vert
-  const float& GetVertSz() override;
+  const Rate& GetVertSz() override;
   const uint16_t& GetVertStyle() override;
   const Color& GetVertClr() override;
 
   // Edge
-  const float& GetEdgeSz() override;
+  const Rate& GetEdgeSz() override;
   const uint16_t& GetEdgeStyle() override;
   const Color& GetEdgeClr() override;
 

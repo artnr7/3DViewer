@@ -17,7 +17,10 @@ const Rate& Controller::GetTransRateX() { return model_->GetTransRateX(); }
 const Rate& Controller::GetTransRateY() { return model_->GetTransRateY(); }
 const Rate& Controller::GetTransRateZ() { return model_->GetTransRateZ(); }
 
-const Angles& Controller::GetRotAngles() { return model_->GetRotAngles(); }
+const Rate& Controller::GetRotAngleX() { return model_->GetRotAngleX(); }
+const Rate& Controller::GetRotAngleY() { return model_->GetRotAngleY(); }
+const Rate& Controller::GetRotAngleZ() { return model_->GetRotAngleZ(); }
+
 const float& Controller::GetScaleRate() { return model_->GetScaleRate(); }
 
 // Vert

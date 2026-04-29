@@ -56,21 +56,23 @@ class IController {
   virtual std::vector<uint>& GetEBO() = 0;
 
   // Affine
-  // virtual const Rates& GetTransRates() = 0;
   virtual const Rate& GetTransRateX() = 0;
   virtual const Rate& GetTransRateY() = 0;
   virtual const Rate& GetTransRateZ() = 0;
 
-  virtual const Angles& GetRotAngles() = 0;
-  virtual const float& GetScaleRate() = 0;
+  virtual const Rate& GetRotAngleX() = 0;
+  virtual const Rate& GetRotAngleY() = 0;
+  virtual const Rate& GetRotAngleZ() = 0;
+
+  virtual const Rate& GetScaleRate() = 0;
 
   // Vert
-  virtual const float& GetVertSz() = 0;
+  virtual const Rate& GetVertSz() = 0;
   virtual const uint16_t& GetVertStyle() = 0;
   virtual const Color& GetVertClr() = 0;
 
   // Edge
-  virtual const float& GetEdgeSz() = 0;
+  virtual const Rate& GetEdgeSz() = 0;
   virtual const uint16_t& GetEdgeStyle() = 0;
   virtual const Color& GetEdgeClr() = 0;
 

@@ -12,13 +12,46 @@ namespace s21 {
 void View::OnMenuWidgetTimerUpdated() {
   Lg::Log()->Trace("View::" + std::string(__func__));
 
+  // Translate
   pmenu_wid_->OnActionTriggered(SceneAction::kTranslateX,
                                 pcontroller_->GetTransRateX());
   pmenu_wid_->OnActionTriggered(SceneAction::kTranslateY,
                                 pcontroller_->GetTransRateY());
   pmenu_wid_->OnActionTriggered(SceneAction::kTranslateZ,
                                 pcontroller_->GetTransRateZ());
+  // Rotate
+  pmenu_wid_->OnActionTriggered(SceneAction::kRotateX,
+                                pcontroller_->GetRotAngleX());
+  pmenu_wid_->OnActionTriggered(SceneAction::kRotateY,
+                                pcontroller_->GetRotAngleY());
+  pmenu_wid_->OnActionTriggered(SceneAction::kRotateZ,
+                                pcontroller_->GetRotAngleZ());
+  // Scale
+  pmenu_wid_->OnActionTriggered(SceneAction::kScale,
+                                pcontroller_->GetScaleRate());
 
+  // Vert
+  pmenu_wid_->OnActionTriggered(SceneAction::kVertexSize,
+                                pcontroller_->GetVertSz());
+  pmenu_wid_->OnActionTriggered(SceneAction::kVertexStyle,
+                                pcontroller_->GetVertStyle());
+  auto vert_clr = pcontroller_->GetVertClr();
+  auto qvert_clr = QColor{vert_clr.x, vert_clr.y, vert_clr.z};
+  pmenu_wid_->OnActionTriggered(SceneAction::kVertexColor, qvert_clr);
+
+  // Edge
+  pmenu_wid_->OnActionTriggered(SceneAction::kEdgeThickness,
+                                pcontroller_->GetEdgeSz());
+  pmenu_wid_->OnActionTriggered(SceneAction::kEdgeStyle,
+                                pcontroller_->GetEdgeStyle());
+  auto edge_clr = pcontroller_->GetEdgeClr();
+  auto qedge_clr = QColor{edge_clr.x, edge_clr.y, edge_clr.z};
+  pmenu_wid_->OnActionTriggered(SceneAction::kEdgeColor, qedge_clr);
+
+  // Misc
+  auto bckg_clr = pcontroller_->GetBckgClr();
+  auto qbckg_clr = QColor(bckg_clr.x, bckg_clr.y, bckg_clr.z);
+  pmenu_wid_->OnActionTriggered(SceneAction::kBackgroundColor, qbckg_clr);
 }
 
 // Inner Setters

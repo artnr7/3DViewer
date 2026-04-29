@@ -1,9 +1,3 @@
-// #include <glm/ext/matrix_clip_space.hpp>  // glm::perspective
-// #include <glm/ext/matrix_transform.hpp>  // glm::translate, glm::rotate,
-// glm::scale #include <glm/ext/scalar_constants.hpp>  // glm::pi #include
-// <glm/mat4x4.hpp>                // glm::mat4 #include <glm/vec3.hpp> //
-// glm::vec3 #include <glm/vec4.hpp>                  // glm::vec4
-
 #include "affine.h"
 
 #include "../../utils/logger.h"
@@ -26,16 +20,22 @@ void Affine::AddScale(float scl_rt) { mat_scale_.AddScale(scl_rt); }
 // clang-format off
 void Affine::SetRotX(float x) { x_ = x; mat_rot_x_.RotX(x_); }
 void Affine::SetRotY(float y) { y_ = y; mat_rot_y_.RotY(y_); }
-void Affine::SetRotZ(float z) { z_ = z; mat_rot_z_.RotZ(z_);}
-
-const Rate& Affine::GetTransRateX(){return mat_trans_.data[0][3];}
-const Rate& Affine::GetTransRateY(){return mat_trans_.data[1][3];}
-const Rate& Affine::GetTransRateZ(){return mat_trans_.data[2][3];}
+void Affine::SetRotZ(float z) { z_ = z; mat_rot_z_.RotZ(z_); }
 
 void Affine::AddRotX(float x) { x_ += x; mat_rot_x_.RotX(x_); }
 void Affine::AddRotY(float y) { y_ += y; mat_rot_y_.RotY(y_); }
 void Affine::AddRotZ(float z) { z_ += z; mat_rot_z_.RotZ(z_); }
 // clang-format on
+
+const Rate& Affine::GetTransRateX() { return mat_trans_.data[0][3]; }
+const Rate& Affine::GetTransRateY() { return mat_trans_.data[1][3]; }
+const Rate& Affine::GetTransRateZ() { return mat_trans_.data[2][3]; }
+
+const Rate& Affine::GetRotAngleX() { return x_; }
+const Rate& Affine::GetRotAngleY() { return y_; }
+const Rate& Affine::GetRotAngleZ() { return z_; }
+
+const Rate& Affine::GetScale() { return mat_scale_.data[0][0]; }
 
 void Affine::UpdGLVertices() {
   RTS();

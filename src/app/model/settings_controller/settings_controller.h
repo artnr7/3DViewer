@@ -275,7 +275,6 @@ class SettingsController {
   void SetFilename(Str& filename) { Set("filename", filename); }
 
   // Getters
-  // вот эта хуйня не работает
   template <typename Type>
   const Type& Get(Key key) {
     auto it = settings_.find(key);
@@ -288,38 +287,17 @@ class SettingsController {
     if (f == nullptr) {
       throw std::runtime_error("wrong setting file");
     }
-    // if (auto* fv = std::get_if<s21::Rate>(&v)) {
-    //   if (key == "translationRateX") {
-    //     std::cout << "trans = " << *fv << '\n';
-    //   }
-    // }
     return *f;
   }
 
   // Affine
-  // const Rates& GetTransRates() { return Get<Rates>("translationRates"); }
-  const Rate& GetTransRateX() {
-    // std::visit(
-    //     [&](auto&& v) {
-    //       using T = std::decay_t<decltype(v)>;
-    //
-    //       if constexpr (std::is_same_v<T, Rate> || std::is_same_v<T, Enum> ||
-    //                     std::is_same_v<T, Str>) {
-    //         std::cout << " v = " << v << "\n";
-    //       }
-    //     },
-    //     settings_.find("translationRateX")->second);
-    //
-    // auto f = Get<Rate>("translationRateX");
-    // std::cout << "f ================= " << f << std::endl;
-    return Get<Rate>("translationRateX");
-    // auto it = settings_.find("translationRateX");
-    // std::fprintf(stderr, "trans_x = %f\n", );
-  }
+  const Rate& GetTransRateX() { return Get<Rate>("translationRateX"); }
   const Rate& GetTransRateY() { return Get<Rate>("translationRateY"); }
   const Rate& GetTransRateZ() { return Get<Rate>("translationRateZ"); }
 
-  const Angles& GetRotAngles() { return Get<Angles>("rotationAngles"); }
+  const Rate& GetRotAngleX() { return Get<Rate>("rotationAngleX"); }
+  const Rate& GetRotAngleY() { return Get<Rate>("rotationAngleY"); }
+  const Rate& GetRotAngleZ() { return Get<Rate>("rotationAngleZ"); }
 
   const Rate& GetScaleRate() { return Get<Rate>("scaleRate"); }
 

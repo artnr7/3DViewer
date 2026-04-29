@@ -13,11 +13,8 @@
 namespace s21 {
 
 void View::RunViewUpdAgents() {
-  // по сути это надо вызывать, когда есть уверенность, что файл в модели
-  // загружен
   Lg::Log()->Info("View:" + std::string(__func__));
 
-  menu_wid_update_timer_->start(16);
   pobj_v_wid_->ObjectInit();
 }
 
@@ -71,7 +68,7 @@ void View::MenuWidgetSetupConnections() {
   connect(pmenu_wid_, &MenuWidget::ActionTriggered, this,
           &View::OnActionTriggered);
 
-  // // это когда уже запущенный таймер менюшки хочет данные обновить
+  // это когда уже запущенный таймер менюшки хочет данные обновить
   connect(menu_wid_update_timer_, &QTimer::timeout, this,
           &View::OnMenuWidgetTimerUpdated);
 

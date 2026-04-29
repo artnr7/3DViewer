@@ -33,6 +33,12 @@ class Affine {
   const Rate& GetTransRateY();
   const Rate& GetTransRateZ();
 
+  const Rate& GetRotAngleX();
+  const Rate& GetRotAngleY();
+  const Rate& GetRotAngleZ();
+
+  const Rate& GetScale();
+
   void UpdGLVertices();
   void RTS();
   void RotMat();

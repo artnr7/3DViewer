@@ -16,7 +16,7 @@ void Model::SetTransRateX(float x) {  // X
   AddSet(
       [&] {
         obj_->a_.SetTransX(x);
-        sett_control_->SetTransRateX(obj_->a_.GetTransRateX());
+        // sett_control_->SetTransRateX(obj_->a_.GetTransRateX());
       },
       __func__);
 }
@@ -25,7 +25,7 @@ void Model::SetTransRateY(float y) {  // Y
   AddSet(
       [&] {
         obj_->a_.SetTransY(y);
-        sett_control_->SetTransRateY(obj_->a_.GetTransRateY());
+     // sett_control_->SetTransRateY(obj_->a_.GetTransRateY());
       },
       __func__);
 }
@@ -33,7 +33,7 @@ void Model::SetTransRateZ(float z) {  // Z
   AddSet(
       [&] {
         obj_->a_.SetTransZ(z);
-        sett_control_->SetTransRateZ(obj_->a_.GetTransRateZ());
+        // sett_control_->SetTransRateZ(obj_->a_.GetTransRateZ());
       },
       __func__);
 }
@@ -42,7 +42,7 @@ void Model::AddTransRateX(float x) {  // X
   AddSet(
       [&] {
         obj_->a_.AddTransX(x);
-        sett_control_->SetTransRateX(obj_->a_.GetTransRateX());
+        // sett_control_->SetTransRateX(obj_->a_.GetTransRateX());
       },
       __func__);
 }
@@ -51,7 +51,7 @@ void Model::AddTransRateY(float y) {  // Y
   AddSet(
       [&] {
         obj_->a_.AddTransY(y);
-        sett_control_->SetTransRateY(obj_->a_.GetTransRateY());
+        // sett_control_->SetTransRateY(obj_->a_.GetTransRateY());
       },
       __func__);
 }
@@ -60,40 +60,80 @@ void Model::AddTransRateZ(float z) {  // Z
   AddSet(
       [&] {
         obj_->a_.AddTransZ(z);
-        sett_control_->SetTransRateZ(obj_->a_.GetTransRateZ());
+        // sett_control_->SetTransRateZ(obj_->a_.GetTransRateZ());
       },
       __func__);
 }
 
 // Rotate
 void Model::SetRotAngleX(float x) {  // X
-  AddSet([&] { obj_->a_.SetRotX(x); }, __func__);
+  AddSet(
+      [&] {
+        obj_->a_.SetRotX(x);
+        // sett_control_->SetRotAngleX(obj_->a_.GetRotAngleX());
+      },
+      __func__);
 }
 
 void Model::SetRotAngleY(float y) {  // Y
-  AddSet([&] { obj_->a_.SetRotY(y); }, __func__);
+  AddSet(
+      [&] {
+        obj_->a_.SetRotY(y);
+        // sett_control_->SetRotAngleY(obj_->a_.GetRotAngleY());
+      },
+      __func__);
 }
 
 void Model::SetRotAngleZ(float z) {  // Z
-  AddSet([&] { obj_->a_.SetRotZ(z); }, __func__);
+  AddSet(
+      [&] {
+        obj_->a_.SetRotZ(z);
+        // sett_control_->SetRotAngleZ(obj_->a_.GetRotAngleZ());
+      },
+      __func__);
 }
 void Model::AddRotAngleX(float x) {  // X
-  AddSet([&] { obj_->a_.AddRotX(x); }, __func__);
+  AddSet(
+      [&] {
+        obj_->a_.AddRotX(x);
+        // sett_control_->SetRotAngleX(obj_->a_.GetRotAngleX());
+      },
+      __func__);
 }
 void Model::AddRotAngleY(float y) {  // Y
-  AddSet([&] { obj_->a_.AddRotY(y); }, __func__);
+  AddSet(
+      [&] {
+        obj_->a_.AddRotY(y);
+        // sett_control_->SetRotAngleY(obj_->a_.GetRotAngleY());
+      },
+      __func__);
 }
 void Model::AddRotAngleZ(float z) {  // Z
-  AddSet([&] { obj_->a_.AddRotZ(z); }, __func__);
+  AddSet(
+      [&] {
+        obj_->a_.AddRotZ(z);
+        // sett_control_->SetRotAngleZ(obj_->a_.GetRotAngleZ());
+      },
+      __func__);
 }
 
 // Scale
 void Model::SetScaleRate(float scl_rt) {
-  AddSet([&] { obj_->a_.SetScale(scl_rt); }, __func__);
+  AddSet(
+      [&] {
+        obj_->a_.SetScale(scl_rt);
+        // sett_control_->SetScaleRate(obj_->a_.GetScale());
+      },
+      __func__);
 }
 
 void Model::AddScaleRate(float scl_rt) {
-  AddSet([&] { obj_->a_.AddScale(scl_rt); }, __func__);
+  AddSet(
+      [&] {
+        obj_->a_.AddScale(scl_rt);
+        // sett_control_->SetScaleRate(obj_->a_.GetScale());
+      },
+      __func__);
 }
 
 // Vert

@@ -17,13 +17,14 @@ class View : public QWidget {
  public:
   View(Controller* controller, QWidget* parent = nullptr)
       : QWidget(parent), pcontroller_(controller) {
-    Lg::Log()->Info(std::string(__func__) + " constuctor");
+    Lg::Log()->Info(std::string(__func__) + " constructor");
     setWindowTitle("3DViewer");
     setGeometry(INIT_AX_MAIN_WIN, INIT_AY_MAIN_WIN, INIT_W_MAIN_WIN,
                 INIT_H_MAIN_WIN);
 
     ObjViewerWidgetSetupConnections();
     MenuWidgetSetupConnections();
+    menu_wid_update_timer_->start(16);
     // TODO:(sundaeka) надо считать настройки до состояния когда можно уже
     // загружать файл
   }

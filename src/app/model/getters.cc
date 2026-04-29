@@ -23,18 +23,25 @@ std::vector<uint>& Model::GetEBO() {
   return obj_->GetEBO();
 }
 
-// const Rates& Model::GetTransRates() { return sett_control_->GetTransRates();
-// }
+// const Rate& Model::GetTransRateX() { return sett_control_->GetTransRateX(); }
+// const Rate& Model::GetTransRateY() { return sett_control_->GetTransRateY(); }
+// const Rate& Model::GetTransRateZ() { return sett_control_->GetTransRateZ(); }
+//
+// const Rate& Model::GetRotAngleX() { return sett_control_->GetRotAngleX(); }
+// const Rate& Model::GetRotAngleY() { return sett_control_->GetRotAngleY(); }
+// const Rate& Model::GetRotAngleZ() { return sett_control_->GetRotAngleZ(); }
+//
+// const float& Model::GetScaleRate() { return sett_control_->GetScaleRate(); }
 
-const Rate& Model::GetTransRateX() {
-  // std::cout << "transX = " << sett_control_->GetTransRateX() << std::endl;
-  return sett_control_->GetTransRateX();
-}
-const Rate& Model::GetTransRateY() { return sett_control_->GetTransRateY(); }
-const Rate& Model::GetTransRateZ() { return sett_control_->GetTransRateZ(); }
+const Rate& Model::GetTransRateX() { return obj_->a_.GetTransRateX(); }
+const Rate& Model::GetTransRateY() { return obj_->a_.GetTransRateY(); }
+const Rate& Model::GetTransRateZ() { return obj_->a_.GetTransRateZ(); }
 
-const Angles& Model::GetRotAngles() { return sett_control_->GetRotAngles(); }
-const float& Model::GetScaleRate() { return sett_control_->GetScaleRate(); }
+const Rate& Model::GetRotAngleX() { return obj_->a_.GetRotAngleX(); }
+const Rate& Model::GetRotAngleY() { return obj_->a_.GetRotAngleY(); }
+const Rate& Model::GetRotAngleZ() { return obj_->a_.GetRotAngleZ(); }
+
+const Rate& Model::GetScaleRate() { return obj_->a_.GetScale(); }
 
 // Vert
 const float& Model::GetVertSz() { return sett_control_->GetVertSz(); }
