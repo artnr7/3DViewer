@@ -23,8 +23,17 @@ std::vector<uint>& Model::GetEBO() {
   return obj_->GetEBO();
 }
 
+// const Rates& Model::GetTransRates() { return sett_control_->GetTransRates();
+// }
+
+const Rate& Model::GetTransRateX() {
+  // std::cout << "transX = " << sett_control_->GetTransRateX() << std::endl;
+  return sett_control_->GetTransRateX();
+}
+const Rate& Model::GetTransRateY() { return sett_control_->GetTransRateY(); }
+const Rate& Model::GetTransRateZ() { return sett_control_->GetTransRateZ(); }
+
 const Angles& Model::GetRotAngles() { return sett_control_->GetRotAngles(); }
-const Rates& Model::GetTransRates() { return sett_control_->GetTransRates(); }
 const float& Model::GetScaleRate() { return sett_control_->GetScaleRate(); }
 
 // Vert

@@ -1,4 +1,7 @@
 // #include "logger.h"
+#include <cstdio>
+
+#include "action_types.h"
 #include "view.h"
 
 namespace s21 {
@@ -9,7 +12,13 @@ namespace s21 {
 void View::OnMenuWidgetTimerUpdated() {
   Lg::Log()->Trace("View::" + std::string(__func__));
 
-  // pmenu_wid_->OnUpdateObjectInfo();
+  pmenu_wid_->OnActionTriggered(SceneAction::kTranslateX,
+                                pcontroller_->GetTransRateX());
+  pmenu_wid_->OnActionTriggered(SceneAction::kTranslateY,
+                                pcontroller_->GetTransRateY());
+  pmenu_wid_->OnActionTriggered(SceneAction::kTranslateZ,
+                                pcontroller_->GetTransRateZ());
+
 }
 
 // Inner Setters

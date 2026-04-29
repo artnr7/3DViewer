@@ -2,8 +2,6 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-#include <qtypes.h>
-
 #include <cstdint>
 
 inline constexpr uint16_t PIXEL_BLOCK_SZ = 110;  // HD

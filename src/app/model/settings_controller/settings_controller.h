@@ -2,6 +2,7 @@
 #define SETTINGS_PARSER_H_
 
 #include <cstdint>
+#include <cstdio>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -22,15 +23,19 @@ class SettingsController {
   using Key = const Str;
 
   using Enum = uint16_t;
-  using Rate = float;
 
-  using Val = std::variant<Angles, Rates, Color, Rate, Enum, Str>;
+  using Val = std::variant<Color, Rate, Enum, Str>;
   using Settings = std::map<Key, Val>;
 
   Settings settings_{
       // default
-      {"translationRates", Rates{.x = 0.0f, .y = 0.0f, .z = 0.0f}},
-      {"rotationAngles", Angles{.x = 0.0f, .y = 0.0f, .z = 0.0f}},
+      {"translationRateX", Rate{}},
+      {"translationRateY", Rate{}},
+      {"translationRateZ", Rate{}},
+
+      {"rotationAngleX", Rate{}},
+      {"rotationAngleY", Rate{}},
+      {"rotationAngleZ", Rate{}},
 
       {"scaleRate", Rate(1.0f)},
 
@@ -243,8 +248,14 @@ class SettingsController {
   }
 
   // Affine
-  void SetRotAngles(Angles angles) { Set("rotationAngles", angles); }
-  void SetTransRates(Rates rates) { Set("translationRates", rates); }
+  void SetTransRateX(Rate rate_x) { Set("translationRateX", rate_x); }
+  void SetTransRateY(Rate rate_y) { Set("translationRateY", rate_y); }
+  void SetTransRateZ(Rate rate_z) { Set("translationRateZ", rate_z); }
+
+  void SetRotAngleX(Rate ang_x) { Set("rotationAngleX", ang_x); }
+  void SetRotAngleY(Rate ang_y) { Set("rotationAngleY", ang_y); }
+  void SetRotAngleZ(Rate ang_z) { Set("rotationAngleZ", ang_z); }
+
   void SetScaleRate(Rate sc_rate) { Set("scaleRate", sc_rate); }
 
   // Vertex
@@ -264,6 +275,7 @@ class SettingsController {
   void SetFilename(Str& filename) { Set("filename", filename); }
 
   // Getters
+  // вот эта хуйня не работает
   template <typename Type>
   const Type& Get(Key key) {
     auto it = settings_.find(key);
@@ -271,18 +283,44 @@ class SettingsController {
       throw std::runtime_error("wrong setting file");
     }
 
-    auto [k, v] = *it;
+    auto& [k, v] = *it;
     auto* f = std::get_if<Type>(&v);
     if (f == nullptr) {
       throw std::runtime_error("wrong setting file");
     }
-
+    // if (auto* fv = std::get_if<s21::Rate>(&v)) {
+    //   if (key == "translationRateX") {
+    //     std::cout << "trans = " << *fv << '\n';
+    //   }
+    // }
     return *f;
   }
 
   // Affine
+  // const Rates& GetTransRates() { return Get<Rates>("translationRates"); }
+  const Rate& GetTransRateX() {
+    // std::visit(
+    //     [&](auto&& v) {
+    //       using T = std::decay_t<decltype(v)>;
+    //
+    //       if constexpr (std::is_same_v<T, Rate> || std::is_same_v<T, Enum> ||
+    //                     std::is_same_v<T, Str>) {
+    //         std::cout << " v = " << v << "\n";
+    //       }
+    //     },
+    //     settings_.find("translationRateX")->second);
+    //
+    // auto f = Get<Rate>("translationRateX");
+    // std::cout << "f ================= " << f << std::endl;
+    return Get<Rate>("translationRateX");
+    // auto it = settings_.find("translationRateX");
+    // std::fprintf(stderr, "trans_x = %f\n", );
+  }
+  const Rate& GetTransRateY() { return Get<Rate>("translationRateY"); }
+  const Rate& GetTransRateZ() { return Get<Rate>("translationRateZ"); }
+
   const Angles& GetRotAngles() { return Get<Angles>("rotationAngles"); }
-  const Rates& GetTransRates() { return Get<Rates>("translationFactorX"); }
+
   const Rate& GetScaleRate() { return Get<Rate>("scaleRate"); }
 
   // Vertex

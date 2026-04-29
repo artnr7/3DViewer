@@ -196,12 +196,14 @@ struct mat4 {
   }
 };
 
+using Rate = float;
+
 struct Angles {
-  float x, y, z;
+  Rate x, y, z;
 };
 
 struct Rates {
-  float x, y, z;
+  Rate x, y, z;
 };
 
 struct Color {

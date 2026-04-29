@@ -12,8 +12,12 @@ std::vector<float>& Controller::GetGLVertices() {
 std::vector<uint>& Controller::GetEBO() { return model_->GetEBO(); }
 
 // Affine
+// const Rates& Controller::GetTransRates() { return model_->GetTransRates(); }
+const Rate& Controller::GetTransRateX() { return model_->GetTransRateX(); }
+const Rate& Controller::GetTransRateY() { return model_->GetTransRateY(); }
+const Rate& Controller::GetTransRateZ() { return model_->GetTransRateZ(); }
+
 const Angles& Controller::GetRotAngles() { return model_->GetRotAngles(); }
-const Rates& Controller::GetTransRates() { return model_->GetTransRates(); }
 const float& Controller::GetScaleRate() { return model_->GetScaleRate(); }
 
 // Vert

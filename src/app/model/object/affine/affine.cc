@@ -28,6 +28,10 @@ void Affine::SetRotX(float x) { x_ = x; mat_rot_x_.RotX(x_); }
 void Affine::SetRotY(float y) { y_ = y; mat_rot_y_.RotY(y_); }
 void Affine::SetRotZ(float z) { z_ = z; mat_rot_z_.RotZ(z_);}
 
+const Rate& Affine::GetTransRateX(){return mat_trans_.data[0][3];}
+const Rate& Affine::GetTransRateY(){return mat_trans_.data[1][3];}
+const Rate& Affine::GetTransRateZ(){return mat_trans_.data[2][3];}
+
 void Affine::AddRotX(float x) { x_ += x; mat_rot_x_.RotX(x_); }
 void Affine::AddRotY(float y) { y_ += y; mat_rot_y_.RotY(y_); }
 void Affine::AddRotZ(float z) { z_ += z; mat_rot_z_.RotZ(z_); }

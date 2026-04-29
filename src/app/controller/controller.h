@@ -67,8 +67,12 @@ class Controller : public IController {
   std::vector<uint>& GetEBO() override;
 
   // Affine
+  // const Rates& GetTransRates() override;
+  const Rate& GetTransRateX() override;
+  const Rate& GetTransRateY() override;
+  const Rate& GetTransRateZ() override;
+
   const Angles& GetRotAngles() override;
-  const Rates& GetTransRates() override;
   const float& GetScaleRate() override;
 
   // Vert

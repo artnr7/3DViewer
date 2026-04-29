@@ -13,26 +13,56 @@ void Model::AddSet(F f, const char* fn) {
 }
 
 void Model::SetTransRateX(float x) {  // X
-  AddSet([&] { obj_->a_.SetTransX(x); }, __func__);
+  AddSet(
+      [&] {
+        obj_->a_.SetTransX(x);
+        sett_control_->SetTransRateX(obj_->a_.GetTransRateX());
+      },
+      __func__);
 }
 
 void Model::SetTransRateY(float y) {  // Y
-  AddSet([&] { obj_->a_.SetTransY(y); }, __func__);
+  AddSet(
+      [&] {
+        obj_->a_.SetTransY(y);
+        sett_control_->SetTransRateY(obj_->a_.GetTransRateY());
+      },
+      __func__);
 }
 void Model::SetTransRateZ(float z) {  // Z
-  AddSet([&] { obj_->a_.SetTransZ(z); }, __func__);
+  AddSet(
+      [&] {
+        obj_->a_.SetTransZ(z);
+        sett_control_->SetTransRateZ(obj_->a_.GetTransRateZ());
+      },
+      __func__);
 }
 
 void Model::AddTransRateX(float x) {  // X
-  AddSet([&] { obj_->a_.AddTransX(x); }, __func__);
+  AddSet(
+      [&] {
+        obj_->a_.AddTransX(x);
+        sett_control_->SetTransRateX(obj_->a_.GetTransRateX());
+      },
+      __func__);
 }
 
 void Model::AddTransRateY(float y) {  // Y
-  AddSet([&] { obj_->a_.AddTransY(y); }, __func__);
+  AddSet(
+      [&] {
+        obj_->a_.AddTransY(y);
+        sett_control_->SetTransRateY(obj_->a_.GetTransRateY());
+      },
+      __func__);
 }
 
 void Model::AddTransRateZ(float z) {  // Z
-  AddSet([&] { obj_->a_.AddTransZ(z); }, __func__);
+  AddSet(
+      [&] {
+        obj_->a_.AddTransZ(z);
+        sett_control_->SetTransRateZ(obj_->a_.GetTransRateZ());
+      },
+      __func__);
 }
 
 // Rotate

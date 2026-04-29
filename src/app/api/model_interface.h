@@ -32,7 +32,7 @@ class IModel {
   virtual void AddRotAngleZ(float) = 0;
 
   virtual void SetScaleRate(float) = 0;
-  virtual void AddScaleRate(float) =  0;
+  virtual void AddScaleRate(float) = 0;
 
   // Vert
   virtual void SetVertSz(float) = 0;
@@ -53,8 +53,13 @@ class IModel {
   virtual std::vector<uint>& GetEBO() = 0;
 
   // Affine
+  // virtual const Rates& GetTransRates() = 0;
+
+  virtual const Rate& GetTransRateX() = 0;
+  virtual const Rate& GetTransRateY() = 0;
+  virtual const Rate& GetTransRateZ() = 0;
+
   virtual const Angles& GetRotAngles() = 0;
-  virtual const Rates& GetTransRates() = 0;
   virtual const float& GetScaleRate() = 0;
 
   // Vert

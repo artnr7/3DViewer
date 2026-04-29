@@ -67,14 +67,14 @@ void View::ObjViewerWidgetSetupConnections() {
 }
 
 void View::MenuWidgetSetupConnections() {
-  // эт когда меню данны в модель посылает
+  // это когда меню данные в модель посылает
   connect(pmenu_wid_, &MenuWidget::ActionTriggered, this,
           &View::OnActionTriggered);
 
   // // это когда уже запущенный таймер менюшки хочет данные обновить
-  // connect(menu_wid_update_timer_, &QTimer::timeout, this,
-  //         &View::OnMenuWidgetTimerUpdated);
-  //
+  connect(menu_wid_update_timer_, &QTimer::timeout, this,
+          &View::OnMenuWidgetTimerUpdated);
+
 }
 
 void View::OnActionTriggered(SceneAction action, ActionData data) {
@@ -136,8 +136,10 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
           switch (action) {
             /* Vertexes */
             case SceneAction::kVertexColor: {
-              // std::cout << "Vertex color to: (" << arg.red() << ", "
-              //           << arg.green() << ", " << arg.blue() << ")\n";
+              Lg::Log()->Trace("Vertex color to: (" +
+                               std::to_string(arg.red()) + ", " +
+                               std::to_string(arg.green()) + ", " +
+                               std::to_string(arg.blue()) + ")");
               auto r = static_cast<uint8_t>(arg.red()),
                    g = static_cast<uint8_t>(arg.green()),
                    b = static_cast<uint8_t>(arg.blue());
@@ -145,10 +147,10 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
             } break;
             /* Edges */
             case SceneAction::kEdgeColor: {
-              // std::cout << "Edge color to: (" << arg.red() << ", " <<
-              // arg.green()
-              //           << ", " << arg.blue() << ")\n";
-              //
+              Lg::Log()->Trace("Vertex color to: (" +
+                               std::to_string(arg.red()) + ", " +
+                               std::to_string(arg.green()) + ", " +
+                               std::to_string(arg.blue()) + ")");
               auto r = static_cast<uint8_t>(arg.red()),
                    g = static_cast<uint8_t>(arg.green()),
                    b = static_cast<uint8_t>(arg.blue());
@@ -156,8 +158,10 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
               break;
             }
             case SceneAction::kBackgroundColor: {
-              // std::cout << "Background color to: (" << arg.red() << ", "
-              //           << arg.green() << ", " << arg.blue() << ")\n";
+              Lg::Log()->Trace("Background color to: (" +
+                               std::to_string(arg.red()) + ", " +
+                               std::to_string(arg.green()) + ", " +
+                               std::to_string(arg.blue()) + ")");
               auto r = static_cast<uint8_t>(arg.red()),
                    g = static_cast<uint8_t>(arg.green()),
                    b = static_cast<uint8_t>(arg.blue());
@@ -186,14 +190,14 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
           switch (action) {
             /* Vertexes */
             case SceneAction::kVertexStyle:
-              // std::cout << "Vertex style to: " << static_cast<int>(arg) <<
-              // "\n";
+              Lg::Log()->Info("Vertex style to: " +
+                              std::to_string(static_cast<int>(arg)));
               pcontroller_->SetVertStyle(static_cast<int>(arg));
               break;
             /* Edges */
             case SceneAction::kEdgeStyle:
-              // std::cout << "Edge style to: " << static_cast<int>(arg) <<
-              "\n";
+              Lg::Log()->Info("Edge style to: " +
+                              std::to_string(static_cast<int>(arg)));
               pcontroller_->SetEdgeStyle(static_cast<int>(arg));
               break;
 
@@ -215,6 +219,8 @@ void View::OnActionTriggered(SceneAction action, ActionData data) {
               pobj_v_wid_->MakeImage();
               break;
           }
+        } else if constexpr (std::is_same_v<T, std::monostate>) {
+          // Clear config
         }
       },
       data);

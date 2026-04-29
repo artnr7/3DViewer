@@ -28,6 +28,11 @@ class Affine {
   void AddRotY(float);
   void AddRotZ(float);
 
+  // Getters
+  const Rate& GetTransRateX();
+  const Rate& GetTransRateY();
+  const Rate& GetTransRateZ();
+
   void UpdGLVertices();
   void RTS();
   void RotMat();
